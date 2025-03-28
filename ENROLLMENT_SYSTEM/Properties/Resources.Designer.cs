@@ -63,6 +63,26 @@ namespace Enrollment_System.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BGIMAGE1 {
+            get {
+                object obj = ResourceManager.GetObject("BGIMAGE1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BGIMAGE2 {
+            get {
+                object obj = ResourceManager.GetObject("BGIMAGE2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Graduation_2019_1_1536x1024 {
             get {
                 object obj = ResourceManager.GetObject("Graduation-2019-1-1536x1024", resourceCulture);
@@ -116,6 +136,16 @@ namespace Enrollment_System.Properties {
         internal static System.Drawing.Bitmap P9700277_1_1024x576 {
             get {
                 object obj = ResourceManager.GetObject("P9700277-1-1024x576", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PROFILE {
+            get {
+                object obj = ResourceManager.GetObject("PROFILE", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
