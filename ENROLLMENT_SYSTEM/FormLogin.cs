@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data;
+using System;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using BCrypt.Net;
@@ -8,7 +7,7 @@ namespace Enrollment_System
 {
     public partial class FormLogin : Form
     {
-        private string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
+        private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
 
         public FormLogin()
         {
@@ -22,7 +21,7 @@ namespace Enrollment_System
 
         private void Btn_Login_Click(object sender, EventArgs e)
         {
-            string email = TxtEmail.Text.Trim();
+            string email = TxtEmail.Text.Trim().ToLower();
             string password = TxtPass.Text.Trim();
 
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
@@ -37,7 +36,7 @@ namespace Enrollment_System
                 {
                     conn.Open();
 
-                    string query = "SELECT password_hash FROM Users WHERE email = @Email";
+                    string query = "SELECT id, password_hash, role FROM Users WHERE LOWER(email) = @Email AND is_verified = TRUE";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Email", email);
@@ -46,36 +45,52 @@ namespace Enrollment_System
                         {
                             if (reader.Read())
                             {
+                                int userId = reader.GetInt32("id");
                                 string storedHash = reader["password_hash"].ToString();
+                                string role = reader["role"].ToString();
+
                                 if (BCrypt.Net.BCrypt.Verify(password, storedHash))
                                 {
+
+                                    MessageBox.Show($"Welcome, {role}!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     this.Hide();
-                                    FormHome home = new FormHome();
-                                    home.Show();
+
+                                    if (role == "admin")
+                                    {
+                                        new FormHome().Show();
+                                    }
+                                    else
+                                    {
+                                        new FormPersonalInfo().Show();
+                                    }
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Invalid Password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Incorrect Password. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
                             else
                             {
-                                MessageBox.Show("Invalid Email.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("Invalid Email or Account Not Verified.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
                     }
                 }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show("Database Error: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Database Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Unexpected Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
         private void BtnReg_Click(object sender, EventArgs e)
         {
-            new FormRegister().Show();
             this.Hide();
+            new FormRegister().Show();
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
