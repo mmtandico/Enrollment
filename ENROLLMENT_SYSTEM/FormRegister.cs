@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Threading.Tasks;
+using BCrypt.Net;
 
 namespace Enrollment_System
 {
@@ -34,8 +35,8 @@ namespace Enrollment_System
             {
                 byte[] otpBytes = new byte[4];
                 rng.GetBytes(otpBytes);
-                int otp = BitConverter.ToInt32(otpBytes, 0) % 900000 + 100000;
-                return Math.Abs(otp).ToString();
+                int otp = Math.Abs(BitConverter.ToUInt16(otpBytes, 0) % 900000) + 100000;
+                return otp.ToString();
             }
         }
 
@@ -127,7 +128,7 @@ namespace Enrollment_System
                 {
                     conn.Open();
 
-                    string otpQuery = "SELECT otp_code, COALESCE(otp_expiry, NOW() - INTERVAL 1 MINUTE) AS otp_expiry FROM Users WHERE email = @Email AND is_verified = FALSE";
+                    string otpQuery = "SELECT otp_code, otp_expiry FROM Users WHERE email = @Email AND is_verified = FALSE";
                     using (MySqlCommand cmd = new MySqlCommand(otpQuery, conn))
                     {
                         cmd.Parameters.AddWithValue("@Email", email);
@@ -163,8 +164,8 @@ namespace Enrollment_System
                     string updateQuery = "UPDATE Users SET password_hash = @Password, is_verified = TRUE, otp_code = NULL, otp_expiry = NULL WHERE email = @Email";
                     using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn))
                     {
-                        cmd.Parameters.Add("@Email", MySqlDbType.VarChar).Value = email;
-                        cmd.Parameters.Add("@Password", MySqlDbType.VarChar).Value = hashedPassword;
+                        cmd.Parameters.AddWithValue("@Email", email);
+                        cmd.Parameters.AddWithValue("@Password", hashedPassword);
                         cmd.ExecuteNonQuery();
                     }
 
@@ -185,25 +186,20 @@ namespace Enrollment_System
             {
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
-                string apiKey = "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"; // Replace with your actual key
+                string apiKey = Environment.GetEnvironmentVariable("MY_API_KEY");
                 var client = new SendGridClient(apiKey);
                 var from = new EmailAddress("enrollment.test101@gmail.com", "Enrollment System");
                 var to = new EmailAddress(email);
                 var subject = "Your OTP Code";
-                var plainTextContent = $"Your OTP code is: {otp}\nThis OTP will expire in 5 minutes.";
-                var htmlContent = $"<strong>{plainTextContent}</strong>";
-                var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+                var msg = MailHelper.CreateSingleEmail(from, to, subject,
+                    $"Your OTP code is: {otp}\nThis OTP will expire in 5 minutes.",
+                    $"<strong>Your OTP code is: {otp}</strong>");
+
                 var response = await client.SendEmailAsync(msg);
 
-                if (response.StatusCode == System.Net.HttpStatusCode.Accepted)
-                {
-                    return true;
-                }
-                else
-                {
-                    MessageBox.Show($"SendGrid Error: {response.StatusCode}", "Email Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
+                string responseBody = await response.Body.ReadAsStringAsync();
+               
+                return response.StatusCode == System.Net.HttpStatusCode.Accepted;
             }
             catch (Exception ex)
             {
@@ -218,13 +214,11 @@ namespace Enrollment_System
             TxtPass.PasswordChar = ChkShowPass.Checked ? '\0' : '*';
             TxtConfirmPass.PasswordChar = ChkShowPass.Checked ? '\0' : '*';
         }
-
         private void BtnLog_Click(object sender, EventArgs e)
         {
-            new FormLogin().Show();
             this.Hide();
+            new FormLogin().Show();
         }
-
         private void BtnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();

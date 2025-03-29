@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using BCrypt.Net;
@@ -36,7 +36,7 @@ namespace Enrollment_System
                 {
                     conn.Open();
 
-                    string query = "SELECT id, password_hash, role FROM Users WHERE LOWER(email) = @Email AND is_verified = TRUE";
+                    string query = "SELECT user_id, password_hash, role FROM Users WHERE LOWER(email) = @Email AND is_verified = TRUE";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Email", email);
@@ -45,12 +45,14 @@ namespace Enrollment_System
                         {
                             if (reader.Read())
                             {
-                                int userId = reader.GetInt32("id");
+                                int userId = reader.GetInt32("user_id");
                                 string storedHash = reader["password_hash"].ToString();
                                 string role = reader["role"].ToString();
 
                                 if (BCrypt.Net.BCrypt.Verify(password, storedHash))
                                 {
+                                    
+                                    SessionManager.Login(userId, email, role);
 
                                     MessageBox.Show($"Welcome, {role}!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     this.Hide();
@@ -61,7 +63,7 @@ namespace Enrollment_System
                                     }
                                     else
                                     {
-                                        new FormPersonalInfo().Show();
+                                        new FormHome().Show();
                                     }
                                 }
                                 else
@@ -76,13 +78,9 @@ namespace Enrollment_System
                         }
                     }
                 }
-                catch (MySqlException ex)
-                {
-                    MessageBox.Show("Database Error: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Unexpected Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Database Error: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

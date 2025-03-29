@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="class\SessionManager.cs" />
     <Compile Include="FormDatabaseInfo.cs">
       <SubType>Form</SubType>
     </Compile>
