@@ -74,7 +74,7 @@
             this.TxtAge = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.panel11 = new System.Windows.Forms.Panel();
+            this.panel = new System.Windows.Forms.Panel();
             this.ChkFemale = new System.Windows.Forms.CheckBox();
             this.ChkMale = new System.Windows.Forms.CheckBox();
             this.label16 = new System.Windows.Forms.Label();
@@ -111,7 +111,7 @@
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.panel11.SuspendLayout();
+            this.panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -613,7 +613,7 @@
             this.groupBox1.Controls.Add(this.TxtAge);
             this.groupBox1.Controls.Add(this.label22);
             this.groupBox1.Controls.Add(this.label17);
-            this.groupBox1.Controls.Add(this.panel11);
+            this.groupBox1.Controls.Add(this.panel);
             this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.TxtPhoneNo);
             this.groupBox1.Controls.Add(this.TxtCivilStatus);
@@ -673,13 +673,13 @@
             // 
             // panel11
             // 
-            this.panel11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel11.Controls.Add(this.ChkFemale);
-            this.panel11.Controls.Add(this.ChkMale);
-            this.panel11.Location = new System.Drawing.Point(469, 294);
-            this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(203, 37);
-            this.panel11.TabIndex = 15;
+            this.panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel.Controls.Add(this.ChkFemale);
+            this.panel.Controls.Add(this.ChkMale);
+            this.panel.Location = new System.Drawing.Point(469, 294);
+            this.panel.Name = "panel11";
+            this.panel.Size = new System.Drawing.Size(203, 37);
+            this.panel.TabIndex = 15;
             // 
             // ChkFemale
             // 
@@ -996,8 +996,8 @@
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.panel11.ResumeLayout(false);
-            this.panel11.PerformLayout();
+            this.panel.ResumeLayout(false);
+            this.panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel10.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -1057,7 +1057,7 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox TxtProvince;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Panel panel11;
+        private System.Windows.Forms.Panel panel;
         private System.Windows.Forms.CheckBox ChkFemale;
         private System.Windows.Forms.CheckBox ChkMale;
         private System.Windows.Forms.Label label16;

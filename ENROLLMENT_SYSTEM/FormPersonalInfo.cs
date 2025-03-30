@@ -13,6 +13,7 @@ namespace Enrollment_System
         private Image[] images;
         private int currentImageIndex = 0;
         private long loggedInUserId;
+        private object panel11;
 
         public FormPersonalInfo()
         {
@@ -245,6 +246,11 @@ namespace Enrollment_System
             {
                 MessageBox.Show("Error: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            SetEnabledRecursive(groupBox1, false);
+            SetEnabledRecursive(groupBox2, false);
+            SetEnabledRecursive(groupBox3, false);
+            MessageBox.Show("Fields have been saved and locked. They are now unclickable.", "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
 
@@ -291,9 +297,17 @@ namespace Enrollment_System
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
+            
+
             ToggleFields(true);
             MessageBox.Show("Fields are now unlocked for editing.", "Edit Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
+
+            SetEnabledRecursive(groupBox1, true);
+            SetEnabledRecursive(groupBox2, true);
+            SetEnabledRecursive(groupBox3, true);
+            MessageBox.Show("Fields are now unlocked for editing.", "Edit Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        
+    }
 
         private void BtnLogout_Click(object sender, EventArgs e)
         {
@@ -346,5 +360,24 @@ namespace Enrollment_System
             this.Close();
             form.Show();
         }
+
+
+        private void SetEnabledRecursive(Control control, bool enabled)
+        {
+            // If the control is one of the input types, set its Enabled state and adjust the BackColor.
+            if (control is TextBox || control is ComboBox || control is DateTimePicker)
+            {
+                control.Enabled = enabled;
+                control.BackColor = enabled ? SystemColors.Window : SystemColors.ControlLight;
+            }
+
+            // Recursively process all child controls.
+            foreach (Control child in control.Controls)
+            {
+                SetEnabledRecursive(child, enabled);
+            }
+        }
+
+
     }
 }
