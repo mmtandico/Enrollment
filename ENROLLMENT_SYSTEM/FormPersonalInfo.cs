@@ -13,13 +13,14 @@ namespace Enrollment_System
         private Image[] images;
         private int currentImageIndex = 0;
         private long loggedInUserId;
-        private object panel11;
+        //private object panel11;
+        private bool fieldsLocked = true; 
 
         public FormPersonalInfo()
         {
             InitializeComponent();
 
-            
+            this.Activated += FormPersonalInfo_Activated;
             if (!SessionManager.IsLoggedIn)
             {
                 MessageBox.Show("Session expired. Please log in again.", "Session Expired", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -47,10 +48,17 @@ namespace Enrollment_System
 
             this.Load += FormPersonalInfo_Load;
         }
-
+        private void FormPersonalInfo_Activated(object sender, EventArgs e)
+        {
+            LoadUserData();
+        }
         private void FormPersonalInfo_Load(object sender, EventArgs e)
         {
             LoadUserData();
+            if (fieldsLocked)
+            {
+                ToggleFields(false);
+            }
         }
 
         private void LoadUserData()
@@ -60,7 +68,27 @@ namespace Enrollment_System
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                  
+
+                    string checkUserQuery = "SELECT COUNT(*) FROM students WHERE user_id = @UserID";
+                    using (var checkCmd = new MySqlCommand(checkUserQuery, conn))
+                    {
+                        checkCmd.Parameters.AddWithValue("@UserID", loggedInUserId);
+                        int userExists = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                        if (userExists == 0)
+                        {
+                            string insertQuery = @"
+                        INSERT INTO students (user_id, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
+                        VALUES (@UserID, '', '', '', '', '2000-01-01', 0, 'Male', '', '')";
+
+                            using (var insertCmd = new MySqlCommand(insertQuery, conn))
+                            {
+                                insertCmd.Parameters.AddWithValue("@UserID", loggedInUserId);
+                                insertCmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+
                     string query = @"
                 SELECT 
                     s.student_id, 
@@ -86,7 +114,8 @@ namespace Enrollment_System
                 LEFT JOIN users u ON s.user_id = u.user_id 
                 LEFT JOIN contact_info c ON s.user_id = c.user_id 
                 LEFT JOIN addresses a ON s.user_id = a.user_id 
-                WHERE s.user_id = @UserID";
+                WHERE s.user_id = @UserID
+                ORDER BY s.student_id DESC LIMIT 1";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
@@ -96,7 +125,6 @@ namespace Enrollment_System
                         {
                             if (reader.Read())
                             {
-                                
                                 TxtStudentID.Text = reader["student_id"].ToString();
                                 TxtStudentLRN.Text = reader["student_lrn"].ToString();
                                 TxtFirstName.Text = reader["first_name"].ToString();
@@ -131,10 +159,6 @@ namespace Enrollment_System
                                 }
                                 pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
                             }
-                            else
-                            {
-                                MessageBox.Show("No data found for this user.", "Data Fetch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            }
                         }
                     }
                 }
@@ -144,9 +168,6 @@ namespace Enrollment_System
                 MessageBox.Show("Error loading user data: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
-
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
@@ -162,10 +183,12 @@ namespace Enrollment_System
                         checkCmd.Parameters.AddWithValue("@UserID", loggedInUserId);
                         int studentExists = Convert.ToInt32(checkCmd.ExecuteScalar());
 
-                        if (studentExists == 0) 
+                        if (studentExists == 0)
                         {
-                            string insertStudentQuery = "INSERT INTO students (user_id, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) " +
-                                                        "VALUES (@UserID, '', '', '', '', '', '', '', '')";
+                            string insertStudentQuery = @"
+                    INSERT INTO students ( user_id, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
+                    VALUES (@UserID, '', '', '', '', '2000-01-01', '', '', '', '')";
+
                             using (var insertCmd = new MySqlCommand(insertStudentQuery, conn))
                             {
                                 insertCmd.Parameters.AddWithValue("@UserID", loggedInUserId);
@@ -175,20 +198,19 @@ namespace Enrollment_System
                     }
 
                     string studentQuery = @"
-                UPDATE students 
-                SET 
-                    student_id = @StudentID,
-                    student_lrn = @StudentLRN, 
-                    first_name = @FirstName, 
-                    middle_name = @MiddleName, 
-                    last_name = @LastName, 
-                    birth_date = @BirthDate, 
-                    age = @Age, 
-                    sex = @Sex,
-                    civil_status = @CivilStatus,
-                    nationality = @Nationality
-                    
-                WHERE user_id = @UserID";
+                        INSERT INTO students (student_id, user_id, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
+                        VALUES (@StudentID, @UserID, @StudentLRN, @FirstName, @MiddleName, @LastName, @BirthDate, @Age, @Sex, @CivilStatus, @Nationality)
+                        ON DUPLICATE KEY UPDATE 
+                        student_id = VALUES(student_id), 
+                        student_lrn = VALUES(student_lrn), 
+                        first_name = VALUES(first_name), 
+                        middle_name = VALUES(middle_name), 
+                        last_name = VALUES(last_name), 
+                        birth_date = VALUES(birth_date), 
+                        age = VALUES(age), 
+                        sex = VALUES(sex), 
+                        civil_status = VALUES(civil_status), 
+                        nationality = VALUES(nationality)";
 
                     ExecuteQuery(conn, studentQuery,
                         new MySqlParameter("@StudentID", TxtStudentID.Text),
@@ -202,31 +224,30 @@ namespace Enrollment_System
                         new MySqlParameter("@Sex", ChkMale.Checked ? "Male" : "Female"),
                         new MySqlParameter("@CivilStatus", TxtCivilStatus.Text),
                         new MySqlParameter("@Nationality", TxtNational.Text)
-                        
                     );
 
-                   
                     string contactQuery = @"
-                INSERT INTO contact_info (user_id, phone_no) 
-                VALUES (@UserID, @PhoneNo) 
-                ON DUPLICATE KEY UPDATE phone_no = @PhoneNo";
+                        INSERT INTO contact_info(user_id, phone_no)
+                        VALUES(@UserID, @PhoneNo)
+                        ON DUPLICATE KEY UPDATE phone_no = @PhoneNo";
+
 
                     ExecuteQuery(conn, contactQuery,
                         new MySqlParameter("@UserID", loggedInUserId),
                         new MySqlParameter("@PhoneNo", TxtPhoneNo.Text)
                     );
 
-                   
+                    
                     string addressQuery = @"
-                INSERT INTO addresses (user_id, block_street, subdivision, barangay, city, province, zipcode) 
-                VALUES (@UserID, @BlockStreet, @Subdivision, @Barangay, @City, @Province, @Zipcode) 
-                ON DUPLICATE KEY UPDATE 
-                    block_street = @BlockStreet, 
-                    subdivision = @Subdivision, 
-                    barangay = @Barangay, 
-                    city = @City, 
-                    province = @Province, 
-                    zipcode = @Zipcode";
+                        INSERT INTO addresses (user_id, block_street, subdivision, barangay, city, province, zipcode) 
+                        VALUES (@UserID, @BlockStreet, @Subdivision, @Barangay, @City, @Province, @Zipcode) 
+                        ON DUPLICATE KEY UPDATE 
+                        block_street = VALUES(block_street), 
+                        subdivision = VALUES(subdivision), 
+                        barangay = VALUES(barangay), 
+                        city = VALUES(city), 
+                        province = VALUES(province), 
+                        zipcode = VALUES(zipcode)";
 
                     ExecuteQuery(conn, addressQuery,
                         new MySqlParameter("@UserID", loggedInUserId),
@@ -238,8 +259,9 @@ namespace Enrollment_System
                         new MySqlParameter("@Zipcode", TxtZipcode.Text)
                     );
 
-                    MessageBox.Show("Information saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadUserData(); 
+                    MessageBox.Show("Information updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    LoadUserData();
                 }
             }
             catch (Exception ex)
@@ -252,7 +274,6 @@ namespace Enrollment_System
             SetEnabledRecursive(groupBox3, false);
             MessageBox.Show("Fields have been saved and locked. They are now unclickable.", "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
 
         private void BtnUpload_Click(object sender, EventArgs e)
         {
@@ -297,17 +318,15 @@ namespace Enrollment_System
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            
-
             ToggleFields(true);
-            MessageBox.Show("Fields are now unlocked for editing.", "Edit Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //MessageBox.Show("Fields are now unlocked for editing.", "Edit Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             SetEnabledRecursive(groupBox1, true);
             SetEnabledRecursive(groupBox2, true);
             SetEnabledRecursive(groupBox3, true);
             MessageBox.Show("Fields are now unlocked for editing.", "Edit Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        
-    }
+
+        }
 
         private void BtnLogout_Click(object sender, EventArgs e)
         {
@@ -318,6 +337,7 @@ namespace Enrollment_System
                 this.Close();
             }
         }
+
         private void BtnExit_Click(object sender, EventArgs e) => Application.Exit();
         private void BtnHome_Click(object sender, EventArgs e) => NavigateTo(new FormHome());
         private void BtnCourses_Click(object sender, EventArgs e) => NavigateTo(new FormCourse());
@@ -332,11 +352,13 @@ namespace Enrollment_System
 
         private void ToggleFields(bool enabled)
         {
+            fieldsLocked = !enabled;  
+
             foreach (var groupBox in new[] { groupBox1, groupBox2, groupBox3 })
             {
                 foreach (Control control in groupBox.Controls)
                 {
-                    if (control is TextBox || control is ComboBox || control is DateTimePicker)
+                    if (control is TextBox || control is ComboBox || control is DateTimePicker || control is CheckBox)
                     {
                         control.Enabled = enabled;
                         control.BackColor = enabled ? SystemColors.Window : SystemColors.ControlLight;
@@ -354,30 +376,24 @@ namespace Enrollment_System
             }
         }
 
-
         private void NavigateTo(Form form)
         {
             this.Close();
             form.Show();
         }
 
-
         private void SetEnabledRecursive(Control control, bool enabled)
-        {
-            // If the control is one of the input types, set its Enabled state and adjust the BackColor.
-            if (control is TextBox || control is ComboBox || control is DateTimePicker)
+        { 
+            if (control is TextBox || control is ComboBox || control is DateTimePicker || control is CheckBox)
             {
                 control.Enabled = enabled;
                 control.BackColor = enabled ? SystemColors.Window : SystemColors.ControlLight;
             }
 
-            // Recursively process all child controls.
             foreach (Control child in control.Controls)
             {
                 SetEnabledRecursive(child, enabled);
             }
         }
-
-
     }
 }
