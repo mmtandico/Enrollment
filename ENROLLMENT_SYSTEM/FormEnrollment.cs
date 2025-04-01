@@ -56,5 +56,10 @@ namespace Enrollment_System
                 this.Close();
             }
         }
+
+        private void BtnAddAcademic_Click(object sender, EventArgs e)
+        {
+            new FormNewAcademiccs().Show();
+        }
     }
 }

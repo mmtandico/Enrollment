@@ -115,6 +115,12 @@
     <Compile Include="FormHome.Designer.cs">
       <DependentUpon>FormHome.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormNewAcademiccs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormNewAcademiccs.Designer.cs">
+      <DependentUpon>FormNewAcademiccs.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormPersonalInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,6 +149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormHome.resx">
       <DependentUpon>FormHome.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormNewAcademiccs.resx">
+      <DependentUpon>FormNewAcademiccs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormPersonalInfo.resx">
       <DependentUpon>FormPersonalInfo.cs</DependentUpon>
@@ -201,6 +210,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\BGIMAGE1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\XButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EditButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RemoveButton.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

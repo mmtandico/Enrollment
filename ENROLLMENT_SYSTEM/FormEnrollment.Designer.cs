@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel5 = new System.Windows.Forms.Panel();
             this.BtnExit = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -38,13 +40,25 @@
             this.label2 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel9 = new System.Windows.Forms.Panel();
+            this.BtnDataBase = new System.Windows.Forms.Button();
             this.BtnCourses = new System.Windows.Forms.Button();
             this.BtnEnrollment = new System.Windows.Forms.Button();
             this.BtnHome = new System.Windows.Forms.Button();
             this.BtnPI = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.BtnDataBase = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.ColOpen = new System.Windows.Forms.DataGridViewImageColumn();
+            this.ColClose = new System.Windows.Forms.DataGridViewImageColumn();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.BtnAddAcademic = new System.Windows.Forms.Button();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -52,6 +66,11 @@
             this.panel7.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel5
@@ -168,6 +187,23 @@
             this.panel9.Size = new System.Drawing.Size(1001, 72);
             this.panel9.TabIndex = 0;
             // 
+            // BtnDataBase
+            // 
+            this.BtnDataBase.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnDataBase.FlatAppearance.BorderSize = 0;
+            this.BtnDataBase.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnDataBase.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnDataBase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnDataBase.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnDataBase.ForeColor = System.Drawing.Color.White;
+            this.BtnDataBase.Location = new System.Drawing.Point(815, 17);
+            this.BtnDataBase.Name = "BtnDataBase";
+            this.BtnDataBase.Size = new System.Drawing.Size(141, 37);
+            this.BtnDataBase.TabIndex = 29;
+            this.BtnDataBase.Text = "DATABASE INFORMATION";
+            this.BtnDataBase.UseVisualStyleBackColor = true;
+            this.BtnDataBase.Click += new System.EventHandler(this.BtnDataBase_Click);
+            // 
             // BtnCourses
             // 
             this.BtnCourses.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -248,40 +284,166 @@
             this.panel3.Size = new System.Drawing.Size(1300, 72);
             this.panel3.TabIndex = 12;
             // 
-            // label3
+            // tabControl1
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(818, 387);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(223, 33);
-            this.label3.TabIndex = 28;
-            this.label3.Text = "ENROLLMENT FORM";
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabControl1.Location = new System.Drawing.Point(0, 108);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1300, 642);
+            this.tabControl1.TabIndex = 13;
             // 
-            // BtnDataBase
+            // tabPage1
             // 
-            this.BtnDataBase.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnDataBase.FlatAppearance.BorderSize = 0;
-            this.BtnDataBase.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnDataBase.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnDataBase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnDataBase.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnDataBase.ForeColor = System.Drawing.Color.White;
-            this.BtnDataBase.Location = new System.Drawing.Point(815, 17);
-            this.BtnDataBase.Name = "BtnDataBase";
-            this.BtnDataBase.Size = new System.Drawing.Size(141, 37);
-            this.BtnDataBase.TabIndex = 29;
-            this.BtnDataBase.Text = "DATABASE INFORMATION";
-            this.BtnDataBase.UseVisualStyleBackColor = true;
-            this.BtnDataBase.Click += new System.EventHandler(this.BtnDataBase_Click);
+            this.tabPage1.Controls.Add(this.dataGridView1);
+            this.tabPage1.Controls.Add(this.panel2);
+            this.tabPage1.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabPage1.Location = new System.Drawing.Point(4, 34);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1292, 604);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Academic Year";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 34);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(1292, 604);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Payment";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.BtnAddAcademic);
+            this.panel2.Controls.Add(this.pictureBox1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(3, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1286, 47);
+            this.panel2.TabIndex = 0;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
+            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridView1.ColumnHeadersHeight = 33;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.ColOpen,
+            this.ColClose});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.EnableHeadersVisualStyles = false;
+            this.dataGridView1.GridColor = System.Drawing.SystemColors.Control;
+            this.dataGridView1.Location = new System.Drawing.Point(3, 50);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.Size = new System.Drawing.Size(1286, 551);
+            this.dataGridView1.TabIndex = 1;
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.HeaderText = "Academic Year";
+            this.Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column2.HeaderText = "Status";
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 89;
+            // 
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewImageColumn1.HeaderText = "";
+            this.dataGridViewImageColumn1.Image = global::Enrollment_System.Properties.Resources.EditButton;
+            this.dataGridViewImageColumn1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.Width = 21;
+            // 
+            // dataGridViewImageColumn2
+            // 
+            this.dataGridViewImageColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewImageColumn2.HeaderText = "";
+            this.dataGridViewImageColumn2.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
+            this.dataGridViewImageColumn2.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
+            this.dataGridViewImageColumn2.Width = 21;
+            // 
+            // ColOpen
+            // 
+            this.ColOpen.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ColOpen.HeaderText = "";
+            this.ColOpen.Image = global::Enrollment_System.Properties.Resources.EditButton;
+            this.ColOpen.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColOpen.Name = "ColOpen";
+            this.ColOpen.Width = 5;
+            // 
+            // ColClose
+            // 
+            this.ColClose.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ColClose.HeaderText = "";
+            this.ColClose.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
+            this.ColClose.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColClose.Name = "ColClose";
+            this.ColClose.Width = 5;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Image = global::Enrollment_System.Properties.Resources.XButton;
+            this.pictureBox1.Location = new System.Drawing.Point(1251, 10);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(25, 26);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // BtnAddAcademic
+            // 
+            this.BtnAddAcademic.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnAddAcademic.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnAddAcademic.Location = new System.Drawing.Point(5, 9);
+            this.BtnAddAcademic.Name = "BtnAddAcademic";
+            this.BtnAddAcademic.Size = new System.Drawing.Size(137, 31);
+            this.BtnAddAcademic.TabIndex = 1;
+            this.BtnAddAcademic.Text = "New Academic Year";
+            this.BtnAddAcademic.UseVisualStyleBackColor = true;
+            this.BtnAddAcademic.Click += new System.EventHandler(this.BtnAddAcademic_Click);
             // 
             // FormEnrollment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1300, 750);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -297,8 +459,12 @@
             this.panel7.ResumeLayout(false);
             this.panel9.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -319,7 +485,19 @@
         private System.Windows.Forms.Button BtnHome;
         private System.Windows.Forms.Button BtnPI;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button BtnDataBase;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewImageColumn ColOpen;
+        private System.Windows.Forms.DataGridViewImageColumn ColClose;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
+        private System.Windows.Forms.Button BtnAddAcademic;
     }
 }
