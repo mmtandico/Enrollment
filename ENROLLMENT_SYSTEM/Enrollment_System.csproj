@@ -85,6 +85,48 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="class\SessionManager.cs" />
+    <Compile Include="CourseBECED.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CourseBECED.Designer.cs">
+      <DependentUpon>CourseBECED.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CourseBSCS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CourseBSCS.Designer.cs">
+      <DependentUpon>CourseBSCS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CourseBSHM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CourseBSHM.Designer.cs">
+      <DependentUpon>CourseBSHM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CourseBSIT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CourseBSIT.Designer.cs">
+      <DependentUpon>CourseBSIT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CourseBTLED.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CourseBTLED.Designer.cs">
+      <DependentUpon>CourseBTLED.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CourseBSOAD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CourseBSOAD.Designer.cs">
+      <DependentUpon>CourseBSOAD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CourseBSTM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CourseBSTM.Designer.cs">
+      <DependentUpon>CourseBSTM.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormDatabaseInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +177,27 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CourseBECED.resx">
+      <DependentUpon>CourseBECED.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CourseBSCS.resx">
+      <DependentUpon>CourseBSCS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CourseBSHM.resx">
+      <DependentUpon>CourseBSHM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CourseBSIT.resx">
+      <DependentUpon>CourseBSIT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CourseBSOAD.resx">
+      <DependentUpon>CourseBSOAD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CourseBSTM.resx">
+      <DependentUpon>CourseBSTM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CourseBTLED.resx">
+      <DependentUpon>CourseBTLED.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormCourse.resx">
       <DependentUpon>FormCourse.cs</DependentUpon>
     </EmbeddedResource>
@@ -252,6 +315,36 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\COLORPDMBACKGROUND11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tourism.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OAD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\css.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\61.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

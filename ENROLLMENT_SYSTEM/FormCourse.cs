@@ -58,5 +58,83 @@ namespace Enrollment_System
                 this.Close();
             }
         }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnLMIT_Click(object sender, EventArgs e)
+        {
+            CourseBSIT f = new CourseBSIT();
+            f.TopLevel = false;
+            panel8.Controls.Add(f);
+            f.BringToFront();
+            f.Show();
+        }
+
+        private void BtnLMCS_Click(object sender, EventArgs e)
+        {
+            CourseBSCS f = new CourseBSCS();
+            f.TopLevel = false;
+            panel8.Controls.Add(f);
+            f.BringToFront();
+            f.Show();
+        }
+
+        private void BtnLMTM_Click(object sender, EventArgs e)
+        {
+            CourseBSTM f = new CourseBSTM();
+            f.TopLevel = false;
+            panel8.Controls.Add(f);
+            f.BringToFront();
+            f.Show();
+        }
+
+        private void BtnLMOAD_Click(object sender, EventArgs e)
+        {
+            CourseBSOAD f = new CourseBSOAD();
+            f.TopLevel = false;
+            panel8.Controls.Add(f);
+            f.BringToFront();
+            f.Show();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnLMHM_Click(object sender, EventArgs e)
+        {
+            CourseBSHM f = new CourseBSHM();
+            f.TopLevel = false;
+            panel8.Controls.Add(f);
+            f.BringToFront();
+            f.Show();
+        }
+
+        private void BtnLMLED_Click(object sender, EventArgs e)
+        {
+            CourseBTLED f = new CourseBTLED();
+            f.TopLevel = false;
+            panel8.Controls.Add(f);
+            f.BringToFront();
+            f.Show();
+        }
+
+        private void BtnCED_Click(object sender, EventArgs e)
+        {
+            CourseBECED f = new CourseBECED();
+            f.TopLevel = false;
+            panel8.Controls.Add(f);
+            f.BringToFront();
+            f.Show();
+        }
     }
 }
