@@ -272,6 +272,7 @@ namespace Enrollment_System
             SetEnabledRecursive(groupBox1, false);
             SetEnabledRecursive(groupBox2, false);
             SetEnabledRecursive(groupBox3, false);
+            SetEnabledRecursive(groupBox4, false);
             MessageBox.Show("Fields have been saved and locked. They are now unclickable.", "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -324,7 +325,8 @@ namespace Enrollment_System
             SetEnabledRecursive(groupBox1, true);
             SetEnabledRecursive(groupBox2, true);
             SetEnabledRecursive(groupBox3, true);
-            
+            SetEnabledRecursive(groupBox4, true);
+
             MessageBox.Show("Fields are now unlocked for editing.", "Edit Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
@@ -355,7 +357,7 @@ namespace Enrollment_System
         {
             fieldsLocked = !enabled;  
 
-            foreach (var groupBox in new[] { groupBox1, groupBox2, groupBox3 })
+            foreach (var groupBox in new[] { groupBox1, groupBox2, groupBox3, groupBox4 })
             {
                 foreach (Control control in groupBox.Controls)
                 {
@@ -397,19 +399,19 @@ namespace Enrollment_System
             }
         }
 
-        private void ChkFemale_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ChkFemale.Checked)
-            {
-                ChkMale.Checked = false;
-            }
-        }
-
-        private void ChkMale_CheckedChanged(object sender, EventArgs e)
+        private void ChkMale_CheckedChanged_1(object sender, EventArgs e)
         {
             if (ChkMale.Checked)
             {
                 ChkFemale.Checked = false;
+            }
+        }
+
+        private void ChkFemale_CheckedChanged_1(object sender, EventArgs e)
+        {
+            if (ChkFemale.Checked)
+            {
+                ChkMale.Checked = false;
             }
         }
     }
