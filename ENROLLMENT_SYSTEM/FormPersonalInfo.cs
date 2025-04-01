@@ -324,6 +324,7 @@ namespace Enrollment_System
             SetEnabledRecursive(groupBox1, true);
             SetEnabledRecursive(groupBox2, true);
             SetEnabledRecursive(groupBox3, true);
+            
             MessageBox.Show("Fields are now unlocked for editing.", "Edit Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
@@ -358,7 +359,7 @@ namespace Enrollment_System
             {
                 foreach (Control control in groupBox.Controls)
                 {
-                    if (control is TextBox || control is ComboBox || control is DateTimePicker || control is CheckBox)
+                    if (control is TextBox || control is ComboBox || control is DateTimePicker || control is CheckBox || control is Panel)
                     {
                         control.Enabled = enabled;
                         control.BackColor = enabled ? SystemColors.Window : SystemColors.ControlLight;
@@ -384,7 +385,7 @@ namespace Enrollment_System
 
         private void SetEnabledRecursive(Control control, bool enabled)
         { 
-            if (control is TextBox || control is ComboBox || control is DateTimePicker || control is CheckBox)
+            if (control is TextBox || control is ComboBox || control is DateTimePicker || control is CheckBox || control is Panel)
             {
                 control.Enabled = enabled;
                 control.BackColor = enabled ? SystemColors.Window : SystemColors.ControlLight;
@@ -393,6 +394,22 @@ namespace Enrollment_System
             foreach (Control child in control.Controls)
             {
                 SetEnabledRecursive(child, enabled);
+            }
+        }
+
+        private void ChkFemale_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkFemale.Checked)
+            {
+                ChkMale.Checked = false ;
+            }
+        }
+
+        private void ChkMale_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkMale.Checked)
+            {
+                ChkFemale.Checked = false;
             }
         }
     }

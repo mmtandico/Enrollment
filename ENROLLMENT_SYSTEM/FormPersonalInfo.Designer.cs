@@ -74,7 +74,7 @@
             this.TxtAge = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.panel = new System.Windows.Forms.Panel();
+            this.PanelGender = new System.Windows.Forms.Panel();
             this.ChkFemale = new System.Windows.Forms.CheckBox();
             this.ChkMale = new System.Windows.Forms.CheckBox();
             this.label16 = new System.Windows.Forms.Label();
@@ -93,12 +93,12 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.TxtFirstName = new System.Windows.Forms.TextBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel8 = new System.Windows.Forms.Panel();
             this.panel10 = new System.Windows.Forms.Panel();
             this.BtnUpload = new System.Windows.Forms.Button();
             this.BtnEdit = new System.Windows.Forms.Button();
             this.BtnSave = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel6.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -111,9 +111,9 @@
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.panel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.PanelGender.SuspendLayout();
             this.panel10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -613,7 +613,7 @@
             this.groupBox1.Controls.Add(this.TxtAge);
             this.groupBox1.Controls.Add(this.label22);
             this.groupBox1.Controls.Add(this.label17);
-            this.groupBox1.Controls.Add(this.panel);
+            this.groupBox1.Controls.Add(this.PanelGender);
             this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.TxtPhoneNo);
             this.groupBox1.Controls.Add(this.TxtCivilStatus);
@@ -667,19 +667,19 @@
             this.label17.ForeColor = System.Drawing.Color.Black;
             this.label17.Location = new System.Drawing.Point(465, 272);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(31, 19);
+            this.label17.Size = new System.Drawing.Size(54, 19);
             this.label17.TabIndex = 20;
-            this.label17.Text = "Sex";
+            this.label17.Text = "Gender";
             // 
-            // panel11
+            // PanelGender
             // 
-            this.panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel.Controls.Add(this.ChkFemale);
-            this.panel.Controls.Add(this.ChkMale);
-            this.panel.Location = new System.Drawing.Point(469, 294);
-            this.panel.Name = "panel11";
-            this.panel.Size = new System.Drawing.Size(203, 37);
-            this.panel.TabIndex = 15;
+            this.PanelGender.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PanelGender.Controls.Add(this.ChkFemale);
+            this.PanelGender.Controls.Add(this.ChkMale);
+            this.PanelGender.Location = new System.Drawing.Point(469, 294);
+            this.PanelGender.Name = "PanelGender";
+            this.PanelGender.Size = new System.Drawing.Size(203, 37);
+            this.PanelGender.TabIndex = 15;
             // 
             // ChkFemale
             // 
@@ -691,6 +691,7 @@
             this.ChkFemale.TabIndex = 21;
             this.ChkFemale.Text = "Female";
             this.ChkFemale.UseVisualStyleBackColor = true;
+            this.ChkFemale.CheckedChanged += new System.EventHandler(this.ChkFemale_CheckedChanged);
             // 
             // ChkMale
             // 
@@ -702,6 +703,7 @@
             this.ChkMale.TabIndex = 22;
             this.ChkMale.Text = "Male";
             this.ChkMale.UseVisualStyleBackColor = true;
+            this.ChkMale.CheckedChanged += new System.EventHandler(this.ChkMale_CheckedChanged);
             // 
             // label16
             // 
@@ -876,16 +878,6 @@
             this.TxtFirstName.Size = new System.Drawing.Size(226, 33);
             this.TxtFirstName.TabIndex = 8;
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox2.Location = new System.Drawing.Point(62, 118);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(199, 193);
-            this.pictureBox2.TabIndex = 1;
-            this.pictureBox2.TabStop = false;
-            // 
             // panel8
             // 
             this.panel8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(44)))), ((int)(((byte)(26)))));
@@ -955,6 +947,16 @@
             this.BtnSave.UseVisualStyleBackColor = true;
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox2.Location = new System.Drawing.Point(62, 118);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(199, 193);
+            this.pictureBox2.TabIndex = 1;
+            this.pictureBox2.TabStop = false;
+            // 
             // pictureBox1
             // 
             this.pictureBox1.BackgroundImage = global::Enrollment_System.Properties.Resources.P9700277_1_1024x576;
@@ -996,10 +998,10 @@
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.panel.ResumeLayout(false);
-            this.panel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.PanelGender.ResumeLayout(false);
+            this.PanelGender.PerformLayout();
             this.panel10.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
@@ -1057,7 +1059,7 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox TxtProvince;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Panel panel;
+        private System.Windows.Forms.Panel PanelGender;
         private System.Windows.Forms.CheckBox ChkFemale;
         private System.Windows.Forms.CheckBox ChkMale;
         private System.Windows.Forms.Label label16;
