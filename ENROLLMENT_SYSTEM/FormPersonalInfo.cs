@@ -401,7 +401,7 @@ namespace Enrollment_System
         {
             if (ChkFemale.Checked)
             {
-                ChkMale.Checked = false ;
+                ChkMale.Checked = false;
             }
         }
 

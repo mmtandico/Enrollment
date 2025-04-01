@@ -59,13 +59,13 @@
             this.panel20 = new System.Windows.Forms.Panel();
             this.panel21 = new System.Windows.Forms.Panel();
             this.panel22 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -442,6 +442,28 @@
             this.panel22.Size = new System.Drawing.Size(152, 34);
             this.panel22.TabIndex = 1;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(220, 92);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(526, 45);
+            this.label3.TabIndex = 27;
+            this.label3.Text = "Bachelor in Information Technology";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(221, 143);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(495, 33);
+            this.label4.TabIndex = 28;
+            this.label4.Text = "League of Information Technology Enthusiasts";
+            // 
             // pictureBox5
             // 
             this.pictureBox5.BackgroundImage = global::Enrollment_System.Properties.Resources.educ;
@@ -485,7 +507,7 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.pictureBox1.BackgroundImage = global::Enrollment_System.Properties.Resources.PDMBACKGROUND;
+            this.pictureBox1.BackgroundImage = global::Enrollment_System.Properties.Resources.COLORPDMBACKGROUND11;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
@@ -493,28 +515,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(1300, 642);
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(220, 92);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(526, 45);
-            this.label3.TabIndex = 27;
-            this.label3.Text = "Bachelor in Information Technology";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(221, 143);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(495, 33);
-            this.label4.TabIndex = 28;
-            this.label4.Text = "League of Information Technology Enthusiasts";
             // 
             // FormCourse
             // 

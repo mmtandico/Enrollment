@@ -34,12 +34,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.BtnLogout = new System.Windows.Forms.Button();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.BtnDataBase = new System.Windows.Forms.Button();
-            this.BtnCourses = new System.Windows.Forms.Button();
-            this.BtnEnrollment = new System.Windows.Forms.Button();
-            this.BtnHome = new System.Windows.Forms.Button();
-            this.BtnPI = new System.Windows.Forms.Button();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.BtnExit = new System.Windows.Forms.Button();
@@ -74,7 +68,7 @@
             this.TxtAge = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.PanelGender = new System.Windows.Forms.Panel();
+            this.panel = new System.Windows.Forms.Panel();
             this.ChkFemale = new System.Windows.Forms.CheckBox();
             this.ChkMale = new System.Windows.Forms.CheckBox();
             this.label16 = new System.Windows.Forms.Label();
@@ -100,9 +94,14 @@
             this.BtnSave = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.BtnDataBase = new System.Windows.Forms.Button();
+            this.BtnCourses = new System.Windows.Forms.Button();
+            this.BtnEnrollment = new System.Windows.Forms.Button();
+            this.BtnHome = new System.Windows.Forms.Button();
+            this.BtnPI = new System.Windows.Forms.Button();
             this.panel6.SuspendLayout();
             this.panel4.SuspendLayout();
-            this.panel9.SuspendLayout();
             this.panel7.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -111,10 +110,11 @@
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.PanelGender.SuspendLayout();
+            this.panel.SuspendLayout();
             this.panel10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel9.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel6
@@ -171,104 +171,6 @@
             this.BtnLogout.Text = "LOGOUT";
             this.BtnLogout.UseVisualStyleBackColor = true;
             this.BtnLogout.Click += new System.EventHandler(this.BtnLogout_Click);
-            // 
-            // panel9
-            // 
-            this.panel9.Controls.Add(this.BtnDataBase);
-            this.panel9.Controls.Add(this.BtnCourses);
-            this.panel9.Controls.Add(this.BtnEnrollment);
-            this.panel9.Controls.Add(this.BtnHome);
-            this.panel9.Controls.Add(this.BtnPI);
-            this.panel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel9.Location = new System.Drawing.Point(0, 0);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(1001, 72);
-            this.panel9.TabIndex = 0;
-            // 
-            // BtnDataBase
-            // 
-            this.BtnDataBase.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnDataBase.FlatAppearance.BorderSize = 0;
-            this.BtnDataBase.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnDataBase.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnDataBase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnDataBase.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnDataBase.ForeColor = System.Drawing.Color.White;
-            this.BtnDataBase.Location = new System.Drawing.Point(815, 17);
-            this.BtnDataBase.Name = "BtnDataBase";
-            this.BtnDataBase.Size = new System.Drawing.Size(141, 37);
-            this.BtnDataBase.TabIndex = 4;
-            this.BtnDataBase.Text = "DATABASE INFORMATION";
-            this.BtnDataBase.UseVisualStyleBackColor = true;
-            this.BtnDataBase.Click += new System.EventHandler(this.BtnDataBase_Click);
-            // 
-            // BtnCourses
-            // 
-            this.BtnCourses.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnCourses.FlatAppearance.BorderSize = 0;
-            this.BtnCourses.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnCourses.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnCourses.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnCourses.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnCourses.ForeColor = System.Drawing.Color.White;
-            this.BtnCourses.Location = new System.Drawing.Point(391, 17);
-            this.BtnCourses.Name = "BtnCourses";
-            this.BtnCourses.Size = new System.Drawing.Size(84, 37);
-            this.BtnCourses.TabIndex = 1;
-            this.BtnCourses.Text = "COURSES";
-            this.BtnCourses.UseVisualStyleBackColor = true;
-            this.BtnCourses.Click += new System.EventHandler(this.BtnCourses_Click);
-            // 
-            // BtnEnrollment
-            // 
-            this.BtnEnrollment.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnEnrollment.FlatAppearance.BorderSize = 0;
-            this.BtnEnrollment.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnEnrollment.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnEnrollment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnEnrollment.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnEnrollment.ForeColor = System.Drawing.Color.White;
-            this.BtnEnrollment.Location = new System.Drawing.Point(506, 17);
-            this.BtnEnrollment.Name = "BtnEnrollment";
-            this.BtnEnrollment.Size = new System.Drawing.Size(92, 37);
-            this.BtnEnrollment.TabIndex = 2;
-            this.BtnEnrollment.Text = "ENROLLMENT";
-            this.BtnEnrollment.UseVisualStyleBackColor = true;
-            this.BtnEnrollment.Click += new System.EventHandler(this.BtnEnrollment_Click);
-            // 
-            // BtnHome
-            // 
-            this.BtnHome.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BtnHome.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnHome.FlatAppearance.BorderSize = 0;
-            this.BtnHome.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnHome.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnHome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnHome.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnHome.ForeColor = System.Drawing.Color.White;
-            this.BtnHome.Location = new System.Drawing.Point(282, 17);
-            this.BtnHome.Name = "BtnHome";
-            this.BtnHome.Size = new System.Drawing.Size(85, 37);
-            this.BtnHome.TabIndex = 0;
-            this.BtnHome.Text = "HOME";
-            this.BtnHome.UseVisualStyleBackColor = true;
-            this.BtnHome.Click += new System.EventHandler(this.BtnHome_Click);
-            // 
-            // BtnPI
-            // 
-            this.BtnPI.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnPI.FlatAppearance.BorderSize = 0;
-            this.BtnPI.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnPI.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnPI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnPI.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnPI.ForeColor = System.Drawing.Color.White;
-            this.BtnPI.Location = new System.Drawing.Point(637, 17);
-            this.BtnPI.Name = "BtnPI";
-            this.BtnPI.Size = new System.Drawing.Size(141, 37);
-            this.BtnPI.TabIndex = 3;
-            this.BtnPI.Text = "PERSONAL INFORMATION";
-            this.BtnPI.UseVisualStyleBackColor = true;
             // 
             // panel7
             // 
@@ -336,6 +238,8 @@
             // 
             this.panel2.AutoScroll = true;
             this.panel2.BackColor = System.Drawing.Color.White;
+            this.panel2.Controls.Add(this.pictureBox2);
+            this.panel2.Controls.Add(this.panel10);
             this.panel2.Controls.Add(this.panel12);
             this.panel2.Controls.Add(this.label9);
             this.panel2.Controls.Add(this.label8);
@@ -343,9 +247,7 @@
             this.panel2.Controls.Add(this.groupBox2);
             this.panel2.Controls.Add(this.label5);
             this.panel2.Controls.Add(this.groupBox1);
-            this.panel2.Controls.Add(this.pictureBox2);
             this.panel2.Controls.Add(this.panel8);
-            this.panel2.Controls.Add(this.panel10);
             this.panel2.Location = new System.Drawing.Point(124, 146);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1167, 638);
@@ -354,6 +256,7 @@
             // panel12
             // 
             this.panel12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(44)))), ((int)(((byte)(26)))));
+            this.panel12.BackgroundImage = global::Enrollment_System.Properties.Resources.BACKGROUNDCOLOR;
             this.panel12.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel12.Location = new System.Drawing.Point(0, 969);
             this.panel12.Name = "panel12";
@@ -366,7 +269,7 @@
             this.label9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(44)))), ((int)(((byte)(26)))));
             this.label9.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(305, 190);
+            this.label9.Location = new System.Drawing.Point(304, 190);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(277, 33);
             this.label9.TabIndex = 25;
@@ -378,7 +281,7 @@
             this.label8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(44)))), ((int)(((byte)(26)))));
             this.label8.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(304, 747);
+            this.label8.Location = new System.Drawing.Point(303, 747);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(133, 33);
             this.label8.TabIndex = 12;
@@ -391,7 +294,7 @@
             this.groupBox3.Controls.Add(this.TxtStudentLRN);
             this.groupBox3.Controls.Add(this.label21);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(294, 198);
+            this.groupBox3.Location = new System.Drawing.Point(293, 198);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(806, 106);
             this.groupBox3.TabIndex = 26;
@@ -457,7 +360,7 @@
             this.groupBox2.Controls.Add(this.label13);
             this.groupBox2.Controls.Add(this.TxtSubCom);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(294, 754);
+            this.groupBox2.Location = new System.Drawing.Point(293, 754);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(806, 215);
             this.groupBox2.TabIndex = 28;
@@ -602,7 +505,7 @@
             this.label5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(44)))), ((int)(((byte)(26)))));
             this.label5.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(305, 354);
+            this.label5.Location = new System.Drawing.Point(304, 354);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(277, 33);
             this.label5.TabIndex = 10;
@@ -613,7 +516,7 @@
             this.groupBox1.Controls.Add(this.TxtAge);
             this.groupBox1.Controls.Add(this.label22);
             this.groupBox1.Controls.Add(this.label17);
-            this.groupBox1.Controls.Add(this.PanelGender);
+            this.groupBox1.Controls.Add(this.panel);
             this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.TxtPhoneNo);
             this.groupBox1.Controls.Add(this.TxtCivilStatus);
@@ -631,7 +534,7 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.TxtFirstName);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(294, 365);
+            this.groupBox1.Location = new System.Drawing.Point(293, 365);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(806, 367);
             this.groupBox1.TabIndex = 27;
@@ -667,19 +570,19 @@
             this.label17.ForeColor = System.Drawing.Color.Black;
             this.label17.Location = new System.Drawing.Point(465, 272);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(54, 19);
+            this.label17.Size = new System.Drawing.Size(31, 19);
             this.label17.TabIndex = 20;
-            this.label17.Text = "Gender";
+            this.label17.Text = "Sex";
             // 
-            // PanelGender
+            // panel
             // 
-            this.PanelGender.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PanelGender.Controls.Add(this.ChkFemale);
-            this.PanelGender.Controls.Add(this.ChkMale);
-            this.PanelGender.Location = new System.Drawing.Point(469, 294);
-            this.PanelGender.Name = "PanelGender";
-            this.PanelGender.Size = new System.Drawing.Size(203, 37);
-            this.PanelGender.TabIndex = 15;
+            this.panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel.Controls.Add(this.ChkFemale);
+            this.panel.Controls.Add(this.ChkMale);
+            this.panel.Location = new System.Drawing.Point(469, 294);
+            this.panel.Name = "panel";
+            this.panel.Size = new System.Drawing.Size(203, 37);
+            this.panel.TabIndex = 15;
             // 
             // ChkFemale
             // 
@@ -691,7 +594,6 @@
             this.ChkFemale.TabIndex = 21;
             this.ChkFemale.Text = "Female";
             this.ChkFemale.UseVisualStyleBackColor = true;
-            this.ChkFemale.CheckedChanged += new System.EventHandler(this.ChkFemale_CheckedChanged);
             // 
             // ChkMale
             // 
@@ -703,7 +605,6 @@
             this.ChkMale.TabIndex = 22;
             this.ChkMale.Text = "Male";
             this.ChkMale.UseVisualStyleBackColor = true;
-            this.ChkMale.CheckedChanged += new System.EventHandler(this.ChkMale_CheckedChanged);
             // 
             // label16
             // 
@@ -881,6 +782,7 @@
             // panel8
             // 
             this.panel8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(44)))), ((int)(((byte)(26)))));
+            this.panel8.BackgroundImage = global::Enrollment_System.Properties.Resources.BACKGROUNDCOLOR;
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel8.Location = new System.Drawing.Point(0, 0);
             this.panel8.Name = "panel8";
@@ -894,7 +796,7 @@
             this.panel10.Controls.Add(this.BtnUpload);
             this.panel10.Controls.Add(this.BtnEdit);
             this.panel10.Controls.Add(this.BtnSave);
-            this.panel10.Location = new System.Drawing.Point(47, 108);
+            this.panel10.Location = new System.Drawing.Point(46, 108);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(228, 386);
             this.panel10.TabIndex = 29;
@@ -951,7 +853,7 @@
             // 
             this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox2.Location = new System.Drawing.Point(62, 118);
+            this.pictureBox2.Location = new System.Drawing.Point(61, 118);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(199, 193);
             this.pictureBox2.TabIndex = 1;
@@ -967,6 +869,104 @@
             this.pictureBox1.Size = new System.Drawing.Size(1300, 642);
             this.pictureBox1.TabIndex = 13;
             this.pictureBox1.TabStop = false;
+            // 
+            // panel9
+            // 
+            this.panel9.Controls.Add(this.BtnDataBase);
+            this.panel9.Controls.Add(this.BtnCourses);
+            this.panel9.Controls.Add(this.BtnEnrollment);
+            this.panel9.Controls.Add(this.BtnHome);
+            this.panel9.Controls.Add(this.BtnPI);
+            this.panel9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel9.Location = new System.Drawing.Point(0, 0);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(1001, 72);
+            this.panel9.TabIndex = 0;
+            // 
+            // BtnDataBase
+            // 
+            this.BtnDataBase.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnDataBase.FlatAppearance.BorderSize = 0;
+            this.BtnDataBase.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnDataBase.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnDataBase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnDataBase.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnDataBase.ForeColor = System.Drawing.Color.White;
+            this.BtnDataBase.Location = new System.Drawing.Point(815, 17);
+            this.BtnDataBase.Name = "BtnDataBase";
+            this.BtnDataBase.Size = new System.Drawing.Size(141, 37);
+            this.BtnDataBase.TabIndex = 4;
+            this.BtnDataBase.Text = "DATABASE INFORMATION";
+            this.BtnDataBase.UseVisualStyleBackColor = true;
+            this.BtnDataBase.Click += new System.EventHandler(this.BtnDataBase_Click);
+            // 
+            // BtnCourses
+            // 
+            this.BtnCourses.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnCourses.FlatAppearance.BorderSize = 0;
+            this.BtnCourses.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnCourses.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnCourses.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnCourses.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnCourses.ForeColor = System.Drawing.Color.White;
+            this.BtnCourses.Location = new System.Drawing.Point(391, 17);
+            this.BtnCourses.Name = "BtnCourses";
+            this.BtnCourses.Size = new System.Drawing.Size(84, 37);
+            this.BtnCourses.TabIndex = 1;
+            this.BtnCourses.Text = "COURSES";
+            this.BtnCourses.UseVisualStyleBackColor = true;
+            this.BtnCourses.Click += new System.EventHandler(this.BtnCourses_Click);
+            // 
+            // BtnEnrollment
+            // 
+            this.BtnEnrollment.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnEnrollment.FlatAppearance.BorderSize = 0;
+            this.BtnEnrollment.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnEnrollment.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnEnrollment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnEnrollment.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnEnrollment.ForeColor = System.Drawing.Color.White;
+            this.BtnEnrollment.Location = new System.Drawing.Point(506, 17);
+            this.BtnEnrollment.Name = "BtnEnrollment";
+            this.BtnEnrollment.Size = new System.Drawing.Size(92, 37);
+            this.BtnEnrollment.TabIndex = 2;
+            this.BtnEnrollment.Text = "ENROLLMENT";
+            this.BtnEnrollment.UseVisualStyleBackColor = true;
+            this.BtnEnrollment.Click += new System.EventHandler(this.BtnEnrollment_Click);
+            // 
+            // BtnHome
+            // 
+            this.BtnHome.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnHome.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnHome.FlatAppearance.BorderSize = 0;
+            this.BtnHome.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnHome.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnHome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnHome.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnHome.ForeColor = System.Drawing.Color.White;
+            this.BtnHome.Location = new System.Drawing.Point(282, 17);
+            this.BtnHome.Name = "BtnHome";
+            this.BtnHome.Size = new System.Drawing.Size(85, 37);
+            this.BtnHome.TabIndex = 0;
+            this.BtnHome.Text = "HOME";
+            this.BtnHome.UseVisualStyleBackColor = true;
+            this.BtnHome.Click += new System.EventHandler(this.BtnHome_Click);
+            // 
+            // BtnPI
+            // 
+            this.BtnPI.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnPI.FlatAppearance.BorderSize = 0;
+            this.BtnPI.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnPI.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnPI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnPI.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnPI.ForeColor = System.Drawing.Color.White;
+            this.BtnPI.Location = new System.Drawing.Point(637, 17);
+            this.BtnPI.Name = "BtnPI";
+            this.BtnPI.Size = new System.Drawing.Size(141, 37);
+            this.BtnPI.TabIndex = 3;
+            this.BtnPI.Text = "PERSONAL INFORMATION";
+            this.BtnPI.UseVisualStyleBackColor = true;
             // 
             // FormPersonalInfo
             // 
@@ -985,7 +985,6 @@
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             this.panel4.ResumeLayout(false);
-            this.panel9.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
@@ -998,11 +997,12 @@
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.PanelGender.ResumeLayout(false);
-            this.PanelGender.PerformLayout();
+            this.panel.ResumeLayout(false);
+            this.panel.PerformLayout();
             this.panel10.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel9.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1059,7 +1059,7 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox TxtProvince;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Panel PanelGender;
+        private System.Windows.Forms.Panel panel;
         private System.Windows.Forms.CheckBox ChkFemale;
         private System.Windows.Forms.CheckBox ChkMale;
         private System.Windows.Forms.Label label16;

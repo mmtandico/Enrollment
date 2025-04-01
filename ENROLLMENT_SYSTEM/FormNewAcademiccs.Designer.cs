@@ -29,12 +29,10 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.ExitButton = new System.Windows.Forms.PictureBox();
             this.label20 = new System.Windows.Forms.Label();
             this.TxtStudentID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.TxtLastName = new System.Windows.Forms.TextBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel10 = new System.Windows.Forms.Panel();
             this.BtnUpload = new System.Windows.Forms.Button();
             this.BtnSave = new System.Windows.Forms.Button();
@@ -53,34 +51,24 @@
             this.TxtYearLevel = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.TxtCourse = new System.Windows.Forms.TextBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.ExitButton = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(44)))), ((int)(((byte)(26)))));
+            this.panel1.BackgroundImage = global::Enrollment_System.Properties.Resources.BACKGROUNDCOLOR;
             this.panel1.Controls.Add(this.ExitButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(937, 40);
             this.panel1.TabIndex = 0;
-            // 
-            // ExitButton
-            // 
-            this.ExitButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ExitButton.BackColor = System.Drawing.Color.Transparent;
-            this.ExitButton.Image = global::Enrollment_System.Properties.Resources.XButton;
-            this.ExitButton.Location = new System.Drawing.Point(902, 7);
-            this.ExitButton.Name = "ExitButton";
-            this.ExitButton.Size = new System.Drawing.Size(25, 26);
-            this.ExitButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.ExitButton.TabIndex = 1;
-            this.ExitButton.TabStop = false;
-            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
             // label20
             // 
@@ -126,19 +114,10 @@
             this.TxtLastName.Size = new System.Drawing.Size(364, 33);
             this.TxtLastName.TabIndex = 28;
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox2.Location = new System.Drawing.Point(35, 59);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(199, 193);
-            this.pictureBox2.TabIndex = 30;
-            this.pictureBox2.TabStop = false;
-            // 
             // panel10
             // 
             this.panel10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(44)))), ((int)(((byte)(26)))));
+            this.panel10.BackgroundImage = global::Enrollment_System.Properties.Resources.BACKGROUNDCOLOR;
             this.panel10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel10.Controls.Add(this.BtnUpload);
             this.panel10.Controls.Add(this.BtnSave);
@@ -348,6 +327,29 @@
             this.TxtCourse.Size = new System.Drawing.Size(621, 33);
             this.TxtCourse.TabIndex = 45;
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox2.Location = new System.Drawing.Point(35, 59);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(199, 193);
+            this.pictureBox2.TabIndex = 30;
+            this.pictureBox2.TabStop = false;
+            // 
+            // ExitButton
+            // 
+            this.ExitButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ExitButton.BackColor = System.Drawing.Color.Transparent;
+            this.ExitButton.Image = global::Enrollment_System.Properties.Resources.XButton;
+            this.ExitButton.Location = new System.Drawing.Point(902, 7);
+            this.ExitButton.Name = "ExitButton";
+            this.ExitButton.Size = new System.Drawing.Size(25, 26);
+            this.ExitButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ExitButton.TabIndex = 1;
+            this.ExitButton.TabStop = false;
+            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
+            // 
             // FormNewAcademiccs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -379,9 +381,9 @@
             this.Name = "FormNewAcademiccs";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel10.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

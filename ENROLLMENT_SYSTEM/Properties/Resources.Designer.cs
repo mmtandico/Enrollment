@@ -63,6 +63,16 @@ namespace Enrollment_System.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BACKGROUNDCOLOR {
+            get {
+                object obj = ResourceManager.GetObject("BACKGROUNDCOLOR", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BGIMAGE1 {
             get {
                 object obj = ResourceManager.GetObject("BGIMAGE1", resourceCulture);
@@ -86,6 +96,26 @@ namespace Enrollment_System.Properties {
         internal static System.Drawing.Bitmap CHARM {
             get {
                 object obj = ResourceManager.GetObject("CHARM", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap COLORPDMBACKGROUND {
+            get {
+                object obj = ResourceManager.GetObject("COLORPDMBACKGROUND", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap COLORPDMBACKGROUND11 {
+            get {
+                object obj = ResourceManager.GetObject("COLORPDMBACKGROUND11", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
