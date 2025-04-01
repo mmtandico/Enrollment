@@ -220,6 +220,30 @@
   <ItemGroup>
     <None Include="Resources\RemoveButton.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PDMBACKGROUND.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PDMCSSLOGO.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PDMCSSLOGO.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PDMCHARMLOGO.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ComputerImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CHARM.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\educ.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

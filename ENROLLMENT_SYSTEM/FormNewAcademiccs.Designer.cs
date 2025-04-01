@@ -185,9 +185,9 @@
             this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(672, 59);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(81, 19);
+            this.label2.Size = new System.Drawing.Size(172, 19);
             this.label2.TabIndex = 33;
-            this.label2.Text = "School Year";
+            this.label2.Text = "School Year and Semester";
             // 
             // TxtSchoolYear
             // 
