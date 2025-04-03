@@ -20,6 +20,8 @@ namespace Enrollment_System
         {
             InitializeComponent();
 
+            LblWelcome.Text = $"{SessionManager.LastName}, {SessionManager.FirstName[0]}.";
+
             this.Activated += FormPersonalInfo_Activated;
             if (!SessionManager.IsLoggedIn)
             {
@@ -78,8 +80,8 @@ namespace Enrollment_System
                         if (userExists == 0)
                         {
                             string insertQuery = @"
-                        INSERT INTO students (user_id, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
-                        VALUES (@UserID, '', '', '', '', '2000-01-01', 0, 'Male', '', '')";
+                        INSERT INTO students (user_id,student_no, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
+                        VALUES (@UserID,'', '', '', '', '', '2000-01-01', 0, 'Male', '', '')";
 
                             using (var insertCmd = new MySqlCommand(insertQuery, conn))
                             {
@@ -90,32 +92,40 @@ namespace Enrollment_System
                     }
 
                     string query = @"
-                SELECT 
-                    s.student_id, 
-                    IFNULL(s.student_lrn, '') AS student_lrn, 
-                    IFNULL(s.first_name, '') AS first_name, 
-                    IFNULL(s.middle_name, '') AS middle_name, 
-                    IFNULL(s.last_name, '') AS last_name, 
-                    IFNULL(s.birth_date, '2000-01-01') AS birth_date, 
-                    IFNULL(s.age, 0) AS age, 
-                    IFNULL(s.sex, 'Unknown') AS sex, 
-                    IFNULL(s.civil_status, '') AS civil_status, 
-                    IFNULL(s.nationality, '') AS nationality, 
-                    IFNULL(c.phone_no, '') AS phone_no, 
-                    IFNULL(u.email, '') AS email, 
-                    IFNULL(a.block_street, '') AS block_street, 
-                    IFNULL(a.subdivision, '') AS subdivision, 
-                    IFNULL(a.barangay, '') AS barangay, 
-                    IFNULL(a.city, '') AS city, 
-                    IFNULL(a.province, '') AS province, 
-                    IFNULL(a.zipcode, '') AS zipcode, 
-                    s.profile_picture 
-                FROM students s 
-                LEFT JOIN users u ON s.user_id = u.user_id 
-                LEFT JOIN contact_info c ON s.user_id = c.user_id 
-                LEFT JOIN addresses a ON s.user_id = a.user_id 
-                WHERE s.user_id = @UserID
-                ORDER BY s.student_id DESC LIMIT 1";
+                    SELECT 
+                        s.student_id, 
+                        IFNULL(s.student_no, '') AS student_no, 
+                        IFNULL(s.student_lrn, '') AS student_lrn, 
+                        IFNULL(s.first_name, '') AS first_name, 
+                        IFNULL(s.middle_name, '') AS middle_name, 
+                        IFNULL(s.last_name, '') AS last_name, 
+                        IFNULL(s.birth_date, '2000-01-01') AS birth_date, 
+                        IFNULL(s.age, 0) AS age, 
+                        IFNULL(s.sex, 'Unknown') AS sex, 
+                        IFNULL(s.civil_status, '') AS civil_status, 
+                        IFNULL(s.nationality, '') AS nationality, 
+                        IFNULL(c.phone_no, '') AS phone_no, 
+                        IFNULL(u.email, '') AS email, 
+                        IFNULL(a.block_street, '') AS block_street, 
+                        IFNULL(a.subdivision, '') AS subdivision, 
+                        IFNULL(a.barangay, '') AS barangay, 
+                        IFNULL(a.city, '') AS city, 
+                        IFNULL(a.province, '') AS province, 
+                        IFNULL(a.zipcode, '') AS zipcode, 
+                        s.profile_picture,
+                        IFNULL(g.first_name, '') AS guardian_first_name,
+                        IFNULL(g.last_name,'') AS guardian_last_name, 
+                        IFNULL(g.middle_name, '') AS guardian_middle_name,
+                        IFNULL(g.contact_number, '' )AS guardian_contact, 
+                        sg.relationship
+                    FROM students s
+                    LEFT JOIN users u ON s.user_id = u.user_id
+                    LEFT JOIN contact_info c ON s.student_id = c.student_id
+                    LEFT JOIN addresses a ON s.student_id = a.student_id
+                    LEFT JOIN student_guardians sg ON s.student_id = sg.student_id
+                    LEFT JOIN parents_guardians g ON sg.guardian_id = g.guardian_id
+                    WHERE s.user_id = @UserID
+                    ORDER BY s.student_id DESC LIMIT 1";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
@@ -125,7 +135,7 @@ namespace Enrollment_System
                         {
                             if (reader.Read())
                             {
-                                TxtStudentID.Text = reader["student_id"].ToString();
+                                TxtStudentNo.Text = reader["student_no"].ToString();
                                 TxtStudentLRN.Text = reader["student_lrn"].ToString();
                                 TxtFirstName.Text = reader["first_name"].ToString();
                                 TxtMiddleName.Text = reader["middle_name"].ToString();
@@ -144,6 +154,11 @@ namespace Enrollment_System
                                 TxtCity.Text = reader["city"].ToString();
                                 TxtProvince.Text = reader["province"].ToString();
                                 TxtZipcode.Text = reader["zipcode"].ToString();
+                                TxtGuardianFirstName.Text = reader["guardian_first_name"].ToString();
+                                TxtGuardianLastName.Text = reader["guardian_last_name"].ToString();
+                                TxtGuardianMiddleName.Text = reader["guardian_middle_name"].ToString();
+                                TxtGuardianContact.Text = reader["guardian_contact"].ToString();
+                                TxtGuardianRelation.Text = reader["relationship"].ToString();
 
                                 if (reader["profile_picture"] != DBNull.Value)
                                 {
@@ -176,32 +191,44 @@ namespace Enrollment_System
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
+                    long studentId = -1;
 
-                    string checkStudentQuery = "SELECT COUNT(*) FROM students WHERE user_id = @UserID";
+                    // Check if the student exists for the logged-in user
+                    string checkStudentQuery = "SELECT student_id FROM students WHERE user_id = @UserID";
                     using (var checkCmd = new MySqlCommand(checkStudentQuery, conn))
                     {
                         checkCmd.Parameters.AddWithValue("@UserID", loggedInUserId);
-                        int studentExists = Convert.ToInt32(checkCmd.ExecuteScalar());
+                        object result = checkCmd.ExecuteScalar();
 
-                        if (studentExists == 0)
+                        if (result == null) 
                         {
+                            // Insert new student record
                             string insertStudentQuery = @"
-                    INSERT INTO students ( user_id, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
+                    INSERT INTO students (user_id, student_no, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
                     VALUES (@UserID, '', '', '', '', '2000-01-01', '', '', '', '')";
 
                             using (var insertCmd = new MySqlCommand(insertStudentQuery, conn))
                             {
                                 insertCmd.Parameters.AddWithValue("@UserID", loggedInUserId);
                                 insertCmd.ExecuteNonQuery();
+
+                                // Retrieve the last inserted student_id
+                                studentId = Convert.ToInt64(new MySqlCommand("SELECT LAST_INSERT_ID()", conn).ExecuteScalar());
                             }
+                        }
+                        else
+                        {
+                            // Student exists, get the student_id
+                            studentId = Convert.ToInt64(result);
                         }
                     }
 
+                    // Insert or Update student record
                     string studentQuery = @"
-                        INSERT INTO students (student_id, user_id, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
-                        VALUES (@StudentID, @UserID, @StudentLRN, @FirstName, @MiddleName, @LastName, @BirthDate, @Age, @Sex, @CivilStatus, @Nationality)
-                        ON DUPLICATE KEY UPDATE 
-                        student_id = VALUES(student_id), 
+                    INSERT INTO students (student_id, user_id, student_no, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
+                    VALUES (@StudentID, @UserID, @StudentNo, @StudentLRN, @FirstName, @MiddleName, @LastName, @BirthDate, @Age, @Sex, @CivilStatus, @Nationality)
+                    ON DUPLICATE KEY UPDATE 
+                        student_no = VALUES(student_no), 
                         student_lrn = VALUES(student_lrn), 
                         first_name = VALUES(first_name), 
                         middle_name = VALUES(middle_name), 
@@ -213,8 +240,9 @@ namespace Enrollment_System
                         nationality = VALUES(nationality)";
 
                     ExecuteQuery(conn, studentQuery,
-                        new MySqlParameter("@StudentID", TxtStudentID.Text),
+                        new MySqlParameter("@StudentID", studentId),
                         new MySqlParameter("@UserID", loggedInUserId),
+                        new MySqlParameter("@StudentNo", TxtStudentNo.Text),
                         new MySqlParameter("@StudentLRN", TxtStudentLRN.Text),
                         new MySqlParameter("@FirstName", TxtFirstName.Text),
                         new MySqlParameter("@MiddleName", TxtMiddleName.Text),
@@ -226,31 +254,31 @@ namespace Enrollment_System
                         new MySqlParameter("@Nationality", TxtNational.Text)
                     );
 
+                    // Insert or Update contact information
                     string contactQuery = @"
-                        INSERT INTO contact_info(user_id, phone_no)
-                        VALUES(@UserID, @PhoneNo)
+                        INSERT INTO contact_info(student_id, phone_no)
+                        VALUES(@StudentID, @PhoneNo)
                         ON DUPLICATE KEY UPDATE phone_no = @PhoneNo";
 
-
                     ExecuteQuery(conn, contactQuery,
-                        new MySqlParameter("@UserID", loggedInUserId),
+                        new MySqlParameter("@StudentID", studentId),
                         new MySqlParameter("@PhoneNo", TxtPhoneNo.Text)
                     );
 
-                    
+                    // Insert or Update address
                     string addressQuery = @"
-                        INSERT INTO addresses (user_id, block_street, subdivision, barangay, city, province, zipcode) 
-                        VALUES (@UserID, @BlockStreet, @Subdivision, @Barangay, @City, @Province, @Zipcode) 
+                        INSERT INTO addresses (student_id, block_street, subdivision, barangay, city, province, zipcode) 
+                        VALUES (@StudentID, @BlockStreet, @Subdivision, @Barangay, @City, @Province, @Zipcode) 
                         ON DUPLICATE KEY UPDATE 
-                        block_street = VALUES(block_street), 
-                        subdivision = VALUES(subdivision), 
-                        barangay = VALUES(barangay), 
-                        city = VALUES(city), 
-                        province = VALUES(province), 
-                        zipcode = VALUES(zipcode)";
+                            block_street = VALUES(block_street), 
+                            subdivision = VALUES(subdivision), 
+                            barangay = VALUES(barangay), 
+                            city = VALUES(city), 
+                            province = VALUES(province), 
+                            zipcode = VALUES(zipcode)";
 
                     ExecuteQuery(conn, addressQuery,
-                        new MySqlParameter("@UserID", loggedInUserId),
+                        new MySqlParameter("@StudentID", studentId),
                         new MySqlParameter("@BlockStreet", TxtBStreet.Text),
                         new MySqlParameter("@Subdivision", TxtSubCom.Text),
                         new MySqlParameter("@Barangay", TxtBrgy.Text),
@@ -258,6 +286,44 @@ namespace Enrollment_System
                         new MySqlParameter("@Province", TxtProvince.Text),
                         new MySqlParameter("@Zipcode", TxtZipcode.Text)
                     );
+
+                    // Insert or Update guardian information
+                    string guardianQuery = @"
+                    INSERT INTO parents_guardians (first_name, last_name, middle_name, contact_number) 
+                    VALUES (@GuardianFirstName, @GuardianLastName, @GuardianMiddleName, @GuardianContact)
+                    ON DUPLICATE KEY UPDATE 
+                        first_name = VALUES(first_name), 
+                        last_name = VALUES(last_name), 
+                        middle_name = VALUES(middle_name), 
+                        contact_number = VALUES(contact_number)";
+
+                    using (var guardianCmd = new MySqlCommand(guardianQuery, conn))
+                    {
+                        guardianCmd.Parameters.AddWithValue("@GuardianFirstName", TxtGuardianFirstName.Text);
+                        guardianCmd.Parameters.AddWithValue("@GuardianLastName", TxtGuardianLastName.Text);
+                        guardianCmd.Parameters.AddWithValue("@GuardianMiddleName", TxtGuardianMiddleName.Text);
+                        guardianCmd.Parameters.AddWithValue("@GuardianContact", TxtGuardianContact.Text);
+
+                        guardianCmd.ExecuteNonQuery();
+
+                        // Get the guardian ID of the last inserted record
+                        long guardianId = Convert.ToInt64(new MySqlCommand("SELECT LAST_INSERT_ID()", conn).ExecuteScalar());
+
+                        // Insert student-guardian relationship
+                        string studentGuardianQuery = @"
+                        INSERT INTO student_guardians (student_id, guardian_id, relationship) 
+                        VALUES (@StudentID, @GuardianID, @Relationship)
+                        ON DUPLICATE KEY UPDATE relationship = VALUES(relationship)";
+
+                        using (var studentGuardianCmd = new MySqlCommand(studentGuardianQuery, conn))
+                        {
+                            studentGuardianCmd.Parameters.AddWithValue("@StudentID", studentId);  // Use the correct studentId
+                            studentGuardianCmd.Parameters.AddWithValue("@GuardianID", guardianId);  // Use the guardianId
+                            studentGuardianCmd.Parameters.AddWithValue("@Relationship", TxtGuardianRelation.Text);
+
+                            studentGuardianCmd.ExecuteNonQuery();
+                        }
+                    }
 
                     MessageBox.Show("Information updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -275,6 +341,10 @@ namespace Enrollment_System
             SetEnabledRecursive(groupBox4, false);
             MessageBox.Show("Fields have been saved and locked. They are now unclickable.", "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+
+
+
 
         private void BtnUpload_Click(object sender, EventArgs e)
         {
@@ -413,6 +483,19 @@ namespace Enrollment_System
             {
                 ChkMale.Checked = false;
             }
+        }
+
+        private void DateBirthPicker_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime birthDate = DateBirthPicker.Value;
+            int age = DateTime.Now.Year - birthDate.Year;
+
+            if (DateTime.Now.Month < birthDate.Month || (DateTime.Now.Month == birthDate.Month && DateTime.Now.Day < birthDate.Day))
+            {
+                age--;
+            }
+
+            TxtAge.Text = age.ToString();
         }
     }
 }

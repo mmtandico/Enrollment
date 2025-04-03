@@ -15,6 +15,7 @@ namespace Enrollment_System
         public FormEnrollment()
         {
             InitializeComponent();
+            LblWelcome.Text = $"{SessionManager.LastName}, {SessionManager.FirstName[0]}.";
         }
 
         private void BtnExit_Click(object sender, EventArgs e)

@@ -37,7 +37,7 @@
             this.BtnExit = new System.Windows.Forms.Button();
             this.BtnLogout = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.LblWelcome = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel9 = new System.Windows.Forms.Panel();
@@ -192,16 +192,16 @@
             this.label1.TabIndex = 26;
             this.label1.Text = "Welcome!";
             // 
-            // label2
+            // LblWelcome
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(22, 36);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(64, 25);
-            this.label2.TabIndex = 27;
-            this.label2.Text = "Admin";
+            this.LblWelcome.AutoSize = true;
+            this.LblWelcome.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblWelcome.ForeColor = System.Drawing.Color.White;
+            this.LblWelcome.Location = new System.Drawing.Point(22, 36);
+            this.LblWelcome.Name = "LblWelcome";
+            this.LblWelcome.Size = new System.Drawing.Size(64, 25);
+            this.LblWelcome.TabIndex = 27;
+            this.LblWelcome.Text = "Admin";
             // 
             // panel3
             // 
@@ -257,7 +257,7 @@
             // panel6
             // 
             this.panel6.Controls.Add(this.label1);
-            this.panel6.Controls.Add(this.label2);
+            this.panel6.Controls.Add(this.LblWelcome);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel6.Location = new System.Drawing.Point(0, 0);
             this.panel6.Name = "panel6";
@@ -334,7 +334,7 @@
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 108);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1300, 642);
+            this.pictureBox1.Size = new System.Drawing.Size(1300, 641);
             this.pictureBox1.TabIndex = 9;
             this.pictureBox1.TabStop = false;
             // 
@@ -344,7 +344,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PapayaWhip;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1300, 750);
+            this.ClientSize = new System.Drawing.Size(1300, 749);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panel3);
@@ -380,7 +380,7 @@
         private System.Windows.Forms.Button BtnEnrollment;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button BtnLogout;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label LblWelcome;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button BtnExit;

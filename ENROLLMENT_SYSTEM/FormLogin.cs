@@ -36,7 +36,11 @@ namespace Enrollment_System
                 {
                     conn.Open();
 
-                    string query = "SELECT user_id, password_hash, role FROM Users WHERE LOWER(email) = @Email AND is_verified = TRUE";
+                    string query = "SELECT u.user_id, u.password_hash, u.role, s.first_name, s.last_name " +
+                                   "FROM Users u " +
+                                   "LEFT JOIN students s ON u.user_id = s.user_id " +
+                                   "WHERE LOWER(u.email) = @Email AND u.is_verified = TRUE";
+
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Email", email);
@@ -48,23 +52,18 @@ namespace Enrollment_System
                                 int userId = reader.GetInt32("user_id");
                                 string storedHash = reader["password_hash"].ToString();
                                 string role = reader["role"].ToString();
+                                string firstName = reader["first_name"]?.ToString() ?? "";
+                                string lastName = reader["last_name"]?.ToString() ?? "";
 
                                 if (BCrypt.Net.BCrypt.Verify(password, storedHash))
                                 {
-                                    
-                                    SessionManager.Login(userId, email, role);
+                                    // Store user details in SessionManager
+                                    SessionManager.Login(userId, email, role, firstName, lastName);
 
-                                    MessageBox.Show($"Welcome, {role}!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBox.Show($"Welcome, {firstName} {lastName}!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     this.Hide();
 
-                                    if (role == "admin")
-                                    {
-                                        new FormHome().Show();
-                                    }
-                                    else
-                                    {
-                                        new FormHome().Show();
-                                    }
+                                    new FormHome().Show();
                                 }
                                 else
                                 {
@@ -84,6 +83,7 @@ namespace Enrollment_System
                 }
             }
         }
+
 
         private void BtnReg_Click(object sender, EventArgs e)
         {

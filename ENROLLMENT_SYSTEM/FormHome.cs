@@ -16,6 +16,7 @@ namespace Enrollment_System
         {
             InitializeComponent();
             this.Text = "Welcome to Enrollment System";
+            LblWelcome.Text = $"{SessionManager.LastName}, {SessionManager.FirstName[0]}.";
         }
 
 
