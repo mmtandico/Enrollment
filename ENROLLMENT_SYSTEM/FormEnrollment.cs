@@ -15,7 +15,22 @@ namespace Enrollment_System
         public FormEnrollment()
         {
             InitializeComponent();
-            LblWelcome.Text = $"{SessionManager.LastName}, {SessionManager.FirstName[0]}.";
+            if (!string.IsNullOrEmpty(SessionManager.LastName) && !string.IsNullOrEmpty(SessionManager.FirstName))
+            {
+                LblWelcome.Text = $"{SessionManager.LastName}, {SessionManager.FirstName[0]}.";
+            }
+            else if (!string.IsNullOrEmpty(SessionManager.LastName))
+            {
+                LblWelcome.Text = $"{SessionManager.LastName}";
+            }
+            else if (!string.IsNullOrEmpty(SessionManager.FirstName))
+            {
+                LblWelcome.Text = $"{SessionManager.FirstName[0]}.";
+            }
+            else
+            {
+                LblWelcome.Text = "";
+            }
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
