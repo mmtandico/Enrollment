@@ -1,0 +1,52 @@
+CREATE TABLE students (
+    student_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT UNIQUE NOT NULL,
+    student_no VARCHAR(50) UNIQUE NOT NULL,
+    student_lrn VARCHAR(50) UNIQUE NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    middle_name VARCHAR(50),
+    last_name VARCHAR(50) NOT NULL,
+    birth_date DATE NOT NULL,
+    age INT NOT NULL,
+    sex ENUM('Male', 'Female') NOT NULL,
+    civil_status VARCHAR(20),
+    nationality VARCHAR(50),
+    profile_picture LONGBLOB,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+CREATE TABLE contact_info (
+    contact_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,
+    phone_no VARCHAR(20),
+    FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE
+);
+
+CREATE TABLE addresses (
+    address_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,
+    block_street VARCHAR(100),
+    subdivision VARCHAR(100),
+    barangay VARCHAR(100),
+    city VARCHAR(100),
+    province VARCHAR(100),
+    zipcode VARCHAR(10),
+    FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE
+);
+
+CREATE TABLE parents_guardians (
+    guardian_id INT AUTO_INCREMENT PRIMARY KEY,
+    last_name VARCHAR(50) NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    middle_name VARCHAR(50),
+    contact_number VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE student_guardians (
+    student_id INT,
+    guardian_id INT,
+    relationship VARCHAR(50) NOT NULL,
+    PRIMARY KEY (student_id, guardian_id),
+    FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE,
+    FOREIGN KEY (guardian_id) REFERENCES parents_guardians(guardian_id) ON DELETE CASCADE
+);
