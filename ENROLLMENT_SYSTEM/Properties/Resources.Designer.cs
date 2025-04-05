@@ -133,6 +133,16 @@ namespace Enrollment_System.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap AI_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("AI-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BACKBTN {
             get {
                 object obj = ResourceManager.GetObject("BACKBTN", resourceCulture);
@@ -286,6 +296,16 @@ namespace Enrollment_System.Properties {
         internal static System.Drawing.Bitmap educ {
             get {
                 object obj = ResourceManager.GetObject("educ", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GEARS_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("GEARS-removebg-preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
