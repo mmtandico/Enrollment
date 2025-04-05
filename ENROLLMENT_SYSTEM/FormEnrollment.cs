@@ -12,6 +12,9 @@ namespace Enrollment_System
 {
     public partial class FormEnrollment : Form
     {
+
+        private FormCourse mainForm;
+
         public FormEnrollment()
         {
             InitializeComponent();
@@ -31,7 +34,10 @@ namespace Enrollment_System
             {
                 LblWelcome.Text = "";
             }
+
+            
         }
+
 
         private void BtnExit_Click(object sender, EventArgs e)
         {

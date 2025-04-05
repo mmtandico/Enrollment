@@ -112,7 +112,7 @@ namespace Enrollment_System
 
         private void BtnReg_Click(object sender, EventArgs e)
         {
-            string email = TxtEmail.Text.Trim();
+            string email = TxtEmail.Text.Trim();  
             string password = TxtPass.Text.Trim();
             string otp = TxtOTP.Text.Trim();
 

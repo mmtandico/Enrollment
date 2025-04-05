@@ -12,6 +12,9 @@ namespace Enrollment_System
 {
     public partial class FormCourse : Form
     {
+
+        private FormNewAcademiccs FormNewAcads;
+
         public FormCourse()
         {
             InitializeComponent();
@@ -31,6 +34,8 @@ namespace Enrollment_System
             {
                 LblWelcome.Text = "";
             }
+
+            FormNewAcads = new FormNewAcademiccs();
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
@@ -92,6 +97,10 @@ namespace Enrollment_System
             panel8.Controls.Add(f);
             f.BringToFront();
             f.Show();
+
+            string message = "Bachelor of Science in Information Tecnology"; // Or any dynamic text
+            FormNewAcads.SetText(message);      // Send text to Form2's TextBox
+            FormNewAcads.Show();
         }
 
         private void BtnLMCS_Click(object sender, EventArgs e)
@@ -101,6 +110,9 @@ namespace Enrollment_System
             panel8.Controls.Add(f);
             f.BringToFront();
             f.Show();
+
+            new CourseViewBSCS().Show();
+            
         }
 
         private void BtnLMTM_Click(object sender, EventArgs e)
@@ -110,6 +122,10 @@ namespace Enrollment_System
             panel8.Controls.Add(f);
             f.BringToFront();
             f.Show();
+
+            string message = "Bachelor of Science in Tourism Management"; // Or any dynamic text
+            FormNewAcads.SetText(message);      // Send text to Form2's TextBox
+            FormNewAcads.Show();
         }
 
         private void BtnLMOAD_Click(object sender, EventArgs e)
@@ -119,6 +135,10 @@ namespace Enrollment_System
             panel8.Controls.Add(f);
             f.BringToFront();
             f.Show();
+
+            string message = "Bachelor of Science in Office Administration"; // Or any dynamic text
+            FormNewAcads.SetText(message);      // Send text to Form2's TextBox
+            FormNewAcads.Show();
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -133,6 +153,10 @@ namespace Enrollment_System
             panel8.Controls.Add(f);
             f.BringToFront();
             f.Show();
+
+            string message = "Bachelor of Science in Hospitality Management"; // Or any dynamic text
+            FormNewAcads.SetText(message);      // Send text to Form2's TextBox
+            FormNewAcads.Show();
         }
 
         private void BtnLMLED_Click(object sender, EventArgs e)
@@ -142,6 +166,10 @@ namespace Enrollment_System
             panel8.Controls.Add(f);
             f.BringToFront();
             f.Show();
+
+            string message = "Bachelor of Tecnology and Livelihood Education"; // Or any dynamic text
+            FormNewAcads.SetText(message);      // Send text to Form2's TextBox
+            FormNewAcads.Show();
         }
 
         private void BtnCED_Click(object sender, EventArgs e)
@@ -151,6 +179,10 @@ namespace Enrollment_System
             panel8.Controls.Add(f);
             f.BringToFront();
             f.Show();
+
+            string message = "Bachelor of Early Chilhoof Education"; // Or any dynamic text
+            FormNewAcads.SetText(message);      // Send text to Form2's TextBox
+            FormNewAcads.Show();
         }
     }
 }

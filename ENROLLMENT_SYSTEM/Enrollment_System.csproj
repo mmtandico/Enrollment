@@ -127,6 +127,12 @@
     <Compile Include="CourseBSTM.Designer.cs">
       <DependentUpon>CourseBSTM.cs</DependentUpon>
     </Compile>
+    <Compile Include="CourseViewBSCS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CourseViewBSCS.Designer.cs">
+      <DependentUpon>CourseViewBSCS.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormDatabaseInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -197,6 +203,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CourseBTLED.resx">
       <DependentUpon>CourseBTLED.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CourseViewBSCS.resx">
+      <DependentUpon>CourseViewBSCS.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormCourse.resx">
       <DependentUpon>FormCourse.cs</DependentUpon>
@@ -345,6 +354,36 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\61.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BGCOLOR1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BACKBTN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lobbyBG-removebg-preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lobbyBG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Lobby.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\complab1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\complab2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\complab3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\complab4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PDM.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

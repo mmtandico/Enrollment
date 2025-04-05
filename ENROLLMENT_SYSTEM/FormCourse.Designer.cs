@@ -87,7 +87,6 @@
             this.panel19 = new System.Windows.Forms.Panel();
             this.BtnLMTM = new System.Windows.Forms.Button();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -120,7 +119,6 @@
             this.panel13.SuspendLayout();
             this.panel19.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel5
@@ -336,6 +334,8 @@
             // 
             // panel2
             // 
+            this.panel2.BackgroundImage = global::Enrollment_System.Properties.Resources.COLORPDMBACKGROUND;
+            this.panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panel2.Controls.Add(this.panel25);
             this.panel2.Controls.Add(this.panel14);
             this.panel2.Controls.Add(this.panel11);
@@ -344,7 +344,6 @@
             this.panel2.Controls.Add(this.panel12);
             this.panel2.Controls.Add(this.panel23);
             this.panel2.Controls.Add(this.panel13);
-            this.panel2.Controls.Add(this.pictureBox1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 108);
             this.panel2.Name = "panel2";
@@ -757,9 +756,9 @@
             this.label8.ForeColor = System.Drawing.Color.Transparent;
             this.label8.Location = new System.Drawing.Point(47, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(114, 45);
+            this.label8.Size = new System.Drawing.Size(116, 45);
             this.label8.TabIndex = 31;
-            this.label8.Text = "BTOAD";
+            this.label8.Text = "BSOAD";
             // 
             // panel23
             // 
@@ -895,19 +894,6 @@
             this.pictureBox5.TabIndex = 2;
             this.pictureBox5.TabStop = false;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.pictureBox1.BackgroundImage = global::Enrollment_System.Properties.Resources.COLORPDMBACKGROUND11;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1300, 642);
-            this.pictureBox1.TabIndex = 6;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
             // FormCourse
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -919,7 +905,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormCourse";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormCourse";
+            this.Text = "a";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panel5.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
@@ -963,7 +949,6 @@
             this.panel13.PerformLayout();
             this.panel19.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -994,7 +979,6 @@
         private System.Windows.Forms.Panel panel16;
         private System.Windows.Forms.Panel panel20;
         private System.Windows.Forms.Panel panel17;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox5;

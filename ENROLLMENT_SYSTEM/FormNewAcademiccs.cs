@@ -12,6 +12,12 @@ namespace Enrollment_System
 {
     public partial class FormNewAcademiccs : Form
     {
+        public string CourseText
+        {
+            get { return TxtCourse.Text; }
+            set { TxtCourse.Text = value; } // Update TxtCourse with the passed value
+        }
+
         public FormNewAcademiccs()
         {
             InitializeComponent();
@@ -52,6 +58,26 @@ namespace Enrollment_System
                     //SaveProfilePicture(imageBytes);
                 }
             }
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FormNewAcademiccs_Load(object sender, EventArgs e)
+        {
+            
+        }
+
+        public void SetText(string message)
+        {
+            TxtCourse.Text = message;
+        }
+
+        private void TxtCourse_TextChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }
