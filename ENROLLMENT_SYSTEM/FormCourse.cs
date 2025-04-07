@@ -14,7 +14,7 @@ namespace Enrollment_System
     {
 
         private FormNewAcademiccs FormNewAcads;
-
+        
         public FormCourse()
         {
             InitializeComponent();

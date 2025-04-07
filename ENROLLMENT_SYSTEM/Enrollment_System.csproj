@@ -391,6 +391,12 @@
   <ItemGroup>
     <None Include="Resources\GEARS-removebg-preview.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\COLORBGHOME.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SECURITY-removebg-preview.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

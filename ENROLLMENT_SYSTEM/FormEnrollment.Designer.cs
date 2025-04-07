@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel5 = new System.Windows.Forms.Panel();
             this.BtnExit = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -114,18 +114,19 @@
             // 
             this.panel4.Controls.Add(this.BtnLogout);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel4.Location = new System.Drawing.Point(1205, 0);
+            this.panel4.Location = new System.Drawing.Point(1140, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(95, 72);
+            this.panel4.Size = new System.Drawing.Size(160, 72);
             this.panel4.TabIndex = 28;
             // 
             // BtnLogout
             // 
+            this.BtnLogout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnLogout.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.BtnLogout.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnLogout.ForeColor = System.Drawing.Color.White;
-            this.BtnLogout.Location = new System.Drawing.Point(10, 24);
+            this.BtnLogout.Location = new System.Drawing.Point(70, 25);
             this.BtnLogout.Name = "BtnLogout";
             this.BtnLogout.Size = new System.Drawing.Size(79, 22);
             this.BtnLogout.TabIndex = 5;
@@ -171,7 +172,7 @@
             this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel7.Location = new System.Drawing.Point(204, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(1001, 72);
+            this.panel7.Size = new System.Drawing.Size(936, 72);
             this.panel7.TabIndex = 30;
             // 
             // panel9
@@ -184,11 +185,12 @@
             this.panel9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel9.Location = new System.Drawing.Point(0, 0);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(1001, 72);
+            this.panel9.Size = new System.Drawing.Size(936, 72);
             this.panel9.TabIndex = 0;
             // 
             // BtnDataBase
             // 
+            this.BtnDataBase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnDataBase.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnDataBase.FlatAppearance.BorderSize = 0;
             this.BtnDataBase.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -196,7 +198,7 @@
             this.BtnDataBase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnDataBase.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnDataBase.ForeColor = System.Drawing.Color.White;
-            this.BtnDataBase.Location = new System.Drawing.Point(815, 17);
+            this.BtnDataBase.Location = new System.Drawing.Point(789, 18);
             this.BtnDataBase.Name = "BtnDataBase";
             this.BtnDataBase.Size = new System.Drawing.Size(141, 37);
             this.BtnDataBase.TabIndex = 29;
@@ -206,6 +208,7 @@
             // 
             // BtnCourses
             // 
+            this.BtnCourses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnCourses.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnCourses.FlatAppearance.BorderSize = 0;
             this.BtnCourses.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -213,7 +216,7 @@
             this.BtnCourses.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnCourses.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnCourses.ForeColor = System.Drawing.Color.White;
-            this.BtnCourses.Location = new System.Drawing.Point(391, 17);
+            this.BtnCourses.Location = new System.Drawing.Point(365, 18);
             this.BtnCourses.Name = "BtnCourses";
             this.BtnCourses.Size = new System.Drawing.Size(84, 37);
             this.BtnCourses.TabIndex = 3;
@@ -223,6 +226,7 @@
             // 
             // BtnEnrollment
             // 
+            this.BtnEnrollment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnEnrollment.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnEnrollment.FlatAppearance.BorderSize = 0;
             this.BtnEnrollment.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -230,7 +234,7 @@
             this.BtnEnrollment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnEnrollment.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnEnrollment.ForeColor = System.Drawing.Color.White;
-            this.BtnEnrollment.Location = new System.Drawing.Point(506, 17);
+            this.BtnEnrollment.Location = new System.Drawing.Point(480, 18);
             this.BtnEnrollment.Name = "BtnEnrollment";
             this.BtnEnrollment.Size = new System.Drawing.Size(92, 37);
             this.BtnEnrollment.TabIndex = 4;
@@ -239,6 +243,7 @@
             // 
             // BtnHome
             // 
+            this.BtnHome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnHome.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BtnHome.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnHome.FlatAppearance.BorderSize = 0;
@@ -247,7 +252,7 @@
             this.BtnHome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnHome.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnHome.ForeColor = System.Drawing.Color.White;
-            this.BtnHome.Location = new System.Drawing.Point(282, 17);
+            this.BtnHome.Location = new System.Drawing.Point(256, 18);
             this.BtnHome.Name = "BtnHome";
             this.BtnHome.Size = new System.Drawing.Size(85, 37);
             this.BtnHome.TabIndex = 1;
@@ -257,6 +262,7 @@
             // 
             // BtnPI
             // 
+            this.BtnPI.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnPI.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnPI.FlatAppearance.BorderSize = 0;
             this.BtnPI.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -264,7 +270,7 @@
             this.BtnPI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnPI.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnPI.ForeColor = System.Drawing.Color.White;
-            this.BtnPI.Location = new System.Drawing.Point(637, 17);
+            this.BtnPI.Location = new System.Drawing.Point(611, 18);
             this.BtnPI.Name = "BtnPI";
             this.BtnPI.Size = new System.Drawing.Size(141, 37);
             this.BtnPI.TabIndex = 2;
@@ -315,14 +321,14 @@
             this.DataAYr.BackgroundColor = System.Drawing.Color.White;
             this.DataAYr.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.DataAYr.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DataAYr.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataAYr.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.DataAYr.ColumnHeadersHeight = 35;
             this.DataAYr.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.DataAYr.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -330,14 +336,14 @@
             this.Column2,
             this.ColOpen,
             this.ColClose});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataAYr.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataAYr.DefaultCellStyle = dataGridViewCellStyle6;
             this.DataAYr.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DataAYr.EnableHeadersVisualStyles = false;
             this.DataAYr.GridColor = System.Drawing.SystemColors.Control;

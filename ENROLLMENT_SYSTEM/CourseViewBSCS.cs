@@ -13,7 +13,7 @@ namespace Enrollment_System
     public partial class CourseViewBSCS : Form
     {
         private FormNewAcademiccs FormNewAcads;
-
+        public Panel panel8;
 
         public CourseViewBSCS()
         {
@@ -31,23 +31,8 @@ namespace Enrollment_System
         private void BtnEnroll_Click(object sender, EventArgs e)
         {
 
-            FormEnrollment FormEnroll = new FormEnrollment();
-            FormEnroll.Show();
-
-            string textToSend = "Bachelor of Science in Computer Science"; 
-
-            
-            FormNewAcademiccs formNewAcademiccs = new FormNewAcademiccs();
-
-            
-            formNewAcademiccs.CourseText = textToSend;
-
-            
-            formNewAcademiccs.Show();
-
-            this.Close();
-
-            FormCourse formcouse = new FormCourse();
+          
+ 
 
         }
 

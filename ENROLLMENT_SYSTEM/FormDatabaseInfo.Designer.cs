@@ -34,6 +34,7 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.BtnLogout = new System.Windows.Forms.Button();
             this.panel9 = new System.Windows.Forms.Panel();
+            this.BtnDataBase = new System.Windows.Forms.Button();
             this.BtnCourses = new System.Windows.Forms.Button();
             this.BtnEnrollment = new System.Windows.Forms.Button();
             this.BtnHome = new System.Windows.Forms.Button();
@@ -44,7 +45,6 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
-            this.BtnDataBase = new System.Windows.Forms.Button();
             this.panel6.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -90,18 +90,19 @@
             // 
             this.panel4.Controls.Add(this.BtnLogout);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel4.Location = new System.Drawing.Point(1205, 0);
+            this.panel4.Location = new System.Drawing.Point(1140, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(95, 72);
+            this.panel4.Size = new System.Drawing.Size(160, 72);
             this.panel4.TabIndex = 28;
             // 
             // BtnLogout
             // 
+            this.BtnLogout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnLogout.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.BtnLogout.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnLogout.ForeColor = System.Drawing.Color.White;
-            this.BtnLogout.Location = new System.Drawing.Point(10, 24);
+            this.BtnLogout.Location = new System.Drawing.Point(70, 25);
             this.BtnLogout.Name = "BtnLogout";
             this.BtnLogout.Size = new System.Drawing.Size(79, 22);
             this.BtnLogout.TabIndex = 5;
@@ -119,11 +120,29 @@
             this.panel9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel9.Location = new System.Drawing.Point(0, 0);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(1001, 72);
+            this.panel9.Size = new System.Drawing.Size(936, 72);
             this.panel9.TabIndex = 0;
+            // 
+            // BtnDataBase
+            // 
+            this.BtnDataBase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnDataBase.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnDataBase.FlatAppearance.BorderSize = 0;
+            this.BtnDataBase.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnDataBase.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnDataBase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnDataBase.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnDataBase.ForeColor = System.Drawing.Color.White;
+            this.BtnDataBase.Location = new System.Drawing.Point(795, 17);
+            this.BtnDataBase.Name = "BtnDataBase";
+            this.BtnDataBase.Size = new System.Drawing.Size(141, 37);
+            this.BtnDataBase.TabIndex = 7;
+            this.BtnDataBase.Text = "DATABASE INFORMATION";
+            this.BtnDataBase.UseVisualStyleBackColor = true;
             // 
             // BtnCourses
             // 
+            this.BtnCourses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnCourses.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnCourses.FlatAppearance.BorderSize = 0;
             this.BtnCourses.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -131,7 +150,7 @@
             this.BtnCourses.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnCourses.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnCourses.ForeColor = System.Drawing.Color.White;
-            this.BtnCourses.Location = new System.Drawing.Point(391, 17);
+            this.BtnCourses.Location = new System.Drawing.Point(371, 17);
             this.BtnCourses.Name = "BtnCourses";
             this.BtnCourses.Size = new System.Drawing.Size(84, 37);
             this.BtnCourses.TabIndex = 3;
@@ -141,6 +160,7 @@
             // 
             // BtnEnrollment
             // 
+            this.BtnEnrollment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnEnrollment.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnEnrollment.FlatAppearance.BorderSize = 0;
             this.BtnEnrollment.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -148,7 +168,7 @@
             this.BtnEnrollment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnEnrollment.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnEnrollment.ForeColor = System.Drawing.Color.White;
-            this.BtnEnrollment.Location = new System.Drawing.Point(506, 17);
+            this.BtnEnrollment.Location = new System.Drawing.Point(486, 17);
             this.BtnEnrollment.Name = "BtnEnrollment";
             this.BtnEnrollment.Size = new System.Drawing.Size(92, 37);
             this.BtnEnrollment.TabIndex = 4;
@@ -158,6 +178,7 @@
             // 
             // BtnHome
             // 
+            this.BtnHome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnHome.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BtnHome.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnHome.FlatAppearance.BorderSize = 0;
@@ -166,7 +187,7 @@
             this.BtnHome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnHome.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnHome.ForeColor = System.Drawing.Color.White;
-            this.BtnHome.Location = new System.Drawing.Point(282, 17);
+            this.BtnHome.Location = new System.Drawing.Point(262, 17);
             this.BtnHome.Name = "BtnHome";
             this.BtnHome.Size = new System.Drawing.Size(85, 37);
             this.BtnHome.TabIndex = 1;
@@ -176,6 +197,7 @@
             // 
             // BtnPI
             // 
+            this.BtnPI.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnPI.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnPI.FlatAppearance.BorderSize = 0;
             this.BtnPI.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -183,7 +205,7 @@
             this.BtnPI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnPI.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnPI.ForeColor = System.Drawing.Color.White;
-            this.BtnPI.Location = new System.Drawing.Point(637, 17);
+            this.BtnPI.Location = new System.Drawing.Point(617, 17);
             this.BtnPI.Name = "BtnPI";
             this.BtnPI.Size = new System.Drawing.Size(141, 37);
             this.BtnPI.TabIndex = 2;
@@ -197,7 +219,7 @@
             this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel7.Location = new System.Drawing.Point(204, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(1001, 72);
+            this.panel7.Size = new System.Drawing.Size(936, 72);
             this.panel7.TabIndex = 30;
             // 
             // panel3
@@ -254,27 +276,11 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(515, 406);
+            this.label3.Location = new System.Drawing.Point(532, 134);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(340, 33);
             this.label3.TabIndex = 32;
             this.label3.Text = "DATABASE INFORMATION FORM";
-            // 
-            // BtnDataBase
-            // 
-            this.BtnDataBase.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnDataBase.FlatAppearance.BorderSize = 0;
-            this.BtnDataBase.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnDataBase.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnDataBase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnDataBase.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnDataBase.ForeColor = System.Drawing.Color.White;
-            this.BtnDataBase.Location = new System.Drawing.Point(815, 17);
-            this.BtnDataBase.Name = "BtnDataBase";
-            this.BtnDataBase.Size = new System.Drawing.Size(141, 37);
-            this.BtnDataBase.TabIndex = 7;
-            this.BtnDataBase.Text = "DATABASE INFORMATION";
-            this.BtnDataBase.UseVisualStyleBackColor = true;
             // 
             // FormDatabaseInfo
             // 
@@ -287,7 +293,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormDatabaseInfo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormDatabaseInfo";
+            this.Text = "`";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();

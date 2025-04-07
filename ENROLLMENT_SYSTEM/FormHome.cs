@@ -55,26 +55,31 @@ namespace Enrollment_System
 
         private void BtnCourses_Click(object sender, EventArgs e)
         {
-            this.Close();
             new FormCourse().Show();
+            this.Close();
         }
 
         private void BtnEnrollment_Click(object sender, EventArgs e)
         {
-            this.Close();
             new FormEnrollment().Show();
+            this.Close();
         }
 
         private void BtnPI_Click(object sender, EventArgs e)
         {
-            this.Close();
             new FormPersonalInfo().Show();
+            this.Close();
         }
 
         private void BtnDataBase_Click(object sender, EventArgs e)
         {
-            this.Close();
             new FormDatabaseInfo().Show();
+            this.Close();
+        }
+
+        private void BtnHome_Click(object sender, EventArgs e)
+        {    
+            
         }
     }
 }

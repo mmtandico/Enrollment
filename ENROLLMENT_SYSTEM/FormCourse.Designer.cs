@@ -162,18 +162,19 @@
             // 
             this.panel4.Controls.Add(this.BtnLogout);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel4.Location = new System.Drawing.Point(1205, 0);
+            this.panel4.Location = new System.Drawing.Point(1140, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(95, 72);
+            this.panel4.Size = new System.Drawing.Size(160, 72);
             this.panel4.TabIndex = 28;
             // 
             // BtnLogout
             // 
+            this.BtnLogout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnLogout.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.BtnLogout.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnLogout.ForeColor = System.Drawing.Color.White;
-            this.BtnLogout.Location = new System.Drawing.Point(10, 24);
+            this.BtnLogout.Location = new System.Drawing.Point(70, 25);
             this.BtnLogout.Name = "BtnLogout";
             this.BtnLogout.Size = new System.Drawing.Size(79, 22);
             this.BtnLogout.TabIndex = 5;
@@ -219,7 +220,7 @@
             this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel7.Location = new System.Drawing.Point(204, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(1001, 72);
+            this.panel7.Size = new System.Drawing.Size(936, 72);
             this.panel7.TabIndex = 30;
             // 
             // panel9
@@ -232,11 +233,12 @@
             this.panel9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel9.Location = new System.Drawing.Point(0, 0);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(1001, 72);
+            this.panel9.Size = new System.Drawing.Size(936, 72);
             this.panel9.TabIndex = 0;
             // 
             // BtnDataBase
             // 
+            this.BtnDataBase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnDataBase.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnDataBase.FlatAppearance.BorderSize = 0;
             this.BtnDataBase.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -244,7 +246,7 @@
             this.BtnDataBase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnDataBase.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnDataBase.ForeColor = System.Drawing.Color.White;
-            this.BtnDataBase.Location = new System.Drawing.Point(815, 17);
+            this.BtnDataBase.Location = new System.Drawing.Point(774, 18);
             this.BtnDataBase.Name = "BtnDataBase";
             this.BtnDataBase.Size = new System.Drawing.Size(141, 37);
             this.BtnDataBase.TabIndex = 28;
@@ -254,6 +256,7 @@
             // 
             // BtnCourses
             // 
+            this.BtnCourses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnCourses.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnCourses.FlatAppearance.BorderSize = 0;
             this.BtnCourses.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -261,7 +264,7 @@
             this.BtnCourses.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnCourses.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnCourses.ForeColor = System.Drawing.Color.White;
-            this.BtnCourses.Location = new System.Drawing.Point(391, 17);
+            this.BtnCourses.Location = new System.Drawing.Point(350, 18);
             this.BtnCourses.Name = "BtnCourses";
             this.BtnCourses.Size = new System.Drawing.Size(84, 37);
             this.BtnCourses.TabIndex = 3;
@@ -270,6 +273,7 @@
             // 
             // BtnEnrollment
             // 
+            this.BtnEnrollment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnEnrollment.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnEnrollment.FlatAppearance.BorderSize = 0;
             this.BtnEnrollment.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -277,7 +281,7 @@
             this.BtnEnrollment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnEnrollment.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnEnrollment.ForeColor = System.Drawing.Color.White;
-            this.BtnEnrollment.Location = new System.Drawing.Point(506, 17);
+            this.BtnEnrollment.Location = new System.Drawing.Point(465, 18);
             this.BtnEnrollment.Name = "BtnEnrollment";
             this.BtnEnrollment.Size = new System.Drawing.Size(92, 37);
             this.BtnEnrollment.TabIndex = 4;
@@ -287,6 +291,7 @@
             // 
             // BtnHome
             // 
+            this.BtnHome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnHome.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BtnHome.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnHome.FlatAppearance.BorderSize = 0;
@@ -295,7 +300,7 @@
             this.BtnHome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnHome.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnHome.ForeColor = System.Drawing.Color.White;
-            this.BtnHome.Location = new System.Drawing.Point(282, 17);
+            this.BtnHome.Location = new System.Drawing.Point(241, 18);
             this.BtnHome.Name = "BtnHome";
             this.BtnHome.Size = new System.Drawing.Size(85, 37);
             this.BtnHome.TabIndex = 1;
@@ -305,6 +310,7 @@
             // 
             // BtnPI
             // 
+            this.BtnPI.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnPI.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnPI.FlatAppearance.BorderSize = 0;
             this.BtnPI.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -312,7 +318,7 @@
             this.BtnPI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnPI.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnPI.ForeColor = System.Drawing.Color.White;
-            this.BtnPI.Location = new System.Drawing.Point(637, 17);
+            this.BtnPI.Location = new System.Drawing.Point(596, 18);
             this.BtnPI.Name = "BtnPI";
             this.BtnPI.Size = new System.Drawing.Size(141, 37);
             this.BtnPI.TabIndex = 2;
@@ -357,7 +363,7 @@
             this.panel25.BackgroundImage = global::Enrollment_System.Properties.Resources.BACKGROUNDCOLOR;
             this.panel25.Controls.Add(this.panel8);
             this.panel25.Controls.Add(this.label12);
-            this.panel25.Location = new System.Drawing.Point(37, 57);
+            this.panel25.Location = new System.Drawing.Point(39, 99);
             this.panel25.Name = "panel25";
             this.panel25.Size = new System.Drawing.Size(1230, 295);
             this.panel25.TabIndex = 30;
@@ -434,7 +440,7 @@
             this.panel14.Controls.Add(this.panel22);
             this.panel14.Controls.Add(this.pictureBox9);
             this.panel14.Controls.Add(this.label11);
-            this.panel14.Location = new System.Drawing.Point(1115, 404);
+            this.panel14.Location = new System.Drawing.Point(1117, 446);
             this.panel14.Name = "panel14";
             this.panel14.Size = new System.Drawing.Size(152, 189);
             this.panel14.TabIndex = 3;
@@ -501,7 +507,7 @@
             this.panel11.Controls.Add(this.panel17);
             this.panel11.Controls.Add(this.pictureBox2);
             this.panel11.Controls.Add(this.label6);
-            this.panel11.Location = new System.Drawing.Point(37, 404);
+            this.panel11.Location = new System.Drawing.Point(39, 446);
             this.panel11.Name = "panel11";
             this.panel11.Size = new System.Drawing.Size(152, 189);
             this.panel11.TabIndex = 1;
@@ -568,7 +574,7 @@
             this.panel16.Controls.Add(this.label5);
             this.panel16.Controls.Add(this.panel20);
             this.panel16.Controls.Add(this.pictureBox6);
-            this.panel16.Location = new System.Drawing.Point(207, 404);
+            this.panel16.Location = new System.Drawing.Point(209, 446);
             this.panel16.Name = "panel16";
             this.panel16.Size = new System.Drawing.Size(152, 189);
             this.panel16.TabIndex = 3;
@@ -635,7 +641,7 @@
             this.panel15.Controls.Add(this.LED);
             this.panel15.Controls.Add(this.pictureBox8);
             this.panel15.Controls.Add(this.label10);
-            this.panel15.Location = new System.Drawing.Point(936, 404);
+            this.panel15.Location = new System.Drawing.Point(938, 446);
             this.panel15.Name = "panel15";
             this.panel15.Size = new System.Drawing.Size(152, 189);
             this.panel15.TabIndex = 3;
@@ -702,7 +708,7 @@
             this.panel12.Controls.Add(this.panel18);
             this.panel12.Controls.Add(this.pictureBox3);
             this.panel12.Controls.Add(this.label8);
-            this.panel12.Location = new System.Drawing.Point(577, 404);
+            this.panel12.Location = new System.Drawing.Point(579, 446);
             this.panel12.Name = "panel12";
             this.panel12.Size = new System.Drawing.Size(152, 189);
             this.panel12.TabIndex = 2;
@@ -769,7 +775,7 @@
             this.panel23.Controls.Add(this.label9);
             this.panel23.Controls.Add(this.panel24);
             this.panel23.Controls.Add(this.pictureBox7);
-            this.panel23.Location = new System.Drawing.Point(755, 404);
+            this.panel23.Location = new System.Drawing.Point(757, 446);
             this.panel23.Name = "panel23";
             this.panel23.Size = new System.Drawing.Size(152, 189);
             this.panel23.TabIndex = 3;
@@ -836,7 +842,7 @@
             this.panel13.Controls.Add(this.label7);
             this.panel13.Controls.Add(this.panel19);
             this.panel13.Controls.Add(this.pictureBox5);
-            this.panel13.Location = new System.Drawing.Point(384, 404);
+            this.panel13.Location = new System.Drawing.Point(386, 446);
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(152, 189);
             this.panel13.TabIndex = 2;
