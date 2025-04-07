@@ -403,6 +403,16 @@ namespace Enrollment_System.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap IT {
+            get {
+                object obj = ResourceManager.GetObject("IT", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap lite {
             get {
                 object obj = ResourceManager.GetObject("lite", resourceCulture);
@@ -546,6 +556,16 @@ namespace Enrollment_System.Properties {
         internal static System.Drawing.Bitmap SECURITY_removebg_preview {
             get {
                 object obj = ResourceManager.GetObject("SECURITY-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tm {
+            get {
+                object obj = ResourceManager.GetObject("tm", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

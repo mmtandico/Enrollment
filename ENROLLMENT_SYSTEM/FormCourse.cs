@@ -97,36 +97,21 @@ namespace Enrollment_System
 
         private void BtnLMIT_Click(object sender, EventArgs e)
         {
-            CourseBSIT f = new CourseBSIT();
-            f.TopLevel = false;
-            panel8.Controls.Add(f);
-            f.BringToFront();
-            f.Show();
-
-            string message = "Bachelor of Science in Information Tecnology"; // Or any dynamic text
-            FormNewAcads.SetText(message);      // Send text to Form2's TextBox
-            FormNewAcads.Show();
+            CourseViewBSIT viewForm = new CourseViewBSIT(this); 
+            viewForm.Show();
         }
 
         private void BtnLMCS_Click(object sender, EventArgs e)
         {
-            CourseViewBSCS viewForm = new CourseViewBSCS(this); // Pass reference
-            viewForm.Show(); // Just open as a normal window
-            //new CourseViewBSCS().Show();
+            CourseViewBSCS viewForm = new CourseViewBSCS(this); 
+            viewForm.Show(); 
 
         }
 
         private void BtnLMTM_Click(object sender, EventArgs e)
         {
-            CourseBSTM f = new CourseBSTM();
-            f.TopLevel = false;
-            panel8.Controls.Add(f);
-            f.BringToFront();
-            f.Show();
-
-            string message = "Bachelor of Science in Tourism Management"; // Or any dynamic text
-            FormNewAcads.SetText(message);      // Send text to Form2's TextBox
-            FormNewAcads.Show();
+            CourseViewBSTM viewForm = new CourseViewBSTM(this);
+            viewForm.Show();
         }
 
         private void BtnLMOAD_Click(object sender, EventArgs e)
