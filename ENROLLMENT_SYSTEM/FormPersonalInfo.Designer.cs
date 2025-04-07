@@ -33,6 +33,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel10 = new System.Windows.Forms.Panel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.BtnUpload = new System.Windows.Forms.Button();
             this.BtnEdit = new System.Windows.Forms.Button();
             this.BtnSave = new System.Windows.Forms.Button();
@@ -48,6 +49,7 @@
             this.label28 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.TxtGuardianFirstName = new System.Windows.Forms.TextBox();
+            this.panel12 = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label20 = new System.Windows.Forms.Label();
@@ -92,42 +94,40 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.TxtFirstName = new System.Windows.Forms.TextBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.panel12 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.BtnDataBase = new System.Windows.Forms.Button();
+            this.BtnCourses = new System.Windows.Forms.Button();
+            this.BtnEnrollment = new System.Windows.Forms.Button();
+            this.BtnHome = new System.Windows.Forms.Button();
+            this.BtnPI = new System.Windows.Forms.Button();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.LblWelcome = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.BtnLogout = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.BtnExit = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.LblWelcome = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.BtnLogout = new System.Windows.Forms.Button();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.BtnPI = new System.Windows.Forms.Button();
-            this.BtnHome = new System.Windows.Forms.Button();
-            this.BtnEnrollment = new System.Windows.Forms.Button();
-            this.BtnCourses = new System.Windows.Forms.Button();
-            this.BtnDataBase = new System.Windows.Forms.Button();
-            this.panel9 = new System.Windows.Forms.Panel();
             this.panel2.SuspendLayout();
             this.panel10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel3.SuspendLayout();
             this.panel7.SuspendLayout();
-            this.panel5.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.panel9.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel4.SuspendLayout();
-            this.panel9.SuspendLayout();
+            this.panel5.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -166,6 +166,17 @@
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(249, 386);
             this.panel10.TabIndex = 29;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox2.Location = new System.Drawing.Point(21, 10);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(207, 193);
+            this.pictureBox2.TabIndex = 1;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // BtnUpload
             // 
@@ -356,6 +367,17 @@
             this.TxtGuardianFirstName.Name = "TxtGuardianFirstName";
             this.TxtGuardianFirstName.Size = new System.Drawing.Size(235, 33);
             this.TxtGuardianFirstName.TabIndex = 18;
+            // 
+            // panel12
+            // 
+            this.panel12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(44)))), ((int)(((byte)(26)))));
+            this.panel12.BackgroundImage = global::Enrollment_System.Properties.Resources.BACKGROUNDCOLOR;
+            this.panel12.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel12.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel12.Location = new System.Drawing.Point(0, 1259);
+            this.panel12.Name = "panel12";
+            this.panel12.Size = new System.Drawing.Size(1262, 112);
+            this.panel12.TabIndex = 1;
             // 
             // label9
             // 
@@ -878,27 +900,6 @@
             this.TxtFirstName.Size = new System.Drawing.Size(226, 33);
             this.TxtFirstName.TabIndex = 8;
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox2.Location = new System.Drawing.Point(21, 10);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(207, 193);
-            this.pictureBox2.TabIndex = 1;
-            this.pictureBox2.TabStop = false;
-            // 
-            // panel12
-            // 
-            this.panel12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(44)))), ((int)(((byte)(26)))));
-            this.panel12.BackgroundImage = global::Enrollment_System.Properties.Resources.BACKGROUNDCOLOR;
-            this.panel12.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel12.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel12.Location = new System.Drawing.Point(0, 1259);
-            this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(1262, 112);
-            this.panel12.TabIndex = 1;
-            // 
             // panel8
             // 
             this.panel8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(44)))), ((int)(((byte)(26)))));
@@ -942,6 +943,165 @@
             this.panel7.Size = new System.Drawing.Size(936, 72);
             this.panel7.TabIndex = 30;
             // 
+            // panel9
+            // 
+            this.panel9.Controls.Add(this.BtnDataBase);
+            this.panel9.Controls.Add(this.BtnCourses);
+            this.panel9.Controls.Add(this.BtnEnrollment);
+            this.panel9.Controls.Add(this.BtnHome);
+            this.panel9.Controls.Add(this.BtnPI);
+            this.panel9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel9.Location = new System.Drawing.Point(0, 0);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(936, 72);
+            this.panel9.TabIndex = 0;
+            // 
+            // BtnDataBase
+            // 
+            this.BtnDataBase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnDataBase.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnDataBase.FlatAppearance.BorderSize = 0;
+            this.BtnDataBase.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnDataBase.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnDataBase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnDataBase.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnDataBase.ForeColor = System.Drawing.Color.White;
+            this.BtnDataBase.Location = new System.Drawing.Point(789, 18);
+            this.BtnDataBase.Name = "BtnDataBase";
+            this.BtnDataBase.Size = new System.Drawing.Size(141, 37);
+            this.BtnDataBase.TabIndex = 4;
+            this.BtnDataBase.Text = "DATABASE INFORMATION";
+            this.BtnDataBase.UseVisualStyleBackColor = true;
+            this.BtnDataBase.Click += new System.EventHandler(this.BtnDataBase_Click);
+            // 
+            // BtnCourses
+            // 
+            this.BtnCourses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnCourses.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnCourses.FlatAppearance.BorderSize = 0;
+            this.BtnCourses.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnCourses.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnCourses.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnCourses.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnCourses.ForeColor = System.Drawing.Color.White;
+            this.BtnCourses.Location = new System.Drawing.Point(365, 18);
+            this.BtnCourses.Name = "BtnCourses";
+            this.BtnCourses.Size = new System.Drawing.Size(84, 37);
+            this.BtnCourses.TabIndex = 1;
+            this.BtnCourses.Text = "COURSES";
+            this.BtnCourses.UseVisualStyleBackColor = true;
+            this.BtnCourses.Click += new System.EventHandler(this.BtnCourses_Click);
+            // 
+            // BtnEnrollment
+            // 
+            this.BtnEnrollment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnEnrollment.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnEnrollment.FlatAppearance.BorderSize = 0;
+            this.BtnEnrollment.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnEnrollment.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnEnrollment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnEnrollment.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnEnrollment.ForeColor = System.Drawing.Color.White;
+            this.BtnEnrollment.Location = new System.Drawing.Point(480, 18);
+            this.BtnEnrollment.Name = "BtnEnrollment";
+            this.BtnEnrollment.Size = new System.Drawing.Size(92, 37);
+            this.BtnEnrollment.TabIndex = 2;
+            this.BtnEnrollment.Text = "ENROLLMENT";
+            this.BtnEnrollment.UseVisualStyleBackColor = true;
+            this.BtnEnrollment.Click += new System.EventHandler(this.BtnEnrollment_Click);
+            // 
+            // BtnHome
+            // 
+            this.BtnHome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnHome.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnHome.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnHome.FlatAppearance.BorderSize = 0;
+            this.BtnHome.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnHome.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnHome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnHome.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnHome.ForeColor = System.Drawing.Color.White;
+            this.BtnHome.Location = new System.Drawing.Point(256, 18);
+            this.BtnHome.Name = "BtnHome";
+            this.BtnHome.Size = new System.Drawing.Size(85, 37);
+            this.BtnHome.TabIndex = 0;
+            this.BtnHome.Text = "HOME";
+            this.BtnHome.UseVisualStyleBackColor = true;
+            this.BtnHome.Click += new System.EventHandler(this.BtnHome_Click);
+            // 
+            // BtnPI
+            // 
+            this.BtnPI.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnPI.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnPI.FlatAppearance.BorderSize = 0;
+            this.BtnPI.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnPI.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnPI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnPI.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnPI.ForeColor = System.Drawing.Color.White;
+            this.BtnPI.Location = new System.Drawing.Point(611, 18);
+            this.BtnPI.Name = "BtnPI";
+            this.BtnPI.Size = new System.Drawing.Size(141, 37);
+            this.BtnPI.TabIndex = 3;
+            this.BtnPI.Text = "PERSONAL INFORMATION";
+            this.BtnPI.UseVisualStyleBackColor = true;
+            // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.label1);
+            this.panel6.Controls.Add(this.LblWelcome);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel6.Location = new System.Drawing.Point(0, 0);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(204, 72);
+            this.panel6.TabIndex = 29;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(21, 3);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(116, 33);
+            this.label1.TabIndex = 26;
+            this.label1.Text = "Welcome!";
+            // 
+            // LblWelcome
+            // 
+            this.LblWelcome.AutoSize = true;
+            this.LblWelcome.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblWelcome.ForeColor = System.Drawing.Color.White;
+            this.LblWelcome.Location = new System.Drawing.Point(22, 36);
+            this.LblWelcome.Name = "LblWelcome";
+            this.LblWelcome.Size = new System.Drawing.Size(64, 25);
+            this.LblWelcome.TabIndex = 27;
+            this.LblWelcome.Text = "Admin";
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.BtnLogout);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel4.Location = new System.Drawing.Point(1140, 0);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(160, 72);
+            this.panel4.TabIndex = 28;
+            // 
+            // BtnLogout
+            // 
+            this.BtnLogout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnLogout.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.BtnLogout.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnLogout.ForeColor = System.Drawing.Color.White;
+            this.BtnLogout.Location = new System.Drawing.Point(70, 25);
+            this.BtnLogout.Name = "BtnLogout";
+            this.BtnLogout.Size = new System.Drawing.Size(79, 22);
+            this.BtnLogout.TabIndex = 5;
+            this.BtnLogout.Text = "LOGOUT";
+            this.BtnLogout.UseVisualStyleBackColor = true;
+            this.BtnLogout.Click += new System.EventHandler(this.BtnLogout_Click);
+            // 
             // panel5
             // 
             this.panel5.Controls.Add(this.BtnExit);
@@ -979,165 +1139,6 @@
             this.panel1.Size = new System.Drawing.Size(1300, 36);
             this.panel1.TabIndex = 11;
             // 
-            // LblWelcome
-            // 
-            this.LblWelcome.AutoSize = true;
-            this.LblWelcome.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblWelcome.ForeColor = System.Drawing.Color.White;
-            this.LblWelcome.Location = new System.Drawing.Point(22, 36);
-            this.LblWelcome.Name = "LblWelcome";
-            this.LblWelcome.Size = new System.Drawing.Size(64, 25);
-            this.LblWelcome.TabIndex = 27;
-            this.LblWelcome.Text = "Admin";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(21, 3);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(116, 33);
-            this.label1.TabIndex = 26;
-            this.label1.Text = "Welcome!";
-            // 
-            // panel6
-            // 
-            this.panel6.Controls.Add(this.label1);
-            this.panel6.Controls.Add(this.LblWelcome);
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel6.Location = new System.Drawing.Point(0, 0);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(204, 72);
-            this.panel6.TabIndex = 29;
-            // 
-            // BtnLogout
-            // 
-            this.BtnLogout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnLogout.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.BtnLogout.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnLogout.ForeColor = System.Drawing.Color.White;
-            this.BtnLogout.Location = new System.Drawing.Point(70, 25);
-            this.BtnLogout.Name = "BtnLogout";
-            this.BtnLogout.Size = new System.Drawing.Size(79, 22);
-            this.BtnLogout.TabIndex = 5;
-            this.BtnLogout.Text = "LOGOUT";
-            this.BtnLogout.UseVisualStyleBackColor = true;
-            this.BtnLogout.Click += new System.EventHandler(this.BtnLogout_Click);
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.BtnLogout);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel4.Location = new System.Drawing.Point(1140, 0);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(160, 72);
-            this.panel4.TabIndex = 28;
-            // 
-            // BtnPI
-            // 
-            this.BtnPI.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnPI.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnPI.FlatAppearance.BorderSize = 0;
-            this.BtnPI.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnPI.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnPI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnPI.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnPI.ForeColor = System.Drawing.Color.White;
-            this.BtnPI.Location = new System.Drawing.Point(611, 18);
-            this.BtnPI.Name = "BtnPI";
-            this.BtnPI.Size = new System.Drawing.Size(141, 37);
-            this.BtnPI.TabIndex = 3;
-            this.BtnPI.Text = "PERSONAL INFORMATION";
-            this.BtnPI.UseVisualStyleBackColor = true;
-            // 
-            // BtnHome
-            // 
-            this.BtnHome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnHome.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BtnHome.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnHome.FlatAppearance.BorderSize = 0;
-            this.BtnHome.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnHome.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnHome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnHome.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnHome.ForeColor = System.Drawing.Color.White;
-            this.BtnHome.Location = new System.Drawing.Point(256, 18);
-            this.BtnHome.Name = "BtnHome";
-            this.BtnHome.Size = new System.Drawing.Size(85, 37);
-            this.BtnHome.TabIndex = 0;
-            this.BtnHome.Text = "HOME";
-            this.BtnHome.UseVisualStyleBackColor = true;
-            this.BtnHome.Click += new System.EventHandler(this.BtnHome_Click);
-            // 
-            // BtnEnrollment
-            // 
-            this.BtnEnrollment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnEnrollment.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnEnrollment.FlatAppearance.BorderSize = 0;
-            this.BtnEnrollment.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnEnrollment.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnEnrollment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnEnrollment.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnEnrollment.ForeColor = System.Drawing.Color.White;
-            this.BtnEnrollment.Location = new System.Drawing.Point(480, 18);
-            this.BtnEnrollment.Name = "BtnEnrollment";
-            this.BtnEnrollment.Size = new System.Drawing.Size(92, 37);
-            this.BtnEnrollment.TabIndex = 2;
-            this.BtnEnrollment.Text = "ENROLLMENT";
-            this.BtnEnrollment.UseVisualStyleBackColor = true;
-            this.BtnEnrollment.Click += new System.EventHandler(this.BtnEnrollment_Click);
-            // 
-            // BtnCourses
-            // 
-            this.BtnCourses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnCourses.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnCourses.FlatAppearance.BorderSize = 0;
-            this.BtnCourses.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnCourses.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnCourses.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnCourses.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnCourses.ForeColor = System.Drawing.Color.White;
-            this.BtnCourses.Location = new System.Drawing.Point(365, 18);
-            this.BtnCourses.Name = "BtnCourses";
-            this.BtnCourses.Size = new System.Drawing.Size(84, 37);
-            this.BtnCourses.TabIndex = 1;
-            this.BtnCourses.Text = "COURSES";
-            this.BtnCourses.UseVisualStyleBackColor = true;
-            this.BtnCourses.Click += new System.EventHandler(this.BtnCourses_Click);
-            // 
-            // BtnDataBase
-            // 
-            this.BtnDataBase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnDataBase.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnDataBase.FlatAppearance.BorderSize = 0;
-            this.BtnDataBase.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnDataBase.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnDataBase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnDataBase.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnDataBase.ForeColor = System.Drawing.Color.White;
-            this.BtnDataBase.Location = new System.Drawing.Point(789, 18);
-            this.BtnDataBase.Name = "BtnDataBase";
-            this.BtnDataBase.Size = new System.Drawing.Size(141, 37);
-            this.BtnDataBase.TabIndex = 4;
-            this.BtnDataBase.Text = "DATABASE INFORMATION";
-            this.BtnDataBase.UseVisualStyleBackColor = true;
-            this.BtnDataBase.Click += new System.EventHandler(this.BtnDataBase_Click);
-            // 
-            // panel9
-            // 
-            this.panel9.Controls.Add(this.BtnDataBase);
-            this.panel9.Controls.Add(this.BtnCourses);
-            this.panel9.Controls.Add(this.BtnEnrollment);
-            this.panel9.Controls.Add(this.BtnHome);
-            this.panel9.Controls.Add(this.BtnPI);
-            this.panel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel9.Location = new System.Drawing.Point(0, 0);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(936, 72);
-            this.panel9.TabIndex = 0;
-            // 
             // FormPersonalInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1155,6 +1156,7 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel10.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -1165,16 +1167,15 @@
             this.groupBox1.PerformLayout();
             this.panel.ResumeLayout(false);
             this.panel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
+            this.panel9.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             this.panel4.ResumeLayout(false);
-            this.panel9.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

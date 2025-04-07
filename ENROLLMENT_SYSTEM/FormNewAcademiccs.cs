@@ -21,6 +21,8 @@ namespace Enrollment_System
         public FormNewAcademiccs()
         {
             InitializeComponent();
+            pictureBox2.Image = Properties.Resources.PROFILE;
+            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
         private void ExitButton_Click(object sender, EventArgs e)

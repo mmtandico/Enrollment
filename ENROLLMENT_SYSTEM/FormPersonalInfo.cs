@@ -512,5 +512,10 @@ namespace Enrollment_System
 
             TxtAge.Text = age.ToString();
         }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
