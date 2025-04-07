@@ -31,7 +31,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.ExitButton = new System.Windows.Forms.PictureBox();
             this.label20 = new System.Windows.Forms.Label();
-            this.TxtStudentID = new System.Windows.Forms.TextBox();
+            this.TxtStudentNo = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.TxtLastName = new System.Windows.Forms.TextBox();
             this.panel10 = new System.Windows.Forms.Panel();
@@ -44,20 +44,21 @@
             this.label4 = new System.Windows.Forms.Label();
             this.TxtMiddleName = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.TxtFilePath = new System.Windows.Forms.TextBox();
+            this.TxtGradePdfPath = new System.Windows.Forms.TextBox();
             this.BtnBrowse = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.TxtPreviewSection = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.TxtCourse = new System.Windows.Forms.TextBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.PicBoxID = new System.Windows.Forms.PictureBox();
+            this.CmbYrLvl = new System.Windows.Forms.ComboBox();
+            this.CmbSem = new System.Windows.Forms.ComboBox();
+            this.CmbCourse = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).BeginInit();
             this.panel10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBoxID)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -92,20 +93,20 @@
             this.label20.ForeColor = System.Drawing.Color.White;
             this.label20.Location = new System.Drawing.Point(280, 59);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(78, 19);
+            this.label20.Size = new System.Drawing.Size(81, 19);
             this.label20.TabIndex = 27;
-            this.label20.Text = "Student ID.";
+            this.label20.Text = "Student No.";
             // 
-            // TxtStudentID
+            // TxtStudentNo
             // 
-            this.TxtStudentID.BackColor = System.Drawing.Color.White;
-            this.TxtStudentID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TxtStudentID.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtStudentID.ForeColor = System.Drawing.Color.Black;
-            this.TxtStudentID.Location = new System.Drawing.Point(284, 81);
-            this.TxtStudentID.Name = "TxtStudentID";
-            this.TxtStudentID.Size = new System.Drawing.Size(367, 33);
-            this.TxtStudentID.TabIndex = 26;
+            this.TxtStudentNo.BackColor = System.Drawing.Color.White;
+            this.TxtStudentNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtStudentNo.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtStudentNo.ForeColor = System.Drawing.Color.Black;
+            this.TxtStudentNo.Location = new System.Drawing.Point(284, 81);
+            this.TxtStudentNo.Name = "TxtStudentNo";
+            this.TxtStudentNo.Size = new System.Drawing.Size(367, 33);
+            this.TxtStudentNo.TabIndex = 26;
             // 
             // label1
             // 
@@ -255,16 +256,16 @@
             this.label5.TabIndex = 39;
             this.label5.Text = "Grade";
             // 
-            // TxtFilePath
+            // TxtGradePdfPath
             // 
-            this.TxtFilePath.BackColor = System.Drawing.Color.White;
-            this.TxtFilePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TxtFilePath.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtFilePath.ForeColor = System.Drawing.Color.Black;
-            this.TxtFilePath.Location = new System.Drawing.Point(676, 309);
-            this.TxtFilePath.Name = "TxtFilePath";
-            this.TxtFilePath.Size = new System.Drawing.Size(160, 26);
-            this.TxtFilePath.TabIndex = 38;
+            this.TxtGradePdfPath.BackColor = System.Drawing.Color.White;
+            this.TxtGradePdfPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtGradePdfPath.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtGradePdfPath.ForeColor = System.Drawing.Color.Black;
+            this.TxtGradePdfPath.Location = new System.Drawing.Point(676, 309);
+            this.TxtGradePdfPath.Name = "TxtGradePdfPath";
+            this.TxtGradePdfPath.Size = new System.Drawing.Size(160, 26);
+            this.TxtGradePdfPath.TabIndex = 38;
             // 
             // BtnBrowse
             // 
@@ -342,42 +343,59 @@
             this.TxtCourse.TabIndex = 45;
             this.TxtCourse.TextChanged += new System.EventHandler(this.TxtCourse_TextChanged);
             // 
-            // pictureBox2
+            // PicBoxID
             // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox2.Location = new System.Drawing.Point(35, 59);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(199, 193);
-            this.pictureBox2.TabIndex = 30;
-            this.pictureBox2.TabStop = false;
+            this.PicBoxID.BackColor = System.Drawing.Color.Transparent;
+            this.PicBoxID.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PicBoxID.Location = new System.Drawing.Point(35, 59);
+            this.PicBoxID.Name = "PicBoxID";
+            this.PicBoxID.Size = new System.Drawing.Size(199, 193);
+            this.PicBoxID.TabIndex = 30;
+            this.PicBoxID.TabStop = false;
             // 
-            // comboBox1
+            // CmbYrLvl
             // 
-            this.comboBox1.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.CmbYrLvl.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CmbYrLvl.FormattingEnabled = true;
+            this.CmbYrLvl.Items.AddRange(new object[] {
             "1st Year",
             "2nd Year",
             "3rd Year",
             "4th Year"});
-            this.comboBox1.Location = new System.Drawing.Point(676, 152);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(232, 31);
-            this.comboBox1.TabIndex = 47;
+            this.CmbYrLvl.Location = new System.Drawing.Point(676, 152);
+            this.CmbYrLvl.Name = "CmbYrLvl";
+            this.CmbYrLvl.Size = new System.Drawing.Size(232, 31);
+            this.CmbYrLvl.TabIndex = 47;
             // 
-            // comboBox2
+            // CmbSem
             // 
-            this.comboBox2.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.ItemHeight = 23;
-            this.comboBox2.Items.AddRange(new object[] {
+            this.CmbSem.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CmbSem.FormattingEnabled = true;
+            this.CmbSem.ItemHeight = 23;
+            this.CmbSem.Items.AddRange(new object[] {
             "1st Sem",
             "2nd Sem"});
-            this.comboBox2.Location = new System.Drawing.Point(800, 81);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(108, 31);
-            this.comboBox2.TabIndex = 48;
+            this.CmbSem.Location = new System.Drawing.Point(800, 81);
+            this.CmbSem.Name = "CmbSem";
+            this.CmbSem.Size = new System.Drawing.Size(108, 31);
+            this.CmbSem.TabIndex = 48;
+            // 
+            // CmbCourse
+            // 
+            this.CmbCourse.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold);
+            this.CmbCourse.FormattingEnabled = true;
+            this.CmbCourse.Items.AddRange(new object[] {
+            "Bachelor of Early Childhood Education",
+            "Bachelor of Technology and Livelihood Education",
+            "Bachelor of Science in Computer Science",
+            "Bachelor of Science in Office Administration",
+            "Bachelor of Science in Tourism Management",
+            "Bachelor of Science in Hospitality Management",
+            "Bachelor of Science in Information Technology"});
+            this.CmbCourse.Location = new System.Drawing.Point(287, 373);
+            this.CmbCourse.Name = "CmbCourse";
+            this.CmbCourse.Size = new System.Drawing.Size(621, 33);
+            this.CmbCourse.TabIndex = 49;
             // 
             // FormNewAcademiccs
             // 
@@ -386,8 +404,9 @@
             this.BackgroundImage = global::Enrollment_System.Properties.Resources.COLORPDMBACKGROUND;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(937, 418);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.CmbCourse);
+            this.Controls.Add(this.CmbSem);
+            this.Controls.Add(this.CmbYrLvl);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.TxtCourse);
             this.Controls.Add(this.label7);
@@ -395,19 +414,19 @@
             this.Controls.Add(this.TxtPreviewSection);
             this.Controls.Add(this.BtnBrowse);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.TxtFilePath);
+            this.Controls.Add(this.TxtGradePdfPath);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.TxtMiddleName);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.TxtFirstName);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.TxtSchoolYear);
-            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.PicBoxID);
             this.Controls.Add(this.panel10);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.TxtLastName);
             this.Controls.Add(this.label20);
-            this.Controls.Add(this.TxtStudentID);
+            this.Controls.Add(this.TxtStudentNo);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormNewAcademiccs";
@@ -416,7 +435,7 @@
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).EndInit();
             this.panel10.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBoxID)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -427,10 +446,10 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox ExitButton;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox TxtStudentID;
+        private System.Windows.Forms.TextBox TxtStudentNo;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox TxtLastName;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox PicBoxID;
         private System.Windows.Forms.Panel panel10;
         private System.Windows.Forms.Button BtnUpload;
         private System.Windows.Forms.Button BtnSave;
@@ -441,14 +460,15 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox TxtMiddleName;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox TxtFilePath;
+        private System.Windows.Forms.TextBox TxtGradePdfPath;
         private System.Windows.Forms.Button BtnBrowse;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox TxtPreviewSection;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox TxtCourse;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox CmbYrLvl;
+        private System.Windows.Forms.ComboBox CmbSem;
+        private System.Windows.Forms.ComboBox CmbCourse;
     }
 }

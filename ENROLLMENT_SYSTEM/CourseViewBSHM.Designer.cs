@@ -384,7 +384,7 @@
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(290, 103);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(573, 33);
+            this.label4.Size = new System.Drawing.Size(575, 33);
             this.label4.TabIndex = 39;
             this.label4.Text = "Circle of Hotel and Restaurant Management Students";
             // 

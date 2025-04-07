@@ -197,6 +197,9 @@ namespace Enrollment_System
             {
                 MessageBox.Show("Error loading user data: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            //SessionManager.FirstName = TxtFirstName.Text;
+           // SessionManager.LastName = TxtLastName.Text;
+            //LblWelcome.Text = $"{SessionManager.LastName}, {(string.IsNullOrWhiteSpace(SessionManager.FirstName) ? "" : SessionManager.FirstName[0] + ".")}";
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
@@ -349,7 +352,9 @@ namespace Enrollment_System
             {
                 MessageBox.Show("Error: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
+            SessionManager.FirstName = TxtFirstName.Text;
+            SessionManager.LastName = TxtLastName.Text;
+            LblWelcome.Text = $"{SessionManager.LastName}, {(string.IsNullOrWhiteSpace(SessionManager.FirstName) ? "" : SessionManager.FirstName[0] + ".")}";
             SetEnabledRecursive(groupBox1, false);
             SetEnabledRecursive(groupBox2, false);
             SetEnabledRecursive(groupBox3, false);

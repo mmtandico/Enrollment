@@ -7,8 +7,9 @@ namespace Enrollment_System
         public static long UserId { get; private set; }
         public static string UserEmail { get; private set; }
         public static string UserRole { get; private set; }
-        public static string FirstName { get; private set; }
-        public static string LastName { get; private set; }
+        public static string FirstName { get; set; }
+        public static string LastName { get; set; }
+        public static string SelectedCourse { get; set; } 
 
         public static bool IsLoggedIn => UserId > 0;
 
@@ -28,6 +29,7 @@ namespace Enrollment_System
             UserRole = null;
             FirstName = null;
             LastName = null;
+            SelectedCourse = null;
         }
     }
 }

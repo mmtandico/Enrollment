@@ -21,6 +21,8 @@ namespace Enrollment_System
 
         private void BtnEnroll1_Click(object sender, EventArgs e)
         {
+
+            // Confirm course change if already selected
             if (parentForm.Panel8.Tag != null)
             {
                 DialogResult result = MessageBox.Show(
@@ -32,21 +34,25 @@ namespace Enrollment_System
 
                 if (result == DialogResult.No)
                 {
-                    return; // Cancel loading if user says no
+                    return;
                 }
             }
 
-            CourseBSOAD courseForm = new CourseBSOAD();
-            courseForm.TopLevel = false;
+            // Store selected course name
+            SessionManager.SelectedCourse = "Bachelor of Science in Office Administration";
 
-            parentForm.Panel8.Controls.Clear();
-            parentForm.Panel8.Controls.Add(courseForm);
-            courseForm.BringToFront();
-            parentForm.Panel8.Tag = "BSOAD";
-            courseForm.Show();
+            // Optionally update Panel8 tag if you want to reflect the change
+            parentForm.Panel8.Tag = "BSCS";
 
+            // Open the enrollment form (popup)
+            FormNewAcademiccs enrollmentForm = new FormNewAcademiccs();
+            enrollmentForm.StartPosition = FormStartPosition.CenterParent;
+            enrollmentForm.ShowDialog(); // Modal
+
+            // Close this form after showing the enrollment form
             this.Close();
-        }
+        
+         }
 
         private void BtnBack1_Click(object sender, EventArgs e)
         {
