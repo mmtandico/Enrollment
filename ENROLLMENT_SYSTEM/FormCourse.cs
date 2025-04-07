@@ -14,7 +14,12 @@ namespace Enrollment_System
     {
 
         private FormNewAcademiccs FormNewAcads;
-        
+
+        public Panel Panel8
+        {
+            get { return panel8; }
+        }
+
         public FormCourse()
         {
             InitializeComponent();
@@ -105,14 +110,10 @@ namespace Enrollment_System
 
         private void BtnLMCS_Click(object sender, EventArgs e)
         {
-            CourseBSCS f = new CourseBSCS();
-            f.TopLevel = false;
-            panel8.Controls.Add(f);
-            f.BringToFront();
-            f.Show();
+            CourseViewBSCS viewForm = new CourseViewBSCS(this); // Pass reference
+            viewForm.Show(); // Just open as a normal window
+            //new CourseViewBSCS().Show();
 
-            new CourseViewBSCS().Show();
-            
         }
 
         private void BtnLMTM_Click(object sender, EventArgs e)

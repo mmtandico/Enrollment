@@ -13,13 +13,13 @@ namespace Enrollment_System
     public partial class CourseViewBSCS : Form
     {
         private FormNewAcademiccs FormNewAcads;
-        public Panel panel8;
+        private FormCourse parentForm;
 
-        public CourseViewBSCS()
+        public CourseViewBSCS(FormCourse form)
         {
             InitializeComponent();
             FormNewAcads = new FormNewAcademiccs();
-            
+            parentForm = form;
         }
 
 
@@ -30,12 +30,21 @@ namespace Enrollment_System
 
         private void BtnEnroll_Click(object sender, EventArgs e)
         {
+            CourseBSCS courseForm = new CourseBSCS();
+            courseForm.TopLevel = false;
 
-          
- 
+            parentForm.Panel8.Controls.Clear();
+            parentForm.Panel8.Controls.Add(courseForm);
+            courseForm.BringToFront();
+            courseForm.Show();
+
+            this.Close();
 
         }
 
-
+        private void BtnBack1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

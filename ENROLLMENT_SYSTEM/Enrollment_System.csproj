@@ -133,6 +133,12 @@
     <Compile Include="CourseViewBSCS.Designer.cs">
       <DependentUpon>CourseViewBSCS.cs</DependentUpon>
     </Compile>
+    <Compile Include="CourseViewBSIT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CourseViewBSIT.Designer.cs">
+      <DependentUpon>CourseViewBSIT.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormDatabaseInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -206,6 +212,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CourseViewBSCS.resx">
       <DependentUpon>CourseViewBSCS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CourseViewBSIT.resx">
+      <DependentUpon>CourseViewBSIT.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormCourse.resx">
       <DependentUpon>FormCourse.cs</DependentUpon>
@@ -396,6 +405,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SECURITY-removebg-preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CSTUDENT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CSTUDENT2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BGLAB.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
