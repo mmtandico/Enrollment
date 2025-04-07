@@ -110,7 +110,7 @@
             this.label11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label11.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.Black;
-            this.label11.Location = new System.Drawing.Point(377, 571);
+            this.label11.Location = new System.Drawing.Point(392, 610);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(534, 45);
             this.label11.TabIndex = 45;
@@ -133,9 +133,9 @@
             this.panel5.Controls.Add(this.label23);
             this.panel5.Controls.Add(this.pictureBox4);
             this.panel5.Controls.Add(this.panel6);
-            this.panel5.Location = new System.Drawing.Point(-13, 1051);
+            this.panel5.Location = new System.Drawing.Point(2, 1090);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(1302, 1141);
+            this.panel5.Size = new System.Drawing.Size(1329, 1141);
             this.panel5.TabIndex = 53;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
@@ -277,9 +277,9 @@
             this.panel7.Controls.Add(this.button1);
             this.panel7.Controls.Add(this.label3);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel7.Location = new System.Drawing.Point(0, 2637);
+            this.panel7.Location = new System.Drawing.Point(0, 2676);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(1299, 49);
+            this.panel7.Size = new System.Drawing.Size(1331, 49);
             this.panel7.TabIndex = 54;
             // 
             // BtnEnroll1
@@ -366,12 +366,12 @@
             // 
             // panel6
             // 
-            this.panel6.BackgroundImage = global::Enrollment_System.Properties.Resources._2;
+            this.panel6.BackgroundImage = global::Enrollment_System.Properties.Resources._3;
             this.panel6.Controls.Add(this.label16);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(0, 0);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(1302, 80);
+            this.panel6.Size = new System.Drawing.Size(1329, 80);
             this.panel6.TabIndex = 0;
             this.panel6.Paint += new System.Windows.Forms.PaintEventHandler(this.panel6_Paint);
             // 
@@ -407,9 +407,9 @@
             this.panel4.Controls.Add(this.label31);
             this.panel4.Controls.Add(this.label32);
             this.panel4.Controls.Add(this.pictureBox9);
-            this.panel4.Location = new System.Drawing.Point(0, 2276);
+            this.panel4.Location = new System.Drawing.Point(0, 2315);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1299, 361);
+            this.panel4.Size = new System.Drawing.Size(1331, 361);
             this.panel4.TabIndex = 52;
             this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
@@ -608,9 +608,9 @@
             // 
             this.pictureBox6.BackgroundImage = global::Enrollment_System.Properties.Resources.complab4;
             this.pictureBox6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox6.Location = new System.Drawing.Point(974, 674);
+            this.pictureBox6.Location = new System.Drawing.Point(989, 713);
             this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(314, 254);
+            this.pictureBox6.Size = new System.Drawing.Size(342, 254);
             this.pictureBox6.TabIndex = 44;
             this.pictureBox6.TabStop = false;
             this.pictureBox6.Click += new System.EventHandler(this.pictureBox6_Click);
@@ -619,7 +619,7 @@
             // 
             this.pictureBox5.BackgroundImage = global::Enrollment_System.Properties.Resources.complab3;
             this.pictureBox5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox5.Location = new System.Drawing.Point(648, 674);
+            this.pictureBox5.Location = new System.Drawing.Point(663, 713);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(331, 254);
             this.pictureBox5.TabIndex = 43;
@@ -630,7 +630,7 @@
             // 
             this.pictureBox3.BackgroundImage = global::Enrollment_System.Properties.Resources.complab2;
             this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox3.Location = new System.Drawing.Point(295, 674);
+            this.pictureBox3.Location = new System.Drawing.Point(310, 713);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(354, 254);
             this.pictureBox3.TabIndex = 42;
@@ -641,7 +641,7 @@
             // 
             this.pictureBox2.BackgroundImage = global::Enrollment_System.Properties.Resources.complab1;
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox2.Location = new System.Drawing.Point(-13, 674);
+            this.pictureBox2.Location = new System.Drawing.Point(2, 713);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(309, 254);
             this.pictureBox2.TabIndex = 41;
@@ -657,9 +657,9 @@
             this.panel3.Controls.Add(this.BtnBack1);
             this.panel3.Controls.Add(this.label43);
             this.panel3.Controls.Add(this.BtnEnroll);
-            this.panel3.Location = new System.Drawing.Point(0, 6627);
+            this.panel3.Location = new System.Drawing.Point(0, 10099);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1265, 107);
+            this.panel3.Size = new System.Drawing.Size(1246, 146);
             this.panel3.TabIndex = 9;
             this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
@@ -725,7 +725,7 @@
             this.panel1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.panel1.Location = new System.Drawing.Point(0, 351);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1299, 190);
+            this.panel1.Size = new System.Drawing.Size(1331, 190);
             this.panel1.TabIndex = 8;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
@@ -749,7 +749,7 @@
             this.panel10.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel10.Location = new System.Drawing.Point(0, 0);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(1299, 10);
+            this.panel10.Size = new System.Drawing.Size(1331, 10);
             this.panel10.TabIndex = 39;
             this.panel10.Paint += new System.Windows.Forms.PaintEventHandler(this.panel10_Paint);
             // 
@@ -793,7 +793,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1299, 351);
+            this.panel2.Size = new System.Drawing.Size(1331, 351);
             this.panel2.TabIndex = 7;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
@@ -803,7 +803,7 @@
             this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel9.Location = new System.Drawing.Point(0, 0);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(1299, 59);
+            this.panel9.Size = new System.Drawing.Size(1331, 59);
             this.panel9.TabIndex = 5;
             this.panel9.Paint += new System.Windows.Forms.PaintEventHandler(this.panel9_Paint);
             // 
@@ -885,7 +885,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1314, 673);
+            this.ClientSize = new System.Drawing.Size(1348, 673);
             this.Controls.Add(this.panel7);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);

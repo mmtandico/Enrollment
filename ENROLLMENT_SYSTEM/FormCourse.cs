@@ -116,15 +116,8 @@ namespace Enrollment_System
 
         private void BtnLMOAD_Click(object sender, EventArgs e)
         {
-            CourseBSOAD f = new CourseBSOAD();
-            f.TopLevel = false;
-            panel8.Controls.Add(f);
-            f.BringToFront();
-            f.Show();
-
-            string message = "Bachelor of Science in Office Administration"; // Or any dynamic text
-            FormNewAcads.SetText(message);      // Send text to Form2's TextBox
-            FormNewAcads.Show();
+            CourseViewBSOAD viewForm = new CourseViewBSOAD(this);
+            viewForm.Show();
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -134,15 +127,8 @@ namespace Enrollment_System
 
         private void BtnLMHM_Click(object sender, EventArgs e)
         {
-            CourseBSHM f = new CourseBSHM();
-            f.TopLevel = false;
-            panel8.Controls.Add(f);
-            f.BringToFront();
-            f.Show();
-
-            string message = "Bachelor of Science in Hospitality Management"; // Or any dynamic text
-            FormNewAcads.SetText(message);      // Send text to Form2's TextBox
-            FormNewAcads.Show();
+            CourseViewBSHM viewForm = new CourseViewBSHM(this);
+            viewForm.Show();
         }
 
         private void BtnLMLED_Click(object sender, EventArgs e)

@@ -12,6 +12,7 @@ namespace Enrollment_System
 {
     public partial class FormEnrollment : Form
     {
+        private FormNewAcademiccs formNewAcademiccsInstance = null;
 
         private FormCourse mainForm;
 
@@ -34,8 +35,6 @@ namespace Enrollment_System
             {
                 LblWelcome.Text = "";
             }
-
-            
         }
 
 
@@ -77,11 +76,23 @@ namespace Enrollment_System
                 new FormLogin().Show();
                 this.Close();
             }
-        }
 
+        }
         private void BtnAddAcademic_Click(object sender, EventArgs e)
         {
-            new FormNewAcademiccs().Show();
+
+            if (formNewAcademiccsInstance == null || formNewAcademiccsInstance.IsDisposed)
+            {
+                formNewAcademiccsInstance = new FormNewAcademiccs();
+                formNewAcademiccsInstance.FormClosed += (s, args) => { formNewAcademiccsInstance = null; }; // Reset the instance when the form is closed
+                formNewAcademiccsInstance.Show();
+            }
+            else
+            {
+                formNewAcademiccsInstance.BringToFront();
+                formNewAcademiccsInstance.Activate();
+            }
+
         }
     }
 }

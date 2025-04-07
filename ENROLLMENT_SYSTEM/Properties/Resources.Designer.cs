@@ -373,6 +373,16 @@ namespace Enrollment_System.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap HM {
+            get {
+                object obj = ResourceManager.GetObject("HM", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap home_agreement {
             get {
                 object obj = ResourceManager.GetObject("home-agreement", resourceCulture);
@@ -466,6 +476,16 @@ namespace Enrollment_System.Properties {
         internal static System.Drawing.Bitmap OAD {
             get {
                 object obj = ResourceManager.GetObject("OAD", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap OADS {
+            get {
+                object obj = ResourceManager.GetObject("OADS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

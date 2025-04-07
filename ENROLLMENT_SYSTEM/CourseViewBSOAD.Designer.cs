@@ -1,6 +1,6 @@
 ﻿namespace Enrollment_System
 {
-    partial class CourseViewBSTM
+    partial class CourseViewBSOAD
     {
         /// <summary>
         /// Required designer variable.
@@ -105,10 +105,10 @@
             this.label11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label11.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.Black;
-            this.label11.Location = new System.Drawing.Point(390, 594);
+            this.label11.Location = new System.Drawing.Point(393, 610);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(534, 45);
-            this.label11.TabIndex = 61;
+            this.label11.TabIndex = 66;
             this.label11.Text = "W O R K  S P A C E  F A C I L I T I E S";
             // 
             // panel5
@@ -127,10 +127,10 @@
             this.panel5.Controls.Add(this.label23);
             this.panel5.Controls.Add(this.pictureBox4);
             this.panel5.Controls.Add(this.panel6);
-            this.panel5.Location = new System.Drawing.Point(2, 1052);
+            this.panel5.Location = new System.Drawing.Point(3, 1050);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(1301, 1141);
-            this.panel5.TabIndex = 62;
+            this.panel5.TabIndex = 67;
             // 
             // label28
             // 
@@ -284,7 +284,7 @@
             // 
             // panel6
             // 
-            this.panel6.BackgroundImage = global::Enrollment_System.Properties.Resources._4;
+            this.panel6.BackgroundImage = global::Enrollment_System.Properties.Resources._7;
             this.panel6.Controls.Add(this.label16);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(0, 0);
@@ -309,54 +309,54 @@
             // 
             this.pictureBox6.BackgroundImage = global::Enrollment_System.Properties.Resources.complab4;
             this.pictureBox6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox6.Location = new System.Drawing.Point(987, 697);
+            this.pictureBox6.Location = new System.Drawing.Point(990, 713);
             this.pictureBox6.Name = "pictureBox6";
             this.pictureBox6.Size = new System.Drawing.Size(314, 254);
-            this.pictureBox6.TabIndex = 60;
+            this.pictureBox6.TabIndex = 65;
             this.pictureBox6.TabStop = false;
             // 
             // pictureBox5
             // 
             this.pictureBox5.BackgroundImage = global::Enrollment_System.Properties.Resources.complab3;
             this.pictureBox5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox5.Location = new System.Drawing.Point(661, 697);
+            this.pictureBox5.Location = new System.Drawing.Point(664, 713);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(331, 254);
-            this.pictureBox5.TabIndex = 59;
+            this.pictureBox5.TabIndex = 64;
             this.pictureBox5.TabStop = false;
             // 
             // pictureBox3
             // 
             this.pictureBox3.BackgroundImage = global::Enrollment_System.Properties.Resources.complab2;
             this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox3.Location = new System.Drawing.Point(308, 697);
+            this.pictureBox3.Location = new System.Drawing.Point(311, 713);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(354, 254);
-            this.pictureBox3.TabIndex = 58;
+            this.pictureBox3.TabIndex = 63;
             this.pictureBox3.TabStop = false;
             // 
             // pictureBox2
             // 
             this.pictureBox2.BackgroundImage = global::Enrollment_System.Properties.Resources.complab1;
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox2.Location = new System.Drawing.Point(0, 697);
+            this.pictureBox2.Location = new System.Drawing.Point(3, 713);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(309, 254);
-            this.pictureBox2.TabIndex = 57;
+            this.pictureBox2.TabIndex = 62;
             this.pictureBox2.TabStop = false;
             // 
             // panel7
             // 
-            this.panel7.BackgroundImage = global::Enrollment_System.Properties.Resources._4;
+            this.panel7.BackgroundImage = global::Enrollment_System.Properties.Resources._7;
             this.panel7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.panel7.Controls.Add(this.BtnEnroll1);
             this.panel7.Controls.Add(this.BtnBack1);
             this.panel7.Controls.Add(this.label3);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel7.Location = new System.Drawing.Point(0, 2633);
+            this.panel7.Location = new System.Drawing.Point(0, 2638);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(1314, 49);
-            this.panel7.TabIndex = 56;
+            this.panel7.TabIndex = 58;
             // 
             // BtnEnroll1
             // 
@@ -409,7 +409,7 @@
             // 
             // panel4
             // 
-            this.panel4.BackgroundImage = global::Enrollment_System.Properties.Resources._4;
+            this.panel4.BackgroundImage = global::Enrollment_System.Properties.Resources._7;
             this.panel4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panel4.Controls.Add(this.label44);
             this.panel4.Controls.Add(this.label38);
@@ -425,10 +425,10 @@
             this.panel4.Controls.Add(this.label31);
             this.panel4.Controls.Add(this.label32);
             this.panel4.Controls.Add(this.pictureBox9);
-            this.panel4.Location = new System.Drawing.Point(2, 2272);
+            this.panel4.Location = new System.Drawing.Point(3, 2277);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(1299, 361);
-            this.panel4.TabIndex = 55;
+            this.panel4.TabIndex = 57;
             // 
             // label44
             // 
@@ -599,7 +599,7 @@
             // pictureBox9
             // 
             this.pictureBox9.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox9.BackgroundImage = global::Enrollment_System.Properties.Resources.tm;
+            this.pictureBox9.BackgroundImage = global::Enrollment_System.Properties.Resources.OADS;
             this.pictureBox9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox9.Location = new System.Drawing.Point(814, 11);
             this.pictureBox9.Name = "pictureBox9";
@@ -609,7 +609,7 @@
             // 
             // panel1
             // 
-            this.panel1.BackgroundImage = global::Enrollment_System.Properties.Resources._4;
+            this.panel1.BackgroundImage = global::Enrollment_System.Properties.Resources._7;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.panel10);
@@ -620,7 +620,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 351);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1314, 190);
-            this.panel1.TabIndex = 10;
+            this.panel1.TabIndex = 12;
             // 
             // label4
             // 
@@ -629,11 +629,11 @@
             this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(260, 94);
+            this.label4.Location = new System.Drawing.Point(291, 103);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(490, 33);
+            this.label4.Size = new System.Drawing.Size(286, 33);
             this.label4.TabIndex = 42;
-            this.label4.Text = "Association of Tourism Management Students";
+            this.label4.Text = "Future Office Professionls";
             // 
             // panel10
             // 
@@ -651,21 +651,21 @@
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(259, 43);
+            this.label7.Location = new System.Drawing.Point(290, 52);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(656, 45);
+            this.label7.Size = new System.Drawing.Size(653, 45);
             this.label7.TabIndex = 41;
-            this.label7.Text = "Bachelor of Science in Tourism Management";
+            this.label7.Text = "Bachelor of Science in Office Administration";
             // 
             // pictureBox1
             // 
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.BackgroundImage = global::Enrollment_System.Properties.Resources.tourism;
+            this.pictureBox1.BackgroundImage = global::Enrollment_System.Properties.Resources.OAD;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(64, 16);
+            this.pictureBox1.Location = new System.Drawing.Point(95, 25);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(183, 167);
+            this.pictureBox1.Size = new System.Drawing.Size(169, 143);
             this.pictureBox1.TabIndex = 40;
             this.pictureBox1.TabStop = false;
             // 
@@ -683,7 +683,7 @@
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1314, 351);
-            this.panel2.TabIndex = 9;
+            this.panel2.TabIndex = 11;
             // 
             // panel9
             // 
@@ -763,7 +763,7 @@
             this.label5.Text = "this program will learn about the design, development, and implementation of comp" +
     "uter software ";
             // 
-            // CourseViewBSTM
+            // CourseViewBSOAD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -780,10 +780,9 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.HelpButton = true;
-            this.Name = "CourseViewBSTM";
+            this.Name = "CourseViewBSOAD";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CourseViewBSTM";
+            this.Text = "CourseViewBSOAD";
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();

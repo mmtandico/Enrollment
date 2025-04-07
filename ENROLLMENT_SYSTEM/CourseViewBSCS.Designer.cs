@@ -39,6 +39,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.BtnBack1 = new System.Windows.Forms.Button();
             this.label43 = new System.Windows.Forms.Label();
+            this.BtnEnroll = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel10 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
@@ -87,7 +88,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label38 = new System.Windows.Forms.Label();
-            this.BtnEnroll = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -114,7 +114,7 @@
             this.label7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label7.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(452, 23559);
+            this.label7.Location = new System.Drawing.Point(452, 24548);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(317, 45);
             this.label7.TabIndex = 38;
@@ -128,7 +128,7 @@
             this.label8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label8.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.Black;
-            this.label8.Location = new System.Drawing.Point(132, 23629);
+            this.label8.Location = new System.Drawing.Point(132, 24618);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(179, 23);
             this.label8.TabIndex = 39;
@@ -142,7 +142,7 @@
             this.label9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label9.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.Black;
-            this.label9.Location = new System.Drawing.Point(381, 23629);
+            this.label9.Location = new System.Drawing.Point(381, 24618);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(179, 23);
             this.label9.TabIndex = 40;
@@ -156,7 +156,7 @@
             this.label10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label10.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(645, 23144);
+            this.label10.Location = new System.Drawing.Point(645, 24133);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(179, 23);
             this.label10.TabIndex = 41;
@@ -170,7 +170,7 @@
             this.label12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label12.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.Black;
-            this.label12.Location = new System.Drawing.Point(163, 21959);
+            this.label12.Location = new System.Drawing.Point(163, 22948);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(179, 23);
             this.label12.TabIndex = 42;
@@ -184,7 +184,7 @@
             this.label13.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label13.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.Black;
-            this.label13.Location = new System.Drawing.Point(410, 21959);
+            this.label13.Location = new System.Drawing.Point(410, 22948);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(182, 23);
             this.label13.TabIndex = 43;
@@ -198,7 +198,7 @@
             this.label14.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label14.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.Black;
-            this.label14.Location = new System.Drawing.Point(668, 21959);
+            this.label14.Location = new System.Drawing.Point(668, 22948);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(182, 23);
             this.label14.TabIndex = 44;
@@ -212,7 +212,7 @@
             this.label15.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label15.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.Color.Black;
-            this.label15.Location = new System.Drawing.Point(931, 21959);
+            this.label15.Location = new System.Drawing.Point(931, 22948);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(183, 23);
             this.label15.TabIndex = 45;
@@ -261,6 +261,24 @@
             this.label43.TabIndex = 65;
             this.label43.Text = "Would you like to enroll and start your journey in the world of computer science?" +
     "";
+            // 
+            // BtnEnroll
+            // 
+            this.BtnEnroll.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnEnroll.BackColor = System.Drawing.Color.Transparent;
+            this.BtnEnroll.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnEnroll.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnEnroll.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnEnroll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnEnroll.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnEnroll.ForeColor = System.Drawing.Color.White;
+            this.BtnEnroll.Location = new System.Drawing.Point(1205, 9);
+            this.BtnEnroll.Name = "BtnEnroll";
+            this.BtnEnroll.Size = new System.Drawing.Size(85, 28);
+            this.BtnEnroll.TabIndex = 30;
+            this.BtnEnroll.Text = "Enroll Now";
+            this.BtnEnroll.UseVisualStyleBackColor = false;
+            this.BtnEnroll.Click += new System.EventHandler(this.BtnEnroll_Click);
             // 
             // panel1
             // 
@@ -867,24 +885,6 @@
             this.label38.Size = new System.Drawing.Size(532, 45);
             this.label38.TabIndex = 41;
             this.label38.Text = "C A R E E R  O P P O R T U N I T I E S";
-            // 
-            // BtnEnroll
-            // 
-            this.BtnEnroll.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BtnEnroll.BackColor = System.Drawing.Color.Transparent;
-            this.BtnEnroll.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnEnroll.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnEnroll.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnEnroll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnEnroll.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnEnroll.ForeColor = System.Drawing.Color.White;
-            this.BtnEnroll.Location = new System.Drawing.Point(1205, 9);
-            this.BtnEnroll.Name = "BtnEnroll";
-            this.BtnEnroll.Size = new System.Drawing.Size(85, 28);
-            this.BtnEnroll.TabIndex = 30;
-            this.BtnEnroll.Text = "Enroll Now";
-            this.BtnEnroll.UseVisualStyleBackColor = false;
-            this.BtnEnroll.Click += new System.EventHandler(this.BtnEnroll_Click);
             // 
             // CourseViewBSCS
             // 
