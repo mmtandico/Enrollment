@@ -97,12 +97,17 @@ namespace Enrollment_System
 
         private void BtnLMIT_Click(object sender, EventArgs e)
         {
+            
+
             CourseViewBSIT viewForm = new CourseViewBSIT(this); 
             viewForm.Show();
         }
 
         private void BtnLMCS_Click(object sender, EventArgs e)
         {
+
+            
+
             CourseViewBSCS viewForm = new CourseViewBSCS(this); 
             viewForm.Show(); 
 
@@ -110,12 +115,16 @@ namespace Enrollment_System
 
         private void BtnLMTM_Click(object sender, EventArgs e)
         {
+            
+
             CourseViewBSTM viewForm = new CourseViewBSTM(this);
             viewForm.Show();
         }
 
         private void BtnLMOAD_Click(object sender, EventArgs e)
         {
+            
+
             CourseViewBSOAD viewForm = new CourseViewBSOAD(this);
             viewForm.Show();
         }
@@ -127,6 +136,9 @@ namespace Enrollment_System
 
         private void BtnLMHM_Click(object sender, EventArgs e)
         {
+
+           
+
             CourseViewBSHM viewForm = new CourseViewBSHM(this);
             viewForm.Show();
         }

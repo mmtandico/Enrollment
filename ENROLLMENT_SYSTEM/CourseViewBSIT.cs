@@ -291,12 +291,28 @@ namespace Enrollment_System
 
         private void BtnEnroll1_Click(object sender, EventArgs e)
         {
+            if (parentForm.Panel8.Tag != null)
+            {
+                DialogResult result = MessageBox.Show(
+                    $"You’ve already picked the course \"{parentForm.Panel8.Tag}\".\nDo you want to change it?",
+                    "Confirm Course Change",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                if (result == DialogResult.No)
+                {
+                    return; // Cancel loading if user says no
+                }
+            }
+
             CourseBSIT courseForm = new CourseBSIT();
             courseForm.TopLevel = false;
 
             parentForm.Panel8.Controls.Clear();
             parentForm.Panel8.Controls.Add(courseForm);
             courseForm.BringToFront();
+            parentForm.Panel8.Tag = "BSIT";
             courseForm.Show();
 
             this.Close();
