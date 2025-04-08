@@ -157,6 +157,12 @@
     <Compile Include="CourseViewBSTM.Designer.cs">
       <DependentUpon>CourseViewBSTM.cs</DependentUpon>
     </Compile>
+    <Compile Include="CourseViewBTLED.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CourseViewBTLED.Designer.cs">
+      <DependentUpon>CourseViewBTLED.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormDatabaseInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -242,6 +248,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CourseViewBSTM.resx">
       <DependentUpon>CourseViewBSTM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CourseViewBTLED.resx">
+      <DependentUpon>CourseViewBTLED.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormCourse.resx">
       <DependentUpon>FormCourse.cs</DependentUpon>
@@ -456,6 +465,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\HM.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EDUCS.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

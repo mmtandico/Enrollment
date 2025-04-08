@@ -355,6 +355,7 @@
             // 
             // CmbYrLvl
             // 
+            this.CmbYrLvl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbYrLvl.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CmbYrLvl.FormattingEnabled = true;
             this.CmbYrLvl.Items.AddRange(new object[] {
@@ -369,6 +370,7 @@
             // 
             // CmbSem
             // 
+            this.CmbSem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbSem.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CmbSem.FormattingEnabled = true;
             this.CmbSem.ItemHeight = 23;
@@ -382,6 +384,7 @@
             // 
             // CmbCourse
             // 
+            this.CmbCourse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbCourse.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold);
             this.CmbCourse.FormattingEnabled = true;
             this.CmbCourse.Items.AddRange(new object[] {

@@ -121,6 +121,9 @@
   <data name="PDMBACKGROUND" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PDMBACKGROUND.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="HM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="OAD" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\OAD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -169,17 +172,17 @@
   <data name="complab1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\complab1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="educ" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\educ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="COLORPDMBACKGROUND11" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\COLORPDMBACKGROUND11.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="css" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\css.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="educ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\educ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BGIMAGE2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BGIMAGE2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -193,9 +196,6 @@
   <data name="4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="8" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="AI-removebg-preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AI-removebg-preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -207,6 +207,9 @@
   </data>
   <data name="Graduation-2019-1-1536x1024" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Graduation-2019-1-1536x1024.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BACKBTN" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BACKBTN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -232,9 +235,6 @@
   <data name="BGLAB" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BGLAB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="OADS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\OADS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="lite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\lite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -253,11 +253,11 @@
   <data name="ComputerImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ComputerImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="7" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CSTUDENT2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CSTUDENT2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="OADS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OADS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BGIMAGE1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BGIMAGE1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -277,10 +277,13 @@
   <data name="IT" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="6" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="HM" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\HM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CSTUDENT2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CSTUDENT2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EDUCS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EDUCS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

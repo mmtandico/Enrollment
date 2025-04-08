@@ -73,7 +73,7 @@ namespace Enrollment_System
             this.Close();
             new FormDatabaseInfo().Show();
         }
-
+          
         private void BtnLogout_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Are you sure you want to log out?", "Logout Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -145,15 +145,8 @@ namespace Enrollment_System
 
         private void BtnLMLED_Click(object sender, EventArgs e)
         {
-            CourseBTLED f = new CourseBTLED();
-            f.TopLevel = false;
-            panel8.Controls.Add(f);
-            f.BringToFront();
-            f.Show();
-
-            string message = "Bachelor of Tecnology and Livelihood Education"; // Or any dynamic text
-            FormNewAcads.SetText(message);      // Send text to Form2's TextBox
-            FormNewAcads.Show();
+            CourseViewBTLED viewForm = new CourseViewBTLED(this);
+            viewForm.Show();
         }
 
         private void BtnCED_Click(object sender, EventArgs e)
