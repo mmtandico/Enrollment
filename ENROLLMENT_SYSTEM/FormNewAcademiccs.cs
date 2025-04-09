@@ -76,7 +76,7 @@ namespace Enrollment_System
                     conn.Open();
                     long studentId = -1;
 
-                    
+                    // Check if the student exists
                     string checkStudentQuery = "SELECT student_id FROM students WHERE user_id = @UserID";
                     using (var checkCmd = new MySqlCommand(checkStudentQuery, conn))
                     {
@@ -94,21 +94,38 @@ namespace Enrollment_System
                         }
                     }
 
-                    
+                    // Get the course ID from the selected course name
                     int courseId = GetCourseIdFromText(CmbCourse.SelectedItem.ToString());
 
-                    
+                    // Check if the student is already enrolled in the course for the given academic year and semester
+                    string checkEnrollmentQuery = @"
+                        SELECT COUNT(*) 
+                        FROM student_enrollments 
+                        WHERE student_id = @StudentID 
+                        AND academic_year = @AcademicYear 
+                        AND semester = @Semester";
+
+                    using (var checkEnrollmentCmd = new MySqlCommand(checkEnrollmentQuery, conn))
+                    {
+                        checkEnrollmentCmd.Parameters.AddWithValue("@StudentID", studentId);
+                        checkEnrollmentCmd.Parameters.AddWithValue("@AcademicYear", TxtSchoolYear.Text);
+                        checkEnrollmentCmd.Parameters.AddWithValue("@Semester", CmbSem.SelectedItem?.ToString().Split(' ')[0]);
+
+                        int enrollmentCount = Convert.ToInt32(checkEnrollmentCmd.ExecuteScalar());
+
+                        if (enrollmentCount > 0)
+                        {
+                            MessageBox.Show("You are already enrolled in this course for the selected academic year and semester.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+
+                    // Insert new enrollment if not already enrolled
                     string enrollmentQuery = @"
-INSERT INTO student_enrollments 
-    (student_id, course_id, academic_year, semester, year_level, grade_pdf_path, status)
-VALUES 
-    (@StudentID, @CourseID, @AcademicYear, @Semester, @YearLevel, @GradePdfPath, @Status)
-ON DUPLICATE KEY UPDATE 
-    academic_year = VALUES(academic_year),
-    semester = VALUES(semester),
-    year_level = VALUES(year_level),
-    grade_pdf_path = VALUES(grade_pdf_path),
-    status = VALUES(status)";
+                        INSERT INTO student_enrollments 
+                            (student_id, course_id, academic_year, semester, year_level, grade_pdf_path, status)
+                        VALUES 
+                            (@StudentID, @CourseID, @AcademicYear, @Semester, @YearLevel, @GradePdfPath, @Status)";
 
                     ExecuteQuery(conn, enrollmentQuery,
                         new MySqlParameter("@StudentID", studentId),
@@ -128,7 +145,12 @@ ON DUPLICATE KEY UPDATE
             {
                 MessageBox.Show("Error: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            // Close form after saving
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
+
 
         private void FormNewAcademiccs_Load(object sender, EventArgs e)
         {
@@ -137,7 +159,6 @@ ON DUPLICATE KEY UPDATE
             LoadUserData();
             LoadCourseList();
 
-            // Select course if it was set by previous form (via SessionManager)
             if (!string.IsNullOrEmpty(SessionManager.SelectedCourse) &&
                 CmbCourse.Items.Contains(SessionManager.SelectedCourse))
             {
@@ -207,8 +228,8 @@ ON DUPLICATE KEY UPDATE
                         if (userExists == 0)
                         {
                             string insertQuery = @"
-                    INSERT INTO students (user_id, student_no, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
-                    VALUES (@UserID, '', '', '', '', '', '2000-01-01', 0, 'Male', '', '')";
+                                INSERT INTO students (user_id, student_no, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
+                                VALUES (@UserID, '', '', '', '', '', '2000-01-01', 0, 'Male', '', '')";
 
                             using (var insertCmd = new MySqlCommand(insertQuery, conn))
                             {
@@ -220,29 +241,29 @@ ON DUPLICATE KEY UPDATE
 
                     
                     string query = @"
-            SELECT 
-                s.student_id, 
-                IFNULL(s.student_no, '') AS student_no, 
-                IFNULL(s.first_name, '') AS first_name, 
-                IFNULL(s.middle_name, '') AS middle_name, 
-                IFNULL(s.last_name, '') AS last_name, 
-                IFNULL(s.birth_date, '2000-01-01') AS birth_date, 
-                IFNULL(s.age, 0) AS age, 
-                IFNULL(s.sex, 'Unknown') AS sex, 
-                IFNULL(s.civil_status, '') AS civil_status, 
-                IFNULL(s.nationality, '') AS nationality, 
-                s.profile_picture,
-                se.academic_year, 
-                se.semester, 
-                se.year_level, 
-                se.status,
-                c.course_code,
-                c.course_name
-            FROM students s
-            LEFT JOIN student_enrollments se ON s.student_id = se.student_id
-            LEFT JOIN courses c ON se.course_id = c.course_id
-            WHERE s.user_id = @UserID
-            ORDER BY s.student_id DESC LIMIT 1";
+                        SELECT 
+                            s.student_id, 
+                            IFNULL(s.student_no, '') AS student_no, 
+                            IFNULL(s.first_name, '') AS first_name, 
+                            IFNULL(s.middle_name, '') AS middle_name, 
+                            IFNULL(s.last_name, '') AS last_name, 
+                            IFNULL(s.birth_date, '2000-01-01') AS birth_date, 
+                            IFNULL(s.age, 0) AS age, 
+                            IFNULL(s.sex, 'Unknown') AS sex, 
+                            IFNULL(s.civil_status, '') AS civil_status, 
+                            IFNULL(s.nationality, '') AS nationality, 
+                            s.profile_picture,
+                            se.academic_year, 
+                            se.semester, 
+                            se.year_level, 
+                            se.status,
+                            c.course_code,
+                            c.course_name
+                        FROM students s
+                        LEFT JOIN student_enrollments se ON s.student_id = se.student_id
+                        LEFT JOIN courses c ON se.course_id = c.course_id
+                        WHERE s.user_id = @UserID
+                        ORDER BY s.student_id DESC LIMIT 1";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {

@@ -114,7 +114,7 @@
             this.label7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label7.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(452, 27515);
+            this.label7.Location = new System.Drawing.Point(452, 29493);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(317, 45);
             this.label7.TabIndex = 38;
@@ -128,7 +128,7 @@
             this.label8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label8.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.Black;
-            this.label8.Location = new System.Drawing.Point(132, 27585);
+            this.label8.Location = new System.Drawing.Point(132, 29563);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(179, 23);
             this.label8.TabIndex = 39;
@@ -142,7 +142,7 @@
             this.label9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label9.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.Black;
-            this.label9.Location = new System.Drawing.Point(381, 27585);
+            this.label9.Location = new System.Drawing.Point(381, 29563);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(179, 23);
             this.label9.TabIndex = 40;
@@ -156,7 +156,7 @@
             this.label10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label10.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(645, 27100);
+            this.label10.Location = new System.Drawing.Point(645, 29078);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(179, 23);
             this.label10.TabIndex = 41;
@@ -170,7 +170,7 @@
             this.label12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label12.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.Black;
-            this.label12.Location = new System.Drawing.Point(163, 25915);
+            this.label12.Location = new System.Drawing.Point(163, 27893);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(179, 23);
             this.label12.TabIndex = 42;
@@ -184,7 +184,7 @@
             this.label13.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label13.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.Black;
-            this.label13.Location = new System.Drawing.Point(410, 25915);
+            this.label13.Location = new System.Drawing.Point(410, 27893);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(182, 23);
             this.label13.TabIndex = 43;
@@ -198,7 +198,7 @@
             this.label14.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label14.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.Black;
-            this.label14.Location = new System.Drawing.Point(668, 25915);
+            this.label14.Location = new System.Drawing.Point(668, 27893);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(182, 23);
             this.label14.TabIndex = 44;
@@ -212,7 +212,7 @@
             this.label15.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label15.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.Color.Black;
-            this.label15.Location = new System.Drawing.Point(931, 25915);
+            this.label15.Location = new System.Drawing.Point(931, 27893);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(183, 23);
             this.label15.TabIndex = 45;
@@ -228,7 +228,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel3.Location = new System.Drawing.Point(0, 2602);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1297, 49);
+            this.panel3.Size = new System.Drawing.Size(1313, 49);
             this.panel3.TabIndex = 7;
             // 
             // BtnBack1
@@ -292,7 +292,7 @@
             this.panel1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.panel1.Location = new System.Drawing.Point(0, 351);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1297, 190);
+            this.panel1.Size = new System.Drawing.Size(1313, 190);
             this.panel1.TabIndex = 0;
             // 
             // panel10
@@ -301,7 +301,7 @@
             this.panel10.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel10.Location = new System.Drawing.Point(0, 0);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(1297, 10);
+            this.panel10.Size = new System.Drawing.Size(1313, 10);
             this.panel10.TabIndex = 39;
             // 
             // label3
@@ -358,7 +358,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1297, 351);
+            this.panel2.Size = new System.Drawing.Size(1313, 351);
             this.panel2.TabIndex = 6;
             // 
             // panel9
@@ -367,7 +367,7 @@
             this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel9.Location = new System.Drawing.Point(0, 0);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(1297, 59);
+            this.panel9.Size = new System.Drawing.Size(1313, 59);
             this.panel9.TabIndex = 5;
             // 
             // BtnBack

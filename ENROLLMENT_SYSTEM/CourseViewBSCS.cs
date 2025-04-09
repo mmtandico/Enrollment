@@ -39,17 +39,20 @@ namespace Enrollment_System
             // Store selected course name
             SessionManager.SelectedCourse = "Bachelor of Science in Computer Science";
 
-            // Optionally update Panel8 tag if you want to reflect the change
+            // Update Panel8 tag
             parentForm.Panel8.Tag = "BSCS";
 
-            // Open the enrollment form (popup)
-            FormNewAcademiccs enrollmentForm = new FormNewAcademiccs();
-            enrollmentForm.StartPosition = FormStartPosition.CenterParent;
-            enrollmentForm.ShowDialog(); // Modal
+            // Open the new academic enrollment form as a popup
+            FormNewAcademiccs enrollmentForm = new FormNewAcademiccs
+            {
+                StartPosition = FormStartPosition.CenterParent
+            };
+            enrollmentForm.ShowDialog();
 
-            // Close this form after showing the enrollment form
+            // Close this form (CourseViewBSCS)
             this.Close();
         }
+
 
 
         private void BtnBack1_Click(object sender, EventArgs e)
