@@ -203,6 +203,16 @@ namespace Enrollment_System.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BSCS_Banner {
+            get {
+                object obj = ResourceManager.GetObject("BSCS_Banner", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CHARM {
             get {
                 object obj = ResourceManager.GetObject("CHARM", resourceCulture);

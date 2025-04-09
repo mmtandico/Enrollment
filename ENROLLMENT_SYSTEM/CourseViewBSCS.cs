@@ -20,7 +20,7 @@ namespace Enrollment_System
 
         private void BtnEnroll_Click(object sender, EventArgs e)
         {
-            // Confirm course change if already selected
+            
             if (parentForm.Panel8.Tag != null)
             {
                 DialogResult result = MessageBox.Show(
@@ -36,23 +36,33 @@ namespace Enrollment_System
                 }
             }
 
-            // Store selected course name
             SessionManager.SelectedCourse = "Bachelor of Science in Computer Science";
 
-            // Update Panel8 tag
             parentForm.Panel8.Tag = "BSCS";
 
-            // Open the new academic enrollment form as a popup
-            FormNewAcademiccs enrollmentForm = new FormNewAcademiccs
+            parentForm.UpdateCourseBannerImage("BSCS");
+
+            if (parentForm is FormCourse)
+            {
+                parentForm.Close();
+            }
+
+            FormEnrollment enrollmentForm = new FormEnrollment
             {
                 StartPosition = FormStartPosition.CenterParent
             };
-            enrollmentForm.ShowDialog();
+            enrollmentForm.Show();
 
-            // Close this form (CourseViewBSCS)
+           
+            FormNewAcademiccs newAcademicForm = new FormNewAcademiccs
+            {
+                StartPosition = FormStartPosition.CenterParent
+            };
+            newAcademicForm.ShowDialog();  
+
+            
             this.Close();
         }
-
 
 
         private void BtnBack1_Click(object sender, EventArgs e)
