@@ -426,6 +426,7 @@
             this.TxtStudentNo.Name = "TxtStudentNo";
             this.TxtStudentNo.Size = new System.Drawing.Size(367, 33);
             this.TxtStudentNo.TabIndex = 5;
+            this.TxtStudentNo.Click += new System.EventHandler(this.TxtStudentNo_Click);
             // 
             // TxtStudentLRN
             // 
@@ -437,6 +438,8 @@
             this.TxtStudentLRN.Name = "TxtStudentLRN";
             this.TxtStudentLRN.Size = new System.Drawing.Size(343, 33);
             this.TxtStudentLRN.TabIndex = 6;
+            this.TxtStudentLRN.TextChanged += new System.EventHandler(this.TxtStudentLRN_TextChanged);
+            this.TxtStudentLRN.Leave += new System.EventHandler(this.TxtStudentLRN_Leave);
             // 
             // label21
             // 

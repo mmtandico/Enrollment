@@ -522,5 +522,68 @@ namespace Enrollment_System
         {
 
         }
+
+        private void TxtStudentNo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TxtStudentLRN_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        
+
+        private void TxtStudentLRN_Leave(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(TxtStudentLRN.Text))
+            {
+                if (string.IsNullOrWhiteSpace(TxtStudentNo.Text) || !TxtStudentNo.Text.StartsWith($"PDM-{DateTime.Now.Year}-"))
+                {
+                    try
+                    {
+                        using (var conn = new MySqlConnection(connectionString))
+                        {
+                            conn.Open();
+
+                            string currentYear = DateTime.Now.Year.ToString();
+                            string query = $@"
+                    SELECT IFNULL(MAX(CAST(SUBSTRING(student_no, 10, 6) AS UNSIGNED)), 0) + 1 
+                    FROM students 
+                    WHERE student_no LIKE 'PDM-{currentYear}-%'";
+
+                            using (var cmd = new MySqlCommand(query, conn))
+                            {
+                                int nextIdNumber = Convert.ToInt32(cmd.ExecuteScalar());
+                                TxtStudentNo.Text = $"PDM-{currentYear}-{nextIdNumber:D6}";
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error generating student number: " + ex.Message,
+                                      "Database Error",
+                                      MessageBoxButtons.OK,
+                                      MessageBoxIcon.Error);
+
+                        int nextIdNumber = GetNextStudentIdNumber();
+                        TxtStudentNo.Text = $"PDM-{DateTime.Now.Year}-{nextIdNumber:D6}";
+                    }
+                }
+            }
+        }
+
+        private static int studentIdCounter = 0;
+        private int GetNextStudentIdNumber()
+        {
+            // In a real application, you would:
+            // 1. Query your database for the highest existing ID
+            // 2. Increment by 1
+            // 3. Return the new number
+
+            // For this example, we'll just increment a counter
+            return ++studentIdCounter;
+        }
     }
 }

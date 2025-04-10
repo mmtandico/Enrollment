@@ -42,6 +42,8 @@ namespace Enrollment_System
             }
         }
 
+
+
         private void BtnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -200,9 +202,6 @@ namespace Enrollment_System
                 MessageBox.Show("PbBanner control is null or not found inside Panel8.");
             }
         }
-
-
-
 
 
 

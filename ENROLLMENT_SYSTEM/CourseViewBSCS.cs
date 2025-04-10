@@ -20,8 +20,9 @@ namespace Enrollment_System
 
         private void BtnEnroll_Click(object sender, EventArgs e)
         {
+
             
-            if (parentForm.Panel8.Tag != null)
+            if (parentForm.Panel8.Tag != null && parentForm.Panel8.Tag.ToString() != "BSCS")
             {
                 DialogResult result = MessageBox.Show(
                     $"You’ve already picked the course \"{parentForm.Panel8.Tag}\".\nDo you want to change it?",
@@ -31,21 +32,11 @@ namespace Enrollment_System
                 );
 
                 if (result == DialogResult.No)
-                {
                     return;
-                }
             }
 
             SessionManager.SelectedCourse = "Bachelor of Science in Computer Science";
-
             parentForm.Panel8.Tag = "BSCS";
-
-            parentForm.UpdateCourseBannerImage("BSCS");
-
-            if (parentForm is FormCourse)
-            {
-                parentForm.Close();
-            }
 
             FormEnrollment enrollmentForm = new FormEnrollment
             {
@@ -53,12 +44,32 @@ namespace Enrollment_System
             };
             enrollmentForm.Show();
 
-           
             FormNewAcademiccs newAcademicForm = new FormNewAcademiccs
             {
                 StartPosition = FormStartPosition.CenterParent
             };
-            newAcademicForm.ShowDialog();  
+
+           
+            newAcademicForm.FormClosed += (s, args) =>
+            {
+               
+                parentForm.Panel8.Controls.Clear();
+                CourseBSCS courseForm = new CourseBSCS
+                {
+                    TopLevel = false,
+                    Dock = DockStyle.Fill
+                };
+                parentForm.Panel8.Controls.Add(courseForm);
+                courseForm.Show();
+
+                
+                if (parentForm.Panel8.Tag.ToString() == "BSCS")
+                {
+                    parentForm.UpdateCourseBannerImage("BSCS");
+                }
+            };
+
+            newAcademicForm.ShowDialog(); 
 
             
             this.Close();
