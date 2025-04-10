@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.Drawing.Drawing2D;
 
 namespace Enrollment_System
 {
@@ -288,6 +289,174 @@ namespace Enrollment_System
                 
                 throw new Exception("Error deleting enrollment: " + ex.Message);
             }
+        }
+
+        private void FormEnrollment_Load_1(object sender, EventArgs e)
+        {
+            DataGridEnrollment.AllowUserToResizeColumns = false;
+            DataGridEnrollment.AllowUserToResizeRows = false;
+            DataGridEnrollment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+
+            
+            foreach (DataGridViewColumn column in DataGridEnrollment.Columns)
+            {
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+           
+            int totalCols = DataGridEnrollment.Columns.Count;
+            DataGridEnrollment.Columns[totalCols - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridEnrollment.Columns[totalCols - 1].Width = 40; 
+
+            DataGridEnrollment.Columns[totalCols - 2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridEnrollment.Columns[totalCols - 2].Width = 40; 
+
+            DataGridEnrollment.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridEnrollment.Columns[0].Width = 50;
+
+            DataGridEnrollment.RowTemplate.Height = 35;
+
+            CustomizeDataGrid();
+            StyleTwoTabControl();
+        }
+
+        private void CustomizeDataGrid()
+        {
+            
+            DataGridEnrollment.BorderStyle = BorderStyle.None;
+
+            
+            DataGridEnrollment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220); 
+
+           
+            DataGridEnrollment.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
+            DataGridEnrollment.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
+
+           
+            DataGridEnrollment.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
+            DataGridEnrollment.DefaultCellStyle.SelectionForeColor = Color.White;
+
+          
+            DataGridEnrollment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33); // Rich brown
+            DataGridEnrollment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            DataGridEnrollment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            DataGridEnrollment.EnableHeadersVisualStyles = false;
+
+            
+            DataGridEnrollment.GridColor = Color.BurlyWood;
+
+           
+            DataGridEnrollment.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+
+          
+            DataGridEnrollment.RowTemplate.Height = 35;
+
+            
+            DataGridEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+           
+            foreach (DataGridViewColumn column in DataGridEnrollment.Columns)
+            {
+                column.Resizable = DataGridViewTriState.False;
+            }
+        }
+
+        private void StyleTwoTabControl()
+        {
+            
+            tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
+            tabControl1.SizeMode = TabSizeMode.Fixed;
+            tabControl1.ItemSize = new Size(160, 36);  
+
+            
+            Color darkBrown = Color.FromArgb(94, 55, 30);    
+            Color mediumBrown = Color.FromArgb(139, 69, 19);  
+            Color lightBrown = Color.FromArgb(210, 180, 140);  
+            Color goldYellow = Color.FromArgb(218, 165, 32);  
+            Color cream = Color.FromArgb(253, 245, 230);      
+
+        
+            tabControl1.DrawItem += (sender, e) =>
+            {
+                Graphics g = e.Graphics;
+                TabPage currentTab = tabControl1.TabPages[e.Index];
+                Rectangle tabRect = tabControl1.GetTabRect(e.Index);
+                bool isSelected = tabControl1.SelectedIndex == e.Index;
+
+                
+                if (isSelected)
+                {
+                    tabRect.Inflate(0, 2);
+                    tabRect.Y -= 2;
+                }
+
+                
+                if (isSelected)
+                {
+                    using (var brush = new LinearGradientBrush(
+                        tabRect,
+                        Color.FromArgb(255, 230, 170),
+                        goldYellow,
+                        LinearGradientMode.Vertical))
+                    {
+                        g.FillRectangle(brush, tabRect);
+                    }
+                }
+                else
+                {
+                    using (var brush = new SolidBrush(mediumBrown))
+                    {
+                        g.FillRectangle(brush, tabRect);
+                    }
+                }
+
+               
+                using (var pen = new Pen(isSelected ? goldYellow : darkBrown, isSelected ? 2f : 1f))
+                {
+                    g.DrawRectangle(pen, tabRect);
+                }
+
+               
+                TextRenderer.DrawText(
+                    g,
+                    currentTab.Text,
+                    new Font(tabControl1.Font.FontFamily, 9f,
+                            isSelected ? FontStyle.Bold : FontStyle.Regular),
+                    tabRect,
+                    isSelected ? darkBrown : Color.White,
+                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+
+                
+                if (isSelected)
+                {
+                    using (var pen = new Pen(goldYellow, 2))
+                    {
+                        int underlineY = tabRect.Bottom - 3;
+                        g.DrawLine(pen, tabRect.Left + 10, underlineY,
+                                    tabRect.Right - 10, underlineY);
+                    }
+                }
+            };
+
+       
+            foreach (TabPage tab in tabControl1.TabPages)
+            {
+                tab.BackColor = cream;
+                tab.ForeColor = darkBrown;
+                tab.Padding = new Padding(8);
+                tab.BorderStyle = BorderStyle.FixedSingle;
+            }
+
+           
+            tabControl1.BackColor = lightBrown;
+
+           
+            this.BackColor = Color.FromArgb(250, 240, 220); 
+        }
+
+        private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
+        {
+             
         }
     }
 }
