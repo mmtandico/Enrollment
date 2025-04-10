@@ -105,6 +105,7 @@
             this.TxtStudentNo.ForeColor = System.Drawing.Color.Black;
             this.TxtStudentNo.Location = new System.Drawing.Point(284, 81);
             this.TxtStudentNo.Name = "TxtStudentNo";
+            this.TxtStudentNo.ReadOnly = true;
             this.TxtStudentNo.Size = new System.Drawing.Size(367, 33);
             this.TxtStudentNo.TabIndex = 26;
             // 
@@ -128,6 +129,7 @@
             this.TxtLastName.ForeColor = System.Drawing.Color.Black;
             this.TxtLastName.Location = new System.Drawing.Point(287, 152);
             this.TxtLastName.Name = "TxtLastName";
+            this.TxtLastName.ReadOnly = true;
             this.TxtLastName.Size = new System.Drawing.Size(364, 33);
             this.TxtLastName.TabIndex = 28;
             // 
@@ -197,6 +199,8 @@
             this.TxtSchoolYear.Name = "TxtSchoolYear";
             this.TxtSchoolYear.Size = new System.Drawing.Size(118, 33);
             this.TxtSchoolYear.TabIndex = 32;
+            this.TxtSchoolYear.Enter += new System.EventHandler(this.TxtSchoolYear_Enter);
+            this.TxtSchoolYear.Leave += new System.EventHandler(this.TxtSchoolYear_Leave);
             // 
             // label3
             // 
@@ -218,6 +222,7 @@
             this.TxtFirstName.ForeColor = System.Drawing.Color.Black;
             this.TxtFirstName.Location = new System.Drawing.Point(287, 227);
             this.TxtFirstName.Name = "TxtFirstName";
+            this.TxtFirstName.ReadOnly = true;
             this.TxtFirstName.Size = new System.Drawing.Size(367, 33);
             this.TxtFirstName.TabIndex = 34;
             // 
@@ -241,6 +246,7 @@
             this.TxtMiddleName.ForeColor = System.Drawing.Color.Black;
             this.TxtMiddleName.Location = new System.Drawing.Point(287, 299);
             this.TxtMiddleName.Name = "TxtMiddleName";
+            this.TxtMiddleName.ReadOnly = true;
             this.TxtMiddleName.Size = new System.Drawing.Size(367, 33);
             this.TxtMiddleName.TabIndex = 36;
             // 
@@ -291,9 +297,9 @@
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(672, 205);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(109, 19);
+            this.label6.Size = new System.Drawing.Size(116, 19);
             this.label6.TabIndex = 42;
-            this.label6.Text = "Preview Section";
+            this.label6.Text = "Previews Section";
             // 
             // TxtPreviewSection
             // 
@@ -305,6 +311,9 @@
             this.TxtPreviewSection.Name = "TxtPreviewSection";
             this.TxtPreviewSection.Size = new System.Drawing.Size(232, 33);
             this.TxtPreviewSection.TabIndex = 41;
+            this.TxtPreviewSection.TextChanged += new System.EventHandler(this.TxtPreviewSection_TextChanged);
+            this.TxtPreviewSection.Enter += new System.EventHandler(this.TxtPreviewSection_Enter_1);
+            this.TxtPreviewSection.Leave += new System.EventHandler(this.TxtPreviewSection_Leave_1);
             // 
             // label7
             // 

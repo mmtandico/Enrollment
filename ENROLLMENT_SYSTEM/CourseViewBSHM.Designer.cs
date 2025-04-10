@@ -108,7 +108,7 @@
             this.panel7.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel7.Location = new System.Drawing.Point(0, 2551);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(1301, 49);
+            this.panel7.Size = new System.Drawing.Size(1297, 49);
             this.panel7.TabIndex = 60;
             // 
             // BtnEnroll1
@@ -372,7 +372,7 @@
             this.panel1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.panel1.Location = new System.Drawing.Point(0, 351);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1301, 190);
+            this.panel1.Size = new System.Drawing.Size(1297, 190);
             this.panel1.TabIndex = 14;
             // 
             // label4
@@ -384,7 +384,7 @@
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(290, 103);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(575, 33);
+            this.label4.Size = new System.Drawing.Size(573, 33);
             this.label4.TabIndex = 39;
             this.label4.Text = "Circle of Hotel and Restaurant Management Students";
             // 
@@ -394,7 +394,7 @@
             this.panel10.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel10.Location = new System.Drawing.Point(0, 0);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(1301, 10);
+            this.panel10.Size = new System.Drawing.Size(1297, 10);
             this.panel10.TabIndex = 39;
             // 
             // label3
@@ -435,7 +435,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1301, 351);
+            this.panel2.Size = new System.Drawing.Size(1297, 351);
             this.panel2.TabIndex = 13;
             // 
             // panel9
@@ -444,7 +444,7 @@
             this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel9.Location = new System.Drawing.Point(0, 0);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(1301, 59);
+            this.panel9.Size = new System.Drawing.Size(1297, 59);
             this.panel9.TabIndex = 5;
             // 
             // BtnBack

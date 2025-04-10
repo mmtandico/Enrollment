@@ -30,6 +30,9 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel5 = new System.Windows.Forms.Panel();
             this.BtnExit = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -49,6 +52,12 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.DataGridEnrollment = new System.Windows.Forms.DataGridView();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.BtnAddNewEnrollment = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.enrollment_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.student_no = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -61,12 +70,6 @@
             this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColOpen = new System.Windows.Forms.DataGridViewImageColumn();
             this.ColClose = new System.Windows.Forms.DataGridViewImageColumn();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.BtnAddNewEnrollment = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -326,18 +329,23 @@
             // DataGridEnrollment
             // 
             this.DataGridEnrollment.AllowUserToAddRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
+            this.DataGridEnrollment.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.DataGridEnrollment.BackgroundColor = System.Drawing.Color.White;
             this.DataGridEnrollment.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.DataGridEnrollment.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DataGridEnrollment.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.DataGridEnrollment.ColumnHeadersHeight = 35;
+            this.DataGridEnrollment.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.RaisedHorizontal;
+            this.DataGridEnrollment.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataGridEnrollment.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.DataGridEnrollment.ColumnHeadersHeight = 40;
             this.DataGridEnrollment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.DataGridEnrollment.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.enrollment_id,
@@ -352,109 +360,39 @@
             this.status,
             this.ColOpen,
             this.ColClose});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridEnrollment.DefaultCellStyle = dataGridViewCellStyle2;
+            this.DataGridEnrollment.Cursor = System.Windows.Forms.Cursors.Default;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridEnrollment.DefaultCellStyle = dataGridViewCellStyle3;
             this.DataGridEnrollment.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DataGridEnrollment.Enabled = false;
-            this.DataGridEnrollment.EnableHeadersVisualStyles = false;
             this.DataGridEnrollment.GridColor = System.Drawing.SystemColors.Control;
             this.DataGridEnrollment.Location = new System.Drawing.Point(3, 50);
             this.DataGridEnrollment.Name = "DataGridEnrollment";
+            this.DataGridEnrollment.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridEnrollment.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.DataGridEnrollment.RowHeadersVisible = false;
+            this.DataGridEnrollment.RowHeadersWidth = 50;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Gray;
+            this.DataGridEnrollment.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            this.DataGridEnrollment.RowTemplate.Height = 30;
+            this.DataGridEnrollment.RowTemplate.ReadOnly = true;
             this.DataGridEnrollment.Size = new System.Drawing.Size(1286, 551);
             this.DataGridEnrollment.TabIndex = 1;
             this.DataGridEnrollment.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridEnrollment_CellContentClick);
-            // 
-            // enrollment_id
-            // 
-            this.enrollment_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.enrollment_id.FillWeight = 10F;
-            this.enrollment_id.HeaderText = "ID";
-            this.enrollment_id.Name = "enrollment_id";
-            this.enrollment_id.Width = 53;
-            // 
-            // student_no
-            // 
-            this.student_no.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.student_no.HeaderText = "Student No.";
-            this.student_no.Name = "student_no";
-            this.student_no.Width = 131;
-            // 
-            // last_name
-            // 
-            this.last_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.last_name.HeaderText = "Last Name";
-            this.last_name.Name = "last_name";
-            // 
-            // first_name
-            // 
-            this.first_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.first_name.HeaderText = "First Name";
-            this.first_name.Name = "first_name";
-            // 
-            // middle_name
-            // 
-            this.middle_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.middle_name.HeaderText = "Middle Name";
-            this.middle_name.Name = "middle_name";
-            this.middle_name.Width = 144;
-            // 
-            // course_name
-            // 
-            this.course_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.course_name.HeaderText = "Course";
-            this.course_name.Name = "course_name";
-            // 
-            // academic_year
-            // 
-            this.academic_year.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.academic_year.HeaderText = "School Year";
-            this.academic_year.Name = "academic_year";
-            // 
-            // semester
-            // 
-            this.semester.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.semester.HeaderText = "Semester";
-            this.semester.Name = "semester";
-            this.semester.Width = 117;
-            // 
-            // year_level
-            // 
-            this.year_level.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.year_level.HeaderText = "Year Level";
-            this.year_level.Name = "year_level";
-            this.year_level.Width = 122;
-            // 
-            // status
-            // 
-            this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.status.HeaderText = "Status";
-            this.status.Name = "status";
-            this.status.Width = 89;
-            // 
-            // ColOpen
-            // 
-            this.ColOpen.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.ColOpen.HeaderText = "";
-            this.ColOpen.Image = global::Enrollment_System.Properties.Resources.EditButton;
-            this.ColOpen.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.ColOpen.Name = "ColOpen";
-            this.ColOpen.Width = 5;
-            // 
-            // ColClose
-            // 
-            this.ColClose.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.ColClose.HeaderText = "";
-            this.ColClose.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
-            this.ColClose.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.ColClose.Name = "ColClose";
-            this.ColClose.Width = 5;
             // 
             // panel2
             // 
@@ -513,6 +451,113 @@
             this.dataGridViewImageColumn2.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
             this.dataGridViewImageColumn2.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
+            // 
+            // enrollment_id
+            // 
+            this.enrollment_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.enrollment_id.FillWeight = 10F;
+            this.enrollment_id.Frozen = true;
+            this.enrollment_id.HeaderText = "ID";
+            this.enrollment_id.Name = "enrollment_id";
+            this.enrollment_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.enrollment_id.Width = 53;
+            // 
+            // student_no
+            // 
+            this.student_no.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.student_no.FillWeight = 200F;
+            this.student_no.Frozen = true;
+            this.student_no.HeaderText = "Student No.";
+            this.student_no.Name = "student_no";
+            this.student_no.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.student_no.Width = 131;
+            // 
+            // last_name
+            // 
+            this.last_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.last_name.FillWeight = 120F;
+            this.last_name.HeaderText = "Last Name";
+            this.last_name.Name = "last_name";
+            this.last_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.last_name.Width = 125;
+            // 
+            // first_name
+            // 
+            this.first_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.first_name.FillWeight = 120F;
+            this.first_name.HeaderText = "First Name";
+            this.first_name.Name = "first_name";
+            this.first_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.first_name.Width = 128;
+            // 
+            // middle_name
+            // 
+            this.middle_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.middle_name.FillWeight = 120F;
+            this.middle_name.HeaderText = "Middle Name";
+            this.middle_name.Name = "middle_name";
+            this.middle_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.middle_name.Width = 144;
+            // 
+            // course_name
+            // 
+            this.course_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.course_name.HeaderText = "Course";
+            this.course_name.Name = "course_name";
+            this.course_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.course_name.Width = 95;
+            // 
+            // academic_year
+            // 
+            this.academic_year.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.academic_year.HeaderText = "School Year";
+            this.academic_year.Name = "academic_year";
+            this.academic_year.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.academic_year.Width = 154;
+            // 
+            // semester
+            // 
+            this.semester.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.semester.HeaderText = "Semester";
+            this.semester.Name = "semester";
+            this.semester.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.semester.Width = 117;
+            // 
+            // year_level
+            // 
+            this.year_level.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.year_level.HeaderText = "Year Level";
+            this.year_level.Name = "year_level";
+            this.year_level.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.year_level.Width = 122;
+            // 
+            // status
+            // 
+            this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.status.HeaderText = "Status";
+            this.status.Name = "status";
+            this.status.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.status.Width = 89;
+            // 
+            // ColOpen
+            // 
+            this.ColOpen.HeaderText = "";
+            this.ColOpen.Image = global::Enrollment_System.Properties.Resources.EditButton;
+            this.ColOpen.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColOpen.MinimumWidth = 2;
+            this.ColOpen.Name = "ColOpen";
+            this.ColOpen.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColOpen.Width = 40;
+            // 
+            // ColClose
+            // 
+            this.ColClose.HeaderText = "";
+            this.ColClose.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
+            this.ColClose.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColClose.MinimumWidth = 2;
+            this.ColClose.Name = "ColClose";
+            this.ColClose.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColClose.Width = 40;
             // 
             // FormEnrollment
             // 

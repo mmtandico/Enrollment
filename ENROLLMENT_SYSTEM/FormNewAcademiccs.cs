@@ -16,7 +16,10 @@ namespace Enrollment_System
     {
         private string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
         private long loggedInUserId;
+        public Dictionary<string, string> StudentData { get; set; }
         public string CourseText
+
+        
         {
             get { return TxtCourse.Text; }
             set { TxtCourse.Text = value; } // Update TxtCourse with the passed value
@@ -28,7 +31,11 @@ namespace Enrollment_System
             PicBoxID.Image = Properties.Resources.PROFILE;
             PicBoxID.SizeMode = PictureBoxSizeMode.StretchImage;
             loggedInUserId = SessionManager.UserId;
+            
+
         }
+
+
 
         private void ExitButton_Click(object sender, EventArgs e)
         {
@@ -166,7 +173,13 @@ namespace Enrollment_System
                 SessionManager.SelectedCourse = null;
             }
 
+            TxtPreviewSection.Text = "e.g. BSIT-22A";
+            TxtPreviewSection.ForeColor = Color.Gray;
+
+            TxtSchoolYear.Text = "e.g. 20**-20**";
+            TxtSchoolYear.ForeColor = Color.Gray;
         }
+
 
         private void LoadCourseList()
         {
@@ -354,6 +367,50 @@ namespace Enrollment_System
             {
                 cmd.Parameters.AddRange(parameters);
                 cmd.ExecuteNonQuery();
+            }
+        }
+
+        private void TxtPreviewSection_TextChanged(object sender, EventArgs e)
+        {
+             
+         }
+
+      
+
+
+        private void TxtPreviewSection_Enter_1(object sender, EventArgs e)
+        {
+            if (TxtPreviewSection.Text == "e.g. BSIT-22A")
+            {
+                TxtPreviewSection.Text = "";
+                TxtPreviewSection.ForeColor = Color.Black;
+            }
+        }
+
+        private void TxtPreviewSection_Leave_1(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(TxtPreviewSection.Text))
+            {
+                TxtPreviewSection.Text = "e.g. BSIT-22A";
+                TxtPreviewSection.ForeColor = Color.Gray;
+            }
+        }
+
+        private void TxtSchoolYear_Enter(object sender, EventArgs e)
+        {
+            if (TxtSchoolYear.Text == "e.g. 20**-20**")
+            {
+                TxtSchoolYear.Text = "";
+                TxtSchoolYear.ForeColor = Color.Black;
+            }
+        }
+
+        private void TxtSchoolYear_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(TxtSchoolYear.Text))
+            {
+                TxtSchoolYear.Text = "e.g. 20**-20**";
+                TxtSchoolYear.ForeColor = Color.Gray;
             }
         }
     }

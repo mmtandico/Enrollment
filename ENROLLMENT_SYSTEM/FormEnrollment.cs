@@ -38,6 +38,32 @@ namespace Enrollment_System
             {
                 LblWelcome.Text = "";
             }
+
+            DataGridEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataGridEnrollment.Columns["ColOpen"].Width = 50; // or 40 if you want tighter buttons
+            DataGridEnrollment.Columns["ColClose"].Width = 50;
+            DataGridEnrollment.Columns["ColOpen"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridEnrollment.Columns["ColClose"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridEnrollment.RowTemplate.Height = 40;
+            DataGridEnrollment.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+    
+
+            DataGridEnrollment.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            DataGridEnrollment.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            DataGridViewImageColumn colOpen = (DataGridViewImageColumn)DataGridEnrollment.Columns["ColOpen"];
+            colOpen.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
+            DataGridViewImageColumn colClose = (DataGridViewImageColumn)DataGridEnrollment.Columns["ColClose"];
+            colClose.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
+            foreach (DataGridViewColumn col in DataGridEnrollment.Columns)
+            {
+                col.Frozen = false; // Unfreeze
+                col.Resizable = DataGridViewTriState.True; // Let it resize
+            }
+
         }
 
         private void FormEnrollment_Activated(object sender, EventArgs e)
@@ -172,7 +198,96 @@ namespace Enrollment_System
 
         private void DataGridEnrollment_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-           
+            if (e.RowIndex >= 0)
+            {
+                // Check if the clicked cell is in the Edit column
+                if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColOpen")
+                {
+                    // Simply open the form without passing any data
+                    using (FormNewAcademiccs editForm = new FormNewAcademiccs())
+                    {
+                        editForm.StartPosition = FormStartPosition.CenterParent;
+                        DialogResult result = editForm.ShowDialog();
+
+                        // Refresh data if the form was closed with OK
+                        if (result == DialogResult.OK)
+                        {
+                            LoadEnrollmentData();
+                        }
+                    }
+                }
+
+                // Check if the clicked cell is in the Delete column
+                else if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColClose")
+                {
+                    DialogResult confirmResult = MessageBox.Show("Are you sure you want to drop this enrollment?",
+                                                              "Confirm Deletion",
+                                                              MessageBoxButtons.YesNo,
+                                                              MessageBoxIcon.Warning);
+
+                    if (confirmResult == DialogResult.Yes)
+                    {
+                        string enrollmentId = DataGridEnrollment.Rows[e.RowIndex].Cells["enrollment_id"].Value.ToString();
+                        string studentName = $"{DataGridEnrollment.Rows[e.RowIndex].Cells["last_name"].Value}, {DataGridEnrollment.Rows[e.RowIndex].Cells["first_name"].Value}";
+
+                        try
+                        {
+                            // Delete the enrollment from database
+                            bool isDeleted = DeleteEnrollment(enrollmentId);
+
+                            if (isDeleted)
+                            {
+                                MessageBox.Show($"Enrollment for {studentName} dropped successfully.",
+                                              "Deleted",
+                                              MessageBoxButtons.OK,
+                                              MessageBoxIcon.Information);
+
+                                // Remove the row from the DataGridView
+                                DataGridEnrollment.Rows.RemoveAt(e.RowIndex);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Failed to drop enrollment.",
+                                              "Error",
+                                              MessageBoxButtons.OK,
+                                              MessageBoxIcon.Error);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Error dropping enrollment: {ex.Message}",
+                                          "Error",
+                                          MessageBoxButtons.OK,
+                                          MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+        }
+
+        private bool DeleteEnrollment(string enrollmentId)
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection("server=localhost;database=PDM_Enrollment_DB;user=root;password=;"))
+                {
+                    conn.Open();
+
+                    string query = "DELETE FROM student_enrollments WHERE enrollment_id = @EnrollmentId";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@EnrollmentId", enrollmentId);
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        return rowsAffected > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error if needed
+                throw new Exception("Error deleting enrollment: " + ex.Message);
+            }
         }
     }
 }
