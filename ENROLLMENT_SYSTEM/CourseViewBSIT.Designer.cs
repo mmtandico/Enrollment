@@ -659,7 +659,7 @@
             this.panel3.Controls.Add(this.BtnEnroll);
             this.panel3.Location = new System.Drawing.Point(0, 10099);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1229, 2198);
+            this.panel3.Size = new System.Drawing.Size(1212, 4250);
             this.panel3.TabIndex = 9;
             this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 

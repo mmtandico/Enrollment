@@ -291,8 +291,7 @@ namespace Enrollment_System
 
         private void BtnEnroll1_Click(object sender, EventArgs e)
         {
-            // Confirm course change if already selected
-            if (parentForm.Panel8.Tag != null)
+            if (parentForm.Panel8.Tag != null && parentForm.Panel8.Tag.ToString() != "BSIT")
             {
                 DialogResult result = MessageBox.Show(
                     $"You’ve already picked the course \"{parentForm.Panel8.Tag}\".\nDo you want to change it?",
@@ -302,23 +301,46 @@ namespace Enrollment_System
                 );
 
                 if (result == DialogResult.No)
-                {
                     return;
-                }
             }
 
-            // Store selected course name
             SessionManager.SelectedCourse = "Bachelor of Science in Information Technology";
+            parentForm.Panel8.Tag = "BSIT";
 
-            // Optionally update Panel8 tag if you want to reflect the change
-            parentForm.Panel8.Tag = "BSCS";
+            FormEnrollment enrollmentForm = new FormEnrollment
+            {
+                StartPosition = FormStartPosition.CenterParent
+            };
+            enrollmentForm.Show();
 
-            // Open the enrollment form (popup)
-            FormNewAcademiccs enrollmentForm = new FormNewAcademiccs();
-            enrollmentForm.StartPosition = FormStartPosition.CenterParent;
-            enrollmentForm.ShowDialog(); // Modal
+            FormNewAcademiccs newAcademicForm = new FormNewAcademiccs
+            {
+                StartPosition = FormStartPosition.CenterParent
+            };
 
-            // Close this form after showing the enrollment form
+
+            newAcademicForm.FormClosed += (s, args) =>
+            {
+
+                parentForm.Panel8.Controls.Clear();
+                CourseBSIT courseForm = new CourseBSIT
+                {
+                    TopLevel = false,
+                    Dock = DockStyle.Fill
+                };
+                parentForm.Panel8.Controls.Add(courseForm);
+                courseForm.Show();
+
+
+                if (parentForm.Panel8.Tag.ToString() == "BSIT")
+                {
+                    parentForm.UpdateCourseBannerImage("BSIT");
+                }
+            };
+
+            newAcademicForm.ShowDialog();
+
+
             this.Close();
         }
     }

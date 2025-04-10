@@ -577,12 +577,6 @@ namespace Enrollment_System
         private static int studentIdCounter = 0;
         private int GetNextStudentIdNumber()
         {
-            // In a real application, you would:
-            // 1. Query your database for the highest existing ID
-            // 2. Increment by 1
-            // 3. Return the new number
-
-            // For this example, we'll just increment a counter
             return ++studentIdCounter;
         }
     }
