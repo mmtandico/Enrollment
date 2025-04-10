@@ -139,15 +139,8 @@ namespace Enrollment_System
 
         private void BtnCED_Click(object sender, EventArgs e)
         {
-            CourseBECED f = new CourseBECED();
-            f.TopLevel = false;
-            panel8.Controls.Add(f);
-            f.BringToFront();
-            f.Show();
-
-            string message = "Bachelor of Early Chilhoof Education"; 
-            FormNewAcads.SetText(message);     
-            FormNewAcads.Show();
+            CourseViewBECED viewForm = new CourseViewBECED(this);
+            viewForm.Show();
         }
 
 

@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace Enrollment_System
 {
-    public partial class CourseViewBTLED : Form
+    public partial class CourseViewBECED : Form
     {
         private FormCourse parentForm;
-        public CourseViewBTLED(FormCourse form)
+        public CourseViewBECED(FormCourse form)
         {
             InitializeComponent();
             parentForm = form;
@@ -21,7 +21,7 @@ namespace Enrollment_System
 
         private void BtnEnroll1_Click(object sender, EventArgs e)
         {
-            if (parentForm.Panel8.Tag != null && parentForm.Panel8.Tag.ToString() != "BTLED")
+            if (parentForm.Panel8.Tag != null && parentForm.Panel8.Tag.ToString() != "BECED")
             {
                 DialogResult result = MessageBox.Show(
                     $"You’ve already picked the course \"{parentForm.Panel8.Tag}\".\nDo you want to change it?",
@@ -34,8 +34,8 @@ namespace Enrollment_System
                     return;
             }
 
-            SessionManager.SelectedCourse = "Bachelor of Technology and Livelihood Education";
-            parentForm.Panel8.Tag = "BTLED";
+            SessionManager.SelectedCourse = "Bachelor of Early Childhood Education";
+            parentForm.Panel8.Tag = "BECED";
 
             FormEnrollment enrollmentForm = new FormEnrollment
             {
@@ -53,7 +53,7 @@ namespace Enrollment_System
             {
 
                 parentForm.Panel8.Controls.Clear();
-                CourseBTLED courseForm = new CourseBTLED
+                CourseBECED courseForm = new CourseBECED
                 {
                     TopLevel = false,
                     Dock = DockStyle.Fill
@@ -62,25 +62,15 @@ namespace Enrollment_System
                 courseForm.Show();
 
 
-                if (parentForm.Panel8.Tag.ToString() == "BTLED")
+                if (parentForm.Panel8.Tag.ToString() == "BECED")
                 {
-                    parentForm.UpdateCourseBannerImage("BTLED");
+                    parentForm.UpdateCourseBannerImage("BECED");
                 }
             };
 
             newAcademicForm.ShowDialog();
 
 
-            this.Close();
-        }
-
-        private void BtnBack1_Click(object sender, EventArgs e)
-        {                                                                                                                                                                                                                                                                                                                                     
-            this.Close();
-        }
-
-        private void BtnBack_Click(object sender, EventArgs e)
-        {
             this.Close();
         }
     }
