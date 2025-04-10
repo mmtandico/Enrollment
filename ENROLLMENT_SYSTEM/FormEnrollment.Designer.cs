@@ -52,7 +52,7 @@
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.DataGridPayment = new System.Windows.Forms.DataGridView();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -71,6 +71,10 @@
             this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColOpen = new System.Windows.Forms.DataGridViewImageColumn();
             this.ColClose = new System.Windows.Forms.DataGridViewImageColumn();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColAcademicYear = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BtnPayment = new System.Windows.Forms.DataGridViewButtonColumn();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -79,7 +83,7 @@
             this.panel9.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridPayment)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -322,7 +326,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.dataGridView1);
+            this.tabPage2.Controls.Add(this.DataGridPayment);
             this.tabPage2.Location = new System.Drawing.Point(4, 34);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Size = new System.Drawing.Size(1292, 604);
@@ -330,15 +334,34 @@
             this.tabPage2.Text = "Payment";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // DataGridPayment
             // 
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1292, 604);
-            this.dataGridView1.TabIndex = 0;
+            this.DataGridPayment.AllowUserToAddRows = false;
+            this.DataGridPayment.AllowUserToResizeColumns = false;
+            this.DataGridPayment.AllowUserToResizeRows = false;
+            this.DataGridPayment.BackgroundColor = System.Drawing.Color.White;
+            this.DataGridPayment.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.DataGridPayment.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            this.DataGridPayment.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.DataGridPayment.ColumnHeadersHeight = 40;
+            this.DataGridPayment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.DataGridPayment.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ID,
+            this.ColAcademicYear,
+            this.ColStatus,
+            this.BtnPayment});
+            this.DataGridPayment.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DataGridPayment.Location = new System.Drawing.Point(0, 0);
+            this.DataGridPayment.Name = "DataGridPayment";
+            this.DataGridPayment.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.DataGridPayment.RowHeadersWidth = 50;
+            this.DataGridPayment.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.DataGridPayment.RowTemplate.Height = 30;
+            this.DataGridPayment.RowTemplate.ReadOnly = true;
+            this.DataGridPayment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DataGridPayment.Size = new System.Drawing.Size(1292, 604);
+            this.DataGridPayment.TabIndex = 1;
+            this.DataGridPayment.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridPayment_CellContentClick);
             // 
             // tabPage1
             // 
@@ -431,7 +454,7 @@
             dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
             dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.DataGridEnrollment.DefaultCellStyle = dataGridViewCellStyle8;
-            this.DataGridEnrollment.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DataGridEnrollment.Dock = System.Windows.Forms.DockStyle.Top;
             this.DataGridEnrollment.GridColor = System.Drawing.SystemColors.Control;
             this.DataGridEnrollment.Location = new System.Drawing.Point(3, 50);
             this.DataGridEnrollment.Name = "DataGridEnrollment";
@@ -452,7 +475,8 @@
             this.DataGridEnrollment.RowsDefaultCellStyle = dataGridViewCellStyle10;
             this.DataGridEnrollment.RowTemplate.Height = 30;
             this.DataGridEnrollment.RowTemplate.ReadOnly = true;
-            this.DataGridEnrollment.Size = new System.Drawing.Size(1286, 551);
+            this.DataGridEnrollment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DataGridEnrollment.Size = new System.Drawing.Size(1286, 329);
             this.DataGridEnrollment.TabIndex = 1;
             this.DataGridEnrollment.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridEnrollment_CellContentClick);
             // 
@@ -576,6 +600,40 @@
             this.ColClose.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.ColClose.Width = 40;
             // 
+            // ID
+            // 
+            this.ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ID.FillWeight = 200F;
+            this.ID.HeaderText = "ID";
+            this.ID.Name = "ID";
+            this.ID.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ID.Width = 53;
+            // 
+            // ColAcademicYear
+            // 
+            this.ColAcademicYear.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ColAcademicYear.HeaderText = "Academic Year";
+            this.ColAcademicYear.Name = "ColAcademicYear";
+            this.ColAcademicYear.ReadOnly = true;
+            this.ColAcademicYear.Width = 158;
+            // 
+            // ColStatus
+            // 
+            this.ColStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ColStatus.HeaderText = "Status";
+            this.ColStatus.Name = "ColStatus";
+            this.ColStatus.ReadOnly = true;
+            this.ColStatus.Width = 89;
+            // 
+            // BtnPayment
+            // 
+            this.BtnPayment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.BtnPayment.HeaderText = "Pay";
+            this.BtnPayment.Name = "BtnPayment";
+            this.BtnPayment.ReadOnly = true;
+            this.BtnPayment.Text = "PAY";
+            this.BtnPayment.Width = 47;
+            // 
             // FormEnrollment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -599,7 +657,7 @@
             this.panel9.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridPayment)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -630,7 +688,7 @@
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView DataGridPayment;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.DataGridView DataGridEnrollment;
         private System.Windows.Forms.Panel panel2;
@@ -649,5 +707,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn status;
         private System.Windows.Forms.DataGridViewImageColumn ColOpen;
         private System.Windows.Forms.DataGridViewImageColumn ColClose;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColAcademicYear;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColStatus;
+        private System.Windows.Forms.DataGridViewButtonColumn BtnPayment;
     }
 }
