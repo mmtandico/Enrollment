@@ -44,16 +44,18 @@ namespace Enrollment_System
 
         private void BtnBrowse_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            using (OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.Filter = "All files (*.*)|*.*"; 
-                openFileDialog.RestoreDirectory = true;
-
+                Filter = "PDF Files|*.pdf"
+            })
+            {
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    
-                    TxtGradePdfPath.Text = openFileDialog.FileName;
+                    byte[] fileData = File.ReadAllBytes(openFileDialog.FileName);
+                    string fileName = Path.GetFileName(openFileDialog.FileName);
+
+                    //SavePdfToDatabase(fileName, fileData); // call to save
+                    MessageBox.Show("PDF uploaded successfully.");
                 }
             }
         }
