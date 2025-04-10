@@ -211,7 +211,7 @@ namespace Enrollment_System
                     conn.Open();
                     long studentId = -1;
 
-                    // Check if the student exists for the logged-in user
+                   
                     string checkStudentQuery = "SELECT student_id FROM students WHERE user_id = @UserID";
                     using (var checkCmd = new MySqlCommand(checkStudentQuery, conn))
                     {
@@ -220,7 +220,7 @@ namespace Enrollment_System
 
                         if (result == null) 
                         {
-                            // Insert new student record
+                            
                             string insertStudentQuery = @"
                     INSERT INTO students (user_id, student_no, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
                     VALUES (@UserID, '', '', '', '', '2000-01-01', '', '', '', '')";
@@ -230,18 +230,18 @@ namespace Enrollment_System
                                 insertCmd.Parameters.AddWithValue("@UserID", loggedInUserId);
                                 insertCmd.ExecuteNonQuery();
 
-                                // Retrieve the last inserted student_id
+                               
                                 studentId = Convert.ToInt64(new MySqlCommand("SELECT LAST_INSERT_ID()", conn).ExecuteScalar());
                             }
                         }
                         else
                         {
-                            // Student exists, get the student_id
+                            
                             studentId = Convert.ToInt64(result);
                         }
                     }
 
-                    // Insert or Update student record
+                    
                     string studentQuery = @"
                     INSERT INTO students (student_id, user_id, student_no, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
                     VALUES (@StudentID, @UserID, @StudentNo, @StudentLRN, @FirstName, @MiddleName, @LastName, @BirthDate, @Age, @Sex, @CivilStatus, @Nationality)
@@ -272,7 +272,7 @@ namespace Enrollment_System
                         new MySqlParameter("@Nationality", TxtNational.Text)
                     );
 
-                    // Insert or Update contact information
+                   
                     string contactQuery = @"
                         INSERT INTO contact_info(student_id, phone_no)
                         VALUES(@StudentID, @PhoneNo)
@@ -283,7 +283,7 @@ namespace Enrollment_System
                         new MySqlParameter("@PhoneNo", TxtPhoneNo.Text)
                     );
 
-                    // Insert or Update address
+                    
                     string addressQuery = @"
                         INSERT INTO addresses (student_id, block_street, subdivision, barangay, city, province, zipcode) 
                         VALUES (@StudentID, @BlockStreet, @Subdivision, @Barangay, @City, @Province, @Zipcode) 
@@ -305,7 +305,7 @@ namespace Enrollment_System
                         new MySqlParameter("@Zipcode", TxtZipcode.Text)
                     );
 
-                    // Insert or Update guardian information
+                  
                     string guardianQuery = @"
                     INSERT INTO parents_guardians (first_name, last_name, middle_name, contact_number) 
                     VALUES (@GuardianFirstName, @GuardianLastName, @GuardianMiddleName, @GuardianContact)
@@ -324,10 +324,10 @@ namespace Enrollment_System
 
                         guardianCmd.ExecuteNonQuery();
 
-                        // Get the guardian ID of the last inserted record
+                      
                         long guardianId = Convert.ToInt64(new MySqlCommand("SELECT LAST_INSERT_ID()", conn).ExecuteScalar());
 
-                        // Insert student-guardian relationship
+                       
                         string studentGuardianQuery = @"
                         INSERT INTO student_guardians (student_id, guardian_id, relationship) 
                         VALUES (@StudentID, @GuardianID, @Relationship)
@@ -335,8 +335,8 @@ namespace Enrollment_System
 
                         using (var studentGuardianCmd = new MySqlCommand(studentGuardianQuery, conn))
                         {
-                            studentGuardianCmd.Parameters.AddWithValue("@StudentID", studentId);  // Use the correct studentId
-                            studentGuardianCmd.Parameters.AddWithValue("@GuardianID", guardianId);  // Use the guardianId
+                            studentGuardianCmd.Parameters.AddWithValue("@StudentID", studentId); 
+                            studentGuardianCmd.Parameters.AddWithValue("@GuardianID", guardianId);  
                             studentGuardianCmd.Parameters.AddWithValue("@Relationship", TxtGuardianRelation.Text);
 
                             studentGuardianCmd.ExecuteNonQuery();

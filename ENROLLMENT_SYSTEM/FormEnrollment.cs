@@ -40,7 +40,7 @@ namespace Enrollment_System
             }
 
             DataGridEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            DataGridEnrollment.Columns["ColOpen"].Width = 50; // or 40 if you want tighter buttons
+            DataGridEnrollment.Columns["ColOpen"].Width = 50; 
             DataGridEnrollment.Columns["ColClose"].Width = 50;
             DataGridEnrollment.Columns["ColOpen"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             DataGridEnrollment.Columns["ColClose"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
@@ -60,8 +60,8 @@ namespace Enrollment_System
 
             foreach (DataGridViewColumn col in DataGridEnrollment.Columns)
             {
-                col.Frozen = false; // Unfreeze
-                col.Resizable = DataGridViewTriState.True; // Let it resize
+                col.Frozen = false; 
+                col.Resizable = DataGridViewTriState.True; 
             }
 
         }
@@ -167,7 +167,7 @@ namespace Enrollment_System
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            // Clear existing rows before adding new ones
+                          
                             DataGridEnrollment.Rows.Clear();
 
                             while (reader.Read())
@@ -200,16 +200,16 @@ namespace Enrollment_System
         {
             if (e.RowIndex >= 0)
             {
-                // Check if the clicked cell is in the Edit column
+                
                 if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColOpen")
                 {
-                    // Simply open the form without passing any data
+                    
                     using (FormNewAcademiccs editForm = new FormNewAcademiccs())
                     {
                         editForm.StartPosition = FormStartPosition.CenterParent;
                         DialogResult result = editForm.ShowDialog();
 
-                        // Refresh data if the form was closed with OK
+                        
                         if (result == DialogResult.OK)
                         {
                             LoadEnrollmentData();
@@ -217,7 +217,7 @@ namespace Enrollment_System
                     }
                 }
 
-                // Check if the clicked cell is in the Delete column
+                
                 else if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColClose")
                 {
                     DialogResult confirmResult = MessageBox.Show("Are you sure you want to drop this enrollment?",
@@ -232,7 +232,7 @@ namespace Enrollment_System
 
                         try
                         {
-                            // Delete the enrollment from database
+                            
                             bool isDeleted = DeleteEnrollment(enrollmentId);
 
                             if (isDeleted)
@@ -242,7 +242,7 @@ namespace Enrollment_System
                                               MessageBoxButtons.OK,
                                               MessageBoxIcon.Information);
 
-                                // Remove the row from the DataGridView
+                              
                                 DataGridEnrollment.Rows.RemoveAt(e.RowIndex);
                             }
                             else
@@ -285,7 +285,7 @@ namespace Enrollment_System
             }
             catch (Exception ex)
             {
-                // Log the error if needed
+                
                 throw new Exception("Error deleting enrollment: " + ex.Message);
             }
         }

@@ -146,15 +146,15 @@ namespace Enrollment_System
 
         public void UpdateCourseBannerImage(string courseCode)
         {
-            // Check if PbBanner exists in Panel8
+            
             MessageBox.Show($"Panel8 contains {this.Panel8.Controls.Count} controls.");
 
-            // Now attempt to get PbBanner from Panel8
+            
             PictureBox pictureBox = this.Panel8.Controls["PbBanner"] as PictureBox;
 
             if (pictureBox != null)
             {
-                // Update the image based on the course code
+                
                 switch (courseCode)
                 {
                     case "BSCS":
@@ -181,13 +181,13 @@ namespace Enrollment_System
                         }
                         break;
 
-                    // Add more cases for other courses as needed
+                    
                     default:
                         pictureBox.Image = null;
                         break;
                 }
 
-                // Ensure the PictureBox is correctly sized to fit the image
+                
                 pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             }
             else
