@@ -22,6 +22,7 @@ namespace Enrollment_System
         {
             InitializeComponent();
             this.Activated += FormEnrollment_Activated;
+            DataGridEnrollment.CellContentClick += DataGridEnrollment_CellContentClick;
 
             if (!string.IsNullOrEmpty(SessionManager.LastName) && !string.IsNullOrEmpty(SessionManager.FirstName))
             {
@@ -66,20 +67,50 @@ namespace Enrollment_System
                 col.Resizable = DataGridViewTriState.True; 
             }
 
+            /////////////////////////////////////////
+            DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataGridPayment.Columns["ColPay"].Width = 50;
+            DataGridPayment.Columns["ColDelete"].Width = 50;
+            DataGridPayment.Columns["ColPay"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPayment.Columns["ColDelete"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPayment.RowTemplate.Height = 40;
+            DataGridPayment.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 
-           
             DataGridPayment.RowTemplate.Height = 40;
             DataGridPayment.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
             DataGridPayment.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             DataGridPayment.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            DataGridViewImageColumn ColPay = (DataGridViewImageColumn)DataGridEnrollment.Columns["ColPay"];
+            colOpen.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
+            DataGridViewImageColumn ColDelete = (DataGridViewImageColumn)DataGridEnrollment.Columns["ColDelete"];
+            colClose.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
             foreach (DataGridViewColumn col in DataGridPayment.Columns)
             {
                 col.Frozen = false;
                 col.Resizable = DataGridViewTriState.True;
             }
-            StyleDataGridPayment();
 
+            /////////////////////////////////////////////
+            DataGridSubjects.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataGridSubjects.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataGridSubjects.RowTemplate.Height = 40;
+            DataGridSubjects.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 
+            DataGridSubjects.RowTemplate.Height = 40;
+            DataGridSubjects.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            DataGridSubjects.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            DataGridSubjects.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+    
+            foreach (DataGridViewColumn col in DataGridSubjects.Columns)
+            {
+                col.Frozen = false;
+                col.Resizable = DataGridViewTriState.True;
+            }
         }
 
         private void FormEnrollment_Activated(object sender, EventArgs e)
@@ -160,22 +191,22 @@ namespace Enrollment_System
                     conn.Open();
 
                     string query = @"
-                        SELECT 
-                            se.enrollment_id,
-                            s.student_id,
-                            s.student_no,
-                            s.last_name,
-                            s.first_name,
-                            s.middle_name,
-                            c.course_code,
-                            se.academic_year,
-                            se.semester,
-                            se.year_level,
-                            se.status
-                        FROM student_enrollments se
-                        INNER JOIN students s ON se.student_id = s.student_id
-                        INNER JOIN courses c ON se.course_id = c.course_id
-                        WHERE s.user_id = @UserID";
+                    SELECT 
+                        se.enrollment_id,
+                        s.student_id,
+                        s.student_no,
+                        s.last_name,
+                        s.first_name,
+                        s.middle_name,
+                        c.course_code,
+                        se.academic_year,
+                        se.semester,
+                        se.year_level,
+                        se.status
+                    FROM student_enrollments se
+                    INNER JOIN students s ON se.student_id = s.student_id
+                    INNER JOIN courses c ON se.course_id = c.course_id
+                    WHERE s.user_id = @UserID";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
@@ -183,7 +214,6 @@ namespace Enrollment_System
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                          
                             DataGridEnrollment.Rows.Clear();
 
                             while (reader.Read())
@@ -217,6 +247,21 @@ namespace Enrollment_System
             if (e.RowIndex >= 0)
             {
                 
+                var selectedRow = DataGridEnrollment.Rows[e.RowIndex];
+
+                
+                string studentNo = selectedRow.Cells["student_no"].Value.ToString();
+                string lastName = selectedRow.Cells["last_name"].Value.ToString();
+                string firstName = selectedRow.Cells["first_name"].Value.ToString();
+                string middleName = selectedRow.Cells["middle_name"].Value.ToString();
+                string course = selectedRow.Cells["course_name"].Value.ToString();
+                string academicYear = selectedRow.Cells["academic_year"].Value.ToString();
+                string semester = selectedRow.Cells["semester"].Value.ToString();
+                string yearLevel = selectedRow.Cells["year_level"].Value.ToString();
+
+                
+                UpdateStudentInfoPanel(studentNo, $"{firstName} {middleName} {lastName}", course, academicYear, semester, yearLevel);
+
                 if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColOpen")
                 {
                     
@@ -281,6 +326,16 @@ namespace Enrollment_System
             }
         }
 
+        private void UpdateStudentInfoPanel(string studentNo, string fullName, string course, string academicYear, string semester, string yearLevel)
+        {
+            LblStudentNo.Text = studentNo;
+            LblName.Text = fullName;
+            LblCourse.Text = course;
+            LblAcademicYear.Text = academicYear;
+            LblSemester.Text = semester;
+            LblYearLevel.Text = yearLevel;
+        }
+
         private bool DeleteEnrollment(string enrollmentId)
         {
             try
@@ -308,6 +363,9 @@ namespace Enrollment_System
 
         private void FormEnrollment_Load_1(object sender, EventArgs e)
         {
+            LoadEnrollmentData();
+
+            ///////////////////////////////////
             DataGridEnrollment.AllowUserToResizeColumns = false;
             DataGridEnrollment.AllowUserToResizeRows = false;
             DataGridEnrollment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;        
@@ -323,11 +381,43 @@ namespace Enrollment_System
             DataGridEnrollment.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             DataGridEnrollment.Columns[0].Width = 50;
             DataGridEnrollment.RowTemplate.Height = 35;
-
+            ///////////////////////////////////////////
             DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataGridPayment.AllowUserToResizeColumns = false;
+            DataGridPayment.AllowUserToResizeRows = false;
+            DataGridPayment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            foreach (DataGridViewColumn column in DataGridPayment.Columns)
+            {
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+            int totalCol = DataGridPayment.Columns.Count;
+            DataGridPayment.Columns[totalCol - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPayment.Columns[totalCol - 1].Width = 40;
+            DataGridPayment.Columns[totalCol - 2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPayment.Columns[totalCol - 2].Width = 40;
+            DataGridPayment.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPayment.Columns[0].Width = 50;
+            DataGridPayment.RowTemplate.Height = 35;
+            ///////////////////////////////////////////////
+            DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataGridPayment.AllowUserToResizeColumns = false;
+            DataGridPayment.AllowUserToResizeRows = false;
+            DataGridPayment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            foreach (DataGridViewColumn column in DataGridSubjects.Columns)
+            {
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+            DataGridSubjects.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridSubjects.Columns[0].Width = 50;
+            DataGridSubjects.Columns[1].Width = 125;
+            DataGridSubjects.Columns[3].Width = 50;
+            DataGridSubjects.RowTemplate.Height = 35;
+
+
             CustomizeDataGrid();
             StyleTwoTabControl();
-            
+            StyleDataGridPayment();
+            StyleDataGridSubjects();
         }
 
         private void CustomizeDataGrid()
@@ -479,12 +569,6 @@ namespace Enrollment_System
         private void StyleDataGridPayment()
         {
 
-            // Assume no columns are frozen
-            foreach (DataGridViewColumn column in DataGridPayment.Columns)
-            {
-                column.Frozen = false; // Ensure all columns are not frozen
-            }
-
             DataGridPayment.BorderStyle = BorderStyle.None;
 
 
@@ -518,6 +602,49 @@ namespace Enrollment_System
 
 
             foreach (DataGridViewColumn column in DataGridPayment.Columns)
+            {
+                column.Resizable = DataGridViewTriState.False;
+            }
+
+
+        }
+
+        private void StyleDataGridSubjects()
+        {
+
+            DataGridSubjects.BorderStyle = BorderStyle.None;
+
+
+            DataGridSubjects.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
+
+
+            DataGridSubjects.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
+            DataGridSubjects.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
+
+
+            DataGridSubjects.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
+            DataGridSubjects.DefaultCellStyle.SelectionForeColor = Color.White;
+
+
+            DataGridSubjects.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33); // Rich brown
+            DataGridSubjects.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            DataGridSubjects.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            DataGridSubjects.EnableHeadersVisualStyles = false;
+
+
+            DataGridSubjects.GridColor = Color.BurlyWood;
+
+
+            DataGridSubjects.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+
+
+            DataGridSubjects.RowTemplate.Height = 35;
+
+
+            DataGridSubjects.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+
+            foreach (DataGridViewColumn column in DataGridSubjects.Columns)
             {
                 column.Resizable = DataGridViewTriState.False;
             }
