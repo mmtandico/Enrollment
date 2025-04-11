@@ -191,22 +191,22 @@ namespace Enrollment_System
                     conn.Open();
 
                     string query = @"
-                    SELECT 
-                        se.enrollment_id,
-                        s.student_id,
-                        s.student_no,
-                        s.last_name,
-                        s.first_name,
-                        s.middle_name,
-                        c.course_code,
-                        se.academic_year,
-                        se.semester,
-                        se.year_level,
-                        se.status
-                    FROM student_enrollments se
-                    INNER JOIN students s ON se.student_id = s.student_id
-                    INNER JOIN courses c ON se.course_id = c.course_id
-                    WHERE s.user_id = @UserID";
+                        SELECT 
+                            se.enrollment_id,
+                            s.student_id,
+                            s.student_no,
+                            s.last_name,
+                            s.first_name,
+                            s.middle_name,
+                            c.course_code,
+                            se.academic_year,
+                            se.semester,
+                            se.year_level,
+                            se.status
+                        FROM student_enrollments se
+                        INNER JOIN students s ON se.student_id = s.student_id
+                        INNER JOIN courses c ON se.course_id = c.course_id
+                        WHERE s.user_id = @UserID";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
@@ -214,6 +214,7 @@ namespace Enrollment_System
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
+
                             DataGridEnrollment.Rows.Clear();
 
                             while (reader.Read())
@@ -264,13 +265,14 @@ namespace Enrollment_System
 
                 if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColOpen")
                 {
-                    
+                    string enrollmentId = DataGridEnrollment.Rows[e.RowIndex].Cells["enrollment_id"].Value.ToString();
                     using (FormNewAcademiccs editForm = new FormNewAcademiccs())
                     {
+                        editForm.EnrollmentId = enrollmentId;
                         editForm.StartPosition = FormStartPosition.CenterParent;
+
                         DialogResult result = editForm.ShowDialog();
 
-                        
                         if (result == DialogResult.OK)
                         {
                             LoadEnrollmentData();
