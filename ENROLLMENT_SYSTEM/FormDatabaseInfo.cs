@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,13 +11,20 @@ using System.Windows.Forms;
 
 namespace Enrollment_System
 {
+
     public partial class FormDatabaseInfo : Form
     {
+        
+
+
         public FormDatabaseInfo()
         {
             InitializeComponent();
-            
+            ApplyButtonEffects();
         }
+
+        
+       
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
@@ -60,7 +68,25 @@ namespace Enrollment_System
 
         private void FormDatabaseInfo_Load(object sender, EventArgs e)
         {
+            ApplyButtonEffects();
 
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void ApplyButtonEffects()
+        {
+           
+        }
+
+       
+        private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
+        {
+            
         }
 
         

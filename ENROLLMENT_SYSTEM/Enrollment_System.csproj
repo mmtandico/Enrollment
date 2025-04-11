@@ -499,6 +499,30 @@
   <ItemGroup>
     <None Include="Resources\PAYMENTQR-removebg-preview.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Dashboard Layout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Dashboard Layout1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\People.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Book.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Graph Report.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\totalstudents.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\totalenroll.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
