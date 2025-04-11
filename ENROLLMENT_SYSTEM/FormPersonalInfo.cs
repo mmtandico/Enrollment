@@ -9,7 +9,7 @@ namespace Enrollment_System
 {
     public partial class FormPersonalInfo : Form
     {
-        private string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
+        private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
         private Image[] images;
         private int currentImageIndex = 0;
         private long loggedInUserId;
