@@ -1,29 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace Enrollment_System
 {
     public partial class FormCourse : Form
     {
-
+        private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
         private FormNewAcademiccs FormNewAcads;
 
         public Panel Panel8
         {
             get { return panel8; }
         }
-
         public FormCourse()
         {
             InitializeComponent();
+            InitializeBannerPictureBox();
+            LoadWelcomeMessage();
+            LoadEnrolledCourseBanner();
+        }
+
+        private void InitializeBannerPictureBox()
+        {
+            this.PboxBanner = new PictureBox();
+            this.PboxBanner.BackColor = System.Drawing.Color.Transparent;
+            this.PboxBanner.Location = new System.Drawing.Point(0, 0);
+            this.PboxBanner.Name = "PboxBanner";
+            this.PboxBanner.Size = new System.Drawing.Size(1230, 229);
+            this.PboxBanner.TabIndex = 31;
+            this.PboxBanner.TabStop = false;
+            this.PboxBanner.SizeMode = PictureBoxSizeMode.StretchImage;
+            this.panel8.Controls.Add(this.PboxBanner);
+
+        }
+
+        private void LoadWelcomeMessage()
+        {
             if (!string.IsNullOrEmpty(SessionManager.LastName) && !string.IsNullOrEmpty(SessionManager.FirstName))
             {
                 LblWelcome.Text = $"{SessionManager.LastName}, {SessionManager.FirstName[0]}.";
@@ -42,15 +57,116 @@ namespace Enrollment_System
             }
         }
 
-
-
-        private void BtnExit_Click(object sender, EventArgs e)
+        private void LoadEnrolledCourseBanner()
         {
-            Application.Exit();
+            if (SessionManager.StudentId <= 0)
+            {
+                MessageBox.Show("No student information available. Please log in as a student.");
+                return;
+            }
+
+            string courseCode = GetEnrolledCourseCode(SessionManager.StudentId);
+            if (!string.IsNullOrEmpty(courseCode))
+            {
+                UpdateCourseBannerImage(courseCode);
+                SessionManager.SelectedCourse = courseCode;
+            }
+            else
+            {
+                MessageBox.Show("You are not currently enrolled in any course.");
+                SetDefaultBanner();
+            }
         }
 
+        private string GetEnrolledCourseCode(int studentId)
+        {
+            string courseCode = null;
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    string query = @"SELECT c.course_code 
+                                   FROM student_enrollments se
+                                   JOIN courses c ON se.course_id = c.course_id
+                                   WHERE se.student_id = @StudentId
+                                   AND se.status IN ('Enrolled', 'Completed', 'Pending', 'Drop')
+                                   ORDER BY se.enrollment_id DESC
+                                   LIMIT 1";
 
-        private void BtnHome_Click_1(object sender, EventArgs e)
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@StudentId", studentId);
+                        connection.Open();
+                        object result = command.ExecuteScalar();
+                        courseCode = result?.ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error accessing database: {ex.Message}");
+            }
+            return courseCode;
+        }
+
+        public void UpdateCourseBannerImage(string courseCode)
+        {
+            try
+            {
+                string imagePath = $@"C:\Users\w\source\repos\Enrollment\Enrollment_System\Resources\BANNER_{courseCode}.png";
+
+                if (!File.Exists(imagePath))
+                {
+                    MessageBox.Show($"Banner image not found for {courseCode} at:\n{imagePath}");
+                    SetDefaultBanner();
+                    return;
+                }
+
+                // Load the new image
+                Image newImage = Image.FromFile(imagePath);
+
+
+                // Dispose old image if exists
+                if (PboxBanner.Image != null)
+                {
+                    Image oldImage = PboxBanner.Image;
+                    PboxBanner.Image = null;
+                    oldImage.Dispose();
+                }
+
+                PboxBanner.Image = newImage;
+                BringBannerToFront();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading banner: {ex.Message}");
+                SetDefaultBanner();
+            }
+        }
+
+        private void SetDefaultBanner()
+        {
+            string defaultImagePath = @"C:\Users\w\source\repos\Enrollment\Enrollment_System\Resources\BACKGROUNDCOLOR.png";
+
+            try
+            {
+                if (File.Exists(defaultImagePath))
+                {
+                    PboxBanner.Image = Image.FromFile(defaultImagePath);
+                }
+                else
+                {
+                    PboxBanner.Image = null;
+                }
+            }
+            catch
+            {
+                PboxBanner.Image = null;
+            }
+        }
+
+        #region Navigation Buttons
+        private void BtnHome_Click(object sender, EventArgs e)
         {
             this.Close();
             new FormHome().Show();
@@ -66,7 +182,6 @@ namespace Enrollment_System
         {
             this.Close();
             new FormPersonalInfo().Show();
-
         }
 
         private void BtnDataBase_Click(object sender, EventArgs e)
@@ -77,20 +192,70 @@ namespace Enrollment_System
 
         private void BtnLogout_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Are you sure you want to log out?", "Logout Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("Are you sure you want to log out?",
+                                               "Logout Confirmation",
+                                               MessageBoxButtons.YesNo,
+                                               MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
+                SessionManager.Logout();
                 new FormLogin().Show();
                 this.Close();
             }
         }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
+        #endregion
+        public void BringBannerToFront()
         {
-
+            if (PboxBanner != null && panel8.Controls.Contains(PboxBanner))
+            {
+                PboxBanner.BringToFront();
+            }
         }
 
+        #region Course Selection Buttons
+        private void BtnBSCS_Click(object sender, EventArgs e)
+        {
+
+            UpdateCourseBannerImage("BSCS");
+        }
+
+        private void BtnBSIT_Click(object sender, EventArgs e)
+        {
+
+            UpdateCourseBannerImage("BSIT");
+        }
+
+        private void BtnBSTM_Click(object sender, EventArgs e)
+        {
+            UpdateCourseBannerImage("BSTM");
+        }
+
+        private void BtnBSHM_Click(object sender, EventArgs e)
+        {
+            UpdateCourseBannerImage("BSHM");
+        }
+
+        private void BtnBSOAD_Click(object sender, EventArgs e)
+        {
+            UpdateCourseBannerImage("BSOAD");
+        }
+
+        private void BtnBTLED_Click(object sender, EventArgs e)
+        {
+            UpdateCourseBannerImage("BTLED");
+        }
+
+        private void BtnBECED_Click(object sender, EventArgs e)
+        {
+            UpdateCourseBannerImage("BECED");
+        }
+        #endregion
+        private void BtnHome_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+            new FormHome().Show();
+        }
         private void label12_Click(object sender, EventArgs e)
         {
 
@@ -104,8 +269,8 @@ namespace Enrollment_System
 
         private void BtnLMCS_Click(object sender, EventArgs e)
         {
-            CourseViewBSCS viewForm = new CourseViewBSCS(this); 
-            viewForm.Show(); 
+            CourseViewBSCS viewForm = new CourseViewBSCS(this);
+            viewForm.Show();
         }
 
         private void BtnLMTM_Click(object sender, EventArgs e)
@@ -143,60 +308,9 @@ namespace Enrollment_System
             viewForm.Show();
         }
 
-
-        public void UpdateCourseBannerImage(string courseCode)
+        private void BtnExit_Click(object sender, EventArgs e)
         {
-            
-            MessageBox.Show($"Panel8 contains {this.Panel8.Controls.Count} controls.");
-
-            
-            PictureBox pictureBox = this.Panel8.Controls["PbBanner"] as PictureBox;
-
-            if (pictureBox != null)
-            {
-                
-                switch (courseCode)
-                {
-                    case "BSCS":
-                        string bsImagePath = @"C:/Users/w/source/repos/Enrollment/Enrollment_System/Resources/BSCS_Banner.JPG";
-                        if (System.IO.File.Exists(bsImagePath))
-                        {
-                            pictureBox.Image = Image.FromFile(bsImagePath);
-                        }
-                        else
-                        {
-                            MessageBox.Show("BSCS image file not found!");
-                        }
-                        break;
-
-                    case "BSIT":
-                        string bsitImagePath = @"path_to_bsit_image.jpg";
-                        if (System.IO.File.Exists(bsitImagePath))
-                        {
-                            pictureBox.Image = Image.FromFile(bsitImagePath);
-                        }
-                        else
-                        {
-                            MessageBox.Show("BSIT image file not found!");
-                        }
-                        break;
-
-                    
-                    default:
-                        pictureBox.Image = null;
-                        break;
-                }
-
-                
-                pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            }
-            else
-            {
-                MessageBox.Show("PbBanner control is null or not found inside Panel8.");
-            }
+            Application.Exit();
         }
-
-
-
     }
 }

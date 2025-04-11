@@ -48,6 +48,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel25 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.PboxBanner = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -97,6 +98,7 @@
             this.panel2.SuspendLayout();
             this.panel25.SuspendLayout();
             this.panel8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PboxBanner)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.panel14.SuspendLayout();
             this.panel22.SuspendLayout();
@@ -373,6 +375,7 @@
             this.panel8.BackColor = System.Drawing.Color.White;
             this.panel8.BackgroundImage = global::Enrollment_System.Properties.Resources.BACKGROUNDCOLOR;
             this.panel8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel8.Controls.Add(this.PboxBanner);
             this.panel8.Controls.Add(this.pictureBox4);
             this.panel8.Controls.Add(this.label3);
             this.panel8.Controls.Add(this.label4);
@@ -381,6 +384,16 @@
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(1230, 229);
             this.panel8.TabIndex = 0;
+            // 
+            // PboxBanner
+            // 
+            this.PboxBanner.BackColor = System.Drawing.Color.Transparent;
+            this.PboxBanner.Location = new System.Drawing.Point(0, 0);
+            this.PboxBanner.Name = "PboxBanner";
+            this.PboxBanner.Size = new System.Drawing.Size(1230, 229);
+            this.PboxBanner.TabIndex = 9;
+            this.PboxBanner.TabStop = false;
+            this.PboxBanner.SendToBack();
             // 
             // pictureBox4
             // 
@@ -926,6 +939,7 @@
             this.panel25.PerformLayout();
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PboxBanner)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.panel14.ResumeLayout(false);
             this.panel14.PerformLayout();
@@ -1019,5 +1033,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel panel11;
+        private System.Windows.Forms.PictureBox PboxBanner;
     }
 }

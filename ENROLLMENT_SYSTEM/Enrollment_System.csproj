@@ -523,6 +523,27 @@
   <ItemGroup>
     <None Include="Resources\totalenroll.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BANNER_BECED.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BANNER_BSCS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BANNER_BSHM.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BANNER_BSIT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BANNER_BSOA.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BANNER_BSTM.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BANNER_BTLED.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
