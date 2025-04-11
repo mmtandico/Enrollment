@@ -205,6 +205,12 @@
     <Compile Include="FormNewAcademiccs.Designer.cs">
       <DependentUpon>FormNewAcademiccs.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormPayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPayment.Designer.cs">
+      <DependentUpon>FormPayment.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormPersonalInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -278,6 +284,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormNewAcademiccs.resx">
       <DependentUpon>FormNewAcademiccs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPayment.resx">
+      <DependentUpon>FormPayment.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormPersonalInfo.resx">
       <DependentUpon>FormPersonalInfo.cs</DependentUpon>
@@ -480,6 +489,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\wallet icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PAYMENTQR.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SCANNER.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PAYMENTQR-removebg-preview.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

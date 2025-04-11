@@ -652,5 +652,18 @@ namespace Enrollment_System
 
         }
 
+        private void DataGridPayment_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColPay")
+            {
+                new FormPayment().Show();
+               
+             }
+         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            new FormPayment().Show();
+        }
     }
 }

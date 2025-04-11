@@ -523,6 +523,26 @@ namespace Enrollment_System.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap PAYMENTQR {
+            get {
+                object obj = ResourceManager.GetObject("PAYMENTQR", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PAYMENTQR_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("PAYMENTQR-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap PDM {
             get {
                 object obj = ResourceManager.GetObject("PDM", resourceCulture);
@@ -586,6 +606,16 @@ namespace Enrollment_System.Properties {
         internal static System.Drawing.Bitmap RemoveButton {
             get {
                 object obj = ResourceManager.GetObject("RemoveButton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SCANNER {
+            get {
+                object obj = ResourceManager.GetObject("SCANNER", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

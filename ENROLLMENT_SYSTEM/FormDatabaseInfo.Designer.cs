@@ -44,7 +44,7 @@
             this.BtnExit = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panel6.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -271,23 +271,20 @@
             this.panel1.Size = new System.Drawing.Size(1300, 36);
             this.panel1.TabIndex = 11;
             // 
-            // label3
+            // panel2
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(532, 134);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(340, 33);
-            this.label3.TabIndex = 32;
-            this.label3.Text = "DATABASE INFORMATION FORM";
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel2.Location = new System.Drawing.Point(0, 108);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(271, 642);
+            this.panel2.TabIndex = 13;
             // 
             // FormDatabaseInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1300, 750);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -295,6 +292,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "`";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.FormDatabaseInfo_Load);
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             this.panel4.ResumeLayout(false);
@@ -304,7 +302,6 @@
             this.panel5.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -324,7 +321,7 @@
         private System.Windows.Forms.Button BtnExit;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button BtnDataBase;
+        private System.Windows.Forms.Panel panel2;
     }
 }

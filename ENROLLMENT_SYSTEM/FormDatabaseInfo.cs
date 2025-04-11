@@ -15,6 +15,7 @@ namespace Enrollment_System
         public FormDatabaseInfo()
         {
             InitializeComponent();
+            
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
@@ -56,5 +57,12 @@ namespace Enrollment_System
                 this.Close();
             }
         }
+
+        private void FormDatabaseInfo_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        
     }
 }

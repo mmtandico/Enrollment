@@ -83,15 +83,6 @@
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dataGridViewImageColumn4 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.ColOpen = new System.Windows.Forms.DataGridViewImageColumn();
-            this.ColClose = new System.Windows.Forms.DataGridViewImageColumn();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.ColPay = new System.Windows.Forms.DataGridViewImageColumn();
-            this.ColDelete = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel8 = new System.Windows.Forms.Panel();
             this.panel10 = new System.Windows.Forms.Panel();
             this.panel11 = new System.Windows.Forms.Panel();
@@ -115,6 +106,16 @@
             this.LblSemester = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.LblYearLevel = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewImageColumn4 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.ColOpen = new System.Windows.Forms.DataGridViewImageColumn();
+            this.ColClose = new System.Windows.Forms.DataGridViewImageColumn();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.ColPay = new System.Windows.Forms.DataGridViewImageColumn();
+            this.ColDelete = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -128,10 +129,10 @@
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridPayment)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel8.SuspendLayout();
             this.panel10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridSubjects)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel5
@@ -356,7 +357,7 @@
             this.tabPage2.Controls.Add(this.DataGridPayment);
             this.tabPage2.Location = new System.Drawing.Point(4, 34);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(1292, 604);
+            this.tabPage2.Size = new System.Drawing.Size(1292, 850);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Payment";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -535,6 +536,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.button1);
             this.panel2.Controls.Add(this.BtnAddNewEnrollment);
             this.panel2.Controls.Add(this.pictureBox1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
@@ -634,6 +636,7 @@
             this.DataGridPayment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DataGridPayment.Size = new System.Drawing.Size(1292, 329);
             this.DataGridPayment.TabIndex = 2;
+            this.DataGridPayment.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridPayment_CellContentClick_1);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -694,99 +697,6 @@
             this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             this.dataGridViewTextBoxColumn10.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn10.Width = 89;
-            // 
-            // dataGridViewImageColumn1
-            // 
-            this.dataGridViewImageColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewImageColumn1.HeaderText = "";
-            this.dataGridViewImageColumn1.Image = global::Enrollment_System.Properties.Resources.EditButton;
-            this.dataGridViewImageColumn1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.dataGridViewImageColumn1.MinimumWidth = 2;
-            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
-            this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewImageColumn1.Width = 40;
-            // 
-            // dataGridViewImageColumn2
-            // 
-            this.dataGridViewImageColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewImageColumn2.HeaderText = "";
-            this.dataGridViewImageColumn2.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
-            this.dataGridViewImageColumn2.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.dataGridViewImageColumn2.MinimumWidth = 2;
-            this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
-            this.dataGridViewImageColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewImageColumn2.Width = 40;
-            // 
-            // dataGridViewImageColumn3
-            // 
-            this.dataGridViewImageColumn3.HeaderText = "";
-            this.dataGridViewImageColumn3.Image = global::Enrollment_System.Properties.Resources.wallet_icon;
-            this.dataGridViewImageColumn3.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.dataGridViewImageColumn3.MinimumWidth = 2;
-            this.dataGridViewImageColumn3.Name = "dataGridViewImageColumn3";
-            this.dataGridViewImageColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewImageColumn3.Width = 40;
-            // 
-            // dataGridViewImageColumn4
-            // 
-            this.dataGridViewImageColumn4.HeaderText = "";
-            this.dataGridViewImageColumn4.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
-            this.dataGridViewImageColumn4.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.dataGridViewImageColumn4.MinimumWidth = 2;
-            this.dataGridViewImageColumn4.Name = "dataGridViewImageColumn4";
-            this.dataGridViewImageColumn4.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewImageColumn4.Width = 40;
-            // 
-            // ColOpen
-            // 
-            this.ColOpen.HeaderText = "";
-            this.ColOpen.Image = global::Enrollment_System.Properties.Resources.EditButton;
-            this.ColOpen.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.ColOpen.MinimumWidth = 2;
-            this.ColOpen.Name = "ColOpen";
-            this.ColOpen.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColOpen.Width = 40;
-            // 
-            // ColClose
-            // 
-            this.ColClose.HeaderText = "";
-            this.ColClose.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
-            this.ColClose.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.ColClose.MinimumWidth = 2;
-            this.ColClose.Name = "ColClose";
-            this.ColClose.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColClose.Width = 40;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Image = global::Enrollment_System.Properties.Resources.XButton;
-            this.pictureBox1.Location = new System.Drawing.Point(1251, 10);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(25, 26);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
-            // ColPay
-            // 
-            this.ColPay.HeaderText = "";
-            this.ColPay.Image = global::Enrollment_System.Properties.Resources.wallet_icon;
-            this.ColPay.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.ColPay.MinimumWidth = 2;
-            this.ColPay.Name = "ColPay";
-            this.ColPay.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColPay.Width = 40;
-            // 
-            // ColDelete
-            // 
-            this.ColDelete.HeaderText = "";
-            this.ColDelete.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
-            this.ColDelete.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.ColDelete.MinimumWidth = 2;
-            this.ColDelete.Name = "ColDelete";
-            this.ColDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColDelete.Width = 40;
             // 
             // panel8
             // 
@@ -1073,6 +983,111 @@
             this.LblYearLevel.Size = new System.Drawing.Size(0, 19);
             this.LblYearLevel.TabIndex = 38;
             // 
+            // button1
+            // 
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(171, 9);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(137, 31);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Test Payment";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewImageColumn1.HeaderText = "";
+            this.dataGridViewImageColumn1.Image = global::Enrollment_System.Properties.Resources.EditButton;
+            this.dataGridViewImageColumn1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.dataGridViewImageColumn1.MinimumWidth = 2;
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewImageColumn1.Width = 40;
+            // 
+            // dataGridViewImageColumn2
+            // 
+            this.dataGridViewImageColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewImageColumn2.HeaderText = "";
+            this.dataGridViewImageColumn2.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
+            this.dataGridViewImageColumn2.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.dataGridViewImageColumn2.MinimumWidth = 2;
+            this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
+            this.dataGridViewImageColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewImageColumn2.Width = 40;
+            // 
+            // dataGridViewImageColumn3
+            // 
+            this.dataGridViewImageColumn3.HeaderText = "";
+            this.dataGridViewImageColumn3.Image = global::Enrollment_System.Properties.Resources.wallet_icon;
+            this.dataGridViewImageColumn3.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.dataGridViewImageColumn3.MinimumWidth = 2;
+            this.dataGridViewImageColumn3.Name = "dataGridViewImageColumn3";
+            this.dataGridViewImageColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewImageColumn3.Width = 40;
+            // 
+            // dataGridViewImageColumn4
+            // 
+            this.dataGridViewImageColumn4.HeaderText = "";
+            this.dataGridViewImageColumn4.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
+            this.dataGridViewImageColumn4.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.dataGridViewImageColumn4.MinimumWidth = 2;
+            this.dataGridViewImageColumn4.Name = "dataGridViewImageColumn4";
+            this.dataGridViewImageColumn4.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewImageColumn4.Width = 40;
+            // 
+            // ColOpen
+            // 
+            this.ColOpen.HeaderText = "";
+            this.ColOpen.Image = global::Enrollment_System.Properties.Resources.EditButton;
+            this.ColOpen.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColOpen.MinimumWidth = 2;
+            this.ColOpen.Name = "ColOpen";
+            this.ColOpen.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColOpen.Width = 40;
+            // 
+            // ColClose
+            // 
+            this.ColClose.HeaderText = "";
+            this.ColClose.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
+            this.ColClose.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColClose.MinimumWidth = 2;
+            this.ColClose.Name = "ColClose";
+            this.ColClose.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColClose.Width = 40;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Image = global::Enrollment_System.Properties.Resources.XButton;
+            this.pictureBox1.Location = new System.Drawing.Point(1251, 10);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(25, 26);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // ColPay
+            // 
+            this.ColPay.HeaderText = "";
+            this.ColPay.Image = global::Enrollment_System.Properties.Resources.wallet_icon;
+            this.ColPay.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColPay.MinimumWidth = 2;
+            this.ColPay.Name = "ColPay";
+            this.ColPay.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColPay.Width = 40;
+            // 
+            // ColDelete
+            // 
+            this.ColDelete.HeaderText = "";
+            this.ColDelete.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
+            this.ColDelete.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColDelete.MinimumWidth = 2;
+            this.ColDelete.Name = "ColDelete";
+            this.ColDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColDelete.Width = 40;
+            // 
             // FormEnrollment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1101,11 +1116,11 @@
             this.panel2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DataGridPayment)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel8.ResumeLayout(false);
             this.panel10.ResumeLayout(false);
             this.panel10.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridSubjects)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1184,5 +1199,6 @@
         private System.Windows.Forms.Label LblStudentNo;
         private System.Windows.Forms.Label LblYearLevel;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button button1;
     }
 }
