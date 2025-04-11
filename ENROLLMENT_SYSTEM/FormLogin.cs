@@ -36,10 +36,11 @@ namespace Enrollment_System
                 {
                     conn.Open();
 
-                    string query = "SELECT u.user_id, u.password_hash, u.role, s.first_name, s.last_name " +
-                                   "FROM Users u " +
-                                   "LEFT JOIN students s ON u.user_id = s.user_id " +
-                                   "WHERE LOWER(u.email) = @Email AND u.is_verified = TRUE";
+                    string query = @"SELECT u.user_id, u.password_hash, u.role, 
+                                   s.first_name, s.last_name, s.student_id
+                            FROM Users u 
+                            LEFT JOIN students s ON u.user_id = s.user_id 
+                            WHERE LOWER(u.email) = @Email AND u.is_verified = TRUE";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
@@ -55,10 +56,13 @@ namespace Enrollment_System
                                 string firstName = reader["first_name"]?.ToString() ?? "";
                                 string lastName = reader["last_name"]?.ToString() ?? "";
 
+                                int studentId = reader["student_id"] != DBNull.Value ?
+                                       reader.GetInt32("student_id") : 0;
+
                                 if (BCrypt.Net.BCrypt.Verify(password, storedHash))
                                 {
                                     // Store user details in SessionManager
-                                    SessionManager.Login(userId, email, role, firstName, lastName);
+                                    SessionManager.Login(userId, email, role, firstName, lastName, studentId);
 
                                     MessageBox.Show($"Welcome, {firstName} {lastName}!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     this.Hide();
