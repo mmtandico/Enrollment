@@ -143,6 +143,16 @@ namespace Enrollment_System.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ADMINS_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("ADMINS-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap AI_removebg_preview {
             get {
                 object obj = ResourceManager.GetObject("AI-removebg-preview", resourceCulture);
@@ -306,6 +316,16 @@ namespace Enrollment_System.Properties {
         internal static System.Drawing.Bitmap BSCS_Banner {
             get {
                 object obj = ResourceManager.GetObject("BSCS_Banner", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Calendar_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("Calendar-removebg-preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

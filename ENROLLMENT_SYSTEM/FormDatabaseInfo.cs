@@ -69,7 +69,8 @@ namespace Enrollment_System
         private void FormDatabaseInfo_Load(object sender, EventArgs e)
         {
             ApplyButtonEffects();
-
+            monthCalendar1.Width = 300;
+            monthCalendar1.Height = 300;
 
         }
 
@@ -89,6 +90,9 @@ namespace Enrollment_System
             
         }
 
-        
+        private void MAINPANEL_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

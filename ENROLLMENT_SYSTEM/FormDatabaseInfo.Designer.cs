@@ -46,10 +46,17 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.MAINPANEL = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
-            this.panel14 = new System.Windows.Forms.Panel();
-            this.panel15 = new System.Windows.Forms.Panel();
             this.panel16 = new System.Windows.Forms.Panel();
+            this.panel15 = new System.Windows.Forms.Panel();
+            this.panel14 = new System.Windows.Forms.Panel();
+            this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.panel13 = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -63,6 +70,11 @@
             this.BtnReports = new System.Windows.Forms.Button();
             this.panel10 = new System.Windows.Forms.Panel();
             this.BtnCourse = new System.Windows.Forms.Button();
+            this.panel19 = new System.Windows.Forms.Panel();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.userID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.First_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel6.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -71,6 +83,9 @@
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.MAINPANEL.SuspendLayout();
+            this.panel15.SuspendLayout();
+            this.panel14.SuspendLayout();
+            this.panel13.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel11.SuspendLayout();
@@ -78,6 +93,8 @@
             this.panel12.SuspendLayout();
             this.panel18.SuspendLayout();
             this.panel10.SuspendLayout();
+            this.panel19.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel6
@@ -310,34 +327,19 @@
             this.MAINPANEL.Name = "MAINPANEL";
             this.MAINPANEL.Size = new System.Drawing.Size(1593, 962);
             this.MAINPANEL.TabIndex = 14;
+            this.MAINPANEL.Paint += new System.Windows.Forms.PaintEventHandler(this.MAINPANEL_Paint);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(75, 26);
+            this.label3.Location = new System.Drawing.Point(34, 14);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(151, 39);
+            this.label3.Size = new System.Drawing.Size(226, 58);
             this.label3.TabIndex = 27;
             this.label3.Text = "Dashboard";
-            // 
-            // panel14
-            // 
-            this.panel14.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.panel14.Location = new System.Drawing.Point(696, 328);
-            this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(385, 293);
-            this.panel14.TabIndex = 30;
-            // 
-            // panel15
-            // 
-            this.panel15.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.panel15.Location = new System.Drawing.Point(1114, 92);
-            this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(435, 529);
-            this.panel15.TabIndex = 31;
             // 
             // panel16
             // 
@@ -347,15 +349,113 @@
             this.panel16.Size = new System.Drawing.Size(1505, 261);
             this.panel16.TabIndex = 32;
             // 
+            // panel15
+            // 
+            this.panel15.BackColor = System.Drawing.Color.Transparent;
+            this.panel15.BackgroundImage = global::Enrollment_System.Properties.Resources.ADMINS_removebg_preview;
+            this.panel15.Controls.Add(this.panel19);
+            this.panel15.Location = new System.Drawing.Point(1114, 92);
+            this.panel15.Name = "panel15";
+            this.panel15.Size = new System.Drawing.Size(435, 529);
+            this.panel15.TabIndex = 31;
+            // 
+            // panel14
+            // 
+            this.panel14.BackColor = System.Drawing.Color.Transparent;
+            this.panel14.BackgroundImage = global::Enrollment_System.Properties.Resources.Calendar_removebg_preview;
+            this.panel14.Controls.Add(this.monthCalendar1);
+            this.panel14.Location = new System.Drawing.Point(740, 328);
+            this.panel14.Name = "panel14";
+            this.panel14.Size = new System.Drawing.Size(335, 293);
+            this.panel14.TabIndex = 30;
+            // 
+            // monthCalendar1
+            // 
+            this.monthCalendar1.Location = new System.Drawing.Point(54, 88);
+            this.monthCalendar1.Name = "monthCalendar1";
+            this.monthCalendar1.TabIndex = 0;
+            // 
             // panel13
             // 
             this.panel13.BackColor = System.Drawing.Color.Transparent;
             this.panel13.BackgroundImage = global::Enrollment_System.Properties.Resources.adminoverview_removebg_preview;
             this.panel13.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel13.Controls.Add(this.label8);
+            this.panel13.Controls.Add(this.label9);
+            this.panel13.Controls.Add(this.label6);
+            this.panel13.Controls.Add(this.label7);
+            this.panel13.Controls.Add(this.label5);
+            this.panel13.Controls.Add(this.label4);
             this.panel13.Location = new System.Drawing.Point(44, 328);
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(622, 293);
             this.panel13.TabIndex = 29;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.White;
+            this.label8.Location = new System.Drawing.Point(511, 117);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(35, 42);
+            this.label8.TabIndex = 38;
+            this.label8.Text = "0";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.White;
+            this.label9.Location = new System.Drawing.Point(480, 204);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(50, 25);
+            this.label9.TabIndex = 37;
+            this.label9.Text = "User";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(319, 117);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(35, 42);
+            this.label6.TabIndex = 36;
+            this.label6.Text = "0";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(264, 204);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(102, 25);
+            this.label7.TabIndex = 35;
+            this.label7.Text = "Enrollment";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(128, 117);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(35, 42);
+            this.label5.TabIndex = 34;
+            this.label5.Text = "0";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(79, 204);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(84, 25);
+            this.label4.TabIndex = 33;
+            this.label4.Text = "Students";
             // 
             // panel8
             // 
@@ -409,6 +509,9 @@
             this.BtnDashB.BackColor = System.Drawing.Color.Transparent;
             this.BtnDashB.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BtnDashB.FlatAppearance.BorderSize = 0;
+            this.BtnDashB.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.BtnDashB.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnDashB.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.BtnDashB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnDashB.Font = new System.Drawing.Font("Bahnschrift Condensed", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnDashB.Image = global::Enrollment_System.Properties.Resources.Dashboard_Layout1;
@@ -437,6 +540,9 @@
             this.BtnEnroll.BackColor = System.Drawing.Color.Transparent;
             this.BtnEnroll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BtnEnroll.FlatAppearance.BorderSize = 0;
+            this.BtnEnroll.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.BtnEnroll.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnEnroll.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.BtnEnroll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnEnroll.Font = new System.Drawing.Font("Bahnschrift Condensed", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnEnroll.Image = global::Enrollment_System.Properties.Resources.Pen;
@@ -465,6 +571,9 @@
             this.BtnStudent.BackColor = System.Drawing.Color.Transparent;
             this.BtnStudent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BtnStudent.FlatAppearance.BorderSize = 0;
+            this.BtnStudent.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.BtnStudent.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnStudent.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.BtnStudent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnStudent.Font = new System.Drawing.Font("Bahnschrift Condensed", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnStudent.Image = global::Enrollment_System.Properties.Resources.People;
@@ -493,6 +602,9 @@
             this.BtnReports.BackColor = System.Drawing.Color.Transparent;
             this.BtnReports.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BtnReports.FlatAppearance.BorderSize = 0;
+            this.BtnReports.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.BtnReports.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnReports.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.BtnReports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnReports.Font = new System.Drawing.Font("Bahnschrift Condensed", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnReports.Image = global::Enrollment_System.Properties.Resources.Graph_Report;
@@ -521,6 +633,9 @@
             this.BtnCourse.BackColor = System.Drawing.Color.Transparent;
             this.BtnCourse.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BtnCourse.FlatAppearance.BorderSize = 0;
+            this.BtnCourse.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.BtnCourse.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnCourse.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.BtnCourse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnCourse.Font = new System.Drawing.Font("Bahnschrift Condensed", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnCourse.Image = global::Enrollment_System.Properties.Resources.Book;
@@ -533,6 +648,45 @@
             this.BtnCourse.Text = "          Course";
             this.BtnCourse.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BtnCourse.UseVisualStyleBackColor = false;
+            // 
+            // panel19
+            // 
+            this.panel19.Controls.Add(this.dataGridView1);
+            this.panel19.Location = new System.Drawing.Point(14, 69);
+            this.panel19.Name = "panel19";
+            this.panel19.Size = new System.Drawing.Size(405, 417);
+            this.panel19.TabIndex = 0;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.userID,
+            this.Last_name,
+            this.First_Name});
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.GridColor = System.Drawing.Color.White;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(405, 417);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // userID
+            // 
+            this.userID.HeaderText = "ID";
+            this.userID.Name = "userID";
+            // 
+            // Last_name
+            // 
+            this.Last_name.HeaderText = "Last Name";
+            this.Last_name.Name = "Last_name";
+            // 
+            // First_Name
+            // 
+            this.First_Name.HeaderText = "First_Name";
+            this.First_Name.Name = "First_Name";
             // 
             // FormDatabaseInfo
             // 
@@ -559,6 +713,10 @@
             this.panel1.ResumeLayout(false);
             this.MAINPANEL.ResumeLayout(false);
             this.MAINPANEL.PerformLayout();
+            this.panel15.ResumeLayout(false);
+            this.panel14.ResumeLayout(false);
+            this.panel13.ResumeLayout(false);
+            this.panel13.PerformLayout();
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel11.ResumeLayout(false);
@@ -566,6 +724,8 @@
             this.panel12.ResumeLayout(false);
             this.panel18.ResumeLayout(false);
             this.panel10.ResumeLayout(false);
+            this.panel19.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -606,5 +766,17 @@
         private System.Windows.Forms.Panel panel16;
         private System.Windows.Forms.Panel panel15;
         private System.Windows.Forms.Panel panel14;
+        private System.Windows.Forms.MonthCalendar monthCalendar1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Panel panel19;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn userID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Last_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn First_Name;
     }
 }
