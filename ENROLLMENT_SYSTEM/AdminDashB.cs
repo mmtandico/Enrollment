@@ -33,6 +33,7 @@ namespace Enrollment_System
                 col.Frozen = false;
                 col.Resizable = DataGridViewTriState.True;
             }
+            ////////////////////////////////
 
             StyleDataGridAdmin();
         }
