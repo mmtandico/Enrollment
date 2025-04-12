@@ -399,10 +399,10 @@ namespace Enrollment_System
             DataGridPayment.Columns[0].Width = 50;
             DataGridPayment.RowTemplate.Height = 35;
             ///////////////////////////////////////////////
-            DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            DataGridPayment.AllowUserToResizeColumns = false;
-            DataGridPayment.AllowUserToResizeRows = false;
-            DataGridPayment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            DataGridSubjects.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataGridSubjects.AllowUserToResizeColumns = false;
+            DataGridSubjects.AllowUserToResizeRows = false;
+            DataGridSubjects.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             foreach (DataGridViewColumn column in DataGridSubjects.Columns)
             {
                 column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;

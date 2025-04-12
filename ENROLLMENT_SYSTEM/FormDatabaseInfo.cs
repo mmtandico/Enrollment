@@ -14,13 +14,16 @@ namespace Enrollment_System
 
     public partial class FormDatabaseInfo : Form
     {
-        
 
+       
 
         public FormDatabaseInfo()
         {
             InitializeComponent();
             ApplyButtonEffects();
+
+            
+
         }
 
         
@@ -69,9 +72,25 @@ namespace Enrollment_System
         private void FormDatabaseInfo_Load(object sender, EventArgs e)
         {
             ApplyButtonEffects();
-            monthCalendar1.Width = 300;
-            monthCalendar1.Height = 300;
+            LoadForm(new AdminDashB());
+        }
 
+
+        // Function to load forms inside MAINPANEL
+        private void LoadForm(Form form)
+        {
+            // Remove any existing form in MAINPANEL
+            foreach (Control control in MAINPANEL.Controls)
+            {
+                control.Dispose();
+            }
+
+            // Set the new form as a child of MAINPANEL
+            form.TopLevel = false;
+            form.FormBorderStyle = FormBorderStyle.None;
+            form.Dock = DockStyle.Fill;  // Make the form fill the panel
+            MAINPANEL.Controls.Add(form);
+            form.Show();
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -93,6 +112,21 @@ namespace Enrollment_System
         private void MAINPANEL_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void DataGridAdmin_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void BtnStudent_Click(object sender, EventArgs e)
+        {
+            LoadForm(new AdminStudents());
+        }
+
+        private void BtnDashB_Click(object sender, EventArgs e)
+        {
+            LoadForm(new AdminDashB());
         }
     }
 }

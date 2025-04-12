@@ -84,6 +84,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminDashB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminDashB.Designer.cs">
+      <DependentUpon>AdminDashB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdminStudents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminStudents.Designer.cs">
+      <DependentUpon>AdminStudents.cs</DependentUpon>
+    </Compile>
     <Compile Include="class\Class1.cs" />
     <Compile Include="class\SessionManager.cs" />
     <Compile Include="CourseBECED.cs">
@@ -226,6 +238,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AdminDashB.resx">
+      <DependentUpon>AdminDashB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdminStudents.resx">
+      <DependentUpon>AdminStudents.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CourseBECED.resx">
       <DependentUpon>CourseBECED.cs</DependentUpon>
     </EmbeddedResource>
@@ -562,6 +580,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ADMINS-removebg-preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\statcourse-removebg-preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BGDBSTUDENTS-removebg-preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BGDBSTUDENTS-removebg-preview1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sortbtns-removebg-preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\STUDENTINFO-removebg-preview.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

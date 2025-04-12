@@ -273,6 +273,26 @@ namespace Enrollment_System.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BGDBSTUDENTS_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("BGDBSTUDENTS-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BGDBSTUDENTS_removebg_preview1 {
+            get {
+                object obj = ResourceManager.GetObject("BGDBSTUDENTS-removebg-preview1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BGIMAGE1 {
             get {
                 object obj = ResourceManager.GetObject("BGIMAGE1", resourceCulture);
@@ -816,6 +836,36 @@ namespace Enrollment_System.Properties {
         internal static System.Drawing.Bitmap SECURITY_removebg_preview {
             get {
                 object obj = ResourceManager.GetObject("SECURITY-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Sortbtns_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("Sortbtns-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap statcourse_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("statcourse-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap STUDENTINFO_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("STUDENTINFO-removebg-preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
