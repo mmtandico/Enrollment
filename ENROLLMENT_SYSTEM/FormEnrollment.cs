@@ -23,7 +23,10 @@ namespace Enrollment_System
             InitializeComponent();
             UIHelper.ApplyAdminVisibility(BtnDataBase);
             this.Activated += FormEnrollment_Activated;
-            DataGridEnrollment.CellContentClick += DataGridEnrollment_CellContentClick;
+            //LoadEnrollmentData();
+            DataGridEnrollment.CellClick += DataGridEnrollment_CellClick;
+            //DataGridEnrollment.CellContentClick += DataGridEnrollment_CellContentClick;
+
 
             if (!string.IsNullOrEmpty(SessionManager.LastName) && !string.IsNullOrEmpty(SessionManager.FirstName))
             {
@@ -51,7 +54,6 @@ namespace Enrollment_System
             DataGridEnrollment.RowTemplate.Height = 40;
             DataGridEnrollment.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 
-    
 
             DataGridEnrollment.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             DataGridEnrollment.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -243,91 +245,157 @@ namespace Enrollment_System
             }
         }
 
+        private void DataGridEnrollment_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                
+                string columnName = DataGridEnrollment.Columns[e.ColumnIndex].Name;
+                if (columnName == "ColOpen" || columnName == "ColClose")
+                {
+                    return; 
+                }
+
+                var selectedRow = DataGridEnrollment.Rows[e.RowIndex];
+
+                
+                string studentNo = selectedRow.Cells[1].Value?.ToString() ?? "";
+                string lastName = selectedRow.Cells[2].Value?.ToString() ?? "";
+                string firstName = selectedRow.Cells[3].Value?.ToString() ?? "";
+                string middleName = selectedRow.Cells[4].Value?.ToString() ?? "";
+                string courseCode = selectedRow.Cells[5].Value?.ToString() ?? "";
+                string academicYear = selectedRow.Cells[6].Value?.ToString() ?? "";
+                string semester = selectedRow.Cells[7].Value?.ToString() ?? "";
+                string yearLevel = selectedRow.Cells[8].Value?.ToString() ?? "";
+
+                UpdateStudentInfoPanel(studentNo, $"{firstName} {middleName} {lastName}", courseCode, academicYear, semester, yearLevel);
+
+                int courseId = GetCourseId(courseCode);
+                if (courseId > 0)
+                {
+                    LoadSubjectsForEnrollment(courseId, yearLevel, semester);
+
+                }
+            }
+        }
 
         private void DataGridEnrollment_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
+            
+            if (e.RowIndex < 0 || e.RowIndex >= DataGridEnrollment.Rows.Count ||
+                e.ColumnIndex < 0 || e.ColumnIndex >= DataGridEnrollment.Columns.Count)
             {
-                var selectedRow = DataGridEnrollment.Rows[e.RowIndex];
+                return; 
+            }
 
+            
+            DataGridViewRow selectedRow = null;
+            try
+            {
+                selectedRow = DataGridEnrollment.Rows[e.RowIndex];
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                
+                LoadEnrollmentData();
+                return;
+            }
+
+            
+            string enrollmentId = selectedRow.Cells[0].Value?.ToString() ?? "";
+            string firstName = selectedRow.Cells[3].Value?.ToString() ?? "";
+            string lastName = selectedRow.Cells[2].Value?.ToString() ?? "";
+            string studentName = $"{lastName}, {firstName}";
+
+            
+            if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColOpen")
+            {
                
-                string studentNo = selectedRow.Cells["student_no"].Value.ToString();
-                string lastName = selectedRow.Cells["last_name"].Value.ToString();
-                string firstName = selectedRow.Cells["first_name"].Value.ToString();
-                string middleName = selectedRow.Cells["middle_name"].Value.ToString();
-                string course = selectedRow.Cells["course_name"].Value.ToString();  
-                string academicYear = selectedRow.Cells["academic_year"].Value.ToString();
-                string semester = selectedRow.Cells["semester"].Value.ToString();
-                string yearLevel = selectedRow.Cells["year_level"].Value.ToString();
-
-                UpdateStudentInfoPanel(studentNo, $"{firstName} {middleName} {lastName}", course, academicYear, semester, yearLevel);
-
-                if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColOpen")
+                using (FormNewAcademiccs editForm = new FormNewAcademiccs())
                 {
-                    string enrollmentId = selectedRow.Cells["enrollment_id"].Value.ToString();
-                    using (FormNewAcademiccs editForm = new FormNewAcademiccs())
+                    editForm.EnrollmentId = enrollmentId;
+                    editForm.StartPosition = FormStartPosition.CenterParent;
+
+                    if (editForm.ShowDialog() == DialogResult.OK)
                     {
-                        editForm.EnrollmentId = enrollmentId;
-                        editForm.StartPosition = FormStartPosition.CenterParent;
-
-                        DialogResult result = editForm.ShowDialog();
-
-                        if (result == DialogResult.OK)
-                        {
-                            LoadEnrollmentData();
-                        }
+                        LoadEnrollmentData();
                     }
                 }
-                else if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColClose")
+            }
+            else if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColClose")
+            {
+                
+                DialogResult confirmResult = MessageBox.Show(
+                    $"Are you sure you want to drop {studentName}'s enrollment?",
+                    "Confirm Deletion",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirmResult == DialogResult.Yes)
                 {
-                    DialogResult confirmResult = MessageBox.Show("Are you sure you want to drop this enrollment?",
-                                                                  "Confirm Deletion",
-                                                                  MessageBoxButtons.YesNo,
-                                                                  MessageBoxIcon.Warning);
-
-                    if (confirmResult == DialogResult.Yes)
+                    try
                     {
-                        string enrollmentId = selectedRow.Cells["enrollment_id"].Value.ToString();
-                        string studentName = $"{selectedRow.Cells["last_name"].Value}, {selectedRow.Cells["first_name"].Value}";
-
-                        try
+                        if (DeleteEnrollment(enrollmentId))
                         {
-                            bool isDeleted = DeleteEnrollment(enrollmentId);
-
-                            if (isDeleted)
+                            
+                            if (e.RowIndex < DataGridEnrollment.Rows.Count)
                             {
-                                MessageBox.Show($"Enrollment for {studentName} dropped successfully.",
-                                                  "Deleted",
-                                                  MessageBoxButtons.OK,
-                                                  MessageBoxIcon.Information);
-
-                                DataGridEnrollment.Rows.RemoveAt(e.RowIndex);  
+                                DataGridEnrollment.Rows.RemoveAt(e.RowIndex);
                             }
                             else
                             {
-                                MessageBox.Show("Failed to drop enrollment.",
-                                                  "Error",
-                                                  MessageBoxButtons.OK,
-                                                  MessageBoxIcon.Error);
+                                LoadEnrollmentData(); 
                             }
+
+                            MessageBox.Show($"Enrollment for {studentName} dropped successfully.",
+                                "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            MessageBox.Show($"Error dropping enrollment: {ex.Message}",
-                                          "Error",
-                                          MessageBoxButtons.OK,
-                                          MessageBoxIcon.Error);
+                            MessageBox.Show("Failed to drop enrollment.",
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error dropping enrollment: {ex.Message}",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
         }
 
-        private void UpdateStudentInfoPanel(string studentNo, string fullName, string course, string academicYear, string semester, string yearLevel)
+        private int GetCourseId(string courseCode)
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection("server=localhost;database=PDM_Enrollment_DB;user=root;password=;"))
+                {
+                    conn.Open();
+                    string query = "SELECT course_id FROM courses WHERE course_code = @CourseCode";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@CourseCode", courseCode);
+                        object result = cmd.ExecuteScalar();
+                        return result != null ? Convert.ToInt32(result) : -1;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error getting course ID: " + ex.Message);
+                return -1;
+            }
+        }
+
+        
+
+        private void UpdateStudentInfoPanel(string studentNo, string fullName, string courseCode, string academicYear, string semester, string yearLevel)
         {
             LblStudentNo.Text = studentNo;
             LblName.Text = fullName;
-            LblCourse.Text = course;
+            LblCourse.Text = courseCode;
             LblAcademicYear.Text = academicYear;
             LblSemester.Text = semester;
             LblYearLevel.Text = yearLevel;
@@ -439,7 +507,7 @@ namespace Enrollment_System
             DataGridEnrollment.DefaultCellStyle.SelectionForeColor = Color.White;
 
           
-            DataGridEnrollment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33); // Rich brown
+            DataGridEnrollment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33); 
             DataGridEnrollment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             DataGridEnrollment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             DataGridEnrollment.EnableHeadersVisualStyles = false;
@@ -585,7 +653,7 @@ namespace Enrollment_System
             DataGridPayment.DefaultCellStyle.SelectionForeColor = Color.White;
 
 
-            DataGridPayment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33); // Rich brown
+            DataGridPayment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33); 
             DataGridPayment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             DataGridPayment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             DataGridPayment.EnableHeadersVisualStyles = false;
@@ -628,7 +696,7 @@ namespace Enrollment_System
             DataGridSubjects.DefaultCellStyle.SelectionForeColor = Color.White;
 
 
-            DataGridSubjects.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33); // Rich brown
+            DataGridSubjects.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33); 
             DataGridSubjects.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             DataGridSubjects.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             DataGridSubjects.EnableHeadersVisualStyles = false;
@@ -666,6 +734,79 @@ namespace Enrollment_System
         private void button1_Click(object sender, EventArgs e)
         {
             new FormPayment().Show();
+        }
+
+        private void LoadSubjectsForEnrollment(int courseId, string yearLevel, string semester)
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection("server=localhost;database=PDM_Enrollment_DB;user=root;password=;"))
+                {
+                    conn.Open();
+
+                    string query = @"
+                SELECT 
+                    cs.course_subject_id,
+                    s.subject_code,
+                    s.subject_name,
+                    s.units,
+                    c.course_code,
+                    cs.semester AS semester1,
+                    cs.year_level AS year_level1
+                FROM course_subjects cs
+                INNER JOIN subjects s ON cs.subject_id = s.subject_id
+                INNER JOIN courses c ON cs.course_id = c.course_id
+                WHERE cs.course_id = @CourseId 
+                AND cs.year_level = @YearLevel
+                AND cs.semester = @Semester";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@CourseId", courseId);
+                        cmd.Parameters.AddWithValue("@YearLevel", yearLevel);
+                        cmd.Parameters.AddWithValue("@Semester", semester);
+
+                        DataTable dt = new DataTable();
+                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                        {
+                            adapter.Fill(dt);
+                        }
+
+                        // Clear existing columns if they exist
+                        DataGridSubjects.Columns.Clear();
+
+                        // Add columns to DataGridSubjects
+                        DataGridSubjects.Columns.Add("course_subject_id", "ID");
+                        DataGridSubjects.Columns.Add("subject_code", "Subject Code");
+                        DataGridSubjects.Columns.Add("subject_name", "Subject Name");
+                        DataGridSubjects.Columns.Add("units", "Units");
+                        DataGridSubjects.Columns.Add("course_code", "Course Code");
+                        DataGridSubjects.Columns.Add("semester1", "Semester");
+                        DataGridSubjects.Columns.Add("year_level1", "Year Level");
+
+                        // Populate the DataGrid
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            DataGridSubjects.Rows.Add(
+                                row["course_subject_id"],
+                                row["subject_code"],
+                                row["subject_name"],
+                                row["units"],
+                                row["course_code"],
+                                row["semester1"],
+                                row["year_level1"]
+                            );
+                        }
+
+                        // Apply styling to the newly added data
+                        StyleDataGridSubjects();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading subjects: " + ex.Message);
+            }
         }
 
         private void DataGridSubjects_CellContentClick(object sender, DataGridViewCellEventArgs e)
