@@ -449,6 +449,16 @@ namespace Enrollment_System
             DataGridEnrollment.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             DataGridEnrollment.Columns[0].Width = 50;
             DataGridEnrollment.RowTemplate.Height = 35;
+            DataGridEnrollment.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridEnrollment.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridEnrollment.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridEnrollment.Columns[7].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridEnrollment.Columns[8].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridEnrollment.Columns[9].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+
+
+
             ///////////////////////////////////////////
             DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DataGridPayment.AllowUserToResizeColumns = false;
@@ -772,7 +782,30 @@ namespace Enrollment_System
                             adapter.Fill(dt);
                         }
 
-                        
+                        // Clear existing columns if they exist
+                        DataGridSubjects.Columns.Clear();
+
+                        // Add columns to DataGridSubjects
+                        DataGridSubjects.Columns.Add("course_subject_id", "ID");
+                        DataGridSubjects.Columns.Add("subject_code", "Subject Code");
+                        DataGridSubjects.Columns.Add("subject_name", "Subject Name");
+                        DataGridSubjects.Columns.Add("units", "Units");
+                        DataGridSubjects.Columns.Add("course_code", "Course Code");
+                        DataGridSubjects.Columns.Add("semester1", "Semester");
+                        DataGridSubjects.Columns.Add("year_level1", "Year Level");
+
+                        DataGridSubjects.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                        DataGridSubjects.Columns[0].Width = 50;
+                        DataGridSubjects.Columns[1].Width = 200;
+                        DataGridSubjects.Columns[2].Width = 800;
+                        DataGridSubjects.Columns[3].Width = 100;
+                        DataGridSubjects.Columns[4].Width = 100;
+                        DataGridSubjects.RowTemplate.Height = 35;
+                        DataGridSubjects.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                        DataGridSubjects.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                        DataGridSubjects.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                        DataGridSubjects.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                        DataGridSubjects.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                         // Populate the DataGrid
                         foreach (DataRow row in dt.Rows)

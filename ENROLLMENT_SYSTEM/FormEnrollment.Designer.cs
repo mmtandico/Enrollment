@@ -73,13 +73,6 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel8 = new System.Windows.Forms.Panel();
             this.DataGridSubjects = new System.Windows.Forms.DataGridView();
-            this.course_subject_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.units = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.course_Code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.semester1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.year_level1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel10 = new System.Windows.Forms.Panel();
             this.LblYearLevel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -116,6 +109,13 @@
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn4 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.course_subject_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.units = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.course_Code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.semester1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.year_level1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -600,58 +600,6 @@
             this.DataGridSubjects.TabIndex = 2;
             this.DataGridSubjects.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridSubjects_CellContentClick);
             // 
-            // course_subject_id
-            // 
-            this.course_subject_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.course_subject_id.FillWeight = 10F;
-            this.course_subject_id.Frozen = true;
-            this.course_subject_id.HeaderText = "ID";
-            this.course_subject_id.Name = "course_subject_id";
-            this.course_subject_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.course_subject_id.Width = 53;
-            // 
-            // subject_code
-            // 
-            this.subject_code.HeaderText = "Subject Code";
-            this.subject_code.Name = "subject_code";
-            // 
-            // subject_name
-            // 
-            this.subject_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.subject_name.HeaderText = "Description";
-            this.subject_name.Name = "subject_name";
-            this.subject_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.subject_name.Width = 130;
-            // 
-            // units
-            // 
-            this.units.HeaderText = "Unit";
-            this.units.Name = "units";
-            // 
-            // course_Code
-            // 
-            this.course_Code.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.course_Code.HeaderText = "Course";
-            this.course_Code.Name = "course_Code";
-            this.course_Code.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.course_Code.Width = 95;
-            // 
-            // semester1
-            // 
-            this.semester1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.semester1.HeaderText = "Semester";
-            this.semester1.Name = "semester1";
-            this.semester1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.semester1.Width = 117;
-            // 
-            // year_level1
-            // 
-            this.year_level1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.year_level1.HeaderText = "Year Level";
-            this.year_level1.Name = "year_level1";
-            this.year_level1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.year_level1.Width = 122;
-            // 
             // panel10
             // 
             this.panel10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -1087,6 +1035,58 @@
             this.dataGridViewImageColumn4.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewImageColumn4.Width = 40;
             // 
+            // course_subject_id
+            // 
+            this.course_subject_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.course_subject_id.FillWeight = 10F;
+            this.course_subject_id.Frozen = true;
+            this.course_subject_id.HeaderText = "ID";
+            this.course_subject_id.Name = "course_subject_id";
+            this.course_subject_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.course_subject_id.Width = 53;
+            // 
+            // subject_code
+            // 
+            this.subject_code.HeaderText = "Subject Code";
+            this.subject_code.Name = "subject_code";
+            // 
+            // subject_name
+            // 
+            this.subject_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.subject_name.HeaderText = "Description";
+            this.subject_name.Name = "subject_name";
+            this.subject_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.subject_name.Width = 130;
+            // 
+            // units
+            // 
+            this.units.HeaderText = "Unit";
+            this.units.Name = "units";
+            // 
+            // course_Code
+            // 
+            this.course_Code.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.course_Code.HeaderText = "Course";
+            this.course_Code.Name = "course_Code";
+            this.course_Code.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.course_Code.Width = 95;
+            // 
+            // semester1
+            // 
+            this.semester1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.semester1.HeaderText = "Semester";
+            this.semester1.Name = "semester1";
+            this.semester1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.semester1.Width = 117;
+            // 
+            // year_level1
+            // 
+            this.year_level1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.year_level1.HeaderText = "Year Level";
+            this.year_level1.Name = "year_level1";
+            this.year_level1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.year_level1.Width = 122;
+            // 
             // FormEnrollment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1180,13 +1180,6 @@
         private System.Windows.Forms.Label LblYearLevel;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn course_subject_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn subject_code;
-        private System.Windows.Forms.DataGridViewTextBoxColumn subject_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn units;
-        private System.Windows.Forms.DataGridViewTextBoxColumn course_Code;
-        private System.Windows.Forms.DataGridViewTextBoxColumn semester1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn year_level1;
         private System.Windows.Forms.DataGridViewTextBoxColumn enrollment_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn student_no;
         private System.Windows.Forms.DataGridViewTextBoxColumn last_name;
@@ -1199,5 +1192,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn status;
         private System.Windows.Forms.DataGridViewImageColumn ColOpen;
         private System.Windows.Forms.DataGridViewImageColumn ColClose;
+        private System.Windows.Forms.DataGridViewTextBoxColumn course_subject_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn subject_code;
+        private System.Windows.Forms.DataGridViewTextBoxColumn subject_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn units;
+        private System.Windows.Forms.DataGridViewTextBoxColumn course_Code;
+        private System.Windows.Forms.DataGridViewTextBoxColumn semester1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn year_level1;
     }
 }

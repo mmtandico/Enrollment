@@ -41,6 +41,7 @@ namespace Enrollment_System
             {
                 StartPosition = FormStartPosition.CenterParent
             };
+
             enrollmentForm.Show();
 
             FormNewAcademiccs newAcademicForm = new FormNewAcademiccs
