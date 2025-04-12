@@ -45,9 +45,13 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.MAINPANEL = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
             this.panel16 = new System.Windows.Forms.Panel();
             this.panel15 = new System.Windows.Forms.Panel();
+            this.panel19 = new System.Windows.Forms.Panel();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.userID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.First_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel14 = new System.Windows.Forms.Panel();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.panel13 = new System.Windows.Forms.Panel();
@@ -58,6 +62,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel11 = new System.Windows.Forms.Panel();
@@ -70,11 +75,6 @@
             this.BtnReports = new System.Windows.Forms.Button();
             this.panel10 = new System.Windows.Forms.Panel();
             this.BtnCourse = new System.Windows.Forms.Button();
-            this.panel19 = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.userID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.First_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel6.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -84,6 +84,8 @@
             this.panel1.SuspendLayout();
             this.MAINPANEL.SuspendLayout();
             this.panel15.SuspendLayout();
+            this.panel19.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel14.SuspendLayout();
             this.panel13.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -93,8 +95,6 @@
             this.panel12.SuspendLayout();
             this.panel18.SuspendLayout();
             this.panel10.SuspendLayout();
-            this.panel19.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel6
@@ -329,18 +329,6 @@
             this.MAINPANEL.TabIndex = 14;
             this.MAINPANEL.Paint += new System.Windows.Forms.PaintEventHandler(this.MAINPANEL_Paint);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(34, 14);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(226, 58);
-            this.label3.TabIndex = 27;
-            this.label3.Text = "Dashboard";
-            // 
             // panel16
             // 
             this.panel16.BackColor = System.Drawing.SystemColors.ActiveBorder;
@@ -358,6 +346,45 @@
             this.panel15.Name = "panel15";
             this.panel15.Size = new System.Drawing.Size(435, 529);
             this.panel15.TabIndex = 31;
+            // 
+            // panel19
+            // 
+            this.panel19.Controls.Add(this.dataGridView1);
+            this.panel19.Location = new System.Drawing.Point(14, 69);
+            this.panel19.Name = "panel19";
+            this.panel19.Size = new System.Drawing.Size(405, 417);
+            this.panel19.TabIndex = 0;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.userID,
+            this.Last_name,
+            this.First_Name});
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.GridColor = System.Drawing.Color.White;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(405, 417);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // userID
+            // 
+            this.userID.HeaderText = "ID";
+            this.userID.Name = "userID";
+            // 
+            // Last_name
+            // 
+            this.Last_name.HeaderText = "Last Name";
+            this.Last_name.Name = "Last_name";
+            // 
+            // First_Name
+            // 
+            this.First_Name.HeaderText = "First_Name";
+            this.First_Name.Name = "First_Name";
             // 
             // panel14
             // 
@@ -466,6 +493,18 @@
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(1037, 212);
             this.panel8.TabIndex = 28;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.Black;
+            this.label3.Location = new System.Drawing.Point(34, 14);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(226, 58);
+            this.label3.TabIndex = 27;
+            this.label3.Text = "Dashboard";
             // 
             // panel2
             // 
@@ -649,45 +688,6 @@
             this.BtnCourse.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BtnCourse.UseVisualStyleBackColor = false;
             // 
-            // panel19
-            // 
-            this.panel19.Controls.Add(this.dataGridView1);
-            this.panel19.Location = new System.Drawing.Point(14, 69);
-            this.panel19.Name = "panel19";
-            this.panel19.Size = new System.Drawing.Size(405, 417);
-            this.panel19.TabIndex = 0;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.userID,
-            this.Last_name,
-            this.First_Name});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.GridColor = System.Drawing.Color.White;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(405, 417);
-            this.dataGridView1.TabIndex = 0;
-            // 
-            // userID
-            // 
-            this.userID.HeaderText = "ID";
-            this.userID.Name = "userID";
-            // 
-            // Last_name
-            // 
-            this.Last_name.HeaderText = "Last Name";
-            this.Last_name.Name = "Last_name";
-            // 
-            // First_Name
-            // 
-            this.First_Name.HeaderText = "First_Name";
-            this.First_Name.Name = "First_Name";
-            // 
             // FormDatabaseInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -714,6 +714,8 @@
             this.MAINPANEL.ResumeLayout(false);
             this.MAINPANEL.PerformLayout();
             this.panel15.ResumeLayout(false);
+            this.panel19.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel14.ResumeLayout(false);
             this.panel13.ResumeLayout(false);
             this.panel13.PerformLayout();
@@ -724,8 +726,6 @@
             this.panel12.ResumeLayout(false);
             this.panel18.ResumeLayout(false);
             this.panel10.ResumeLayout(false);
-            this.panel19.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }

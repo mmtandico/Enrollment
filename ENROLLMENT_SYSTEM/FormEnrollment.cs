@@ -409,8 +409,10 @@ namespace Enrollment_System
             }
             DataGridSubjects.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             DataGridSubjects.Columns[0].Width = 50;
-            DataGridSubjects.Columns[1].Width = 125;
-            DataGridSubjects.Columns[3].Width = 50;
+            DataGridSubjects.Columns[1].Width = 200;
+            DataGridSubjects.Columns[2].Width = 800;
+            DataGridSubjects.Columns[3].Width = 100;
+            DataGridSubjects.Columns[4].Width = 100;
             DataGridSubjects.RowTemplate.Height = 35;
 
 
@@ -664,6 +666,11 @@ namespace Enrollment_System
         private void button1_Click(object sender, EventArgs e)
         {
             new FormPayment().Show();
+        }
+
+        private void DataGridSubjects_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
