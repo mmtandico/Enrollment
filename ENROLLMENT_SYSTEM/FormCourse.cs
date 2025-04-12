@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.Reflection;
 
 namespace Enrollment_System
 {
@@ -113,50 +114,57 @@ namespace Enrollment_System
         {
             try
             {
-                string imagePath = $@"C:\Users\Windows\source\repos\Enrollment\Enrollment_System\Resources\BANNER_{courseCode}.png";
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                string resourceName = $"Enrollment_System.Resources.BANNER_{courseCode}.png";
 
-                if (!File.Exists(imagePath))
+                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
                 {
-                    MessageBox.Show($"Banner image not found for {courseCode} at:\n{imagePath}");
-                    SetDefaultBanner();
-                    return;
+                    if (stream != null)
+                    {
+                        if (PboxBanner.Image != null)
+                        {
+                            PboxBanner.Image.Dispose();
+                        }
+
+                        PboxBanner.Image = Image.FromStream(stream);
+                        BringBannerToFront();
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Banner image not found for {courseCode} in embedded resources.");
+                        SetDefaultBanner();
+                    }
                 }
-
-                // Load the new image
-                Image newImage = Image.FromFile(imagePath);
-
-
-                // Dispose old image if exists
-                if (PboxBanner.Image != null)
-                {
-                    Image oldImage = PboxBanner.Image;
-                    PboxBanner.Image = null;
-                    oldImage.Dispose();
-                }
-
-                PboxBanner.Image = newImage;
-                BringBannerToFront();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading banner: {ex.Message}");
+                MessageBox.Show($"Error loading banner from resources: {ex.Message}");
                 SetDefaultBanner();
             }
         }
 
         private void SetDefaultBanner()
         {
-            string defaultImagePath = @"C:\Users\Windows\source\repos\Enrollment\Enrollment_System\Resources\BACKGROUNDCOLOR.png";
-
             try
             {
-                if (File.Exists(defaultImagePath))
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                string resourceName = "Enrollment_System.Resources.BACKGROUNDCOLOR.png";
+
+                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
                 {
-                    PboxBanner.Image = Image.FromFile(defaultImagePath);
-                }
-                else
-                {
-                    PboxBanner.Image = null;
+                    if (stream != null)
+                    {
+                        if (PboxBanner.Image != null)
+                        {
+                            PboxBanner.Image.Dispose();
+                        }
+
+                        PboxBanner.Image = Image.FromStream(stream);
+                    }
+                    else
+                    {
+                        PboxBanner.Image = null;
+                    }
                 }
             }
             catch
@@ -164,6 +172,7 @@ namespace Enrollment_System
                 PboxBanner.Image = null;
             }
         }
+
 
         #region Navigation Buttons
         private void BtnHome_Click(object sender, EventArgs e)
@@ -216,7 +225,6 @@ namespace Enrollment_System
         #region Course Selection Buttons
         private void BtnBSCS_Click(object sender, EventArgs e)
         {
-
             UpdateCourseBannerImage("BSCS");
         }
 
