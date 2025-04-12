@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="class\Class1.cs" />
     <Compile Include="class\SessionManager.cs" />
     <Compile Include="CourseBECED.cs">
       <SubType>Form</SubType>
@@ -524,28 +525,28 @@
     <None Include="Resources\totalenroll.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BANNER_BECED.png" />
+    <EmbeddedResource Include="Resources\BANNER_BECED.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BANNER_BSCS.png" />
+    <EmbeddedResource Include="Resources\BANNER_BSCS.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BANNER_BSHM.png" />
+    <EmbeddedResource Include="Resources\BANNER_BSHM.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BANNER_BSIT.png" />
+    <EmbeddedResource Include="Resources\BANNER_BSIT.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BANNER_BSOA.png" />
+    <EmbeddedResource Include="Resources\BANNER_BSOA.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BANNER_BSTM.png" />
+    <EmbeddedResource Include="Resources\BANNER_BSTM.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BANNER_BTLED.png" />
+    <EmbeddedResource Include="Resources\BANNER_BTLED.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BANNER_BSOAD.png" />
+    <EmbeddedResource Include="Resources\BANNER_BSOAD.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\PDMBANNER-removebg-preview.png" />

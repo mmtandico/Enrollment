@@ -21,6 +21,7 @@ namespace Enrollment_System
         public FormEnrollment()
         {
             InitializeComponent();
+            UIHelper.ApplyAdminVisibility(BtnDataBase);
             this.Activated += FormEnrollment_Activated;
             DataGridEnrollment.CellContentClick += DataGridEnrollment_CellContentClick;
 
