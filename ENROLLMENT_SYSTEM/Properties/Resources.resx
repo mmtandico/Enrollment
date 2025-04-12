@@ -160,6 +160,9 @@
   <data name="BACKBTN" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BACKBTN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BANNER_BSTM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BANNER_BSTM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="PDMCSSLOGO1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PDMCSSLOGO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -171,6 +174,9 @@
   </data>
   <data name="Lobby" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Lobby.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BANNER_BSIT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BANNER_BSIT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="AI-removebg-preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AI-removebg-preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -214,14 +220,20 @@
   <data name="RemoveButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RemoveButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="PDMBANNER-removebg-preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PDMBANNER-removebg-preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Book" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Book.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Graduation-2019-1-1536x1024" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Graduation-2019-1-1536x1024.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="COLORBGHOME" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\COLORBGHOME.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="tm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BANNER_BSOAD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BANNER_BSOAD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="8" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -235,6 +247,9 @@
   <data name="menu" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\menu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BANNER_BSHM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BANNER_BSHM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="XButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\XButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -247,8 +262,14 @@
   <data name="BGLAB" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BGLAB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="adminoverview-removebg-preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\adminoverview-removebg-preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="CHARM" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CHARM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BANNER_BTLED" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BANNER_BTLED.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BSCS_Banner" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BSCS_Banner1.JPG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -289,20 +310,23 @@
   <data name="PROFILE" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PROFILE.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="COLORBGHOME" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\COLORBGHOME.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="BGCOLOR1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BGCOLOR1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SECURITY-removebg-preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SECURITY-removebg-preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Graduation-2019-1-1536x1024" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Graduation-2019-1-1536x1024.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PAYMENTQR-removebg-preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PAYMENTQR-removebg-preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BANNER_BSOA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BANNER_BSOA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="PDMCSSLOGO" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PDMCSSLOGO.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SECURITY-removebg-preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SECURITY-removebg-preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ComputerImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ComputerImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -310,8 +334,14 @@
   <data name="CS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BANNER_BECED" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BANNER_BECED.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="CSTUDENT" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CSTUDENT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BANNER_BSCS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BANNER_BSCS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PDMBACKGROUND" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PDMBACKGROUND.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -325,25 +355,7 @@
   <data name="icons8-home-48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-home-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BANNER_BECED" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BANNER_BECED.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BANNER_BSCS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BANNER_BSCS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BANNER_BSHM" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BANNER_BSHM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BANNER_BSIT" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BANNER_BSIT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BANNER_BSOA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BANNER_BSOA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BANNER_BSTM" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BANNER_BSTM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BANNER_BTLED" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BANNER_BTLED.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MAINBANNER-removebg-preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MAINBANNER-removebg-preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -247,25 +247,23 @@ namespace Enrollment_System
         {
             if (e.RowIndex >= 0)
             {
-                
                 var selectedRow = DataGridEnrollment.Rows[e.RowIndex];
 
-                
+               
                 string studentNo = selectedRow.Cells["student_no"].Value.ToString();
                 string lastName = selectedRow.Cells["last_name"].Value.ToString();
                 string firstName = selectedRow.Cells["first_name"].Value.ToString();
                 string middleName = selectedRow.Cells["middle_name"].Value.ToString();
-                string course = selectedRow.Cells["course_name"].Value.ToString();
+                string course = selectedRow.Cells["course_name"].Value.ToString();  
                 string academicYear = selectedRow.Cells["academic_year"].Value.ToString();
                 string semester = selectedRow.Cells["semester"].Value.ToString();
                 string yearLevel = selectedRow.Cells["year_level"].Value.ToString();
 
-                
                 UpdateStudentInfoPanel(studentNo, $"{firstName} {middleName} {lastName}", course, academicYear, semester, yearLevel);
 
                 if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColOpen")
                 {
-                    string enrollmentId = DataGridEnrollment.Rows[e.RowIndex].Cells["enrollment_id"].Value.ToString();
+                    string enrollmentId = selectedRow.Cells["enrollment_id"].Value.ToString();
                     using (FormNewAcademiccs editForm = new FormNewAcademiccs())
                     {
                         editForm.EnrollmentId = enrollmentId;
@@ -279,41 +277,37 @@ namespace Enrollment_System
                         }
                     }
                 }
-
-                
                 else if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColClose")
                 {
                     DialogResult confirmResult = MessageBox.Show("Are you sure you want to drop this enrollment?",
-                                                              "Confirm Deletion",
-                                                              MessageBoxButtons.YesNo,
-                                                              MessageBoxIcon.Warning);
+                                                                  "Confirm Deletion",
+                                                                  MessageBoxButtons.YesNo,
+                                                                  MessageBoxIcon.Warning);
 
                     if (confirmResult == DialogResult.Yes)
                     {
-                        string enrollmentId = DataGridEnrollment.Rows[e.RowIndex].Cells["enrollment_id"].Value.ToString();
-                        string studentName = $"{DataGridEnrollment.Rows[e.RowIndex].Cells["last_name"].Value}, {DataGridEnrollment.Rows[e.RowIndex].Cells["first_name"].Value}";
+                        string enrollmentId = selectedRow.Cells["enrollment_id"].Value.ToString();
+                        string studentName = $"{selectedRow.Cells["last_name"].Value}, {selectedRow.Cells["first_name"].Value}";
 
                         try
                         {
-                            
                             bool isDeleted = DeleteEnrollment(enrollmentId);
 
                             if (isDeleted)
                             {
                                 MessageBox.Show($"Enrollment for {studentName} dropped successfully.",
-                                              "Deleted",
-                                              MessageBoxButtons.OK,
-                                              MessageBoxIcon.Information);
+                                                  "Deleted",
+                                                  MessageBoxButtons.OK,
+                                                  MessageBoxIcon.Information);
 
-                              
-                                DataGridEnrollment.Rows.RemoveAt(e.RowIndex);
+                                DataGridEnrollment.Rows.RemoveAt(e.RowIndex);  
                             }
                             else
                             {
                                 MessageBox.Show("Failed to drop enrollment.",
-                                              "Error",
-                                              MessageBoxButtons.OK,
-                                              MessageBoxIcon.Error);
+                                                  "Error",
+                                                  MessageBoxButtons.OK,
+                                                  MessageBoxIcon.Error);
                             }
                         }
                         catch (Exception ex)
@@ -346,13 +340,16 @@ namespace Enrollment_System
                 {
                     conn.Open();
 
+                    // SQL query to delete the enrollment based on the enrollment_id
                     string query = "DELETE FROM student_enrollments WHERE enrollment_id = @EnrollmentId";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
+                        // Use the provided enrollmentId parameter to execute the query
                         cmd.Parameters.AddWithValue("@EnrollmentId", enrollmentId);
-                        int rowsAffected = cmd.ExecuteNonQuery();
-                        return rowsAffected > 0;
+
+                        int rowsAffected = cmd.ExecuteNonQuery(); // Execute the query
+                        return rowsAffected > 0; // Return true if rows were deleted
                     }
                 }
             }

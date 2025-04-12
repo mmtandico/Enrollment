@@ -113,7 +113,7 @@ namespace Enrollment_System
         {
             try
             {
-                string imagePath = $@"C:\Users\w\source\repos\Enrollment\Enrollment_System\Resources\BANNER_{courseCode}.png";
+                string imagePath = $@"C:\Users\Windows\source\repos\Enrollment\Enrollment_System\Resources\BANNER_{courseCode}.png";
 
                 if (!File.Exists(imagePath))
                 {
@@ -146,7 +146,7 @@ namespace Enrollment_System
 
         private void SetDefaultBanner()
         {
-            string defaultImagePath = @"C:\Users\w\source\repos\Enrollment\Enrollment_System\Resources\BACKGROUNDCOLOR.png";
+            string defaultImagePath = @"C:\Users\Windows\source\repos\Enrollment\Enrollment_System\Resources\BACKGROUNDCOLOR.png";
 
             try
             {

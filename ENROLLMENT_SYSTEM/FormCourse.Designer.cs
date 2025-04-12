@@ -88,6 +88,9 @@
             this.panel19 = new System.Windows.Forms.Panel();
             this.BtnLMTM = new System.Windows.Forms.Button();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -121,6 +124,7 @@
             this.panel13.SuspendLayout();
             this.panel19.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel5
@@ -375,6 +379,9 @@
             this.panel8.BackColor = System.Drawing.Color.White;
             this.panel8.BackgroundImage = global::Enrollment_System.Properties.Resources.BACKGROUNDCOLOR;
             this.panel8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel8.Controls.Add(this.pictureBox1);
+            this.panel8.Controls.Add(this.label2);
+            this.panel8.Controls.Add(this.label13);
             this.panel8.Controls.Add(this.PboxBanner);
             this.panel8.Controls.Add(this.pictureBox4);
             this.panel8.Controls.Add(this.label3);
@@ -393,7 +400,6 @@
             this.PboxBanner.Size = new System.Drawing.Size(1230, 229);
             this.PboxBanner.TabIndex = 9;
             this.PboxBanner.TabStop = false;
-            this.PboxBanner.SendToBack();
             // 
             // pictureBox4
             // 
@@ -913,6 +919,41 @@
             this.pictureBox5.TabIndex = 2;
             this.pictureBox5.TabStop = false;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.BackgroundImage = global::Enrollment_System.Properties.Resources.image_removebg_preview;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox1.Location = new System.Drawing.Point(45, 32);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(211, 164);
+            this.pictureBox1.TabIndex = 12;
+            this.pictureBox1.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Agency FB", 24F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(44)))), ((int)(((byte)(26)))));
+            this.label2.Location = new System.Drawing.Point(254, 122);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(508, 40);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "\"Where quality education is a right, not privilage.\"";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.BackColor = System.Drawing.Color.Transparent;
+            this.label13.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(44)))), ((int)(((byte)(26)))));
+            this.label13.Location = new System.Drawing.Point(251, 64);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(763, 58);
+            this.label13.TabIndex = 13;
+            this.label13.Text = "PAMBAYANG DALUHASAAN NG MARILAO";
+            // 
             // FormCourse
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -969,6 +1010,7 @@
             this.panel13.PerformLayout();
             this.panel19.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1034,5 +1076,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel panel11;
         private System.Windows.Forms.PictureBox PboxBanner;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label13;
     }
 }

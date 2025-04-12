@@ -133,6 +133,16 @@ namespace Enrollment_System.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap adminoverview_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("adminoverview-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap AI_removebg_preview {
             get {
                 object obj = ResourceManager.GetObject("AI-removebg-preview", resourceCulture);
@@ -206,6 +216,16 @@ namespace Enrollment_System.Properties {
         internal static System.Drawing.Bitmap BANNER_BSOA {
             get {
                 object obj = ResourceManager.GetObject("BANNER_BSOA", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BANNER_BSOAD {
+            get {
+                object obj = ResourceManager.GetObject("BANNER_BSOAD", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -593,6 +613,16 @@ namespace Enrollment_System.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MAINBANNER_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("MAINBANNER-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap menu {
             get {
                 object obj = ResourceManager.GetObject("menu", resourceCulture);
@@ -666,6 +696,16 @@ namespace Enrollment_System.Properties {
         internal static System.Drawing.Bitmap PDMBACKGROUND {
             get {
                 object obj = ResourceManager.GetObject("PDMBACKGROUND", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PDMBANNER_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("PDMBANNER-removebg-preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
