@@ -772,17 +772,7 @@ namespace Enrollment_System
                             adapter.Fill(dt);
                         }
 
-                        // Clear existing columns if they exist
-                        DataGridSubjects.Columns.Clear();
-
-                        // Add columns to DataGridSubjects
-                        DataGridSubjects.Columns.Add("course_subject_id", "ID");
-                        DataGridSubjects.Columns.Add("subject_code", "Subject Code");
-                        DataGridSubjects.Columns.Add("subject_name", "Subject Name");
-                        DataGridSubjects.Columns.Add("units", "Units");
-                        DataGridSubjects.Columns.Add("course_code", "Course Code");
-                        DataGridSubjects.Columns.Add("semester1", "Semester");
-                        DataGridSubjects.Columns.Add("year_level1", "Year Level");
+                        
 
                         // Populate the DataGrid
                         foreach (DataRow row in dt.Rows)
@@ -811,7 +801,7 @@ namespace Enrollment_System
 
         private void DataGridSubjects_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            
         }
     }
 }
