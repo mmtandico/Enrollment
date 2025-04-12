@@ -19,6 +19,7 @@ namespace Enrollment_System
         public FormCourse()
         {
             InitializeComponent();
+            UIHelper.ApplyAdminVisibility(BtnDataBase);
             InitializeBannerPictureBox();
             LoadWelcomeMessage();
             LoadEnrolledCourseBanner();

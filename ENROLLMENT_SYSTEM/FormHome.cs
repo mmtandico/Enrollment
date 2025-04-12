@@ -15,6 +15,7 @@ namespace Enrollment_System
         public FormHome()
         {
             InitializeComponent();
+            UIHelper.ApplyAdminVisibility(BtnDataBase);
             this.Text = "Welcome to Enrollment System";
             if (!string.IsNullOrEmpty(SessionManager.LastName) && !string.IsNullOrEmpty(SessionManager.FirstName))
             {

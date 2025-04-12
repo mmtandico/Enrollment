@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="class\Class1.cs" />
     <Compile Include="class\SessionManager.cs" />
     <Compile Include="CourseBECED.cs">
       <SubType>Form</SubType>

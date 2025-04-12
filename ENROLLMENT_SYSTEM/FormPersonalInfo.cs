@@ -21,6 +21,7 @@ namespace Enrollment_System
         public FormPersonalInfo()
         {
             InitializeComponent();
+            UIHelper.ApplyAdminVisibility(BtnDataBase);
 
             if (!string.IsNullOrEmpty(SessionManager.LastName) && !string.IsNullOrEmpty(SessionManager.FirstName))
             {
