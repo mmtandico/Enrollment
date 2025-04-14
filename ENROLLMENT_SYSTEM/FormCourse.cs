@@ -59,15 +59,22 @@ namespace Enrollment_System
             }
         }
 
+        private void FormCourse_Activated(object sender, EventArgs e)
+        {
+            LoadEnrolledCourseBanner();
+        }
+
         private void LoadEnrolledCourseBanner()
         {
+            // Check if we have a valid student ID
             if (SessionManager.StudentId <= 0)
             {
-                MessageBox.Show("No student information available. Please log in as a student.");
+                SetDefaultBanner();
                 return;
             }
 
             string courseCode = GetEnrolledCourseCode(SessionManager.StudentId);
+
             if (!string.IsNullOrEmpty(courseCode))
             {
                 UpdateCourseBannerImage(courseCode);
@@ -75,7 +82,7 @@ namespace Enrollment_System
             }
             else
             {
-                MessageBox.Show("You are not currently enrolled in any course.");
+                // No enrollment found - show default banner without message
                 SetDefaultBanner();
             }
         }
@@ -88,12 +95,12 @@ namespace Enrollment_System
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     string query = @"SELECT c.course_code 
-                                   FROM student_enrollments se
-                                   JOIN courses c ON se.course_id = c.course_id
-                                   WHERE se.student_id = @StudentId
-                                   AND se.status IN ('Enrolled', 'Completed', 'Pending', 'Drop')
-                                   ORDER BY se.enrollment_id DESC
-                                   LIMIT 1";
+                           FROM student_enrollments se
+                           JOIN courses c ON se.course_id = c.course_id
+                           WHERE se.student_id = @StudentId
+                           AND se.status IN ('Enrolled', 'Completed', 'Pending', 'Drop')
+                           ORDER BY se.enrollment_id DESC
+                           LIMIT 1";
 
                     using (MySqlCommand command = new MySqlCommand(query, connection))
                     {

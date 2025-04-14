@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Enrollment_System
 {
@@ -34,7 +35,39 @@ namespace Enrollment_System
             loggedInUserId = SessionManager.UserId;
         }
 
+        private bool IsValidAcademicYear(string year)
+        {
+            if (string.IsNullOrWhiteSpace(year))
+                return false;
 
+            // More forgiving pattern that allows various separators and optional spaces
+            if (!Regex.IsMatch(year, @"^\d{4}[-\s]\d{4}$"))
+                return false;
+
+            // Clean the input by removing any whitespace
+            string cleanYear = year.Replace(" ", "").Replace("-", "");
+
+            // Should have exactly 8 digits now (4 + 4)
+            if (cleanYear.Length != 8 || !cleanYear.All(char.IsDigit))
+                return false;
+
+            // Extract the years
+            int startYear, endYear;
+            if (!int.TryParse(cleanYear.Substring(0, 4), out startYear) ||
+                !int.TryParse(cleanYear.Substring(4, 4), out endYear))
+                return false;
+
+            // Validate year ranges (adjust as needed)
+            const int minYear = 2000;
+            const int maxYear = 2100;
+
+            if (startYear < minYear || startYear > maxYear ||
+                endYear < minYear || endYear > maxYear)
+                return false;
+
+            // End year should be exactly +1 from start year
+            return endYear == startYear + 1;
+        }
 
         private void ExitButton_Click(object sender, EventArgs e)
         {
@@ -87,9 +120,13 @@ namespace Enrollment_System
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(TxtSchoolYear.Text) || TxtSchoolYear.Text == "e.g. 20**-20**")
+                if (!IsValidAcademicYear(TxtSchoolYear.Text))
                 {
-                    MessageBox.Show("Please enter a valid academic year.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Please enter a valid School year in format YYYY-YYYY (e.g., 2023-2024).\n" +
+                                  "The second year must be exactly one year after the first.",
+                                  "Invalid Academic Year",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Warning);
                     TxtSchoolYear.Focus();
                     return;
                 }
@@ -284,16 +321,21 @@ namespace Enrollment_System
                 {
                     conn.Open();
 
-                    string query = @"SELECT 
-                        s.student_id, 
-                        IFNULL(s.student_no, '') AS student_no, 
-                        IFNULL(s.first_name, '') AS first_name, 
-                        IFNULL(s.middle_name, '') AS middle_name, 
-                        IFNULL(s.last_name, '') AS last_name,
-                        s.profile_picture
-                    FROM students s
-                    WHERE s.user_id = @UserID
-                    LIMIT 1";
+                    
+                        string query = @"SELECT
+                            s.student_id, 
+                            IFNULL(s.student_no, '') AS student_no,
+                            IFNULL(s.first_name, '') AS first_name,
+                            IFNULL(s.middle_name, '') AS middle_name,
+                            IFNULL(s.last_name, '') AS last_name,
+                            s.profile_picture,
+                            IFNULL(c.course_name, '') AS course_name
+                        FROM students s
+                        LEFT JOIN student_enrollments se ON s.student_id = se.student_id
+                        LEFT JOIN courses c ON se.course_id = c.course_id
+                        WHERE s.user_id = @UserID
+                        ORDER BY se.enrollment_id DESC
+                        LIMIT 1";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
@@ -308,7 +350,8 @@ namespace Enrollment_System
                                 TxtFirstName.Text = reader["first_name"].ToString();
                                 TxtMiddleName.Text = reader["middle_name"].ToString();
                                 TxtLastName.Text = reader["last_name"].ToString();
-
+                                SetComboBoxSelection(CmbCourse, reader["course_name"].ToString());
+                                CmbCourse.Enabled = false;
                                 // Handle profile picture
                                 if (reader["profile_picture"] != DBNull.Value)
                                 {
@@ -379,15 +422,15 @@ namespace Enrollment_System
         {
             // Initialize semester ComboBox
             CmbSem.Items.Clear();
-            CmbSem.Items.Add("1st");
-            CmbSem.Items.Add("2nd");
+            CmbSem.Items.Add("1st sem");
+            CmbSem.Items.Add("2nd sem");
 
             // Initialize year level ComboBox
             CmbYrLvl.Items.Clear();
-            CmbYrLvl.Items.Add("1st");
-            CmbYrLvl.Items.Add("2nd");
-            CmbYrLvl.Items.Add("3rd");
-            CmbYrLvl.Items.Add("4th");
+            CmbYrLvl.Items.Add("1st year");
+            CmbYrLvl.Items.Add("2nd year");
+            CmbYrLvl.Items.Add("3rd year");
+            CmbYrLvl.Items.Add("4th year");
         }
 
         private void LoadUserData()

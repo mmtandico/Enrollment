@@ -312,16 +312,16 @@ namespace Enrollment_System
                 StartPosition = FormStartPosition.CenterParent
             };
             enrollmentForm.Show();
-
+            parentForm.Hide();
+            this.Hide();
             FormNewAcademiccs newAcademicForm = new FormNewAcademiccs
             {
                 StartPosition = FormStartPosition.CenterParent
+               
             };
-
 
             newAcademicForm.FormClosed += (s, args) =>
             {
-
                 parentForm.Panel8.Controls.Clear();
                 CourseBSIT courseForm = new CourseBSIT
                 {
@@ -331,17 +331,17 @@ namespace Enrollment_System
                 parentForm.Panel8.Controls.Add(courseForm);
                 courseForm.Show();
 
-
                 if (parentForm.Panel8.Tag.ToString() == "BSIT")
                 {
                     parentForm.UpdateCourseBannerImage("BSIT");
                 }
+
+                parentForm.Close();
+                this.Close(); 
             };
 
             newAcademicForm.ShowDialog();
-
-
-            this.Close();
+           
         }
     }
 }

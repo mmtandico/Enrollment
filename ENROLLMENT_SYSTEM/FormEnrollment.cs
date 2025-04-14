@@ -258,7 +258,6 @@ namespace Enrollment_System
 
                 var selectedRow = DataGridEnrollment.Rows[e.RowIndex];
 
-                
                 string studentNo = selectedRow.Cells[1].Value?.ToString() ?? "";
                 string lastName = selectedRow.Cells[2].Value?.ToString() ?? "";
                 string firstName = selectedRow.Cells[3].Value?.ToString() ?? "";
@@ -266,6 +265,7 @@ namespace Enrollment_System
                 string courseCode = selectedRow.Cells[5].Value?.ToString() ?? "";
                 string academicYear = selectedRow.Cells[6].Value?.ToString() ?? "";
                 string semester = selectedRow.Cells[7].Value?.ToString() ?? "";
+                
                 string yearLevel = selectedRow.Cells[8].Value?.ToString() ?? "";
 
                 UpdateStudentInfoPanel(studentNo, $"{firstName} {middleName} {lastName}", courseCode, academicYear, semester, yearLevel);
@@ -389,8 +389,6 @@ namespace Enrollment_System
             }
         }
 
-        
-
         private void UpdateStudentInfoPanel(string studentNo, string fullName, string courseCode, string academicYear, string semester, string yearLevel)
         {
             LblStudentNo.Text = studentNo;
@@ -456,9 +454,6 @@ namespace Enrollment_System
             DataGridEnrollment.Columns[8].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             DataGridEnrollment.Columns[9].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-
-
-
             ///////////////////////////////////////////
             DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DataGridPayment.AllowUserToResizeColumns = false;
@@ -493,7 +488,6 @@ namespace Enrollment_System
             DataGridSubjects.Columns[4].Width = 100;
             DataGridSubjects.RowTemplate.Height = 35;
 
-
             CustomizeDataGrid();
             StyleTwoTabControl();
             StyleDataGridPayment();
@@ -502,62 +496,48 @@ namespace Enrollment_System
 
         private void CustomizeDataGrid()
         {
-            
             DataGridEnrollment.BorderStyle = BorderStyle.None;
-
-            
+      
             DataGridEnrollment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220); 
 
-           
             DataGridEnrollment.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
             DataGridEnrollment.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
-
            
             DataGridEnrollment.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
             DataGridEnrollment.DefaultCellStyle.SelectionForeColor = Color.White;
-
           
             DataGridEnrollment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33); 
             DataGridEnrollment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             DataGridEnrollment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             DataGridEnrollment.EnableHeadersVisualStyles = false;
 
-            
             DataGridEnrollment.GridColor = Color.BurlyWood;
 
-           
             DataGridEnrollment.DefaultCellStyle.Font = new Font("Segoe UI", 10);
 
-          
             DataGridEnrollment.RowTemplate.Height = 35;
-
             
             DataGridEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-           
             foreach (DataGridViewColumn column in DataGridEnrollment.Columns)
             {
                 column.Resizable = DataGridViewTriState.False;
             }
         }
 
-        
 
         private void StyleTwoTabControl()
         {
-            
             tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
             tabControl1.SizeMode = TabSizeMode.Fixed;
             tabControl1.ItemSize = new Size(160, 36);  
 
-            
             Color darkBrown = Color.FromArgb(94, 55, 30);    
             Color mediumBrown = Color.FromArgb(139, 69, 19);  
             Color lightBrown = Color.FromArgb(210, 180, 140);  
             Color goldYellow = Color.FromArgb(218, 165, 32);  
             Color cream = Color.FromArgb(253, 245, 230);      
 
-        
             tabControl1.DrawItem += (sender, e) =>
             {
                 Graphics g = e.Graphics;
@@ -571,8 +551,7 @@ namespace Enrollment_System
                     tabRect.Inflate(0, 2);
                     tabRect.Y -= 2;
                 }
-
-                
+ 
                 if (isSelected)
                 {
                     using (var brush = new LinearGradientBrush(
@@ -598,7 +577,6 @@ namespace Enrollment_System
                     g.DrawRectangle(pen, tabRect);
                 }
 
-               
                 TextRenderer.DrawText(
                     g,
                     currentTab.Text,
@@ -608,7 +586,6 @@ namespace Enrollment_System
                     isSelected ? darkBrown : Color.White,
                     TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
 
-                
                 if (isSelected)
                 {
                     using (var pen = new Pen(goldYellow, 2))
@@ -620,7 +597,6 @@ namespace Enrollment_System
                 }
             };
 
-       
             foreach (TabPage tab in tabControl1.TabPages)
             {
                 tab.BackColor = cream;
@@ -629,7 +605,6 @@ namespace Enrollment_System
                 tab.BorderStyle = BorderStyle.FixedSingle;
             }
 
-           
             tabControl1.BackColor = lightBrown;
 
            
@@ -648,87 +623,65 @@ namespace Enrollment_System
 
         private void StyleDataGridPayment()
         {
-
             DataGridPayment.BorderStyle = BorderStyle.None;
 
-
             DataGridPayment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
-
 
             DataGridPayment.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
             DataGridPayment.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
 
-
             DataGridPayment.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
             DataGridPayment.DefaultCellStyle.SelectionForeColor = Color.White;
-
 
             DataGridPayment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33); 
             DataGridPayment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             DataGridPayment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             DataGridPayment.EnableHeadersVisualStyles = false;
 
-
             DataGridPayment.GridColor = Color.BurlyWood;
-
 
             DataGridPayment.DefaultCellStyle.Font = new Font("Segoe UI", 10);
 
-
             DataGridPayment.RowTemplate.Height = 35;
 
-
             DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
 
             foreach (DataGridViewColumn column in DataGridPayment.Columns)
             {
                 column.Resizable = DataGridViewTriState.False;
             }
 
-
         }
 
         private void StyleDataGridSubjects()
         {
-
             DataGridSubjects.BorderStyle = BorderStyle.None;
 
-
             DataGridSubjects.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
-
 
             DataGridSubjects.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
             DataGridSubjects.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
 
-
             DataGridSubjects.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
             DataGridSubjects.DefaultCellStyle.SelectionForeColor = Color.White;
-
 
             DataGridSubjects.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33); 
             DataGridSubjects.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             DataGridSubjects.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             DataGridSubjects.EnableHeadersVisualStyles = false;
 
-
             DataGridSubjects.GridColor = Color.BurlyWood;
-
 
             DataGridSubjects.DefaultCellStyle.Font = new Font("Segoe UI", 10);
 
-
             DataGridSubjects.RowTemplate.Height = 35;
 
-
             DataGridSubjects.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
 
             foreach (DataGridViewColumn column in DataGridSubjects.Columns)
             {
                 column.Resizable = DataGridViewTriState.False;
             }
-
 
         }
 
@@ -755,20 +708,20 @@ namespace Enrollment_System
                     conn.Open();
 
                     string query = @"
-                SELECT 
-                    cs.course_subject_id,
-                    s.subject_code,
-                    s.subject_name,
-                    s.units,
-                    c.course_code,
-                    cs.semester AS semester1,
-                    cs.year_level AS year_level1
-                FROM course_subjects cs
-                INNER JOIN subjects s ON cs.subject_id = s.subject_id
-                INNER JOIN courses c ON cs.course_id = c.course_id
-                WHERE cs.course_id = @CourseId 
-                AND cs.year_level = @YearLevel
-                AND cs.semester = @Semester";
+                        SELECT 
+                            cs.course_subject_id,
+                            s.subject_code,
+                            s.subject_name,
+                            s.units,
+                            c.course_code,
+                            cs.semester AS semester1,
+                            cs.year_level AS year_level1
+                        FROM course_subjects cs
+                        INNER JOIN subjects s ON cs.subject_id = s.subject_id
+                        INNER JOIN courses c ON cs.course_id = c.course_id
+                        WHERE cs.course_id = @CourseId 
+                        AND cs.year_level = @YearLevel
+                        AND cs.semester = @Semester";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
