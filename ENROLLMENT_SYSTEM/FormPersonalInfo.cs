@@ -21,6 +21,10 @@ namespace Enrollment_System
         public FormPersonalInfo()
         {
             InitializeComponent();
+            this.DoubleBuffered = true;
+            SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                     ControlStyles.AllPaintingInWmPaint |
+                     ControlStyles.UserPaint, true);
             UIHelper.ApplyAdminVisibility(BtnDataBase);
 
             if (!string.IsNullOrEmpty(SessionManager.LastName) && !string.IsNullOrEmpty(SessionManager.FirstName))
@@ -68,6 +72,7 @@ namespace Enrollment_System
 
             this.Load += FormPersonalInfo_Load;
         }
+
         private void FormPersonalInfo_Activated(object sender, EventArgs e)
         {
             LoadUserData();
@@ -450,10 +455,10 @@ namespace Enrollment_System
         }
 
         private void BtnExit_Click(object sender, EventArgs e) => Application.Exit();
-        private void BtnHome_Click(object sender, EventArgs e) => NavigateTo(new FormHome());
-        private void BtnCourses_Click(object sender, EventArgs e) => NavigateTo(new FormCourse());
-        private void BtnEnrollment_Click(object sender, EventArgs e) => NavigateTo(new FormEnrollment());
-        private void BtnDataBase_Click(object sender, EventArgs e) => NavigateTo(new FormDatabaseInfo());
+        private void BtnHome_Click(object sender, EventArgs e) => SwitchForm(new FormHome());
+        private void BtnCourses_Click(object sender, EventArgs e) => SwitchForm(new FormCourse());
+        private void BtnEnrollment_Click(object sender, EventArgs e) => SwitchForm(new FormEnrollment());
+        private void BtnDataBase_Click(object sender, EventArgs e) => SwitchForm(new FormDatabaseInfo());
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -487,10 +492,11 @@ namespace Enrollment_System
             }
         }
 
-        private void NavigateTo(Form form)
+        private void SwitchForm(Form newForm)
         {
+            this.Hide();
+            newForm.Show();
             this.Close();
-            form.Show();
         }
 
         private void SetEnabledRecursive(Control control, bool enabled)

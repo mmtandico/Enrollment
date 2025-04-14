@@ -15,6 +15,11 @@ namespace Enrollment_System
         public FormHome()
         {
             InitializeComponent();
+            this.DoubleBuffered = true;
+            SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                     ControlStyles.AllPaintingInWmPaint |
+                     ControlStyles.UserPaint, true);
+
             UIHelper.ApplyAdminVisibility(BtnDataBase);
             this.Text = "Welcome to Enrollment System";
             if (!string.IsNullOrEmpty(SessionManager.LastName) && !string.IsNullOrEmpty(SessionManager.FirstName))
@@ -48,6 +53,12 @@ namespace Enrollment_System
             }
 
         }
+        private void SwitchForm(Form newForm)
+        {
+            this.Hide(); 
+            newForm.Show(); 
+            this.Close(); 
+        }
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
@@ -56,31 +67,28 @@ namespace Enrollment_System
 
         private void BtnCourses_Click(object sender, EventArgs e)
         {
-            new FormCourse().Show();
-            this.Close();
+            SwitchForm(new FormCourse());
         }
 
         private void BtnEnrollment_Click(object sender, EventArgs e)
         {
-            new FormEnrollment().Show();
-            this.Close();
+            SwitchForm(new FormEnrollment());
         }
 
         private void BtnPI_Click(object sender, EventArgs e)
         {
-            new FormPersonalInfo().Show();
-            this.Close();
+            SwitchForm(new FormPersonalInfo());
         }
 
         private void BtnDataBase_Click(object sender, EventArgs e)
         {
-            new FormDatabaseInfo().Show();
-            this.Close();
+            SwitchForm(new FormDatabaseInfo());
         }
 
         private void BtnHome_Click(object sender, EventArgs e)
         {    
             
         }
+        
     }
 }

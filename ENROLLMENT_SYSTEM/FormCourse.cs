@@ -19,6 +19,11 @@ namespace Enrollment_System
         public FormCourse()
         {
             InitializeComponent();
+            this.DoubleBuffered = true;
+            SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                     ControlStyles.AllPaintingInWmPaint |
+                     ControlStyles.UserPaint, true);
+
             UIHelper.ApplyAdminVisibility(BtnDataBase);
             InitializeBannerPictureBox();
             LoadWelcomeMessage();

@@ -21,6 +21,10 @@ namespace Enrollment_System
         public FormEnrollment()
         {
             InitializeComponent();
+            this.DoubleBuffered = true;
+            SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                     ControlStyles.AllPaintingInWmPaint |
+                     ControlStyles.UserPaint, true);
             UIHelper.ApplyAdminVisibility(BtnDataBase);
             this.Activated += FormEnrollment_Activated;
             //LoadEnrollmentData();
@@ -139,22 +143,26 @@ namespace Enrollment_System
             new FormCourse().Show();
         }
 
+        private void SwitchForm(Form newForm)
+        {
+            this.Hide();
+            newForm.Show();
+            this.Close();
+        }
+
         private void BtnHome_Click(object sender, EventArgs e)
         {
-            this.Close();
-            new FormHome().Show();
+            SwitchForm(new FormHome());
         }
 
         private void BtnPI_Click(object sender, EventArgs e)
         {
-            this.Close();
-            new FormPersonalInfo().Show();
+            SwitchForm(new FormPersonalInfo());
         }
 
         private void BtnDataBase_Click(object sender, EventArgs e)
         {
-            this.Close();
-            new FormDatabaseInfo().Show();
+            SwitchForm(new FormDatabaseInfo());
         }
 
         private void BtnLogout_Click(object sender, EventArgs e)
