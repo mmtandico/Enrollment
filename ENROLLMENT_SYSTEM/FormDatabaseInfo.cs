@@ -15,19 +15,13 @@ namespace Enrollment_System
     public partial class FormDatabaseInfo : Form
     {
 
-       
-
         public FormDatabaseInfo()
         {
             InitializeComponent();
             ApplyButtonEffects();
 
-            
-
         }
 
-        
-       
 
         private void BtnExit_Click(object sender, EventArgs e)
         {

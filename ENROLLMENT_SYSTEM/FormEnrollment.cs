@@ -176,6 +176,7 @@ namespace Enrollment_System
             }
 
         }
+
         private void BtnAddAcademic_Click(object sender, EventArgs e)
         {
             using (FormNewAcademiccs formNewAcademiccs = new FormNewAcademiccs())

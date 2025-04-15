@@ -28,25 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel16 = new System.Windows.Forms.Panel();
-            this.label22 = new System.Windows.Forms.Label();
+            this.LblBtledTotal = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
+            this.LblBecedTotal = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
+            this.LblBsoadTotal = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
+            this.LblBshmTotal = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
+            this.LblBstmTotal = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
+            this.LblBsitTotal = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
+            this.LblBscsTotal = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.panel15 = new System.Windows.Forms.Panel();
             this.panel19 = new System.Windows.Forms.Panel();
@@ -57,11 +57,11 @@
             this.panel14 = new System.Windows.Forms.Panel();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.panel13 = new System.Windows.Forms.Panel();
-            this.label8 = new System.Windows.Forms.Label();
+            this.LblUserTotal = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.LblEnrollmentTotal = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.LblStudentTotalNo = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
@@ -78,35 +78,35 @@
             this.panel16.BackColor = System.Drawing.Color.Transparent;
             this.panel16.BackgroundImage = global::Enrollment_System.Properties.Resources.statcourse_removebg_preview;
             this.panel16.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel16.Controls.Add(this.label22);
+            this.panel16.Controls.Add(this.LblBtledTotal);
             this.panel16.Controls.Add(this.label23);
-            this.panel16.Controls.Add(this.label20);
+            this.panel16.Controls.Add(this.LblBecedTotal);
             this.panel16.Controls.Add(this.label21);
-            this.panel16.Controls.Add(this.label18);
+            this.panel16.Controls.Add(this.LblBsoadTotal);
             this.panel16.Controls.Add(this.label19);
-            this.panel16.Controls.Add(this.label16);
+            this.panel16.Controls.Add(this.LblBshmTotal);
             this.panel16.Controls.Add(this.label17);
-            this.panel16.Controls.Add(this.label14);
+            this.panel16.Controls.Add(this.LblBstmTotal);
             this.panel16.Controls.Add(this.label15);
-            this.panel16.Controls.Add(this.label12);
+            this.panel16.Controls.Add(this.LblBsitTotal);
             this.panel16.Controls.Add(this.label13);
-            this.panel16.Controls.Add(this.label11);
+            this.panel16.Controls.Add(this.LblBscsTotal);
             this.panel16.Controls.Add(this.label10);
             this.panel16.Location = new System.Drawing.Point(49, 672);
             this.panel16.Name = "panel16";
             this.panel16.Size = new System.Drawing.Size(1505, 261);
             this.panel16.TabIndex = 38;
             // 
-            // label22
+            // LblBtledTotal
             // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.ForeColor = System.Drawing.Color.White;
-            this.label22.Location = new System.Drawing.Point(1330, 132);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(48, 58);
-            this.label22.TabIndex = 50;
-            this.label22.Text = "0";
+            this.LblBtledTotal.AutoSize = true;
+            this.LblBtledTotal.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblBtledTotal.ForeColor = System.Drawing.Color.White;
+            this.LblBtledTotal.Location = new System.Drawing.Point(1330, 132);
+            this.LblBtledTotal.Name = "LblBtledTotal";
+            this.LblBtledTotal.Size = new System.Drawing.Size(48, 58);
+            this.LblBtledTotal.TabIndex = 50;
+            this.LblBtledTotal.Text = "0";
             // 
             // label23
             // 
@@ -119,16 +119,16 @@
             this.label23.TabIndex = 51;
             this.label23.Text = "BTLED";
             // 
-            // label20
+            // LblBecedTotal
             // 
-            this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.ForeColor = System.Drawing.Color.White;
-            this.label20.Location = new System.Drawing.Point(1125, 132);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(48, 58);
-            this.label20.TabIndex = 48;
-            this.label20.Text = "0";
+            this.LblBecedTotal.AutoSize = true;
+            this.LblBecedTotal.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblBecedTotal.ForeColor = System.Drawing.Color.White;
+            this.LblBecedTotal.Location = new System.Drawing.Point(1125, 132);
+            this.LblBecedTotal.Name = "LblBecedTotal";
+            this.LblBecedTotal.Size = new System.Drawing.Size(48, 58);
+            this.LblBecedTotal.TabIndex = 48;
+            this.LblBecedTotal.Text = "0";
             // 
             // label21
             // 
@@ -141,16 +141,16 @@
             this.label21.TabIndex = 49;
             this.label21.Text = "BECED";
             // 
-            // label18
+            // LblBsoadTotal
             // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.ForeColor = System.Drawing.Color.White;
-            this.label18.Location = new System.Drawing.Point(929, 132);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(48, 58);
-            this.label18.TabIndex = 46;
-            this.label18.Text = "0";
+            this.LblBsoadTotal.AutoSize = true;
+            this.LblBsoadTotal.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblBsoadTotal.ForeColor = System.Drawing.Color.White;
+            this.LblBsoadTotal.Location = new System.Drawing.Point(929, 132);
+            this.LblBsoadTotal.Name = "LblBsoadTotal";
+            this.LblBsoadTotal.Size = new System.Drawing.Size(48, 58);
+            this.LblBsoadTotal.TabIndex = 46;
+            this.LblBsoadTotal.Text = "0";
             // 
             // label19
             // 
@@ -163,16 +163,16 @@
             this.label19.TabIndex = 47;
             this.label19.Text = "BSOAD";
             // 
-            // label16
+            // LblBshmTotal
             // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.ForeColor = System.Drawing.Color.White;
-            this.label16.Location = new System.Drawing.Point(727, 132);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(48, 58);
-            this.label16.TabIndex = 44;
-            this.label16.Text = "0";
+            this.LblBshmTotal.AutoSize = true;
+            this.LblBshmTotal.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblBshmTotal.ForeColor = System.Drawing.Color.White;
+            this.LblBshmTotal.Location = new System.Drawing.Point(727, 132);
+            this.LblBshmTotal.Name = "LblBshmTotal";
+            this.LblBshmTotal.Size = new System.Drawing.Size(48, 58);
+            this.LblBshmTotal.TabIndex = 44;
+            this.LblBshmTotal.Text = "0";
             // 
             // label17
             // 
@@ -185,16 +185,16 @@
             this.label17.TabIndex = 45;
             this.label17.Text = "BSHM";
             // 
-            // label14
+            // LblBstmTotal
             // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.ForeColor = System.Drawing.Color.White;
-            this.label14.Location = new System.Drawing.Point(520, 132);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(48, 58);
-            this.label14.TabIndex = 42;
-            this.label14.Text = "0";
+            this.LblBstmTotal.AutoSize = true;
+            this.LblBstmTotal.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblBstmTotal.ForeColor = System.Drawing.Color.White;
+            this.LblBstmTotal.Location = new System.Drawing.Point(520, 132);
+            this.LblBstmTotal.Name = "LblBstmTotal";
+            this.LblBstmTotal.Size = new System.Drawing.Size(48, 58);
+            this.LblBstmTotal.TabIndex = 42;
+            this.LblBstmTotal.Text = "0";
             // 
             // label15
             // 
@@ -207,16 +207,16 @@
             this.label15.TabIndex = 43;
             this.label15.Text = "BSTM";
             // 
-            // label12
+            // LblBsitTotal
             // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.ForeColor = System.Drawing.Color.White;
-            this.label12.Location = new System.Drawing.Point(318, 132);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(48, 58);
-            this.label12.TabIndex = 40;
-            this.label12.Text = "0";
+            this.LblBsitTotal.AutoSize = true;
+            this.LblBsitTotal.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblBsitTotal.ForeColor = System.Drawing.Color.White;
+            this.LblBsitTotal.Location = new System.Drawing.Point(318, 132);
+            this.LblBsitTotal.Name = "LblBsitTotal";
+            this.LblBsitTotal.Size = new System.Drawing.Size(48, 58);
+            this.LblBsitTotal.TabIndex = 40;
+            this.LblBsitTotal.Text = "0";
             // 
             // label13
             // 
@@ -229,16 +229,16 @@
             this.label13.TabIndex = 41;
             this.label13.Text = "BSIT";
             // 
-            // label11
+            // LblBscsTotal
             // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.Color.White;
-            this.label11.Location = new System.Drawing.Point(115, 132);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(48, 58);
-            this.label11.TabIndex = 39;
-            this.label11.Text = "0";
+            this.LblBscsTotal.AutoSize = true;
+            this.LblBscsTotal.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblBscsTotal.ForeColor = System.Drawing.Color.White;
+            this.LblBscsTotal.Location = new System.Drawing.Point(115, 132);
+            this.LblBscsTotal.Name = "LblBscsTotal";
+            this.LblBscsTotal.Size = new System.Drawing.Size(48, 58);
+            this.LblBscsTotal.TabIndex = 39;
+            this.LblBscsTotal.Text = "0";
             // 
             // label10
             // 
@@ -274,21 +274,21 @@
             this.DataGridAdmin.AllowUserToAddRows = false;
             this.DataGridAdmin.AllowUserToResizeColumns = false;
             this.DataGridAdmin.AllowUserToResizeRows = false;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.White;
-            this.DataGridAdmin.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
+            this.DataGridAdmin.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.DataGridAdmin.BackgroundColor = System.Drawing.Color.White;
             this.DataGridAdmin.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.DataGridAdmin.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DataGridAdmin.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataGridAdmin.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.DataGridAdmin.ColumnHeadersHeight = 40;
             this.DataGridAdmin.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.DataGridAdmin.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -296,33 +296,33 @@
             this.ColCode,
             this.dataGridViewTextBoxColumn14});
             this.DataGridAdmin.Cursor = System.Windows.Forms.Cursors.Default;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridAdmin.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridAdmin.DefaultCellStyle = dataGridViewCellStyle3;
             this.DataGridAdmin.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DataGridAdmin.GridColor = System.Drawing.SystemColors.Control;
             this.DataGridAdmin.Location = new System.Drawing.Point(0, 0);
             this.DataGridAdmin.Name = "DataGridAdmin";
             this.DataGridAdmin.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridAdmin.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridAdmin.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.DataGridAdmin.RowHeadersVisible = false;
             this.DataGridAdmin.RowHeadersWidth = 50;
-            dataGridViewCellStyle10.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.Gray;
-            this.DataGridAdmin.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Gray;
+            this.DataGridAdmin.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.DataGridAdmin.RowTemplate.Height = 30;
             this.DataGridAdmin.RowTemplate.ReadOnly = true;
             this.DataGridAdmin.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -375,27 +375,27 @@
             this.panel13.BackColor = System.Drawing.Color.Transparent;
             this.panel13.BackgroundImage = global::Enrollment_System.Properties.Resources.adminoverview_removebg_preview;
             this.panel13.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel13.Controls.Add(this.label8);
+            this.panel13.Controls.Add(this.LblUserTotal);
             this.panel13.Controls.Add(this.label9);
-            this.panel13.Controls.Add(this.label6);
+            this.panel13.Controls.Add(this.LblEnrollmentTotal);
             this.panel13.Controls.Add(this.label7);
-            this.panel13.Controls.Add(this.label5);
+            this.panel13.Controls.Add(this.LblStudentTotalNo);
             this.panel13.Controls.Add(this.label4);
             this.panel13.Location = new System.Drawing.Point(49, 343);
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(622, 293);
             this.panel13.TabIndex = 35;
             // 
-            // label8
+            // LblUserTotal
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(511, 117);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(35, 42);
-            this.label8.TabIndex = 38;
-            this.label8.Text = "0";
+            this.LblUserTotal.AutoSize = true;
+            this.LblUserTotal.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblUserTotal.ForeColor = System.Drawing.Color.White;
+            this.LblUserTotal.Location = new System.Drawing.Point(511, 117);
+            this.LblUserTotal.Name = "LblUserTotal";
+            this.LblUserTotal.Size = new System.Drawing.Size(35, 42);
+            this.LblUserTotal.TabIndex = 38;
+            this.LblUserTotal.Text = "0";
             // 
             // label9
             // 
@@ -408,16 +408,16 @@
             this.label9.TabIndex = 37;
             this.label9.Text = "User";
             // 
-            // label6
+            // LblEnrollmentTotal
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(319, 117);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(35, 42);
-            this.label6.TabIndex = 36;
-            this.label6.Text = "0";
+            this.LblEnrollmentTotal.AutoSize = true;
+            this.LblEnrollmentTotal.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblEnrollmentTotal.ForeColor = System.Drawing.Color.White;
+            this.LblEnrollmentTotal.Location = new System.Drawing.Point(319, 117);
+            this.LblEnrollmentTotal.Name = "LblEnrollmentTotal";
+            this.LblEnrollmentTotal.Size = new System.Drawing.Size(35, 42);
+            this.LblEnrollmentTotal.TabIndex = 36;
+            this.LblEnrollmentTotal.Text = "0";
             // 
             // label7
             // 
@@ -430,16 +430,16 @@
             this.label7.TabIndex = 35;
             this.label7.Text = "Enrollment";
             // 
-            // label5
+            // LblStudentTotalNo
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(128, 117);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(35, 42);
-            this.label5.TabIndex = 34;
-            this.label5.Text = "0";
+            this.LblStudentTotalNo.AutoSize = true;
+            this.LblStudentTotalNo.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblStudentTotalNo.ForeColor = System.Drawing.Color.White;
+            this.LblStudentTotalNo.Location = new System.Drawing.Point(128, 117);
+            this.LblStudentTotalNo.Name = "LblStudentTotalNo";
+            this.LblStudentTotalNo.Size = new System.Drawing.Size(35, 42);
+            this.LblStudentTotalNo.TabIndex = 34;
+            this.LblStudentTotalNo.Text = "0";
             // 
             // label4
             // 
@@ -470,7 +470,7 @@
             this.label3.ForeColor = System.Drawing.Color.Black;
             this.label3.Location = new System.Drawing.Point(39, 29);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(226, 58);
+            this.label3.Size = new System.Drawing.Size(227, 58);
             this.label3.TabIndex = 33;
             this.label3.Text = "Dashboard";
             // 
@@ -507,19 +507,19 @@
         #endregion
 
         private System.Windows.Forms.Panel panel16;
-        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label LblBtledTotal;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label LblBecedTotal;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label LblBsoadTotal;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label LblBshmTotal;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label LblBstmTotal;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label LblBsitTotal;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label LblBscsTotal;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Panel panel15;
         private System.Windows.Forms.Panel panel19;
@@ -530,11 +530,11 @@
         private System.Windows.Forms.Panel panel14;
         private System.Windows.Forms.MonthCalendar monthCalendar1;
         private System.Windows.Forms.Panel panel13;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label LblUserTotal;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label LblEnrollmentTotal;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label LblStudentTotalNo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.Label label3;
