@@ -43,18 +43,19 @@ namespace Enrollment_System
             };
 
             enrollmentForm.Show();
+            parentForm.Hide();
+            this.Hide();
 
             FormNewAcademiccs newAcademicForm = new FormNewAcademiccs
             {
                 StartPosition = FormStartPosition.CenterParent
-            };
 
+            };
 
             newAcademicForm.FormClosed += (s, args) =>
             {
-
                 parentForm.Panel8.Controls.Clear();
-                CourseBSTM courseForm = new CourseBSTM
+                CourseBSIT courseForm = new CourseBSIT
                 {
                     TopLevel = false,
                     Dock = DockStyle.Fill
@@ -62,17 +63,17 @@ namespace Enrollment_System
                 parentForm.Panel8.Controls.Add(courseForm);
                 courseForm.Show();
 
-
                 if (parentForm.Panel8.Tag.ToString() == "BSTM")
                 {
                     parentForm.UpdateCourseBannerImage("BSTM");
                 }
+
+                parentForm.Close();
+                this.Close();
             };
 
             newAcademicForm.ShowDialog();
 
-
-            this.Close();
         }
 
         private void BtnBack_Click(object sender, EventArgs e)

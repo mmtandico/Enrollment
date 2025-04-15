@@ -20,8 +20,6 @@ namespace Enrollment_System
 
         private void BtnEnroll_Click(object sender, EventArgs e)
         {
-
-            
             if (parentForm.Panel8.Tag != null && parentForm.Panel8.Tag.ToString() != "BSCS")
             {
                 DialogResult result = MessageBox.Show(
@@ -42,19 +40,21 @@ namespace Enrollment_System
             {
                 StartPosition = FormStartPosition.CenterParent
             };
+
             enrollmentForm.Show();
+            parentForm.Hide();
+            this.Hide();
 
             FormNewAcademiccs newAcademicForm = new FormNewAcademiccs
             {
                 StartPosition = FormStartPosition.CenterParent
+
             };
 
-           
             newAcademicForm.FormClosed += (s, args) =>
             {
-               
                 parentForm.Panel8.Controls.Clear();
-                CourseBSCS courseForm = new CourseBSCS
+                CourseBSIT courseForm = new CourseBSIT
                 {
                     TopLevel = false,
                     Dock = DockStyle.Fill
@@ -62,17 +62,17 @@ namespace Enrollment_System
                 parentForm.Panel8.Controls.Add(courseForm);
                 courseForm.Show();
 
-                
                 if (parentForm.Panel8.Tag.ToString() == "BSCS")
                 {
                     parentForm.UpdateCourseBannerImage("BSCS");
                 }
+
+                parentForm.Close();
+                this.Close();
             };
 
-            newAcademicForm.ShowDialog(); 
+            newAcademicForm.ShowDialog();
 
-            
-            this.Close();
         }
 
 

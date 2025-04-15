@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace Enrollment_System
 {
@@ -311,9 +312,11 @@ namespace Enrollment_System
             {
                 StartPosition = FormStartPosition.CenterParent
             };
+
             enrollmentForm.Show();
             parentForm.Hide();
             this.Hide();
+
             FormNewAcademiccs newAcademicForm = new FormNewAcademiccs
             {
                 StartPosition = FormStartPosition.CenterParent
