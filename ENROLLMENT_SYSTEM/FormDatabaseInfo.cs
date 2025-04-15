@@ -128,5 +128,10 @@ namespace Enrollment_System
         {
             LoadForm(new AdminDashB());
         }
+
+        private void BtnEnroll_Click(object sender, EventArgs e)
+        {
+            LoadForm(new AdminEnrollment());
+        }
     }
 }

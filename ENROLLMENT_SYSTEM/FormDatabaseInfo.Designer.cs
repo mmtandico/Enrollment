@@ -304,12 +304,12 @@
             this.panel2.BackColor = System.Drawing.Color.Transparent;
             this.panel2.BackgroundImage = global::Enrollment_System.Properties.Resources.MAINBANNER_removebg_preview;
             this.panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.panel2.Controls.Add(this.panel10);
             this.panel2.Controls.Add(this.pictureBox1);
             this.panel2.Controls.Add(this.panel11);
             this.panel2.Controls.Add(this.panel17);
             this.panel2.Controls.Add(this.panel12);
             this.panel2.Controls.Add(this.panel18);
-            this.panel2.Controls.Add(this.panel10);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel2.Location = new System.Drawing.Point(0, 108);
             this.panel2.Name = "panel2";
@@ -363,7 +363,7 @@
             this.panel17.BackColor = System.Drawing.Color.Transparent;
             this.panel17.Controls.Add(this.BtnEnroll);
             this.panel17.Font = new System.Drawing.Font("Bahnschrift SemiBold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel17.Location = new System.Drawing.Point(27, 507);
+            this.panel17.Location = new System.Drawing.Point(27, 433);
             this.panel17.Name = "panel17";
             this.panel17.Size = new System.Drawing.Size(272, 50);
             this.panel17.TabIndex = 4;
@@ -388,6 +388,7 @@
             this.BtnEnroll.Text = "          Enrollment";
             this.BtnEnroll.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BtnEnroll.UseVisualStyleBackColor = false;
+            this.BtnEnroll.Click += new System.EventHandler(this.BtnEnroll_Click);
             // 
             // panel12
             // 
@@ -457,7 +458,7 @@
             this.panel10.BackColor = System.Drawing.Color.Transparent;
             this.panel10.Controls.Add(this.BtnCourse);
             this.panel10.Font = new System.Drawing.Font("Bahnschrift SemiBold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel10.Location = new System.Drawing.Point(27, 437);
+            this.panel10.Location = new System.Drawing.Point(27, 501);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(272, 50);
             this.panel10.TabIndex = 3;
