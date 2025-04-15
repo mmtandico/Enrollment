@@ -83,7 +83,7 @@ namespace Enrollment_System
             form.TopLevel = false;
             form.FormBorderStyle = FormBorderStyle.None;
             form.Dock = DockStyle.Fill;  // Make the form fill the panel
-            MAINPANEL.Controls.Add(form);
+            MAINPANEL.Controls.Add(form); 
             form.Show();
         }
 

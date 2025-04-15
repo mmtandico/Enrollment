@@ -55,10 +55,12 @@
             this.CmbYrLvl = new System.Windows.Forms.ComboBox();
             this.CmbSem = new System.Windows.Forms.ComboBox();
             this.CmbCourse = new System.Windows.Forms.ComboBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).BeginInit();
             this.panel10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxID)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -409,6 +411,15 @@
             this.CmbCourse.Size = new System.Drawing.Size(621, 33);
             this.CmbCourse.TabIndex = 49;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(842, 277);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(38, 26);
+            this.pictureBox1.TabIndex = 50;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
+            // 
             // FormNewAcademiccs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -416,6 +427,7 @@
             this.BackgroundImage = global::Enrollment_System.Properties.Resources.COLORPDMBACKGROUND;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(937, 418);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.CmbCourse);
             this.Controls.Add(this.CmbSem);
             this.Controls.Add(this.CmbYrLvl);
@@ -448,6 +460,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).EndInit();
             this.panel10.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxID)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -482,5 +495,6 @@
         private System.Windows.Forms.ComboBox CmbYrLvl;
         private System.Windows.Forms.ComboBox CmbSem;
         private System.Windows.Forms.ComboBox CmbCourse;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
