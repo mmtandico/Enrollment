@@ -55,22 +55,23 @@
             this.panel10 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.BtnAll = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.CmbSem = new System.Windows.Forms.ComboBox();
             this.CmbYrLvl = new System.Windows.Forms.ComboBox();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.BtnBTLED = new System.Windows.Forms.Button();
+            this.BtnBECED = new System.Windows.Forms.Button();
+            this.BtnBSOAD = new System.Windows.Forms.Button();
+            this.BtnBSHM = new System.Windows.Forms.Button();
+            this.BtnBSTM = new System.Windows.Forms.Button();
+            this.BtnBSIT = new System.Windows.Forms.Button();
             this.BtnBSCS = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.DataGridEnrolled = new System.Windows.Forms.DataGridView();
-            this.enrollment_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.student_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.student_no = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -100,7 +101,7 @@
             this.label3.ForeColor = System.Drawing.Color.Black;
             this.label3.Location = new System.Drawing.Point(48, 9);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(189, 58);
+            this.label3.Size = new System.Drawing.Size(190, 58);
             this.label3.TabIndex = 34;
             this.label3.Text = "Students";
             // 
@@ -361,21 +362,40 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.Transparent;
             this.panel2.BackgroundImage = global::Enrollment_System.Properties.Resources.Sortbtns_removebg_preview;
+            this.panel2.Controls.Add(this.BtnAll);
             this.panel2.Controls.Add(this.label8);
             this.panel2.Controls.Add(this.label7);
             this.panel2.Controls.Add(this.CmbSem);
             this.panel2.Controls.Add(this.CmbYrLvl);
-            this.panel2.Controls.Add(this.button6);
-            this.panel2.Controls.Add(this.button5);
-            this.panel2.Controls.Add(this.button4);
-            this.panel2.Controls.Add(this.button3);
-            this.panel2.Controls.Add(this.button2);
-            this.panel2.Controls.Add(this.button1);
+            this.panel2.Controls.Add(this.BtnBTLED);
+            this.panel2.Controls.Add(this.BtnBECED);
+            this.panel2.Controls.Add(this.BtnBSOAD);
+            this.panel2.Controls.Add(this.BtnBSHM);
+            this.panel2.Controls.Add(this.BtnBSTM);
+            this.panel2.Controls.Add(this.BtnBSIT);
             this.panel2.Controls.Add(this.BtnBSCS);
             this.panel2.Location = new System.Drawing.Point(1304, 81);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(243, 588);
             this.panel2.TabIndex = 1;
+            // 
+            // BtnAll
+            // 
+            this.BtnAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnAll.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnAll.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnAll.FlatAppearance.BorderSize = 0;
+            this.BtnAll.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnAll.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnAll.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnAll.ForeColor = System.Drawing.Color.White;
+            this.BtnAll.Location = new System.Drawing.Point(63, 18);
+            this.BtnAll.Name = "BtnAll";
+            this.BtnAll.Size = new System.Drawing.Size(111, 37);
+            this.BtnAll.TabIndex = 53;
+            this.BtnAll.Text = "All";
+            this.BtnAll.UseVisualStyleBackColor = true;
             // 
             // label8
             // 
@@ -409,8 +429,9 @@
             this.CmbSem.FormattingEnabled = true;
             this.CmbSem.ItemHeight = 18;
             this.CmbSem.Items.AddRange(new object[] {
-            "1st Sem",
-            "2nd Sem"});
+            "All",
+            "1st",
+            "2nd"});
             this.CmbSem.Location = new System.Drawing.Point(113, 530);
             this.CmbSem.Name = "CmbSem";
             this.CmbSem.Size = new System.Drawing.Size(108, 26);
@@ -422,122 +443,123 @@
             this.CmbYrLvl.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CmbYrLvl.FormattingEnabled = true;
             this.CmbYrLvl.Items.AddRange(new object[] {
-            "1st Year",
-            "2nd Year",
-            "3rd Year",
-            "4th Year"});
+            "All",
+            "1st",
+            "2nd",
+            "3rd",
+            "4th"});
             this.CmbYrLvl.Location = new System.Drawing.Point(110, 478);
             this.CmbYrLvl.Name = "CmbYrLvl";
             this.CmbYrLvl.Size = new System.Drawing.Size(111, 26);
             this.CmbYrLvl.TabIndex = 49;
             // 
-            // button6
+            // BtnBTLED
             // 
-            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button6.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button6.FlatAppearance.BorderSize = 0;
-            this.button6.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button6.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.ForeColor = System.Drawing.Color.White;
-            this.button6.Location = new System.Drawing.Point(63, 415);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(111, 37);
-            this.button6.TabIndex = 8;
-            this.button6.Text = "BTLED";
-            this.button6.UseVisualStyleBackColor = true;
+            this.BtnBTLED.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnBTLED.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnBTLED.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnBTLED.FlatAppearance.BorderSize = 0;
+            this.BtnBTLED.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnBTLED.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnBTLED.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnBTLED.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnBTLED.ForeColor = System.Drawing.Color.White;
+            this.BtnBTLED.Location = new System.Drawing.Point(63, 415);
+            this.BtnBTLED.Name = "BtnBTLED";
+            this.BtnBTLED.Size = new System.Drawing.Size(111, 37);
+            this.BtnBTLED.TabIndex = 8;
+            this.BtnBTLED.Text = "BTLED";
+            this.BtnBTLED.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // BtnBECED
             // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button5.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button5.FlatAppearance.BorderSize = 0;
-            this.button5.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button5.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.ForeColor = System.Drawing.Color.White;
-            this.button5.Location = new System.Drawing.Point(63, 356);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(111, 37);
-            this.button5.TabIndex = 7;
-            this.button5.Text = "BECED";
-            this.button5.UseVisualStyleBackColor = true;
+            this.BtnBECED.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnBECED.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnBECED.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnBECED.FlatAppearance.BorderSize = 0;
+            this.BtnBECED.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnBECED.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnBECED.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnBECED.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnBECED.ForeColor = System.Drawing.Color.White;
+            this.BtnBECED.Location = new System.Drawing.Point(63, 356);
+            this.BtnBECED.Name = "BtnBECED";
+            this.BtnBECED.Size = new System.Drawing.Size(111, 37);
+            this.BtnBECED.TabIndex = 7;
+            this.BtnBECED.Text = "BECED";
+            this.BtnBECED.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // BtnBSOAD
             // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button4.FlatAppearance.BorderSize = 0;
-            this.button4.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.ForeColor = System.Drawing.Color.White;
-            this.button4.Location = new System.Drawing.Point(63, 300);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(111, 37);
-            this.button4.TabIndex = 6;
-            this.button4.Text = "BSOAD";
-            this.button4.UseVisualStyleBackColor = true;
+            this.BtnBSOAD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnBSOAD.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnBSOAD.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnBSOAD.FlatAppearance.BorderSize = 0;
+            this.BtnBSOAD.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSOAD.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSOAD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnBSOAD.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnBSOAD.ForeColor = System.Drawing.Color.White;
+            this.BtnBSOAD.Location = new System.Drawing.Point(63, 300);
+            this.BtnBSOAD.Name = "BtnBSOAD";
+            this.BtnBSOAD.Size = new System.Drawing.Size(111, 37);
+            this.BtnBSOAD.TabIndex = 6;
+            this.BtnBSOAD.Text = "BSOAD";
+            this.BtnBSOAD.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // BtnBSHM
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(63, 243);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(111, 37);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "BSHM";
-            this.button3.UseVisualStyleBackColor = true;
+            this.BtnBSHM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnBSHM.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnBSHM.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnBSHM.FlatAppearance.BorderSize = 0;
+            this.BtnBSHM.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSHM.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSHM.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnBSHM.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnBSHM.ForeColor = System.Drawing.Color.White;
+            this.BtnBSHM.Location = new System.Drawing.Point(63, 243);
+            this.BtnBSHM.Name = "BtnBSHM";
+            this.BtnBSHM.Size = new System.Drawing.Size(111, 37);
+            this.BtnBSHM.TabIndex = 5;
+            this.BtnBSHM.Text = "BSHM";
+            this.BtnBSHM.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // BtnBSTM
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(63, 185);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(111, 37);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "BSTM";
-            this.button2.UseVisualStyleBackColor = true;
+            this.BtnBSTM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnBSTM.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnBSTM.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnBSTM.FlatAppearance.BorderSize = 0;
+            this.BtnBSTM.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSTM.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSTM.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnBSTM.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnBSTM.ForeColor = System.Drawing.Color.White;
+            this.BtnBSTM.Location = new System.Drawing.Point(63, 185);
+            this.BtnBSTM.Name = "BtnBSTM";
+            this.BtnBSTM.Size = new System.Drawing.Size(111, 37);
+            this.BtnBSTM.TabIndex = 4;
+            this.BtnBSTM.Text = "BSTM";
+            this.BtnBSTM.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // BtnBSIT
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(63, 131);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(111, 37);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "BSIT";
-            this.button1.UseVisualStyleBackColor = true;
+            this.BtnBSIT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnBSIT.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnBSIT.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnBSIT.FlatAppearance.BorderSize = 0;
+            this.BtnBSIT.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSIT.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSIT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnBSIT.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnBSIT.ForeColor = System.Drawing.Color.White;
+            this.BtnBSIT.Location = new System.Drawing.Point(63, 131);
+            this.BtnBSIT.Name = "BtnBSIT";
+            this.BtnBSIT.Size = new System.Drawing.Size(111, 37);
+            this.BtnBSIT.TabIndex = 3;
+            this.BtnBSIT.Text = "BSIT";
+            this.BtnBSIT.UseVisualStyleBackColor = true;
             // 
             // BtnBSCS
             // 
@@ -612,7 +634,7 @@
             this.DataGridEnrolled.ColumnHeadersHeight = 40;
             this.DataGridEnrolled.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.DataGridEnrolled.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.enrollment_id,
+            this.student_id,
             this.student_no,
             this.last_name,
             this.first_name,
@@ -659,15 +681,15 @@
             this.DataGridEnrolled.TabIndex = 2;
             this.DataGridEnrolled.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridEnrolled_CellContentClick);
             // 
-            // enrollment_id
+            // student_id
             // 
-            this.enrollment_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.enrollment_id.FillWeight = 10F;
-            this.enrollment_id.Frozen = true;
-            this.enrollment_id.HeaderText = "ID";
-            this.enrollment_id.Name = "enrollment_id";
-            this.enrollment_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.enrollment_id.Width = 53;
+            this.student_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.student_id.FillWeight = 10F;
+            this.student_id.Frozen = true;
+            this.student_id.HeaderText = "ID";
+            this.student_id.Name = "student_id";
+            this.student_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.student_id.Width = 53;
             // 
             // student_no
             // 
@@ -805,26 +827,14 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button BtnBTLED;
+        private System.Windows.Forms.Button BtnBECED;
+        private System.Windows.Forms.Button BtnBSOAD;
+        private System.Windows.Forms.Button BtnBSHM;
+        private System.Windows.Forms.Button BtnBSTM;
+        private System.Windows.Forms.Button BtnBSIT;
         private System.Windows.Forms.Button BtnBSCS;
         private System.Windows.Forms.DataGridView DataGridEnrolled;
-        private System.Windows.Forms.DataGridViewTextBoxColumn enrollment_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn student_no;
-        private System.Windows.Forms.DataGridViewTextBoxColumn last_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn first_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn middle_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn courseCode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn academic_year;
-        private System.Windows.Forms.DataGridViewTextBoxColumn semester;
-        private System.Windows.Forms.DataGridViewTextBoxColumn year_level;
-        private System.Windows.Forms.DataGridViewTextBoxColumn status;
-        private System.Windows.Forms.DataGridViewImageColumn ColOpen;
-        private System.Windows.Forms.DataGridViewImageColumn ColClose;
         private System.Windows.Forms.Panel panel10;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label20;
@@ -848,5 +858,18 @@
         private System.Windows.Forms.ComboBox CmbYrLvl;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button BtnAll;
+        private System.Windows.Forms.DataGridViewTextBoxColumn student_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn student_no;
+        private System.Windows.Forms.DataGridViewTextBoxColumn last_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn first_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn middle_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn courseCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn academic_year;
+        private System.Windows.Forms.DataGridViewTextBoxColumn semester;
+        private System.Windows.Forms.DataGridViewTextBoxColumn year_level;
+        private System.Windows.Forms.DataGridViewTextBoxColumn status;
+        private System.Windows.Forms.DataGridViewImageColumn ColOpen;
+        private System.Windows.Forms.DataGridViewImageColumn ColClose;
     }
 }
