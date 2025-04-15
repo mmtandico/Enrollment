@@ -659,7 +659,7 @@
             this.panel3.Controls.Add(this.BtnEnroll);
             this.panel3.Location = new System.Drawing.Point(0, 10099);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1212, 4250);
+            this.panel3.Size = new System.Drawing.Size(1195, 6302);
             this.panel3.TabIndex = 9;
             this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
@@ -738,7 +738,7 @@
             this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(268, 100);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(495, 33);
+            this.label7.Size = new System.Drawing.Size(498, 33);
             this.label7.TabIndex = 35;
             this.label7.Text = "League of Information Technology Enthusiasts";
             this.label7.Click += new System.EventHandler(this.label7_Click);

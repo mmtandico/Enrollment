@@ -4,6 +4,8 @@ using System.IO;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Reflection;
+using System.Linq;
+using System.Diagnostics;
 
 namespace Enrollment_System
 {
@@ -212,21 +214,40 @@ namespace Enrollment_System
             new FormDatabaseInfo().Show();
         }
 
+        private void CloseAllForms()
+        {
+            // Close current course view
+            if (currentCourseView != null && !currentCourseView.IsDisposed)
+            {
+                currentCourseView.FormClosed -= CurrentFormClosed;
+                currentCourseView.Close();
+                currentCourseView.Dispose();
+                currentCourseView = null;
+            }
+
+            // Close other forms
+            foreach (Form form in Application.OpenForms.Cast<Form>().ToList())
+            {
+                if (form != this && !(form is FormLogin) && !form.IsDisposed)
+                {
+                    form.Close();
+                    form.Dispose();
+                }
+            }
+        }
+
         private void BtnLogout_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Are you sure you want to log out?",
-                                               "Logout Confirmation",
-                                               MessageBoxButtons.YesNo,
-                                               MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to log out?", "Logout Confirmation",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
+                CloseAllForms();
                 SessionManager.Logout();
                 new FormLogin().Show();
                 this.Close();
             }
         }
-        #endregion
+
         public void BringBannerToFront()
         {
             if (PboxBanner != null && panel8.Controls.Contains(PboxBanner))
@@ -235,7 +256,7 @@ namespace Enrollment_System
             }
         }
 
-        #region Course Selection Buttons
+        
         private void BtnBSCS_Click(object sender, EventArgs e)
         {
             UpdateCourseBannerImage("BSCS");
@@ -282,28 +303,83 @@ namespace Enrollment_System
 
         }
 
+        private static Form currentCourseView = null;
+
+        private void ShowCourseViewForm(Form newForm)
+        {
+            
+            if (newForm == null)
+            {
+                MessageBox.Show("Error: Form cannot be null");
+                return;
+            }
+
+            try
+            {
+                
+                if (currentCourseView != null)
+                {
+                   
+                    if (currentCourseView.GetType() == newForm.GetType())
+                    {
+                        if (currentCourseView.WindowState == FormWindowState.Minimized)
+                            currentCourseView.WindowState = FormWindowState.Normal;
+
+                        currentCourseView.BringToFront();
+                        currentCourseView.Activate();
+                        newForm.Dispose(); 
+                        return;
+                    }
+
+                    
+                    currentCourseView.FormClosed -= CurrentFormClosed; 
+                    currentCourseView.Close();
+                    currentCourseView.Dispose();
+                    currentCourseView = null;
+                }
+
+                
+                currentCourseView = newForm;
+                currentCourseView.FormClosed += CurrentFormClosed;
+                currentCourseView.Show();
+            }
+            catch (Exception ex)
+            {
+                
+                newForm.Dispose();
+                MessageBox.Show($"Error showing form: {ex.Message}");
+            }
+        }
+
+        private void CurrentFormClosed(object sender, FormClosedEventArgs e)
+        {
+            
+            if (currentCourseView != null && !currentCourseView.IsDisposed)
+            {
+                currentCourseView.Dispose();
+            }
+            currentCourseView = null;
+        }
+
+
         private void BtnLMIT_Click(object sender, EventArgs e)
         {
-            CourseViewBSIT viewForm = new CourseViewBSIT(this);
-            viewForm.Show();
+            ShowCourseViewForm(new CourseViewBSIT(this));
         }
 
         private void BtnLMCS_Click(object sender, EventArgs e)
         {
-            CourseViewBSCS viewForm = new CourseViewBSCS(this);
-            viewForm.Show();
+            ShowCourseViewForm(new CourseViewBSCS(this));
         }
 
         private void BtnLMTM_Click(object sender, EventArgs e)
         {
-            CourseViewBSTM viewForm = new CourseViewBSTM(this);
-            viewForm.Show();
+            ShowCourseViewForm(new CourseViewBSTM(this));
         }
 
         private void BtnLMOAD_Click(object sender, EventArgs e)
         {
-            CourseViewBSOAD viewForm = new CourseViewBSOAD(this);
-            viewForm.Show();
+            ShowCourseViewForm(new CourseViewBSOAD(this));
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -313,21 +389,19 @@ namespace Enrollment_System
 
         private void BtnLMHM_Click(object sender, EventArgs e)
         {
-            CourseViewBSHM viewForm = new CourseViewBSHM(this);
-            viewForm.Show();
+            ShowCourseViewForm(new CourseViewBSHM(this));
         }
 
         private void BtnLMLED_Click(object sender, EventArgs e)
         {
-            CourseViewBTLED viewForm = new CourseViewBTLED(this);
-            viewForm.Show();
+            ShowCourseViewForm(new CourseViewBTLED(this));
         }
 
         private void BtnCED_Click(object sender, EventArgs e)
         {
-            CourseViewBECED viewForm = new CourseViewBECED(this);
-            viewForm.Show();
+            ShowCourseViewForm(new CourseViewBECED(this));
         }
+
 
         private void BtnExit_Click(object sender, EventArgs e)
         {

@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
@@ -13,11 +6,22 @@ namespace Enrollment_System
 {
     public partial class CourseViewBSIT : Form
     {
+        private MySqlConnection dbConnection;
         private FormCourse parentForm;
         public CourseViewBSIT(FormCourse form)
         {
             InitializeComponent();
             parentForm = form;
+            this.FormClosing += CourseViewBSIT_FormClosing;
+        }
+
+        private void CourseViewBSIT_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (dbConnection != null) 
+            {
+                dbConnection.Dispose();
+                dbConnection = null;
+            }
         }
 
         private void BtnBack_Click(object sender, EventArgs e)
@@ -346,5 +350,7 @@ namespace Enrollment_System
             newAcademicForm.ShowDialog();
            
         }
+
+       
     }
 }

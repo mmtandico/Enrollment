@@ -7,16 +7,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace Enrollment_System
 {
     public partial class CourseViewBTLED : Form
     {
+        private MySqlConnection dbConnection;
         private FormCourse parentForm;
         public CourseViewBTLED(FormCourse form)
         {
             InitializeComponent();
             parentForm = form;
+            this.FormClosing += CourseViewBTLED_FormClosing;
+        }
+
+        private void CourseViewBTLED_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (dbConnection != null)
+            {
+                dbConnection.Dispose();
+                dbConnection = null;
+            }
         }
 
         private void BtnEnroll1_Click(object sender, EventArgs e)
