@@ -292,21 +292,21 @@ namespace Enrollment_System
                     connection.Open();
 
                     string query = @"
-                SELECT 
-                    se.enrollment_id,
-                    s.student_no,
-                    s.last_name,
-                    s.first_name,
-                    s.middle_name,
-                    c.course_code AS Program,
-                    se.academic_year,
-                    se.semester,
-                    se.year_level,
-                    se.status
-                FROM student_enrollments se
-                INNER JOIN students s ON se.student_id = s.student_id
-                INNER JOIN courses c ON se.course_id = c.course_id
-                WHERE se.status = 'Enrolled'";
+                        SELECT 
+                            se.enrollment_id,
+                            s.student_no,
+                            s.last_name,
+                            s.first_name,
+                            s.middle_name,
+                            c.course_code AS Program,
+                            se.academic_year,
+                            se.semester,
+                            se.year_level,
+                            se.status
+                        FROM student_enrollments se
+                        INNER JOIN students s ON se.student_id = s.student_id
+                        INNER JOIN courses c ON se.course_id = c.course_id
+                        WHERE se.status = 'Enrolled'";
 
                   
 
@@ -339,11 +339,11 @@ namespace Enrollment_System
 
             string filterExpression = "";
 
-            // Apply program filter (only if not "All")
+            
             if (currentProgramFilter != "All")
                 filterExpression += $"[program] = '{currentProgramFilter}'";
 
-            // Apply year level filter (only if not "All")
+            
             if (yearLevelFilter != "All")
             {
                 if (!string.IsNullOrEmpty(filterExpression))
@@ -351,7 +351,7 @@ namespace Enrollment_System
                 filterExpression += $"[year_level] = '{yearLevelFilter}'";
             }
 
-            // Apply semester filter (only if not "All")
+            
             if (semesterFilter != "All")
             {
                 if (!string.IsNullOrEmpty(filterExpression))
@@ -359,7 +359,6 @@ namespace Enrollment_System
                 filterExpression += $"[semester] = '{semesterFilter}'";
             }
 
-            // Apply the filter to the DataGridView
             if (DataGridEnrolled.DataSource is DataTable)
             {
                 DataTable dt = (DataTable)DataGridEnrolled.DataSource;
@@ -433,19 +432,19 @@ namespace Enrollment_System
                 {
                     conn.Open();
                     string query = @"
-                SELECT 
-                    s.student_no,
-                    s.last_name,
-                    s.first_name,
-                    s.middle_name,
-                    c.course_name,
-                    se.year_level,
-                    se.semester,
-                    s.profile_picture
-                FROM student_enrollments se
-                INNER JOIN students s ON se.student_id = s.student_id
-                INNER JOIN courses c ON se.course_id = c.course_id
-                WHERE s.student_no = @studentNo
+                        SELECT 
+                            s.student_no,
+                            s.last_name,
+                            s.first_name,
+                            s.middle_name,
+                            c.course_name,
+                            se.year_level,
+                            se.semester,
+                            s.profile_picture
+                        FROM student_enrollments se
+                        INNER JOIN students s ON se.student_id = s.student_id
+                        INNER JOIN courses c ON se.course_id = c.course_id
+                        WHERE s.student_no = @studentNo
             ";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))

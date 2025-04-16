@@ -384,20 +384,19 @@ namespace Enrollment_System
                 {
                     conn.Open();
                     string query = @"
-                SELECT 
-                    s.student_no,
-                    s.last_name,
-                    s.first_name,
-                    s.middle_name,
-                    c.course_name,
-                    se.year_level,
-                    se.semester,
-                    s.profile_picture
-                FROM student_enrollments se
-                INNER JOIN students s ON se.student_id = s.student_id
-                INNER JOIN courses c ON se.course_id = c.course_id
-                WHERE s.student_no = @studentNo
-            ";
+                        SELECT 
+                            s.student_no,
+                            s.last_name,
+                            s.first_name,
+                            s.middle_name,
+                            c.course_name,
+                            se.year_level,
+                            se.semester,
+                            s.profile_picture
+                        FROM student_enrollments se
+                        INNER JOIN students s ON se.student_id = s.student_id
+                        INNER JOIN courses c ON se.course_id = c.course_id
+                        WHERE s.student_no = @studentNo";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
@@ -415,8 +414,6 @@ namespace Enrollment_System
                                 TxtYrLevel.Text = reader["year_level"].ToString();
                                 TxtSemester.Text = reader["semester"].ToString();
 
-
-                                // Load profile picture
                                 if (reader["profile_picture"] != DBNull.Value)
                                 {
                                     byte[] imageBytes = (byte[])reader["profile_picture"];
