@@ -13,7 +13,7 @@ namespace Enrollment_System
 {
     public partial class AdminDashB : Form
     {
-        private string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
+        private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
 
         public AdminDashB()
         {
@@ -48,34 +48,27 @@ namespace Enrollment_System
                     connection.Open();
 
                     
-                    string currentAcademicYear = $"{DateTime.Now.Year}-{DateTime.Now.Year + 1}";
-                    string currentSemester = GetCurrentSemester();
-
-                    
                     LblUserTotal.Text = GetCount(connection, "SELECT COUNT(*) FROM users").ToString();
 
                     
                     LblStudentTotalNo.Text = GetCount(connection,
                         $@"SELECT COUNT(DISTINCT se.student_id) 
                            FROM student_enrollments se
-                           WHERE se.academic_year = '{currentAcademicYear}'
-                           AND se.semester = '{currentSemester}'
-                           AND se.status = 'Enrolled'").ToString();
+                           WHERE se.status = 'Enrolled'").ToString();
 
                     LblEnrollmentTotal.Text = GetCount(connection,
                         $@"SELECT COUNT(*) 
                            FROM student_enrollments
-                           WHERE academic_year = '{currentAcademicYear}'
-                           AND semester = '{currentSemester}'
-                           AND status = 'Enrolled'").ToString();
-                    
-                    LblBtledTotal.Text = GetEnrolledCountByCourse(connection, "BTLED", currentAcademicYear, currentSemester);
-                    LblBecedTotal.Text = GetEnrolledCountByCourse(connection, "ECED", currentAcademicYear, currentSemester);
-                    LblBsoadTotal.Text = GetEnrolledCountByCourse(connection, "BSOAD", currentAcademicYear, currentSemester);
-                    LblBshmTotal.Text = GetEnrolledCountByCourse(connection, "BSHM", currentAcademicYear, currentSemester);
-                    LblBstmTotal.Text = GetEnrolledCountByCourse(connection, "BSTM", currentAcademicYear, currentSemester);
-                    LblBsitTotal.Text = GetEnrolledCountByCourse(connection, "BSIT", currentAcademicYear, currentSemester);
-                    LblBscsTotal.Text = GetEnrolledCountByCourse(connection, "BSCS", currentAcademicYear, currentSemester);
+                           WHERE status = 'Pending'").ToString();
+
+                    LblBtledTotal.Text = GetEnrolledCountByCourse(connection, "BTLED");
+                    LblBecedTotal.Text = GetEnrolledCountByCourse(connection, "ECED");
+                    LblBsoadTotal.Text = GetEnrolledCountByCourse(connection, "BSOAD");
+                    LblBshmTotal.Text = GetEnrolledCountByCourse(connection, "BSHM");
+                    LblBstmTotal.Text = GetEnrolledCountByCourse(connection, "BSTM");
+                    LblBsitTotal.Text = GetEnrolledCountByCourse(connection, "BSIT");
+                    LblBscsTotal.Text = GetEnrolledCountByCourse(connection, "BSCS");
+
                 }
             }
             catch (Exception ex)
@@ -86,30 +79,21 @@ namespace Enrollment_System
             }
         }
 
-        private string GetCurrentSemester()
-        {
-            
-            return DateTime.Now.Month >= 6 ? "1st" : "2nd"; // Assuming 1st sem is June-Nov, 2nd sem is Dec-May
-        }
-
-        private string GetEnrolledCountByCourse(MySqlConnection connection, string courseCode, string academicYear, string semester)
+        private string GetEnrolledCountByCourse(MySqlConnection connection, string courseCode)
         {
             string query = @"SELECT COUNT(*) 
-                           FROM student_enrollments se
-                           JOIN courses c ON se.course_id = c.course_id
-                           WHERE c.course_code = @courseCode
-                           AND se.academic_year = @academicYear
-                           AND se.semester = @semester
-                           AND se.status = 'Enrolled'";
+                     FROM student_enrollments se
+                     JOIN courses c ON se.course_id = c.course_id
+                     WHERE c.course_code = @courseCode
+                       AND se.status = 'Enrolled'";
 
             using (MySqlCommand command = new MySqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@courseCode", courseCode);
-                command.Parameters.AddWithValue("@academicYear", academicYear);
-                command.Parameters.AddWithValue("@semester", semester);
                 return command.ExecuteScalar().ToString();
             }
         }
+
 
 
         private int GetCount(MySqlConnection connection, string query)
@@ -182,7 +166,7 @@ namespace Enrollment_System
             DataGridAdmin.DefaultCellStyle.SelectionForeColor = Color.White;
 
 
-            DataGridAdmin.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33); // Rich brown
+            DataGridAdmin.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33); 
             DataGridAdmin.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             DataGridAdmin.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             DataGridAdmin.EnableHeadersVisualStyles = false;

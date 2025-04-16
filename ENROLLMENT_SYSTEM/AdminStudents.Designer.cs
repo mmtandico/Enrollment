@@ -38,12 +38,12 @@
             this.button9 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.TxtSemester = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.TxtYrLevel = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.TxtCourseName = new System.Windows.Forms.TextBox();
             this.LblEmail = new System.Windows.Forms.Label();
             this.TxtLastName = new System.Windows.Forms.TextBox();
             this.TxtMiddleName = new System.Windows.Forms.TextBox();
@@ -53,7 +53,7 @@
             this.label20 = new System.Windows.Forms.Label();
             this.TxtStudentNo = new System.Windows.Forms.TextBox();
             this.panel10 = new System.Windows.Forms.Panel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.PicBoxID = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.BtnAll = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
@@ -85,7 +85,7 @@
             this.ColClose = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel3.SuspendLayout();
             this.panel10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBoxID)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -113,12 +113,12 @@
             this.panel3.Controls.Add(this.button9);
             this.panel3.Controls.Add(this.button8);
             this.panel3.Controls.Add(this.button7);
-            this.panel3.Controls.Add(this.textBox3);
+            this.panel3.Controls.Add(this.TxtSemester);
             this.panel3.Controls.Add(this.label6);
-            this.panel3.Controls.Add(this.textBox2);
+            this.panel3.Controls.Add(this.TxtYrLevel);
             this.panel3.Controls.Add(this.label5);
             this.panel3.Controls.Add(this.label2);
-            this.panel3.Controls.Add(this.textBox1);
+            this.panel3.Controls.Add(this.TxtCourseName);
             this.panel3.Controls.Add(this.LblEmail);
             this.panel3.Controls.Add(this.TxtLastName);
             this.panel3.Controls.Add(this.TxtMiddleName);
@@ -184,16 +184,16 @@
             this.button7.Text = "CONFIRM";
             this.button7.UseVisualStyleBackColor = true;
             // 
-            // textBox3
+            // TxtSemester
             // 
-            this.textBox3.BackColor = System.Drawing.Color.White;
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.ForeColor = System.Drawing.Color.Black;
-            this.textBox3.Location = new System.Drawing.Point(1076, 155);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(226, 33);
-            this.textBox3.TabIndex = 44;
+            this.TxtSemester.BackColor = System.Drawing.Color.White;
+            this.TxtSemester.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtSemester.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtSemester.ForeColor = System.Drawing.Color.Black;
+            this.TxtSemester.Location = new System.Drawing.Point(1076, 155);
+            this.TxtSemester.Name = "TxtSemester";
+            this.TxtSemester.Size = new System.Drawing.Size(226, 33);
+            this.TxtSemester.TabIndex = 44;
             // 
             // label6
             // 
@@ -206,16 +206,16 @@
             this.label6.TabIndex = 43;
             this.label6.Text = "Semester";
             // 
-            // textBox2
+            // TxtYrLevel
             // 
-            this.textBox2.BackColor = System.Drawing.Color.White;
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox2.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.ForeColor = System.Drawing.Color.Black;
-            this.textBox2.Location = new System.Drawing.Point(1076, 70);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(226, 33);
-            this.textBox2.TabIndex = 42;
+            this.TxtYrLevel.BackColor = System.Drawing.Color.White;
+            this.TxtYrLevel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtYrLevel.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtYrLevel.ForeColor = System.Drawing.Color.Black;
+            this.TxtYrLevel.Location = new System.Drawing.Point(1076, 70);
+            this.TxtYrLevel.Name = "TxtYrLevel";
+            this.TxtYrLevel.Size = new System.Drawing.Size(226, 33);
+            this.TxtYrLevel.TabIndex = 42;
             // 
             // label5
             // 
@@ -239,16 +239,16 @@
             this.label2.TabIndex = 40;
             this.label2.Text = "Course";
             // 
-            // textBox1
+            // TxtCourseName
             // 
-            this.textBox1.BackColor = System.Drawing.Color.White;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.ForeColor = System.Drawing.Color.Black;
-            this.textBox1.Location = new System.Drawing.Point(679, 155);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(367, 33);
-            this.textBox1.TabIndex = 39;
+            this.TxtCourseName.BackColor = System.Drawing.Color.White;
+            this.TxtCourseName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtCourseName.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtCourseName.ForeColor = System.Drawing.Color.Black;
+            this.TxtCourseName.Location = new System.Drawing.Point(679, 155);
+            this.TxtCourseName.Name = "TxtCourseName";
+            this.TxtCourseName.Size = new System.Drawing.Size(367, 33);
+            this.TxtCourseName.TabIndex = 39;
             // 
             // LblEmail
             // 
@@ -342,21 +342,22 @@
             // 
             this.panel10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(44)))), ((int)(((byte)(26)))));
             this.panel10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel10.Controls.Add(this.pictureBox2);
+            this.panel10.Controls.Add(this.PicBoxID);
             this.panel10.Location = new System.Drawing.Point(45, 29);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(195, 183);
             this.panel10.TabIndex = 30;
             // 
-            // pictureBox2
+            // PicBoxID
             // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox2.Location = new System.Drawing.Point(18, 18);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(156, 144);
-            this.pictureBox2.TabIndex = 1;
-            this.pictureBox2.TabStop = false;
+            this.PicBoxID.BackColor = System.Drawing.Color.Transparent;
+            this.PicBoxID.BackgroundImage = global::Enrollment_System.Properties.Resources.PROFILE;
+            this.PicBoxID.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PicBoxID.Location = new System.Drawing.Point(18, 18);
+            this.PicBoxID.Name = "PicBoxID";
+            this.PicBoxID.Size = new System.Drawing.Size(156, 144);
+            this.PicBoxID.TabIndex = 1;
+            this.PicBoxID.TabStop = false;
             // 
             // panel2
             // 
@@ -807,7 +808,7 @@
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel10.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBoxID)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -836,7 +837,7 @@
         private System.Windows.Forms.Button BtnBSCS;
         private System.Windows.Forms.DataGridView DataGridEnrolled;
         private System.Windows.Forms.Panel panel10;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox PicBoxID;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TextBox TxtStudentNo;
         private System.Windows.Forms.Label LblEmail;
@@ -848,12 +849,12 @@
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox TxtSemester;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox TxtYrLevel;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox TxtCourseName;
         private System.Windows.Forms.ComboBox CmbSem;
         private System.Windows.Forms.ComboBox CmbYrLvl;
         private System.Windows.Forms.Label label7;

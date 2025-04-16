@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
-
+using System.IO;
 
 namespace Enrollment_System
 {
@@ -28,13 +28,14 @@ namespace Enrollment_System
         }
         private void AdminEnrollment_Load(object sender, EventArgs e)
         {
+            DataGridNewEnrollment.CellClick += DataGridNewEnrollment_CellClick;
 
             StyleTwoTabControl();
             InitializeDataGridView();
 
             InitializeFilterControls();
             DataGridNewEnrollment.AutoGenerateColumns = false;
-            student_id.DataPropertyName = "student_id";
+            student_id.DataPropertyName = "enrollment_id";
             student_no.DataPropertyName = "student_no";
             last_name.DataPropertyName = "last_name";
             first_name.DataPropertyName = "first_name";
@@ -131,6 +132,7 @@ namespace Enrollment_System
             CmbYrLvl.SelectedIndexChanged += ApplyFilters;
             CmbSem.SelectedIndexChanged += ApplyFilters;
         }
+
         private void LoadStudentData()
         {
             try
@@ -140,26 +142,24 @@ namespace Enrollment_System
                     connection.Open();
 
                     string query = @"
-                        SELECT 
-                            s.student_id,
-                            s.student_no,
-                            s.last_name,
-                            s.first_name,
-                            s.middle_name,
-                            c.course_code AS Program,
-                            se.academic_year,
-                            se.semester,
-                            se.year_level,
-                            se.status
-                        FROM student_enrollments se
-                        INNER JOIN students s ON se.student_id = s.student_id
-                        INNER JOIN courses c ON se.course_id = c.course_id
-                        WHERE s.user_id = @UserID";
+                SELECT 
+                    se.enrollment_id,
+                    s.student_no,
+                    s.last_name,
+                    s.first_name,
+                    s.middle_name,
+                    c.course_code AS Program,
+                    se.academic_year,
+                    se.semester,
+                    se.year_level,
+                    se.status
+                FROM student_enrollments se
+                INNER JOIN students s ON se.student_id = s.student_id
+                INNER JOIN courses c ON se.course_id = c.course_id
+                WHERE se.status = 'Pending'";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
-                        cmd.Parameters.AddWithValue("@UserID", SessionManager.UserId);
-
                         using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
                         {
                             DataGridNewEnrollment.AutoGenerateColumns = false;
@@ -178,6 +178,7 @@ namespace Enrollment_System
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void ApplyFilters(object sender, EventArgs e)
         {
@@ -362,5 +363,84 @@ namespace Enrollment_System
                 }
             };
         }
+
+        private void DataGridNewEnrollment_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0) // ensure a valid row was clicked
+            {
+                DataGridViewRow row = DataGridNewEnrollment.Rows[e.RowIndex];
+
+                string studentNo = row.Cells["student_no"].Value.ToString();
+
+                FetchStudentDetails(studentNo);
+            }
+        }
+
+        private void FetchStudentDetails(string studentNo)
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = @"
+                SELECT 
+                    s.student_no,
+                    s.last_name,
+                    s.first_name,
+                    s.middle_name,
+                    c.course_name,
+                    se.year_level,
+                    se.semester,
+                    s.profile_picture
+                FROM student_enrollments se
+                INNER JOIN students s ON se.student_id = s.student_id
+                INNER JOIN courses c ON se.course_id = c.course_id
+                WHERE s.student_no = @studentNo
+            ";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@studentNo", studentNo);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                TxtLastName.Text = reader["last_name"].ToString();
+                                TxtFirstName.Text = reader["first_name"].ToString();
+                                TxtMiddleName.Text = reader["middle_name"].ToString();
+                                TxtStudentNo.Text = reader["student_no"].ToString();
+                                TxtCourseName.Text = reader["course_name"].ToString();
+                                TxtYrLevel.Text = reader["year_level"].ToString();
+                                TxtSemester.Text = reader["semester"].ToString();
+
+
+                                // Load profile picture
+                                if (reader["profile_picture"] != DBNull.Value)
+                                {
+                                    byte[] imageBytes = (byte[])reader["profile_picture"];
+                                    using (MemoryStream ms = new MemoryStream(imageBytes))
+                                    {
+                                        PicBoxID.Image = Image.FromStream(ms);
+                                    }
+                                }
+                                else
+                                {
+                                    PicBoxID.Image = Properties.Resources.PROFILE;
+                                }
+                                PicBoxID.SizeMode = PictureBoxSizeMode.StretchImage;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error fetching student details: " + ex.Message,
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }
