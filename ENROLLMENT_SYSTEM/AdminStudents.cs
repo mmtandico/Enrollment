@@ -93,7 +93,7 @@ namespace Enrollment_System
             last_name.DataPropertyName = "last_name";
             first_name.DataPropertyName = "first_name";
             middle_name.DataPropertyName = "middle_name";
-            courseCode.DataPropertyName = "course_code";
+            courseCode.DataPropertyName = "Program";
             academic_year.DataPropertyName = "academic_year";
             semester.DataPropertyName = "semester";
             year_level.DataPropertyName = "year_level";
@@ -299,7 +299,7 @@ namespace Enrollment_System
                     s.last_name,
                     s.first_name,
                     s.middle_name,
-                    c.course_code,
+                    c.course_code AS Program,
                     se.academic_year,
                     se.semester,
                     se.year_level,
@@ -332,10 +332,6 @@ namespace Enrollment_System
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
-
-
 
         private void ApplyFilters(object sender, EventArgs e)
         {

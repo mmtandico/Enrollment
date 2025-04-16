@@ -62,13 +62,21 @@ namespace Enrollment_System
 
                                 if (BCrypt.Net.BCrypt.Verify(password, storedHash))
                                 {
-                                    // Store user details in SessionManager
+                                    
                                     SessionManager.Login(userId, email, role, firstName, lastName, studentId);
 
                                     MessageBox.Show($"Welcome, {firstName} {lastName}!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     this.Hide();
 
-                                    new FormHome().Show();
+                                    if (role == "admin")
+                                    {
+                                        new FormDatabaseInfo().Show(); 
+                                    }
+                                    else
+                                    {
+                                        new FormHome().Show(); 
+                                    }
+
                                 }
                                 else
                                 {
