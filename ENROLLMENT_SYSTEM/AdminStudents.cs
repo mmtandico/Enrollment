@@ -10,7 +10,7 @@ namespace Enrollment_System
 {
     public partial class AdminStudents : Form
     {
-        private string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
+        private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
        
         private string currentProgramFilter = "All";
         private Button[] programButtons;
