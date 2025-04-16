@@ -84,7 +84,7 @@ namespace Enrollment_System
         private void AdminStudents_Load(object sender, EventArgs e)
         {
             StyleTwoTabControl();
-            InitializeDataGridView(); // Initialize columns first
+            InitializeDataGridView(); 
             
             InitializeFilterControls();
             DataGridEnrolled.AutoGenerateColumns = false;
@@ -299,7 +299,7 @@ namespace Enrollment_System
                     s.last_name,
                     s.first_name,
                     s.middle_name,
-                    c.course_code AS program,
+                    c.course_code,
                     se.academic_year,
                     se.semester,
                     se.year_level,
@@ -307,7 +307,8 @@ namespace Enrollment_System
                 FROM student_enrollments se
                 INNER JOIN students s ON se.student_id = s.student_id
                 INNER JOIN courses c ON se.course_id = c.course_id
-                WHERE s.user_id = @UserID";
+                WHERE s.user_id = @UserID
+                AND se.status = 'Enrolled'";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
@@ -320,9 +321,7 @@ namespace Enrollment_System
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
 
-                            DataGridEnrolled.DataSource = dt; // 🔥 Binding the DataTable
-
-                            // Optional: Customize columns here if needed
+                            DataGridEnrolled.DataSource = dt; 
                         }
                     }
                 }

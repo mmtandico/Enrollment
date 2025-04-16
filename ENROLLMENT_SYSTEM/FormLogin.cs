@@ -9,6 +9,7 @@ namespace Enrollment_System
     {
         private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
 
+
         public FormLogin()
         {
             InitializeComponent();
