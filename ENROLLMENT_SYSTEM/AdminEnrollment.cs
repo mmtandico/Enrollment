@@ -34,6 +34,15 @@ namespace Enrollment_System
             tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
 
         }
+
+        public static class EnrollmentStatus
+        {
+            public const string Pending = "Pending";
+            public const string PaymentPending = "Payment Pending";
+            public const string Enrolled = "Enrolled";
+            
+        }
+
         private void AdminEnrollment_Load(object sender, EventArgs e)
         {
             
@@ -41,7 +50,8 @@ namespace Enrollment_System
             {
                 Console.WriteLine("Column Name: " + col.Name);
             }
-            
+
+            DataGridPayment.CellClick += DataGridPayment_CellClick;
             DataGridNewEnrollment.CellClick += DataGridNewEnrollment_CellClick;
             StyleTwoTabControl();
             InitializeDataGridView();
@@ -702,58 +712,128 @@ namespace Enrollment_System
 
         private void BtnConfirm_Click(object sender, EventArgs e)
         {
-            if (DataGridNewEnrollment.SelectedRows.Count > 0)
+            try
             {
-                DataGridViewRow selectedRow = DataGridNewEnrollment.SelectedRows[0];
-                int enrollmentId = Convert.ToInt32(selectedRow.Cells["enrollment_id"].Value);
+               
+                DataGridView currentGrid;
+                string enrollmentIdColumn, studentNoColumn, lastNameColumn, firstNameColumn,
+                       middleNameColumn, courseCodeColumn, academicYearColumn,
+                       semesterColumn, yearLevelColumn, statusColumn;
+                string currentStatus;
+                string successMessage;
+                string confirmationMessage;
+                string newStatus;
 
-                string studentName = selectedRow.Cells["last_name"].Value.ToString() + ", " +
-                                     selectedRow.Cells["first_name"].Value.ToString();
+                if (tabControl1.SelectedTab == tabPayment)
+                {
+                    currentGrid = DataGridPayment;
+                    
+                    enrollmentIdColumn = "enrollment_id_payment";
+                    studentNoColumn = "student_no_payment";
+                    lastNameColumn = "last_name_payment";
+                    firstNameColumn = "first_name_payment";
+                    middleNameColumn = "middle_name_payment";
+                    courseCodeColumn = "courseCode_payment";
+                    academicYearColumn = "academic_year_payment";
+                    semesterColumn = "semester_payment";
+                    yearLevelColumn = "year_level_payment";
+                    statusColumn = "status_payment";
 
-                DialogResult confirmResult = MessageBox.Show(
-                    $"Are you sure you want to confirm the enrollment of {studentName}?",
-                    "Confirm Enrollment",
+                    currentStatus = "Payment Pending";
+                    newStatus = "Pending";
+                    confirmationMessage = "Are you sure you want to confirm this payment and return the student to pending status?";
+                    successMessage = "Payment confirmed! Student returned to pending status.";
+                }
+                else if (tabControl1.SelectedTab == tabStudentEnrollment)
+                {
+                    currentGrid = DataGridNewEnrollment;
+                    
+                    enrollmentIdColumn = "enrollment_id";
+                    studentNoColumn = "student_no";
+                    lastNameColumn = "last_name";
+                    firstNameColumn = "first_name";
+                    middleNameColumn = "middle_name";
+                    courseCodeColumn = "courseCode";
+                    academicYearColumn = "academic_year";
+                    semesterColumn = "semester";
+                    yearLevelColumn = "year_level";
+                    statusColumn = "status";
+
+                    currentStatus = "Pending";
+                    newStatus = "Enrolled";
+                    confirmationMessage = "Are you sure you want to confirm this enrollment?";
+                    successMessage = "Enrollment confirmed successfully!";
+                }
+                else
+                {
+                    MessageBox.Show("Please select either the Enrollment or Payment tab first.",
+                                  "Invalid Tab",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (currentGrid.SelectedRows.Count == 0)
+                {
+                    MessageBox.Show($"Please select a student from the {tabControl1.SelectedTab.Text} tab.",
+                                  "No Selection",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Warning);
+                    return;
+                }
+
+                DataGridViewRow selectedRow = currentGrid.SelectedRows[0];
+                int enrollmentId = Convert.ToInt32(selectedRow.Cells[enrollmentIdColumn].Value);
+                string studentName = $"{selectedRow.Cells[lastNameColumn].Value} {selectedRow.Cells[firstNameColumn].Value}";
+
+                
+                DialogResult dialogResult = MessageBox.Show(
+                    $"{confirmationMessage}\n\nStudent: {studentName}",
+                    "Confirm Action",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
-                if (confirmResult == DialogResult.Yes)
+                if (dialogResult == DialogResult.Yes)
                 {
-                    try
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
-                        using (MySqlConnection conn = new MySqlConnection(connectionString))
+                        conn.Open();
+                        string updateQuery = "UPDATE student_enrollments SET status = @newStatus WHERE enrollment_id = @enrollmentId";
+
+                        using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn))
                         {
-                            conn.Open();
+                            cmd.Parameters.AddWithValue("@newStatus", newStatus);
+                            cmd.Parameters.AddWithValue("@enrollmentId", enrollmentId);
+                            int rowsAffected = cmd.ExecuteNonQuery();
 
-                            string updateQuery = "UPDATE student_enrollments SET status = 'Enrolled' WHERE enrollment_id = @enrollmentId";
-
-                            using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn))
+                            if (rowsAffected > 0)
                             {
-                                cmd.Parameters.AddWithValue("@enrollmentId", enrollmentId);
-                                int result = cmd.ExecuteNonQuery();
+                                MessageBox.Show($"{successMessage}\nStudent: {studentName}",
+                                              "Success",
+                                              MessageBoxButtons.OK,
+                                              MessageBoxIcon.Information);
 
-                                if (result > 0)
-                                {
-                                    MessageBox.Show("Student enrollment confirmed!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    LoadStudentData(); 
-                                    ClearDetails();    
-                                }
-                                else
-                                {
-                                    MessageBox.Show("No enrollment updated.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                }
+                                LoadStudentData();
+                                LoadPaymentData();
+                                ClearDetails();
+                            }
+                            else
+                            {
+                                MessageBox.Show("No changes were made to the record.",
+                                              "Warning",
+                                              MessageBoxButtons.OK,
+                                              MessageBoxIcon.Warning);
                             }
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error confirming enrollment: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
                 }
-               
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Please select a student enrollment to confirm.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"An error occurred: {ex.Message}\n\nPlease try again or contact support.",
+                              "Error",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
             }
         }
 
@@ -802,7 +882,6 @@ namespace Enrollment_System
                                     MessageBox.Show("Student moved to payment processing!", "Success",
                                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                                    // Refresh both grids from the database
                                     LoadStudentData();
                                     LoadPaymentData();
                                 }
@@ -875,6 +954,20 @@ namespace Enrollment_System
             {
                 LoadPaymentData();
             }
-        }  
+        }
+
+        private void DataGridPayment_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = DataGridPayment.Rows[e.RowIndex];
+
+                string studentNo = row.Cells["student_no_payment"].Value.ToString();
+
+                FetchStudentDetails(studentNo);
+            }
+        }
+
     }
 }
