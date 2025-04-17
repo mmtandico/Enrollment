@@ -55,8 +55,6 @@
             this.BtnEnroll = new System.Windows.Forms.Button();
             this.panel12 = new System.Windows.Forms.Panel();
             this.BtnStudent = new System.Windows.Forms.Button();
-            this.panel18 = new System.Windows.Forms.Panel();
-            this.BtnReports = new System.Windows.Forms.Button();
             this.panel6.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -70,7 +68,6 @@
             this.panel11.SuspendLayout();
             this.panel17.SuspendLayout();
             this.panel12.SuspendLayout();
-            this.panel18.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel6
@@ -309,7 +306,6 @@
             this.panel2.Controls.Add(this.panel11);
             this.panel2.Controls.Add(this.panel17);
             this.panel2.Controls.Add(this.panel12);
-            this.panel2.Controls.Add(this.panel18);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel2.Location = new System.Drawing.Point(0, 108);
             this.panel2.Name = "panel2";
@@ -454,37 +450,6 @@
             this.BtnStudent.UseVisualStyleBackColor = false;
             this.BtnStudent.Click += new System.EventHandler(this.BtnStudent_Click);
             // 
-            // panel18
-            // 
-            this.panel18.BackColor = System.Drawing.Color.Transparent;
-            this.panel18.Controls.Add(this.BtnReports);
-            this.panel18.Font = new System.Drawing.Font("Bahnschrift SemiBold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel18.Location = new System.Drawing.Point(27, 580);
-            this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(272, 50);
-            this.panel18.TabIndex = 5;
-            // 
-            // BtnReports
-            // 
-            this.BtnReports.BackColor = System.Drawing.Color.Transparent;
-            this.BtnReports.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BtnReports.FlatAppearance.BorderSize = 0;
-            this.BtnReports.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
-            this.BtnReports.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnReports.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnReports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnReports.Font = new System.Drawing.Font("Bahnschrift Condensed", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnReports.Image = global::Enrollment_System.Properties.Resources.Graph_Report;
-            this.BtnReports.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnReports.Location = new System.Drawing.Point(0, 0);
-            this.BtnReports.Name = "BtnReports";
-            this.BtnReports.Padding = new System.Windows.Forms.Padding(60, 0, 0, 0);
-            this.BtnReports.Size = new System.Drawing.Size(272, 50);
-            this.BtnReports.TabIndex = 0;
-            this.BtnReports.Text = "          Reports";
-            this.BtnReports.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnReports.UseVisualStyleBackColor = false;
-            // 
             // FormDatabaseInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -514,7 +479,6 @@
             this.panel11.ResumeLayout(false);
             this.panel17.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
-            this.panel18.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -543,8 +507,6 @@
         private System.Windows.Forms.Button BtnEnroll;
         private System.Windows.Forms.Panel panel12;
         private System.Windows.Forms.Button BtnStudent;
-        private System.Windows.Forms.Panel panel18;
-        private System.Windows.Forms.Button BtnReports;
         private System.Windows.Forms.Panel panel10;
         private System.Windows.Forms.Button BtnCourse;
         private System.Windows.Forms.Panel MAINPANEL;
