@@ -8,12 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
+using System.IO;
 
 namespace Enrollment_System
 {
 
     public partial class FormDatabaseInfo : Form
     {
+        private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
 
         public FormDatabaseInfo()
         {
@@ -31,7 +34,7 @@ namespace Enrollment_System
         private void BtnPI_Click(object sender, EventArgs e)
         {
             this.Close();
-            new FormPersonalInfo().Show(); 
+            new FormPersonalInfo().Show();
         }
 
         private void BtnEnrollment_Click(object sender, EventArgs e)
@@ -67,7 +70,14 @@ namespace Enrollment_System
         {
             ApplyButtonEffects();
             LoadForm(new AdminDashB());
+
+
+            if (SessionManager.IsLoggedIn)
+            {
+                LoadUserProfilePic((int)SessionManager.UserId);
+            }
         }
+
 
 
         // Function to load forms inside MAINPANEL
@@ -83,9 +93,57 @@ namespace Enrollment_System
             form.TopLevel = false;
             form.FormBorderStyle = FormBorderStyle.None;
             form.Dock = DockStyle.Fill;  // Make the form fill the panel
-            MAINPANEL.Controls.Add(form); 
+            MAINPANEL.Controls.Add(form);
             form.Show();
         }
+
+        private void LoadUserProfilePic(int userId)
+        {
+
+            string query = "SELECT profile_picture FROM students WHERE user_id = @userId";
+
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+
+
+                    conn.Open();
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@userId", userId);
+
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                if (reader["profile_picture"] != DBNull.Value)
+                                {
+                                    byte[] imageBytes = (byte[])reader["profile_picture"];
+                                    using (MemoryStream ms = new MemoryStream(imageBytes))
+                                    {
+                                        PBoxLoginUser.Image = Image.FromStream(ms);
+                                    }
+                                }
+                                else
+                                {
+                                    PBoxLoginUser.Image = Properties.Resources.PROFILE;
+                                }
+
+                                PBoxLoginUser.SizeMode = PictureBoxSizeMode.StretchImage;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading profile picture: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PBoxLoginUser.Image = Properties.Resources.PROFILE;
+            }
+        }
+
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
@@ -94,13 +152,13 @@ namespace Enrollment_System
 
         private void ApplyButtonEffects()
         {
-           
+
         }
 
-       
+
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
         {
-            
+
         }
 
         private void MAINPANEL_Paint(object sender, PaintEventArgs e)

@@ -48,7 +48,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel10 = new System.Windows.Forms.Panel();
             this.BtnCourse = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.PBoxLoginUser = new System.Windows.Forms.PictureBox();
             this.panel11 = new System.Windows.Forms.Panel();
             this.BtnDashB = new System.Windows.Forms.Button();
             this.panel17 = new System.Windows.Forms.Panel();
@@ -66,7 +66,7 @@
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PBoxLoginUser)).BeginInit();
             this.panel11.SuspendLayout();
             this.panel17.SuspendLayout();
             this.panel12.SuspendLayout();
@@ -305,7 +305,7 @@
             this.panel2.BackgroundImage = global::Enrollment_System.Properties.Resources.MAINBANNER_removebg_preview;
             this.panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.panel2.Controls.Add(this.panel10);
-            this.panel2.Controls.Add(this.pictureBox1);
+            this.panel2.Controls.Add(this.PBoxLoginUser);
             this.panel2.Controls.Add(this.panel11);
             this.panel2.Controls.Add(this.panel17);
             this.panel2.Controls.Add(this.panel12);
@@ -348,15 +348,15 @@
             this.BtnCourse.UseVisualStyleBackColor = false;
             this.BtnCourse.Click += new System.EventHandler(this.BtnCourse_Click);
             // 
-            // pictureBox1
+            // PBoxLoginUser
             // 
-            this.pictureBox1.BackgroundImage = global::Enrollment_System.Properties.Resources.PROFILE;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(108, 119);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(106, 98);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.PBoxLoginUser.BackgroundImage = global::Enrollment_System.Properties.Resources.PROFILE;
+            this.PBoxLoginUser.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PBoxLoginUser.Location = new System.Drawing.Point(108, 119);
+            this.PBoxLoginUser.Name = "PBoxLoginUser";
+            this.PBoxLoginUser.Size = new System.Drawing.Size(106, 98);
+            this.PBoxLoginUser.TabIndex = 0;
+            this.PBoxLoginUser.TabStop = false;
             // 
             // panel11
             // 
@@ -510,7 +510,7 @@
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel10.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PBoxLoginUser)).EndInit();
             this.panel11.ResumeLayout(false);
             this.panel17.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
@@ -548,6 +548,6 @@
         private System.Windows.Forms.Panel panel10;
         private System.Windows.Forms.Button BtnCourse;
         private System.Windows.Forms.Panel MAINPANEL;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox PBoxLoginUser;
     }
 }
