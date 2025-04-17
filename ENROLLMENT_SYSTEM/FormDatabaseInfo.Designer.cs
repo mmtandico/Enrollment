@@ -46,6 +46,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.MAINPANEL = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.panel10 = new System.Windows.Forms.Panel();
+            this.BtnCourse = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel11 = new System.Windows.Forms.Panel();
             this.BtnDashB = new System.Windows.Forms.Button();
@@ -55,8 +57,6 @@
             this.BtnStudent = new System.Windows.Forms.Button();
             this.panel18 = new System.Windows.Forms.Panel();
             this.BtnReports = new System.Windows.Forms.Button();
-            this.panel10 = new System.Windows.Forms.Panel();
-            this.BtnCourse = new System.Windows.Forms.Button();
             this.panel6.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -65,12 +65,12 @@
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel11.SuspendLayout();
             this.panel17.SuspendLayout();
             this.panel12.SuspendLayout();
             this.panel18.SuspendLayout();
-            this.panel10.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel6
@@ -301,7 +301,7 @@
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.Transparent;
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(240)))), ((int)(((byte)(220)))));
             this.panel2.BackgroundImage = global::Enrollment_System.Properties.Resources.MAINBANNER_removebg_preview;
             this.panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.panel2.Controls.Add(this.panel10);
@@ -315,6 +315,38 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(328, 962);
             this.panel2.TabIndex = 13;
+            // 
+            // panel10
+            // 
+            this.panel10.BackColor = System.Drawing.Color.Transparent;
+            this.panel10.Controls.Add(this.BtnCourse);
+            this.panel10.Font = new System.Drawing.Font("Bahnschrift SemiBold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel10.Location = new System.Drawing.Point(27, 501);
+            this.panel10.Name = "panel10";
+            this.panel10.Size = new System.Drawing.Size(272, 50);
+            this.panel10.TabIndex = 3;
+            // 
+            // BtnCourse
+            // 
+            this.BtnCourse.BackColor = System.Drawing.Color.Transparent;
+            this.BtnCourse.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BtnCourse.FlatAppearance.BorderSize = 0;
+            this.BtnCourse.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.BtnCourse.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnCourse.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnCourse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnCourse.Font = new System.Drawing.Font("Bahnschrift Condensed", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnCourse.Image = global::Enrollment_System.Properties.Resources.Book;
+            this.BtnCourse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.BtnCourse.Location = new System.Drawing.Point(0, 0);
+            this.BtnCourse.Name = "BtnCourse";
+            this.BtnCourse.Padding = new System.Windows.Forms.Padding(60, 0, 0, 0);
+            this.BtnCourse.Size = new System.Drawing.Size(272, 50);
+            this.BtnCourse.TabIndex = 0;
+            this.BtnCourse.Text = "          Course";
+            this.BtnCourse.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.BtnCourse.UseVisualStyleBackColor = false;
+            this.BtnCourse.Click += new System.EventHandler(this.BtnCourse_Click);
             // 
             // pictureBox1
             // 
@@ -453,37 +485,6 @@
             this.BtnReports.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BtnReports.UseVisualStyleBackColor = false;
             // 
-            // panel10
-            // 
-            this.panel10.BackColor = System.Drawing.Color.Transparent;
-            this.panel10.Controls.Add(this.BtnCourse);
-            this.panel10.Font = new System.Drawing.Font("Bahnschrift SemiBold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel10.Location = new System.Drawing.Point(27, 501);
-            this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(272, 50);
-            this.panel10.TabIndex = 3;
-            // 
-            // BtnCourse
-            // 
-            this.BtnCourse.BackColor = System.Drawing.Color.Transparent;
-            this.BtnCourse.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BtnCourse.FlatAppearance.BorderSize = 0;
-            this.BtnCourse.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
-            this.BtnCourse.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnCourse.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnCourse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnCourse.Font = new System.Drawing.Font("Bahnschrift Condensed", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnCourse.Image = global::Enrollment_System.Properties.Resources.Book;
-            this.BtnCourse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnCourse.Location = new System.Drawing.Point(0, 0);
-            this.BtnCourse.Name = "BtnCourse";
-            this.BtnCourse.Padding = new System.Windows.Forms.Padding(60, 0, 0, 0);
-            this.BtnCourse.Size = new System.Drawing.Size(272, 50);
-            this.BtnCourse.TabIndex = 0;
-            this.BtnCourse.Text = "          Course";
-            this.BtnCourse.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnCourse.UseVisualStyleBackColor = false;
-            // 
             // FormDatabaseInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -508,12 +509,12 @@
             this.panel5.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.panel10.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel11.ResumeLayout(false);
             this.panel17.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
             this.panel18.ResumeLayout(false);
-            this.panel10.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

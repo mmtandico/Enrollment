@@ -28,23 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.CmbSem = new System.Windows.Forms.ComboBox();
-            this.CmbYrLvl = new System.Windows.Forms.ComboBox();
-            this.BtnBTLED = new System.Windows.Forms.Button();
-            this.BtnBECED = new System.Windows.Forms.Button();
-            this.BtnBSOAD = new System.Windows.Forms.Button();
-            this.BtnBSHM = new System.Windows.Forms.Button();
-            this.BtnBSTM = new System.Windows.Forms.Button();
-            this.BtnBSIT = new System.Windows.Forms.Button();
-            this.BtnBSCS = new System.Windows.Forms.Button();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.label3 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.DataGridNewEnrollment = new System.Windows.Forms.DataGridView();
+            this.student_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.student_no = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.middle_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.courseCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.academic_year = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.semester = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.year_level = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colOpen1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colClose1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label9 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.button9 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
@@ -65,238 +72,273 @@
             this.TxtStudentNo = new System.Windows.Forms.TextBox();
             this.panel10 = new System.Windows.Forms.Panel();
             this.PicBoxID = new System.Windows.Forms.PictureBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.DataGridNewEnrollment = new System.Windows.Forms.DataGridView();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.BtnAll = new System.Windows.Forms.Button();
-            this.student_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.student_no = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.middle_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.courseCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.academic_year = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.semester = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.year_level = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colOpen1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colClose1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.panel10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBoxID)).BeginInit();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.CmbSem = new System.Windows.Forms.ComboBox();
+            this.CmbYrLvl = new System.Windows.Forms.ComboBox();
+            this.BtnBTLED = new System.Windows.Forms.Button();
+            this.BtnBECED = new System.Windows.Forms.Button();
+            this.BtnBSOAD = new System.Windows.Forms.Button();
+            this.BtnBSHM = new System.Windows.Forms.Button();
+            this.BtnBSTM = new System.Windows.Forms.Button();
+            this.BtnBSIT = new System.Windows.Forms.Button();
+            this.BtnBSCS = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridNewEnrollment)).BeginInit();
             this.tabPage3.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.panel10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBoxID)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel2
+            // label3
             // 
-            this.panel2.BackColor = System.Drawing.Color.Transparent;
-            this.panel2.BackgroundImage = global::Enrollment_System.Properties.Resources.Sortbtns_removebg_preview;
-            this.panel2.Controls.Add(this.BtnAll);
-            this.panel2.Controls.Add(this.label8);
-            this.panel2.Controls.Add(this.label7);
-            this.panel2.Controls.Add(this.CmbSem);
-            this.panel2.Controls.Add(this.CmbYrLvl);
-            this.panel2.Controls.Add(this.BtnBTLED);
-            this.panel2.Controls.Add(this.BtnBECED);
-            this.panel2.Controls.Add(this.BtnBSOAD);
-            this.panel2.Controls.Add(this.BtnBSHM);
-            this.panel2.Controls.Add(this.BtnBSTM);
-            this.panel2.Controls.Add(this.BtnBSIT);
-            this.panel2.Controls.Add(this.BtnBSCS);
-            this.panel2.Location = new System.Drawing.Point(1304, 81);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(243, 588);
-            this.panel2.TabIndex = 2;
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.Black;
+            this.label3.Location = new System.Drawing.Point(48, 9);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(230, 58);
+            this.label3.TabIndex = 55;
+            this.label3.Text = "Enrollment";
             // 
-            // label8
+            // panel1
             // 
-            this.label8.AutoSize = true;
-            this.label8.BackColor = System.Drawing.Color.Transparent;
-            this.label8.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(37, 532);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(70, 19);
-            this.label8.TabIndex = 52;
-            this.label8.Text = "Semester:";
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.BackgroundImage = global::Enrollment_System.Properties.Resources.BGDBSTUDENTS_removebg_preview;
+            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel1.Controls.Add(this.tabControl1);
+            this.panel1.Location = new System.Drawing.Point(-14, 81);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1276, 588);
+            this.panel1.TabIndex = 54;
             // 
-            // label7
+            // tabControl1
             // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(28, 480);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(76, 19);
-            this.label7.TabIndex = 51;
-            this.label7.Text = "Year Level:";
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(21, 18);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1236, 542);
+            this.tabControl1.TabIndex = 0;
             // 
-            // CmbSem
+            // tabPage2
             // 
-            this.CmbSem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CmbSem.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CmbSem.FormattingEnabled = true;
-            this.CmbSem.ItemHeight = 18;
-            this.CmbSem.Items.AddRange(new object[] {
-            "All",
-            "1st",
-            "2nd"});
-            this.CmbSem.Location = new System.Drawing.Point(113, 530);
-            this.CmbSem.Name = "CmbSem";
-            this.CmbSem.Size = new System.Drawing.Size(108, 26);
-            this.CmbSem.TabIndex = 50;
+            this.tabPage2.Controls.Add(this.DataGridNewEnrollment);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1228, 516);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "STUDENT ENROLLMENT";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // CmbYrLvl
+            // DataGridNewEnrollment
             // 
-            this.CmbYrLvl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CmbYrLvl.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CmbYrLvl.FormattingEnabled = true;
-            this.CmbYrLvl.Items.AddRange(new object[] {
-            "All",
-            "1st",
-            "2nd",
-            "3rd",
-            "4th"});
-            this.CmbYrLvl.Location = new System.Drawing.Point(110, 478);
-            this.CmbYrLvl.Name = "CmbYrLvl";
-            this.CmbYrLvl.Size = new System.Drawing.Size(111, 26);
-            this.CmbYrLvl.TabIndex = 49;
+            this.DataGridNewEnrollment.AllowUserToAddRows = false;
+            this.DataGridNewEnrollment.AllowUserToResizeColumns = false;
+            this.DataGridNewEnrollment.AllowUserToResizeRows = false;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.White;
+            this.DataGridNewEnrollment.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
+            this.DataGridNewEnrollment.BackgroundColor = System.Drawing.Color.White;
+            this.DataGridNewEnrollment.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.DataGridNewEnrollment.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            this.DataGridNewEnrollment.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataGridNewEnrollment.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.DataGridNewEnrollment.ColumnHeadersHeight = 40;
+            this.DataGridNewEnrollment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.DataGridNewEnrollment.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.student_id,
+            this.student_no,
+            this.last_name,
+            this.first_name,
+            this.middle_name,
+            this.courseCode,
+            this.academic_year,
+            this.semester,
+            this.year_level,
+            this.status,
+            this.colOpen1,
+            this.colClose1});
+            this.DataGridNewEnrollment.Cursor = System.Windows.Forms.Cursors.Default;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridNewEnrollment.DefaultCellStyle = dataGridViewCellStyle8;
+            this.DataGridNewEnrollment.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DataGridNewEnrollment.GridColor = System.Drawing.SystemColors.Control;
+            this.DataGridNewEnrollment.Location = new System.Drawing.Point(3, 3);
+            this.DataGridNewEnrollment.Name = "DataGridNewEnrollment";
+            this.DataGridNewEnrollment.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridNewEnrollment.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            this.DataGridNewEnrollment.RowHeadersVisible = false;
+            this.DataGridNewEnrollment.RowHeadersWidth = 50;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.Gray;
+            this.DataGridNewEnrollment.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            this.DataGridNewEnrollment.RowTemplate.Height = 30;
+            this.DataGridNewEnrollment.RowTemplate.ReadOnly = true;
+            this.DataGridNewEnrollment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DataGridNewEnrollment.Size = new System.Drawing.Size(1222, 510);
+            this.DataGridNewEnrollment.TabIndex = 3;
             // 
-            // BtnBTLED
+            // student_id
             // 
-            this.BtnBTLED.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnBTLED.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BtnBTLED.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnBTLED.FlatAppearance.BorderSize = 0;
-            this.BtnBTLED.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnBTLED.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnBTLED.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnBTLED.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnBTLED.ForeColor = System.Drawing.Color.White;
-            this.BtnBTLED.Location = new System.Drawing.Point(63, 415);
-            this.BtnBTLED.Name = "BtnBTLED";
-            this.BtnBTLED.Size = new System.Drawing.Size(111, 37);
-            this.BtnBTLED.TabIndex = 8;
-            this.BtnBTLED.Text = "BTLED";
-            this.BtnBTLED.UseVisualStyleBackColor = true;
+            this.student_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.student_id.FillWeight = 10F;
+            this.student_id.Frozen = true;
+            this.student_id.HeaderText = "ID";
+            this.student_id.Name = "student_id";
+            this.student_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.student_id.Width = 53;
             // 
-            // BtnBECED
+            // student_no
             // 
-            this.BtnBECED.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnBECED.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BtnBECED.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnBECED.FlatAppearance.BorderSize = 0;
-            this.BtnBECED.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnBECED.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnBECED.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnBECED.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnBECED.ForeColor = System.Drawing.Color.White;
-            this.BtnBECED.Location = new System.Drawing.Point(63, 356);
-            this.BtnBECED.Name = "BtnBECED";
-            this.BtnBECED.Size = new System.Drawing.Size(111, 37);
-            this.BtnBECED.TabIndex = 7;
-            this.BtnBECED.Text = "BECED";
-            this.BtnBECED.UseVisualStyleBackColor = true;
+            this.student_no.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.student_no.FillWeight = 200F;
+            this.student_no.Frozen = true;
+            this.student_no.HeaderText = "Student No.";
+            this.student_no.Name = "student_no";
+            this.student_no.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.student_no.Width = 131;
             // 
-            // BtnBSOAD
+            // last_name
             // 
-            this.BtnBSOAD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnBSOAD.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BtnBSOAD.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnBSOAD.FlatAppearance.BorderSize = 0;
-            this.BtnBSOAD.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnBSOAD.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnBSOAD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnBSOAD.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnBSOAD.ForeColor = System.Drawing.Color.White;
-            this.BtnBSOAD.Location = new System.Drawing.Point(63, 300);
-            this.BtnBSOAD.Name = "BtnBSOAD";
-            this.BtnBSOAD.Size = new System.Drawing.Size(111, 37);
-            this.BtnBSOAD.TabIndex = 6;
-            this.BtnBSOAD.Text = "BSOAD";
-            this.BtnBSOAD.UseVisualStyleBackColor = true;
+            this.last_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.last_name.FillWeight = 120F;
+            this.last_name.HeaderText = "Last Name";
+            this.last_name.Name = "last_name";
+            this.last_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.last_name.Width = 125;
             // 
-            // BtnBSHM
+            // first_name
             // 
-            this.BtnBSHM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnBSHM.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BtnBSHM.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnBSHM.FlatAppearance.BorderSize = 0;
-            this.BtnBSHM.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnBSHM.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnBSHM.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnBSHM.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnBSHM.ForeColor = System.Drawing.Color.White;
-            this.BtnBSHM.Location = new System.Drawing.Point(63, 243);
-            this.BtnBSHM.Name = "BtnBSHM";
-            this.BtnBSHM.Size = new System.Drawing.Size(111, 37);
-            this.BtnBSHM.TabIndex = 5;
-            this.BtnBSHM.Text = "BSHM";
-            this.BtnBSHM.UseVisualStyleBackColor = true;
+            this.first_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.first_name.FillWeight = 120F;
+            this.first_name.HeaderText = "First Name";
+            this.first_name.Name = "first_name";
+            this.first_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.first_name.Width = 128;
             // 
-            // BtnBSTM
+            // middle_name
             // 
-            this.BtnBSTM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnBSTM.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BtnBSTM.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnBSTM.FlatAppearance.BorderSize = 0;
-            this.BtnBSTM.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnBSTM.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnBSTM.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnBSTM.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnBSTM.ForeColor = System.Drawing.Color.White;
-            this.BtnBSTM.Location = new System.Drawing.Point(63, 185);
-            this.BtnBSTM.Name = "BtnBSTM";
-            this.BtnBSTM.Size = new System.Drawing.Size(111, 37);
-            this.BtnBSTM.TabIndex = 4;
-            this.BtnBSTM.Text = "BSTM";
-            this.BtnBSTM.UseVisualStyleBackColor = true;
+            this.middle_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.middle_name.FillWeight = 120F;
+            this.middle_name.HeaderText = "Middle Name";
+            this.middle_name.Name = "middle_name";
+            this.middle_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.middle_name.Width = 144;
             // 
-            // BtnBSIT
+            // courseCode
             // 
-            this.BtnBSIT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnBSIT.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BtnBSIT.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnBSIT.FlatAppearance.BorderSize = 0;
-            this.BtnBSIT.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnBSIT.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnBSIT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnBSIT.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnBSIT.ForeColor = System.Drawing.Color.White;
-            this.BtnBSIT.Location = new System.Drawing.Point(63, 131);
-            this.BtnBSIT.Name = "BtnBSIT";
-            this.BtnBSIT.Size = new System.Drawing.Size(111, 37);
-            this.BtnBSIT.TabIndex = 3;
-            this.BtnBSIT.Text = "BSIT";
-            this.BtnBSIT.UseVisualStyleBackColor = true;
+            this.courseCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.courseCode.HeaderText = "Course";
+            this.courseCode.Name = "courseCode";
+            this.courseCode.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.courseCode.Width = 95;
             // 
-            // BtnBSCS
+            // academic_year
             // 
-            this.BtnBSCS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnBSCS.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BtnBSCS.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnBSCS.FlatAppearance.BorderSize = 0;
-            this.BtnBSCS.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnBSCS.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnBSCS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnBSCS.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnBSCS.ForeColor = System.Drawing.Color.White;
-            this.BtnBSCS.Location = new System.Drawing.Point(63, 68);
-            this.BtnBSCS.Name = "BtnBSCS";
-            this.BtnBSCS.Size = new System.Drawing.Size(111, 37);
-            this.BtnBSCS.TabIndex = 2;
-            this.BtnBSCS.Text = "BSCS";
-            this.BtnBSCS.UseVisualStyleBackColor = true;
+            this.academic_year.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.academic_year.HeaderText = "School Year";
+            this.academic_year.Name = "academic_year";
+            this.academic_year.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.academic_year.Width = 133;
+            // 
+            // semester
+            // 
+            this.semester.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.semester.HeaderText = "Semester";
+            this.semester.Name = "semester";
+            this.semester.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.semester.Width = 117;
+            // 
+            // year_level
+            // 
+            this.year_level.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.year_level.HeaderText = "Year Level";
+            this.year_level.Name = "year_level";
+            this.year_level.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.year_level.Width = 122;
+            // 
+            // status
+            // 
+            this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.status.HeaderText = "Status";
+            this.status.Name = "status";
+            this.status.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.status.Width = 89;
+            // 
+            // colOpen1
+            // 
+            this.colOpen1.HeaderText = "";
+            this.colOpen1.Image = global::Enrollment_System.Properties.Resources.docuICON;
+            this.colOpen1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.colOpen1.MinimumWidth = 2;
+            this.colOpen1.Name = "colOpen1";
+            this.colOpen1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colOpen1.Width = 40;
+            // 
+            // colClose1
+            // 
+            this.colClose1.HeaderText = "";
+            this.colClose1.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
+            this.colClose1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.colClose1.MinimumWidth = 2;
+            this.colClose1.Name = "colClose1";
+            this.colClose1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colClose1.Width = 40;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.label9);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(1228, 516);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "STUDENT PAYMENT";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.Color.Transparent;
+            this.label9.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.Black;
+            this.label9.Location = new System.Drawing.Point(520, 229);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(203, 58);
+            this.label9.TabIndex = 35;
+            this.label9.Text = "GIGANIGA";
             // 
             // panel3
             // 
@@ -552,142 +594,26 @@
             this.PicBoxID.TabIndex = 1;
             this.PicBoxID.TabStop = false;
             // 
-            // panel1
+            // panel2
             // 
-            this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.BackgroundImage = global::Enrollment_System.Properties.Resources.BGDBSTUDENTS_removebg_preview;
-            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel1.Controls.Add(this.tabControl1);
-            this.panel1.Location = new System.Drawing.Point(-14, 81);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1276, 588);
-            this.panel1.TabIndex = 54;
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Location = new System.Drawing.Point(21, 18);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1236, 542);
-            this.tabControl1.TabIndex = 0;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.DataGridNewEnrollment);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1228, 516);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "STUDENT ENROLLMENT";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // DataGridNewEnrollment
-            // 
-            this.DataGridNewEnrollment.AllowUserToAddRows = false;
-            this.DataGridNewEnrollment.AllowUserToResizeColumns = false;
-            this.DataGridNewEnrollment.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
-            this.DataGridNewEnrollment.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.DataGridNewEnrollment.BackgroundColor = System.Drawing.Color.White;
-            this.DataGridNewEnrollment.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.DataGridNewEnrollment.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.DataGridNewEnrollment.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DataGridNewEnrollment.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.DataGridNewEnrollment.ColumnHeadersHeight = 40;
-            this.DataGridNewEnrollment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.DataGridNewEnrollment.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.student_id,
-            this.student_no,
-            this.last_name,
-            this.first_name,
-            this.middle_name,
-            this.courseCode,
-            this.academic_year,
-            this.semester,
-            this.year_level,
-            this.status,
-            this.colOpen1,
-            this.colClose1});
-            this.DataGridNewEnrollment.Cursor = System.Windows.Forms.Cursors.Default;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridNewEnrollment.DefaultCellStyle = dataGridViewCellStyle3;
-            this.DataGridNewEnrollment.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DataGridNewEnrollment.GridColor = System.Drawing.SystemColors.Control;
-            this.DataGridNewEnrollment.Location = new System.Drawing.Point(3, 3);
-            this.DataGridNewEnrollment.Name = "DataGridNewEnrollment";
-            this.DataGridNewEnrollment.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridNewEnrollment.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.DataGridNewEnrollment.RowHeadersVisible = false;
-            this.DataGridNewEnrollment.RowHeadersWidth = 50;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Gray;
-            this.DataGridNewEnrollment.RowsDefaultCellStyle = dataGridViewCellStyle5;
-            this.DataGridNewEnrollment.RowTemplate.Height = 30;
-            this.DataGridNewEnrollment.RowTemplate.ReadOnly = true;
-            this.DataGridNewEnrollment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DataGridNewEnrollment.Size = new System.Drawing.Size(1222, 510);
-            this.DataGridNewEnrollment.TabIndex = 3;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.label9);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1228, 516);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "STUDENT PAYMENT";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.Black;
-            this.label9.Location = new System.Drawing.Point(520, 229);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(203, 58);
-            this.label9.TabIndex = 35;
-            this.label9.Text = "GIGANIGA";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(48, 9);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(230, 58);
-            this.label3.TabIndex = 55;
-            this.label3.Text = "Enrollment";
+            this.panel2.BackColor = System.Drawing.Color.Transparent;
+            this.panel2.BackgroundImage = global::Enrollment_System.Properties.Resources.Sortbtns_removebg_preview;
+            this.panel2.Controls.Add(this.BtnAll);
+            this.panel2.Controls.Add(this.label8);
+            this.panel2.Controls.Add(this.label7);
+            this.panel2.Controls.Add(this.CmbSem);
+            this.panel2.Controls.Add(this.CmbYrLvl);
+            this.panel2.Controls.Add(this.BtnBTLED);
+            this.panel2.Controls.Add(this.BtnBECED);
+            this.panel2.Controls.Add(this.BtnBSOAD);
+            this.panel2.Controls.Add(this.BtnBSHM);
+            this.panel2.Controls.Add(this.BtnBSTM);
+            this.panel2.Controls.Add(this.BtnBSIT);
+            this.panel2.Controls.Add(this.BtnBSCS);
+            this.panel2.Location = new System.Drawing.Point(1304, 81);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(243, 588);
+            this.panel2.TabIndex = 2;
             // 
             // BtnAll
             // 
@@ -707,117 +633,192 @@
             this.BtnAll.Text = "ALL";
             this.BtnAll.UseVisualStyleBackColor = true;
             // 
-            // student_id
+            // label8
             // 
-            this.student_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.student_id.FillWeight = 10F;
-            this.student_id.Frozen = true;
-            this.student_id.HeaderText = "ID";
-            this.student_id.Name = "student_id";
-            this.student_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.student_id.Width = 53;
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.Transparent;
+            this.label8.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.White;
+            this.label8.Location = new System.Drawing.Point(37, 532);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(70, 19);
+            this.label8.TabIndex = 52;
+            this.label8.Text = "Semester:";
             // 
-            // student_no
+            // label7
             // 
-            this.student_no.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.student_no.FillWeight = 200F;
-            this.student_no.Frozen = true;
-            this.student_no.HeaderText = "Student No.";
-            this.student_no.Name = "student_no";
-            this.student_no.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.student_no.Width = 131;
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(28, 480);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(76, 19);
+            this.label7.TabIndex = 51;
+            this.label7.Text = "Year Level:";
             // 
-            // last_name
+            // CmbSem
             // 
-            this.last_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.last_name.FillWeight = 120F;
-            this.last_name.HeaderText = "Last Name";
-            this.last_name.Name = "last_name";
-            this.last_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.last_name.Width = 125;
+            this.CmbSem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CmbSem.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CmbSem.FormattingEnabled = true;
+            this.CmbSem.ItemHeight = 18;
+            this.CmbSem.Items.AddRange(new object[] {
+            "All",
+            "1st",
+            "2nd"});
+            this.CmbSem.Location = new System.Drawing.Point(113, 530);
+            this.CmbSem.Name = "CmbSem";
+            this.CmbSem.Size = new System.Drawing.Size(108, 26);
+            this.CmbSem.TabIndex = 50;
             // 
-            // first_name
+            // CmbYrLvl
             // 
-            this.first_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.first_name.FillWeight = 120F;
-            this.first_name.HeaderText = "First Name";
-            this.first_name.Name = "first_name";
-            this.first_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.first_name.Width = 128;
+            this.CmbYrLvl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CmbYrLvl.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CmbYrLvl.FormattingEnabled = true;
+            this.CmbYrLvl.Items.AddRange(new object[] {
+            "All",
+            "1st",
+            "2nd",
+            "3rd",
+            "4th"});
+            this.CmbYrLvl.Location = new System.Drawing.Point(110, 478);
+            this.CmbYrLvl.Name = "CmbYrLvl";
+            this.CmbYrLvl.Size = new System.Drawing.Size(111, 26);
+            this.CmbYrLvl.TabIndex = 49;
             // 
-            // middle_name
+            // BtnBTLED
             // 
-            this.middle_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.middle_name.FillWeight = 120F;
-            this.middle_name.HeaderText = "Middle Name";
-            this.middle_name.Name = "middle_name";
-            this.middle_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.middle_name.Width = 144;
+            this.BtnBTLED.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnBTLED.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnBTLED.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnBTLED.FlatAppearance.BorderSize = 0;
+            this.BtnBTLED.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnBTLED.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnBTLED.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnBTLED.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnBTLED.ForeColor = System.Drawing.Color.White;
+            this.BtnBTLED.Location = new System.Drawing.Point(63, 415);
+            this.BtnBTLED.Name = "BtnBTLED";
+            this.BtnBTLED.Size = new System.Drawing.Size(111, 37);
+            this.BtnBTLED.TabIndex = 8;
+            this.BtnBTLED.Text = "BTLED";
+            this.BtnBTLED.UseVisualStyleBackColor = true;
             // 
-            // courseCode
+            // BtnBECED
             // 
-            this.courseCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.courseCode.HeaderText = "Course";
-            this.courseCode.Name = "courseCode";
-            this.courseCode.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.courseCode.Width = 95;
+            this.BtnBECED.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnBECED.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnBECED.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnBECED.FlatAppearance.BorderSize = 0;
+            this.BtnBECED.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnBECED.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnBECED.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnBECED.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnBECED.ForeColor = System.Drawing.Color.White;
+            this.BtnBECED.Location = new System.Drawing.Point(63, 356);
+            this.BtnBECED.Name = "BtnBECED";
+            this.BtnBECED.Size = new System.Drawing.Size(111, 37);
+            this.BtnBECED.TabIndex = 7;
+            this.BtnBECED.Text = "BECED";
+            this.BtnBECED.UseVisualStyleBackColor = true;
             // 
-            // academic_year
+            // BtnBSOAD
             // 
-            this.academic_year.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.academic_year.HeaderText = "School Year";
-            this.academic_year.Name = "academic_year";
-            this.academic_year.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.academic_year.Width = 133;
+            this.BtnBSOAD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnBSOAD.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnBSOAD.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnBSOAD.FlatAppearance.BorderSize = 0;
+            this.BtnBSOAD.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSOAD.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSOAD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnBSOAD.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnBSOAD.ForeColor = System.Drawing.Color.White;
+            this.BtnBSOAD.Location = new System.Drawing.Point(63, 300);
+            this.BtnBSOAD.Name = "BtnBSOAD";
+            this.BtnBSOAD.Size = new System.Drawing.Size(111, 37);
+            this.BtnBSOAD.TabIndex = 6;
+            this.BtnBSOAD.Text = "BSOAD";
+            this.BtnBSOAD.UseVisualStyleBackColor = true;
             // 
-            // semester
+            // BtnBSHM
             // 
-            this.semester.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.semester.HeaderText = "Semester";
-            this.semester.Name = "semester";
-            this.semester.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.semester.Width = 117;
+            this.BtnBSHM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnBSHM.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnBSHM.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnBSHM.FlatAppearance.BorderSize = 0;
+            this.BtnBSHM.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSHM.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSHM.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnBSHM.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnBSHM.ForeColor = System.Drawing.Color.White;
+            this.BtnBSHM.Location = new System.Drawing.Point(63, 243);
+            this.BtnBSHM.Name = "BtnBSHM";
+            this.BtnBSHM.Size = new System.Drawing.Size(111, 37);
+            this.BtnBSHM.TabIndex = 5;
+            this.BtnBSHM.Text = "BSHM";
+            this.BtnBSHM.UseVisualStyleBackColor = true;
             // 
-            // year_level
+            // BtnBSTM
             // 
-            this.year_level.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.year_level.HeaderText = "Year Level";
-            this.year_level.Name = "year_level";
-            this.year_level.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.year_level.Width = 122;
+            this.BtnBSTM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnBSTM.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnBSTM.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnBSTM.FlatAppearance.BorderSize = 0;
+            this.BtnBSTM.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSTM.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSTM.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnBSTM.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnBSTM.ForeColor = System.Drawing.Color.White;
+            this.BtnBSTM.Location = new System.Drawing.Point(63, 185);
+            this.BtnBSTM.Name = "BtnBSTM";
+            this.BtnBSTM.Size = new System.Drawing.Size(111, 37);
+            this.BtnBSTM.TabIndex = 4;
+            this.BtnBSTM.Text = "BSTM";
+            this.BtnBSTM.UseVisualStyleBackColor = true;
             // 
-            // status
+            // BtnBSIT
             // 
-            this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.status.HeaderText = "Status";
-            this.status.Name = "status";
-            this.status.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.status.Width = 89;
+            this.BtnBSIT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnBSIT.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnBSIT.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnBSIT.FlatAppearance.BorderSize = 0;
+            this.BtnBSIT.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSIT.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSIT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnBSIT.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnBSIT.ForeColor = System.Drawing.Color.White;
+            this.BtnBSIT.Location = new System.Drawing.Point(63, 131);
+            this.BtnBSIT.Name = "BtnBSIT";
+            this.BtnBSIT.Size = new System.Drawing.Size(111, 37);
+            this.BtnBSIT.TabIndex = 3;
+            this.BtnBSIT.Text = "BSIT";
+            this.BtnBSIT.UseVisualStyleBackColor = true;
             // 
-            // colOpen1
+            // BtnBSCS
             // 
-            this.colOpen1.HeaderText = "";
-            this.colOpen1.Image = global::Enrollment_System.Properties.Resources.EditButton;
-            this.colOpen1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.colOpen1.MinimumWidth = 2;
-            this.colOpen1.Name = "colOpen1";
-            this.colOpen1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colOpen1.Width = 40;
-            // 
-            // colClose1
-            // 
-            this.colClose1.HeaderText = "";
-            this.colClose1.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
-            this.colClose1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.colClose1.MinimumWidth = 2;
-            this.colClose1.Name = "colClose1";
-            this.colClose1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colClose1.Width = 40;
+            this.BtnBSCS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnBSCS.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnBSCS.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnBSCS.FlatAppearance.BorderSize = 0;
+            this.BtnBSCS.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSCS.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnBSCS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnBSCS.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnBSCS.ForeColor = System.Drawing.Color.White;
+            this.BtnBSCS.Location = new System.Drawing.Point(63, 68);
+            this.BtnBSCS.Name = "BtnBSCS";
+            this.BtnBSCS.Size = new System.Drawing.Size(111, 37);
+            this.BtnBSCS.TabIndex = 2;
+            this.BtnBSCS.Text = "BSCS";
+            this.BtnBSCS.UseVisualStyleBackColor = true;
             // 
             // AdminEnrollment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(240)))), ((int)(((byte)(220)))));
             this.ClientSize = new System.Drawing.Size(1593, 962);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.panel1);
@@ -829,18 +830,18 @@
             this.Text = "AdminEnrollment";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.AdminEnrollment_Load);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
-            this.panel10.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PicBoxID)).EndInit();
             this.panel1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DataGridNewEnrollment)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            this.panel10.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PicBoxID)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
