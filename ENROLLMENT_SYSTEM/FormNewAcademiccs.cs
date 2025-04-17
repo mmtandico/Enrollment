@@ -172,9 +172,9 @@ namespace Enrollment_System
                         return;
                     }
 
-                    // Get clean semester and year level values
-                    string semester = CmbSem.SelectedItem.ToString().Split(' ')[0]; // Takes "1st" from "1st semester"
-                    string yearLevel = CmbYrLvl.SelectedItem.ToString().Split(' ')[0]; // Takes "1st" from "1st year"
+
+                    string semester = CmbSem.SelectedItem.ToString();
+                    string yearLevel = CmbYrLvl.SelectedItem.ToString();
 
                     // Check for duplicate enrollment (only for new enrollments)
                     if (string.IsNullOrEmpty(EnrollmentId))
@@ -422,15 +422,15 @@ namespace Enrollment_System
         {
             // Initialize semester ComboBox
             CmbSem.Items.Clear();
-            CmbSem.Items.Add("1st sem");
-            CmbSem.Items.Add("2nd sem");
+            CmbSem.Items.Add("1st Sem");
+            CmbSem.Items.Add("2nd Sem");
 
             // Initialize year level ComboBox
             CmbYrLvl.Items.Clear();
-            CmbYrLvl.Items.Add("1st year");
-            CmbYrLvl.Items.Add("2nd year");
-            CmbYrLvl.Items.Add("3rd year");
-            CmbYrLvl.Items.Add("4th year");
+            CmbYrLvl.Items.Add("1st Year");
+            CmbYrLvl.Items.Add("2nd Year");
+            CmbYrLvl.Items.Add("3rd Year");
+            CmbYrLvl.Items.Add("4th Year");
         }
 
         private void LoadUserData()
@@ -581,7 +581,7 @@ namespace Enrollment_System
                                 if (!reader.IsDBNull(reader.GetOrdinal("semester")))
                                 {
                                     string semester = reader["semester"].ToString();
-                                    semester = semester.Split(' ')[0]; // Takes first part if value is "1st semester"
+                                    
                                     SetComboBoxSelection(CmbSem, semester);
                                 }
 
@@ -589,7 +589,7 @@ namespace Enrollment_System
                                 if (!reader.IsDBNull(reader.GetOrdinal("year_level")))
                                 {
                                     string yearLevel = reader["year_level"].ToString();
-                                    yearLevel = yearLevel.Split(' ')[0]; // Takes first part if value is "1st year"
+                                    
                                     SetComboBoxSelection(CmbYrLvl, yearLevel);
                                 }
 
