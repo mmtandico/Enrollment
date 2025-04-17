@@ -5,6 +5,9 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.IO;
+using PdfSharp.Pdf;
+using PdfSharp.Drawing;
+using PdfSharp;
 
 namespace Enrollment_System
 {
@@ -14,7 +17,7 @@ namespace Enrollment_System
        
         private string currentProgramFilter = "All";
         private Button[] programButtons;
-
+        private XStringFormat yPos;
 
         public AdminStudents()
         {
@@ -489,5 +492,145 @@ namespace Enrollment_System
             }
         }
 
+        private void BtnReport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Create a new PDF document
+                PdfDocument pdfDoc = new PdfDocument();
+
+                // Set file path to save PDF
+                string savePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", "Enrollment_Report_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf");
+
+                // Add a page to the document with landscape orientation
+                PdfPage page = pdfDoc.AddPage();
+                page.Orientation = PageOrientation.Landscape;  // Set the page orientation to Landscape
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+
+                // Define fonts for content and headers with larger size for school name
+                XFont largeFont = new XFont("Verdana", 16, XFontStyle.Bold);
+                XFont font = new XFont("Verdana", 8, XFontStyle.Regular);
+                XFont boldFont = new XFont("Verdana", 9, XFontStyle.Bold);
+                XFont headerFont = new XFont("Verdana", 12, XFontStyle.BoldItalic);
+
+                // Set margins
+                double marginLeft = 20;
+                double marginTop = 40; // Increase top margin to make space for the school name header
+                double pageWidth = page.Width;
+                double pageHeight = page.Height;
+
+                // Add the large school name header
+                gfx.DrawString("PAMBAYANG DALUBHASAAN NG MARILAO", largeFont, XBrushes.Black, marginLeft, marginTop);
+                double yPos = marginTop + 40; // Adjust starting position after the large school name header
+
+                // Add a title for the report
+                gfx.DrawString("Enrollment Report", headerFont, XBrushes.Black, marginLeft, yPos);
+                gfx.DrawString("Generated on: " + DateTime.Now.ToString("MMMM dd, yyyy HH:mm:ss"), font, XBrushes.Black, marginLeft, yPos + 25);
+
+                yPos += 60; // Adjust the position for the next content
+
+                // If a student is selected, display their credentials
+                if (DataGridEnrolled.SelectedRows.Count > 0)
+                {
+                    // Get the selected student's details from the DataGridView
+                    DataGridViewRow selectedRow = DataGridEnrolled.SelectedRows[0];
+
+                    string studentNo = selectedRow.Cells["student_no"].Value.ToString();
+                    string lastName = selectedRow.Cells["last_name"].Value.ToString();
+                    string firstName = selectedRow.Cells["first_name"].Value.ToString();
+                    string middleName = selectedRow.Cells["middle_name"].Value.ToString();
+                    string program = selectedRow.Cells["CourseCode"].Value.ToString();
+                    string yearLevel = selectedRow.Cells["year_level"].Value.ToString();
+                    string semester = selectedRow.Cells["semester"].Value.ToString();
+                    string status = selectedRow.Cells["status"].Value.ToString();
+
+                    // Add selected student's credentials to the PDF
+                    gfx.DrawString("Selected Student: " + firstName + " " + middleName + " " + lastName, boldFont, XBrushes.Black, marginLeft, yPos);
+                    yPos += 20;
+                    gfx.DrawString("Student No: " + studentNo, font, XBrushes.Black, marginLeft, yPos);
+                    yPos += 20;
+                    gfx.DrawString("Course: " + program, font, XBrushes.Black, marginLeft, yPos);
+                    yPos += 20;
+                    gfx.DrawString("Year Level: " + yearLevel, font, XBrushes.Black, marginLeft, yPos);
+                    yPos += 20;
+                    gfx.DrawString("Semester: " + semester, font, XBrushes.Black, marginLeft, yPos);
+                    yPos += 20;
+                    gfx.DrawString("Status: " + status, font, XBrushes.Black, marginLeft, yPos);
+                    yPos += 30; // Add some space after the student details before the table
+                }
+
+                // Add a line separator
+                gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos);
+                yPos += 10; // Space after the line
+
+                // Add table title
+                gfx.DrawString("Enrollment List", boldFont, XBrushes.Black, marginLeft, yPos);
+                yPos += 30;
+
+                // Set column widths dynamically based on the DataGridView columns
+                double[] columnWidths = new double[DataGridEnrolled.Columns.Count];
+                double totalWidth = pageWidth - 2 * marginLeft;
+                double equalWidth = totalWidth / DataGridEnrolled.Columns.Count;
+
+                // Assign a specific width for "Student No" column
+                columnWidths[DataGridEnrolled.Columns["student_no"].Index] = 120;
+
+                // Assign equal width to other columns, adjusting for "Student No"
+                for (int i = 0; i < DataGridEnrolled.Columns.Count; i++)
+                {
+                    if (i != DataGridEnrolled.Columns["student_no"].Index) // Skip "Student No" column
+                    {
+                        columnWidths[i] = equalWidth; // Assign equal width to each column except "Student No"
+                    }
+                }
+
+                // Add column headers with proper alignment and set widths
+                double xPos = marginLeft;
+                foreach (DataGridViewColumn column in DataGridEnrolled.Columns)
+                {
+                    // Skip columns with image data (e.g., System.Drawing.Bitmap) and avoid rendering
+                    if (column.ValueType == typeof(System.Drawing.Bitmap))
+                        continue;
+
+                    gfx.DrawString(column.HeaderText, boldFont, XBrushes.Black, xPos, yPos);
+                    xPos += columnWidths[DataGridEnrolled.Columns.IndexOf(column)]; // Set the position of the next column based on width
+                }
+                yPos += 15; // Reduce spacing between headers and rows
+
+                // Add rows data to the table with proper alignment
+                foreach (DataGridViewRow row in DataGridEnrolled.Rows)
+                {
+                    if (!row.IsNewRow) // Skip the new row placeholder
+                    {
+                        xPos = marginLeft;
+                        foreach (DataGridViewCell cell in row.Cells)
+                        {
+                            // Skip cells containing images or non-text data (e.g., System.Drawing.Bitmap)
+                            if (cell.Value is System.Drawing.Bitmap)
+                                continue;
+
+                            gfx.DrawString(cell.Value?.ToString() ?? "", font, XBrushes.Black, xPos, yPos);
+                            xPos += columnWidths[DataGridEnrolled.Columns.IndexOf(cell.OwningColumn)]; // Align each column based on width
+                        }
+                        yPos += 15; // Reduce spacing between rows
+                    }
+                }
+
+                // Add a line separator after the table
+                gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos);
+                yPos += 10;
+
+                // Save the PDF to file
+                pdfDoc.Save(savePath);
+
+                // Notify the user that the report has been saved
+                MessageBox.Show("PDF report generated successfully and saved to: " + savePath, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors that might occur during the PDF generation
+                MessageBox.Show("Error generating PDF: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
