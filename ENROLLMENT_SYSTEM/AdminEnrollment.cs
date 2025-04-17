@@ -76,9 +76,68 @@ namespace Enrollment_System
                 col.Frozen = false;
                 col.Resizable = DataGridViewTriState.True;
             }
+            ////////////////////////////
+            DataGridPaidEnrollment.AllowUserToResizeColumns = false;
+            DataGridPaidEnrollment.AllowUserToResizeRows = false;
+            DataGridPaidEnrollment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            foreach (DataGridViewColumn column in DataGridPaidEnrollment.Columns)
+            {
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+            int totalCols2 = DataGridPaidEnrollment.Columns.Count;
+            DataGridPaidEnrollment.Columns[totalCols2 - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPaidEnrollment.Columns[totalCols2 - 1].Width = 40;
+            DataGridPaidEnrollment.Columns[totalCols2 - 2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPaidEnrollment.Columns[totalCols2 - 2].Width = 40;
+            DataGridPaidEnrollment.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPaidEnrollment.Columns[0].Width = 50;
+            DataGridPaidEnrollment.RowTemplate.Height = 35;
+            DataGridPaidEnrollment.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridPaidEnrollment.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridPaidEnrollment.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridPaidEnrollment.Columns[7].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridPaidEnrollment.Columns[8].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridPaidEnrollment.Columns[9].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            foreach (DataGridViewColumn col in DataGridPaidEnrollment.Columns)
+            {
+                col.Frozen = false;
+                col.Resizable = DataGridViewTriState.True;
+            }
+            ///////////////////////////////
+            DataGridPayment.AllowUserToResizeColumns = false;
+            DataGridPayment.AllowUserToResizeRows = false;
+            DataGridPayment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            foreach (DataGridViewColumn column in DataGridPayment.Columns)
+            {
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+            int totalCols3 = DataGridPayment.Columns.Count;
+            DataGridPayment.Columns[totalCols3 - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPayment.Columns[totalCols3 - 1].Width = 40;
+            DataGridPayment.Columns[totalCols3 - 2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPayment.Columns[totalCols3 - 2].Width = 40;
+            DataGridPayment.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPayment.Columns[0].Width = 50;
+            DataGridPayment.RowTemplate.Height = 35;
+            DataGridPayment.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridPayment.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridPayment.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridPayment.Columns[7].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridPayment.Columns[8].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridPayment.Columns[9].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            foreach (DataGridViewColumn col in DataGridPayment.Columns)
+            {
+                col.Frozen = false;
+                col.Resizable = DataGridViewTriState.True;
+            }
 
             CustomizeDataGridNewEnrollment();
+            CustomizeDataGridPaidEnrollment();
+            CustomizeDataGridPayment();
             StyleTwoTabControl();
+
         }
         private void InitializeDataGridView()
         {
@@ -101,6 +160,54 @@ namespace Enrollment_System
             colClose1.ImageLayout = DataGridViewImageCellLayout.Zoom;
 
             foreach (DataGridViewColumn col in DataGridNewEnrollment.Columns)
+            {
+                col.Frozen = false;
+                col.Resizable = DataGridViewTriState.True;
+            }
+            ///////////////////////////////
+            DataGridPaidEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataGridPaidEnrollment.Columns["ColOpen2"].Width = 50;
+            DataGridPaidEnrollment.Columns["ColClose2"].Width = 50;
+            DataGridPaidEnrollment.Columns["ColOpen2"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPaidEnrollment.Columns["ColClose2"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPaidEnrollment.RowTemplate.Height = 40;
+            DataGridPaidEnrollment.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+
+            DataGridPaidEnrollment.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            DataGridPaidEnrollment.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            DataGridViewImageColumn colOpen2 = (DataGridViewImageColumn)DataGridPaidEnrollment.Columns["ColOpen2"];
+            colOpen2.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
+            DataGridViewImageColumn colClose2 = (DataGridViewImageColumn)DataGridPaidEnrollment.Columns["ColClose2"];
+            colClose2.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
+            foreach (DataGridViewColumn col in DataGridPaidEnrollment.Columns)
+            {
+                col.Frozen = false;
+                col.Resizable = DataGridViewTriState.True;
+            }
+            /////////////////////////////////
+            DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataGridPayment.Columns["ColOpen3"].Width = 50;
+            DataGridPayment.Columns["ColClose3"].Width = 50;
+            DataGridPayment.Columns["ColOpen3"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPayment.Columns["ColClose3"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPayment.RowTemplate.Height = 40;
+            DataGridPayment.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+
+            DataGridPayment.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            DataGridPayment.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            DataGridViewImageColumn colOpen3 = (DataGridViewImageColumn)DataGridPayment.Columns["ColOpen3"];
+            colOpen3.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
+            DataGridViewImageColumn colClose3 = (DataGridViewImageColumn)DataGridPayment.Columns["ColClose3"];
+            colClose3.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
+            foreach (DataGridViewColumn col in DataGridPayment.Columns)
             {
                 col.Frozen = false;
                 col.Resizable = DataGridViewTriState.True;
@@ -255,7 +362,71 @@ namespace Enrollment_System
 
         }
 
-        
+        private void StyleDataGridPaidEnrollment()
+        {
+            DataGridPaidEnrollment.BorderStyle = BorderStyle.None;
+
+            DataGridPaidEnrollment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
+
+            DataGridPaidEnrollment.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
+            DataGridPaidEnrollment.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
+
+            DataGridPaidEnrollment.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
+            DataGridPaidEnrollment.DefaultCellStyle.SelectionForeColor = Color.White;
+
+            DataGridPaidEnrollment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33);
+            DataGridPaidEnrollment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            DataGridPaidEnrollment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            DataGridPaidEnrollment.EnableHeadersVisualStyles = false;
+
+            DataGridPaidEnrollment.GridColor = Color.BurlyWood;
+
+            DataGridPaidEnrollment.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+
+            DataGridPaidEnrollment.RowTemplate.Height = 35;
+
+            DataGridPaidEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            foreach (DataGridViewColumn column in DataGridPaidEnrollment.Columns)
+            {
+                column.Resizable = DataGridViewTriState.False;
+            }
+
+        }
+
+        private void StyleDataGridPayment()
+        {
+            DataGridPayment.BorderStyle = BorderStyle.None;
+
+            DataGridPayment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
+
+            DataGridPayment.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
+            DataGridPayment.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
+
+            DataGridPayment.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
+            DataGridPayment.DefaultCellStyle.SelectionForeColor = Color.White;
+
+            DataGridPayment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33);
+            DataGridPayment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            DataGridPayment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            DataGridPayment.EnableHeadersVisualStyles = false;
+
+            DataGridPayment.GridColor = Color.BurlyWood;
+
+            DataGridPayment.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+
+            DataGridPayment.RowTemplate.Height = 35;
+
+            DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            foreach (DataGridViewColumn column in DataGridPayment.Columns)
+            {
+                column.Resizable = DataGridViewTriState.False;
+            }
+
+        }
+
+
 
         private void CustomizeDataGridNewEnrollment()
         {
@@ -284,6 +455,70 @@ namespace Enrollment_System
 
 
             foreach (DataGridViewColumn column in DataGridNewEnrollment.Columns)
+            {
+                column.Resizable = DataGridViewTriState.False;
+            }
+        }
+
+        private void CustomizeDataGridPaidEnrollment()
+        {
+            DataGridPaidEnrollment.BorderStyle = BorderStyle.None;
+
+            DataGridPaidEnrollment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
+
+            DataGridPaidEnrollment.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
+            DataGridPaidEnrollment.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
+
+            DataGridPaidEnrollment.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
+            DataGridPaidEnrollment.DefaultCellStyle.SelectionForeColor = Color.White;
+
+            DataGridPaidEnrollment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33);
+            DataGridPaidEnrollment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            DataGridPaidEnrollment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            DataGridPaidEnrollment.EnableHeadersVisualStyles = false;
+
+            DataGridPaidEnrollment.GridColor = Color.BurlyWood;
+
+            DataGridPaidEnrollment.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+
+            DataGridPaidEnrollment.RowTemplate.Height = 35;
+
+            DataGridPaidEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+
+            foreach (DataGridViewColumn column in DataGridPaidEnrollment.Columns)
+            {
+                column.Resizable = DataGridViewTriState.False;
+            }
+        }
+
+        private void CustomizeDataGridPayment()
+        {
+            DataGridPayment.BorderStyle = BorderStyle.None;
+
+            DataGridPayment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
+
+            DataGridPayment.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
+            DataGridPayment.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
+
+            DataGridPayment.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
+            DataGridPayment.DefaultCellStyle.SelectionForeColor = Color.White;
+
+            DataGridPayment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33);
+            DataGridPayment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            DataGridPayment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            DataGridPayment.EnableHeadersVisualStyles = false;
+
+            DataGridPayment.GridColor = Color.BurlyWood;
+
+            DataGridPayment.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+
+            DataGridPayment.RowTemplate.Height = 35;
+
+            DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+
+            foreach (DataGridViewColumn column in DataGridPayment.Columns)
             {
                 column.Resizable = DataGridViewTriState.False;
             }
