@@ -27,9 +27,9 @@ namespace Enrollment_System
         {
             return password.Length >= 8 &&
                    password.Any(char.IsLower) &&
-                   password.Any(char.IsDigit);
-                  // password.Any(char.IsUpper) &&
-                  // password.Any(ch => "!@#$%^&*()_+{}:<>?".Contains(ch));
+                   password.Any(char.IsDigit) &&
+                   password.Any(char.IsUpper) &&
+                   password.Any(ch => "!@#$%^&*()_+{}:<>?".Contains(ch));
         }
 
         private string GenerateSecureOTP()
