@@ -203,10 +203,10 @@ namespace Enrollment_System
                                           "Best regards,\n" +
                                           "Enrollment Team\nPAMBAYANG DALUBHASAAN NG MARILAO";
 
-                // HTML content with OTP highlighted using <strong> and inline styling
+                
                 string htmlContent = $"<strong>Dear student,</strong><br><br>" +
                                      $"Your OTP code for enrollment at <strong>PAMBAYANG DALUBHASAAN NG MARILAO</strong> is: " +
-                                     $"<span style='font-size:18px; color: #ff6600; font-weight: bold;'>{otp}</span><br>" + // Highlight OTP in orange color
+                                     $"<span style='font-size:18px; color: #ff6600; font-weight: bold;'>{otp}</span><br>" + 
                                      $"This OTP will expire in 5 minutes.<br><br>" +
                                      "Thank you for choosing us for your educational journey. If you have any questions, please reach out to our enrollment team.<br><br>" +
                                      "<strong>Best regards,</strong><br>" +
