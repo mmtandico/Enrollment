@@ -19,7 +19,7 @@ namespace Enrollment_System
 
             InitializeDataGridView();
             StyleTwoTabControl();
-            
+
         }
 
         private void AdminCourse_Load(object sender, EventArgs e)
@@ -57,8 +57,39 @@ namespace Enrollment_System
                 col.Frozen = false;
                 col.Resizable = DataGridViewTriState.True;
             }
+            ////////////////////////
+            DataGridPrerequisite.AllowUserToResizeColumns = false;
+            DataGridPrerequisite.AllowUserToResizeRows = false;
+            DataGridPrerequisite.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            foreach (DataGridViewColumn column in DataGridPrerequisite.Columns)
+            {
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+            int totalCols2 = DataGridPrerequisite.Columns.Count;
+            DataGridPrerequisite.Columns[totalCols2 - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPrerequisite.Columns[totalCols2 - 1].Width = 40;
+            DataGridPrerequisite.Columns[totalCols2 - 2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPrerequisite.Columns[totalCols2 - 2].Width = 40;
+            DataGridPrerequisite.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPrerequisite.Columns[0].Width = 50;
+            DataGridPrerequisite.Columns[1].Width = 150;
+            DataGridPrerequisite.Columns[2].Width = 500;
+            DataGridPrerequisite.Columns[3].Width = 50;
+            DataGridPrerequisite.Columns[4].Width = 100;
+            DataGridPrerequisite.Columns[5].Width = 100;
+            DataGridPrerequisite.Columns[6].Width = 100;
+            DataGridPrerequisite.RowTemplate.Height = 35;
+            DataGridPrerequisite.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            CustomizeDataGridNewEnrollment();
+
+            foreach (DataGridViewColumn col in DataGridPrerequisite.Columns)
+            {
+                col.Frozen = false;
+                col.Resizable = DataGridViewTriState.True;
+            }
+
+            CustomizeDataGridPrerequisites();
+            CustomizeDataGridSubjects();
             StyleTwoTabControl();
         }
 
@@ -87,9 +118,33 @@ namespace Enrollment_System
                 col.Frozen = false;
                 col.Resizable = DataGridViewTriState.True;
             }
+            //////////////////////////
+            DataGridPrerequisite.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataGridPrerequisite.Columns["ColOpen"].Width = 50;
+            DataGridPrerequisite.Columns["ColClose"].Width = 50;
+            DataGridPrerequisite.Columns["ColOpen"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPrerequisite.Columns["ColClose"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            DataGridPrerequisite.RowTemplate.Height = 40;
+            DataGridPrerequisite.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+
+            DataGridPrerequisite.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            DataGridPrerequisite.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            DataGridViewImageColumn colOpen = (DataGridViewImageColumn)DataGridPrerequisite.Columns["ColOpen"];
+            colOpen.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
+            DataGridViewImageColumn colClose = (DataGridViewImageColumn)DataGridPrerequisite.Columns["ColClose"];
+            colClose.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
+            foreach (DataGridViewColumn col in DataGridPrerequisite.Columns)
+            {
+                col.Frozen = false;
+                col.Resizable = DataGridViewTriState.True;
+            }
         }
 
-        private void StyleDataGridEnrolled()
+        private void StyleDataGridSubjects()
         {
             DataGridSubjects.BorderStyle = BorderStyle.None;
 
@@ -121,7 +176,39 @@ namespace Enrollment_System
 
         }
 
-        private void CustomizeDataGridNewEnrollment()
+        private void StyleDataGridPrerequisites()
+        {
+            DataGridPrerequisite.BorderStyle = BorderStyle.None;
+
+            DataGridPrerequisite.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
+
+            DataGridPrerequisite.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
+            DataGridPrerequisite.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
+
+            DataGridPrerequisite.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
+            DataGridPrerequisite.DefaultCellStyle.SelectionForeColor = Color.White;
+
+            DataGridPrerequisite.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33);
+            DataGridPrerequisite.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            DataGridPrerequisite.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            DataGridPrerequisite.EnableHeadersVisualStyles = false;
+
+            DataGridPrerequisite.GridColor = Color.BurlyWood;
+
+            DataGridPrerequisite.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+
+            DataGridPrerequisite.RowTemplate.Height = 35;
+
+            DataGridPrerequisite.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            foreach (DataGridViewColumn column in DataGridPrerequisite.Columns)
+            {
+                column.Resizable = DataGridViewTriState.False;
+            }
+
+        }
+
+        private void CustomizeDataGridSubjects()
         {
             DataGridSubjects.BorderStyle = BorderStyle.None;
 
@@ -148,6 +235,38 @@ namespace Enrollment_System
 
 
             foreach (DataGridViewColumn column in DataGridSubjects.Columns)
+            {
+                column.Resizable = DataGridViewTriState.False;
+            }
+        }
+
+        private void CustomizeDataGridPrerequisites()
+        {
+            DataGridPrerequisite.BorderStyle = BorderStyle.None;
+
+            DataGridPrerequisite.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
+
+            DataGridPrerequisite.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
+            DataGridPrerequisite.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
+
+            DataGridPrerequisite.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
+            DataGridPrerequisite.DefaultCellStyle.SelectionForeColor = Color.White;
+
+            DataGridPrerequisite.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33);
+            DataGridPrerequisite.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            DataGridPrerequisite.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            DataGridPrerequisite.EnableHeadersVisualStyles = false;
+
+            DataGridPrerequisite.GridColor = Color.BurlyWood;
+
+            DataGridPrerequisite.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+
+            DataGridPrerequisite.RowTemplate.Height = 35;
+
+            DataGridPrerequisite.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+
+            foreach (DataGridViewColumn column in DataGridPrerequisite.Columns)
             {
                 column.Resizable = DataGridViewTriState.False;
             }
