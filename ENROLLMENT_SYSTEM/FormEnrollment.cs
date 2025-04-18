@@ -30,6 +30,8 @@ namespace Enrollment_System
             //LoadEnrollmentData();
             DataGridEnrollment.CellClick += DataGridEnrollment_CellClick;
             //DataGridEnrollment.CellContentClick += DataGridEnrollment_CellContentClick;
+            DataGridEnrollment.CellMouseEnter += DataGridEnrollment_CellMouseEnter;
+            DataGridEnrollment.CellMouseLeave += DataGridEnrollment_CellMouseLeave;
 
 
             if (!string.IsNullOrEmpty(SessionManager.LastName) && !string.IsNullOrEmpty(SessionManager.FirstName))
@@ -119,6 +121,31 @@ namespace Enrollment_System
                 col.Resizable = DataGridViewTriState.True;
             }
         }
+
+        private void DataGridEnrollment_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                string columnName = DataGridEnrollment.Columns[e.ColumnIndex].Name;
+                if (columnName == "ColOpen" || columnName == "ColClose")
+                {
+                    DataGridEnrollment.Cursor = Cursors.Hand;
+                }
+            }
+        }
+
+        private void DataGridEnrollment_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                string columnName = DataGridEnrollment.Columns[e.ColumnIndex].Name;
+                if (columnName == "ColOpen" || columnName == "ColClose")
+                {
+                    DataGridEnrollment.Cursor = Cursors.Default;
+                }
+            }
+        }
+
 
         private void FormEnrollment_Activated(object sender, EventArgs e)
         {
@@ -252,6 +279,36 @@ namespace Enrollment_System
             {
                 MessageBox.Show("Error loading enrollment data: " + ex.Message);
             }
+
+            foreach (DataGridViewRow row in DataGridEnrollment.Rows)
+            {
+                string status = row.Cells[9].Value?.ToString()?.ToLower() ?? "";
+
+                if (status == "enrolled")
+                {
+
+                    var editCell = row.Cells["ColOpen"];
+                    editCell.ReadOnly = true;
+                    editCell.Style.ForeColor = Color.Gray;
+                    editCell.Style.BackColor = Color.LightGray;
+
+                    var deleteCell = row.Cells["ColClose"];
+                    deleteCell.ReadOnly = true;
+                    deleteCell.Style.ForeColor = Color.Gray;
+                    deleteCell.Style.BackColor = Color.LightGray;
+                }
+                else
+                {
+
+                    row.Cells["ColOpen"].ReadOnly = false;
+                    row.Cells["ColOpen"].Style.ForeColor = Color.Black;
+                    row.Cells["ColOpen"].Style.BackColor = Color.White;
+
+                    row.Cells["ColClose"].ReadOnly = false;
+                    row.Cells["ColClose"].Style.ForeColor = Color.Black;
+                    row.Cells["ColClose"].Style.BackColor = Color.White;
+                }
+            }
         }
 
         private void DataGridEnrollment_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -290,14 +347,12 @@ namespace Enrollment_System
 
         private void DataGridEnrollment_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
             if (e.RowIndex < 0 || e.RowIndex >= DataGridEnrollment.Rows.Count ||
                 e.ColumnIndex < 0 || e.ColumnIndex >= DataGridEnrollment.Columns.Count)
             {
-                return; 
+                return;
             }
 
-            
             DataGridViewRow selectedRow = null;
             try
             {
@@ -305,21 +360,20 @@ namespace Enrollment_System
             }
             catch (ArgumentOutOfRangeException)
             {
-                
                 LoadEnrollmentData();
                 return;
             }
 
-            
             string enrollmentId = selectedRow.Cells[0].Value?.ToString() ?? "";
             string firstName = selectedRow.Cells[3].Value?.ToString() ?? "";
             string lastName = selectedRow.Cells[2].Value?.ToString() ?? "";
             string studentName = $"{lastName}, {firstName}";
 
-            
             if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColOpen")
             {
-               
+                
+                if (selectedRow.Cells["ColOpen"].ReadOnly) return;
+
                 using (FormNewAcademiccs editForm = new FormNewAcademiccs())
                 {
                     editForm.EnrollmentId = enrollmentId;
@@ -334,6 +388,8 @@ namespace Enrollment_System
             else if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColClose")
             {
                 
+                if (selectedRow.Cells["ColClose"].ReadOnly) return;
+
                 DialogResult confirmResult = MessageBox.Show(
                     $"Are you sure you want to drop {studentName}'s enrollment?",
                     "Confirm Deletion",
@@ -346,14 +402,13 @@ namespace Enrollment_System
                     {
                         if (DeleteEnrollment(enrollmentId))
                         {
-                            
                             if (e.RowIndex < DataGridEnrollment.Rows.Count)
                             {
                                 DataGridEnrollment.Rows.RemoveAt(e.RowIndex);
                             }
                             else
                             {
-                                LoadEnrollmentData(); 
+                                LoadEnrollmentData();
                             }
 
                             MessageBox.Show($"Enrollment for {studentName} dropped successfully.",
@@ -373,6 +428,8 @@ namespace Enrollment_System
                 }
             }
         }
+
+
 
         private int GetCourseId(string courseCode)
         {
@@ -416,16 +473,15 @@ namespace Enrollment_System
                 {
                     conn.Open();
 
-                    // SQL query to delete the enrollment based on the enrollment_id
                     string query = "DELETE FROM student_enrollments WHERE enrollment_id = @EnrollmentId";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        // Use the provided enrollmentId parameter to execute the query
+                      
                         cmd.Parameters.AddWithValue("@EnrollmentId", enrollmentId);
 
-                        int rowsAffected = cmd.ExecuteNonQuery(); // Execute the query
-                        return rowsAffected > 0; // Return true if rows were deleted
+                        int rowsAffected = cmd.ExecuteNonQuery(); 
+                        return rowsAffected > 0;
                     }
                 }
             }
@@ -744,10 +800,8 @@ namespace Enrollment_System
                             adapter.Fill(dt);
                         }
 
-                        // Clear existing columns if they exist
                         DataGridSubjects.Columns.Clear();
 
-                        // Add columns to DataGridSubjects
                         DataGridSubjects.Columns.Add("course_subject_id", "ID");
                         DataGridSubjects.Columns.Add("subject_code", "Subject Code");
                         DataGridSubjects.Columns.Add("subject_name", "Subject Name");
@@ -769,7 +823,6 @@ namespace Enrollment_System
                         DataGridSubjects.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                         DataGridSubjects.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-                        // Populate the DataGrid
                         foreach (DataRow row in dt.Rows)
                         {
                             DataGridSubjects.Rows.Add(
@@ -783,7 +836,6 @@ namespace Enrollment_System
                             );
                         }
 
-                        // Apply styling to the newly added data
                         StyleDataGridSubjects();
                     }
                 }

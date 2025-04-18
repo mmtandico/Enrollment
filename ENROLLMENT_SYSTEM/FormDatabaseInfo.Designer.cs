@@ -46,16 +46,16 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.MAINPANEL = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.PBoxLoginUser = new System.Windows.Forms.PictureBox();
             this.panel10 = new System.Windows.Forms.Panel();
             this.BtnCourse = new System.Windows.Forms.Button();
-            this.PBoxLoginUser = new System.Windows.Forms.PictureBox();
             this.panel11 = new System.Windows.Forms.Panel();
             this.BtnDashB = new System.Windows.Forms.Button();
             this.panel17 = new System.Windows.Forms.Panel();
             this.BtnEnroll = new System.Windows.Forms.Button();
             this.panel12 = new System.Windows.Forms.Panel();
             this.BtnStudent = new System.Windows.Forms.Button();
-            this.panel8 = new System.Windows.Forms.Panel();
             this.panel6.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -64,12 +64,12 @@
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.panel10.SuspendLayout();
+            this.panel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PBoxLoginUser)).BeginInit();
+            this.panel10.SuspendLayout();
             this.panel11.SuspendLayout();
             this.panel17.SuspendLayout();
             this.panel12.SuspendLayout();
-            this.panel8.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel6
@@ -314,6 +314,25 @@
             this.panel2.Size = new System.Drawing.Size(328, 962);
             this.panel2.TabIndex = 13;
             // 
+            // panel8
+            // 
+            this.panel8.BackColor = System.Drawing.Color.Black;
+            this.panel8.Controls.Add(this.PBoxLoginUser);
+            this.panel8.Location = new System.Drawing.Point(75, 90);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(180, 179);
+            this.panel8.TabIndex = 5;
+            // 
+            // PBoxLoginUser
+            // 
+            this.PBoxLoginUser.BackgroundImage = global::Enrollment_System.Properties.Resources.PROFILE;
+            this.PBoxLoginUser.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PBoxLoginUser.Location = new System.Drawing.Point(12, 12);
+            this.PBoxLoginUser.Name = "PBoxLoginUser";
+            this.PBoxLoginUser.Size = new System.Drawing.Size(157, 154);
+            this.PBoxLoginUser.TabIndex = 0;
+            this.PBoxLoginUser.TabStop = false;
+            // 
             // panel10
             // 
             this.panel10.BackColor = System.Drawing.Color.Transparent;
@@ -327,6 +346,7 @@
             // BtnCourse
             // 
             this.BtnCourse.BackColor = System.Drawing.Color.Transparent;
+            this.BtnCourse.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnCourse.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BtnCourse.FlatAppearance.BorderSize = 0;
             this.BtnCourse.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
@@ -346,16 +366,6 @@
             this.BtnCourse.UseVisualStyleBackColor = false;
             this.BtnCourse.Click += new System.EventHandler(this.BtnCourse_Click);
             // 
-            // PBoxLoginUser
-            // 
-            this.PBoxLoginUser.BackgroundImage = global::Enrollment_System.Properties.Resources.PROFILE;
-            this.PBoxLoginUser.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PBoxLoginUser.Location = new System.Drawing.Point(12, 12);
-            this.PBoxLoginUser.Name = "PBoxLoginUser";
-            this.PBoxLoginUser.Size = new System.Drawing.Size(157, 154);
-            this.PBoxLoginUser.TabIndex = 0;
-            this.PBoxLoginUser.TabStop = false;
-            // 
             // panel11
             // 
             this.panel11.BackColor = System.Drawing.Color.Transparent;
@@ -369,6 +379,7 @@
             // BtnDashB
             // 
             this.BtnDashB.BackColor = System.Drawing.Color.Transparent;
+            this.BtnDashB.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnDashB.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BtnDashB.FlatAppearance.BorderSize = 0;
             this.BtnDashB.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
@@ -401,6 +412,7 @@
             // BtnEnroll
             // 
             this.BtnEnroll.BackColor = System.Drawing.Color.Transparent;
+            this.BtnEnroll.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnEnroll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BtnEnroll.FlatAppearance.BorderSize = 0;
             this.BtnEnroll.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
@@ -433,6 +445,7 @@
             // BtnStudent
             // 
             this.BtnStudent.BackColor = System.Drawing.Color.Transparent;
+            this.BtnStudent.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnStudent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BtnStudent.FlatAppearance.BorderSize = 0;
             this.BtnStudent.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
@@ -451,15 +464,6 @@
             this.BtnStudent.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BtnStudent.UseVisualStyleBackColor = false;
             this.BtnStudent.Click += new System.EventHandler(this.BtnStudent_Click);
-            // 
-            // panel8
-            // 
-            this.panel8.BackColor = System.Drawing.Color.Black;
-            this.panel8.Controls.Add(this.PBoxLoginUser);
-            this.panel8.Location = new System.Drawing.Point(75, 90);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(180, 179);
-            this.panel8.TabIndex = 5;
             // 
             // FormDatabaseInfo
             // 
@@ -485,12 +489,12 @@
             this.panel5.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            this.panel10.ResumeLayout(false);
+            this.panel8.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PBoxLoginUser)).EndInit();
+            this.panel10.ResumeLayout(false);
             this.panel11.ResumeLayout(false);
             this.panel17.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
-            this.panel8.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
