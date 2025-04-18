@@ -1028,7 +1028,7 @@ namespace Enrollment_System
             <div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border-radius: 10px; background-color: #f9f9f9;'>
                 <div style='text-align: center;'>
                     <h2 style='color: #0056b3;'>Enrollment Confirmation</h2>
-                    <img src='https://imgur.com/gallery/listenup-cannons-fire-you-KRMEh1z.png' alt='Enrollment Banner' style='max-width: 100%; height: auto; margin-bottom: 20px;' />
+                    <img src='https://i.imgur.com/cdAIpDj.png' alt='Enrollment Banner' style='max-width: 100%; height: auto; margin-bottom: 20px;' />
                 </div>
 
                 <p style='font-size: 16px;'>Dear <strong>{studentName}</strong>,</p>
