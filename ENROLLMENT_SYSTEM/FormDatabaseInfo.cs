@@ -190,5 +190,10 @@ namespace Enrollment_System
         {
             LoadForm(new AdminCourse());
         }
+
+        private void BtnAdmin_Click(object sender, EventArgs e)
+        {
+            LoadForm(new AdminUser());
+        }
     }
 }

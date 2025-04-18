@@ -46,6 +46,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.MAINPANEL = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.panel13 = new System.Windows.Forms.Panel();
+            this.BtnAdmin = new System.Windows.Forms.Button();
             this.panel8 = new System.Windows.Forms.Panel();
             this.PBoxLoginUser = new System.Windows.Forms.PictureBox();
             this.panel10 = new System.Windows.Forms.Panel();
@@ -64,6 +66,7 @@
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel13.SuspendLayout();
             this.panel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PBoxLoginUser)).BeginInit();
             this.panel10.SuspendLayout();
@@ -303,6 +306,7 @@
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(240)))), ((int)(((byte)(220)))));
             this.panel2.BackgroundImage = global::Enrollment_System.Properties.Resources.MAINBANNER_removebg_preview;
             this.panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.panel2.Controls.Add(this.panel13);
             this.panel2.Controls.Add(this.panel8);
             this.panel2.Controls.Add(this.panel10);
             this.panel2.Controls.Add(this.panel11);
@@ -313,6 +317,39 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(328, 962);
             this.panel2.TabIndex = 13;
+            // 
+            // panel13
+            // 
+            this.panel13.BackColor = System.Drawing.Color.Transparent;
+            this.panel13.Controls.Add(this.BtnAdmin);
+            this.panel13.Font = new System.Drawing.Font("Bahnschrift SemiBold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel13.Location = new System.Drawing.Point(27, 829);
+            this.panel13.Name = "panel13";
+            this.panel13.Size = new System.Drawing.Size(272, 50);
+            this.panel13.TabIndex = 3;
+            // 
+            // BtnAdmin
+            // 
+            this.BtnAdmin.BackColor = System.Drawing.Color.Transparent;
+            this.BtnAdmin.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnAdmin.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BtnAdmin.FlatAppearance.BorderSize = 0;
+            this.BtnAdmin.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.BtnAdmin.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnAdmin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnAdmin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnAdmin.Font = new System.Drawing.Font("Bahnschrift Condensed", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnAdmin.Image = global::Enrollment_System.Properties.Resources.People;
+            this.BtnAdmin.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.BtnAdmin.Location = new System.Drawing.Point(0, 0);
+            this.BtnAdmin.Name = "BtnAdmin";
+            this.BtnAdmin.Padding = new System.Windows.Forms.Padding(60, 0, 0, 0);
+            this.BtnAdmin.Size = new System.Drawing.Size(272, 50);
+            this.BtnAdmin.TabIndex = 0;
+            this.BtnAdmin.Text = "          USERS";
+            this.BtnAdmin.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.BtnAdmin.UseVisualStyleBackColor = false;
+            this.BtnAdmin.Click += new System.EventHandler(this.BtnAdmin_Click);
             // 
             // panel8
             // 
@@ -338,7 +375,7 @@
             this.panel10.BackColor = System.Drawing.Color.Transparent;
             this.panel10.Controls.Add(this.BtnCourse);
             this.panel10.Font = new System.Drawing.Font("Bahnschrift SemiBold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel10.Location = new System.Drawing.Point(27, 501);
+            this.panel10.Location = new System.Drawing.Point(27, 576);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(272, 50);
             this.panel10.TabIndex = 3;
@@ -371,7 +408,7 @@
             this.panel11.BackColor = System.Drawing.Color.Transparent;
             this.panel11.Controls.Add(this.BtnDashB);
             this.panel11.Font = new System.Drawing.Font("Bahnschrift SemiBold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel11.Location = new System.Drawing.Point(27, 291);
+            this.panel11.Location = new System.Drawing.Point(27, 366);
             this.panel11.Name = "panel11";
             this.panel11.Size = new System.Drawing.Size(272, 50);
             this.panel11.TabIndex = 1;
@@ -404,7 +441,7 @@
             this.panel17.BackColor = System.Drawing.Color.Transparent;
             this.panel17.Controls.Add(this.BtnEnroll);
             this.panel17.Font = new System.Drawing.Font("Bahnschrift SemiBold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel17.Location = new System.Drawing.Point(27, 433);
+            this.panel17.Location = new System.Drawing.Point(27, 508);
             this.panel17.Name = "panel17";
             this.panel17.Size = new System.Drawing.Size(272, 50);
             this.panel17.TabIndex = 4;
@@ -437,7 +474,7 @@
             this.panel12.BackColor = System.Drawing.Color.Transparent;
             this.panel12.Controls.Add(this.BtnStudent);
             this.panel12.Font = new System.Drawing.Font("Bahnschrift SemiBold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel12.Location = new System.Drawing.Point(27, 363);
+            this.panel12.Location = new System.Drawing.Point(27, 438);
             this.panel12.Name = "panel12";
             this.panel12.Size = new System.Drawing.Size(272, 50);
             this.panel12.TabIndex = 2;
@@ -489,6 +526,7 @@
             this.panel5.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.panel13.ResumeLayout(false);
             this.panel8.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PBoxLoginUser)).EndInit();
             this.panel10.ResumeLayout(false);
@@ -528,5 +566,7 @@
         private System.Windows.Forms.Panel MAINPANEL;
         private System.Windows.Forms.PictureBox PBoxLoginUser;
         private System.Windows.Forms.Panel panel8;
+        private System.Windows.Forms.Panel panel13;
+        private System.Windows.Forms.Button BtnAdmin;
     }
 }
