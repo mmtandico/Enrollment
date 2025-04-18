@@ -8,12 +8,15 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Threading.Tasks;
 using BCrypt.Net;
+using System.Configuration;
 
 namespace Enrollment_System
 {
     public partial class FormRegister : Form
     {
         private string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
+
+        //private readonly string _sendGridApiKey = ConfigurationManager.AppSettings["SendGridApiKey"];
 
         public FormRegister()
         {
@@ -186,6 +189,7 @@ namespace Enrollment_System
             {
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
+                //var client = new SendGridClient(_sendGridApiKey);
                 string apiKey = Environment.GetEnvironmentVariable("MY_API_KEY");
                 var client = new SendGridClient(apiKey);
                 var from = new EmailAddress("enrollment.test101@gmail.com", "Enrollment System");
