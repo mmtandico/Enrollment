@@ -266,12 +266,14 @@
             // 
             // TxtGradePdfPath
             // 
-            this.TxtGradePdfPath.BackColor = System.Drawing.Color.White;
+            this.TxtGradePdfPath.BackColor = System.Drawing.SystemColors.Window;
             this.TxtGradePdfPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtGradePdfPath.Cursor = System.Windows.Forms.Cursors.Hand;
             this.TxtGradePdfPath.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TxtGradePdfPath.ForeColor = System.Drawing.Color.Black;
             this.TxtGradePdfPath.Location = new System.Drawing.Point(676, 309);
             this.TxtGradePdfPath.Name = "TxtGradePdfPath";
+            this.TxtGradePdfPath.ReadOnly = true;
             this.TxtGradePdfPath.Size = new System.Drawing.Size(160, 26);
             this.TxtGradePdfPath.TabIndex = 38;
             // 

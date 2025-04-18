@@ -17,11 +17,11 @@ namespace Enrollment_System
     {
         private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
         private long loggedInUserId;
+        
+
         public string EnrollmentId { get; set; }
         public Dictionary<string, string> StudentData { get; set; }
         public string CourseText
-
-
         {
             get { return TxtCourse.Text; }
             set { TxtCourse.Text = value; } // Update TxtCourse with the passed value
@@ -78,7 +78,8 @@ namespace Enrollment_System
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "PDF Files|*.pdf"
+                Filter = "PDF Files|*.pdf",
+                Title = "Select Grade PDF"
             })
             {
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -86,11 +87,79 @@ namespace Enrollment_System
                     byte[] fileData = File.ReadAllBytes(openFileDialog.FileName);
                     string fileName = Path.GetFileName(openFileDialog.FileName);
 
-                    //SavePdfToDatabase(fileName, fileData); // call to save
-                    MessageBox.Show("PDF uploaded successfully.");
+                    string savedFileName = SavePdfToDatabase(fileName, fileData);
+                    if (savedFileName != null)
+                    {
+                        // Create a clickable link label
+                        LinkLabel linkLabel = new LinkLabel();
+                        linkLabel.Text = savedFileName;
+                        linkLabel.LinkClicked += (s, args) => ViewPdfFromDatabase();
+
+                        // Position the link label where you want it (replace with your actual UI element)
+                        linkLabel.Location = new Point(TxtGradePdfPath.Location.X, TxtGradePdfPath.Location.Y);
+                        linkLabel.Size = TxtGradePdfPath.Size;
+
+                        // Remove the existing textbox if needed
+                        this.Controls.Remove(TxtGradePdfPath);
+
+                        // Add the link label to your form
+                        this.Controls.Add(linkLabel);
+
+                        MessageBox.Show("PDF uploaded and saved successfully.");
+                    }
                 }
             }
         }
+
+        private void ViewPdfFromDatabase()
+        {
+            int studentId = SessionManager.StudentId;
+
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string query = @"SELECT grade_pdf 
+                     FROM student_enrollments 
+                     WHERE student_id = @studentId 
+                     ORDER BY enrollment_id DESC 
+                     LIMIT 1";
+
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@studentId", studentId);
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        byte[] fileData = (byte[])result;
+                        string tempPath = Path.Combine(Path.GetTempPath(), "grade_preview.pdf");
+
+                        // Clean up any existing temp file
+                        if (File.Exists(tempPath))
+                        {
+                            File.Delete(tempPath);
+                        }
+
+                        File.WriteAllBytes(tempPath, fileData);
+
+                        try
+                        {
+                            System.Diagnostics.Process.Start(tempPath);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Error opening PDF: {ex.Message}");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No grade PDF found for this student.");
+                    }
+                }
+            }
+        }
+
 
         private void BtnUpload_Click(object sender, EventArgs e)
         {
@@ -104,6 +173,61 @@ namespace Enrollment_System
                     //byte[] imageBytes = File.ReadAllBytes(openFileDialog.FileName);
 
                     //SaveProfilePicture(imageBytes);
+                }
+            }
+        }
+
+
+        private string SavePdfToDatabase(string fileName, byte[] fileData)
+        {
+            int studentId = SessionManager.StudentId;
+
+            if (studentId <= 0)
+            {
+                MessageBox.Show("No logged-in student.");
+                return null;
+            }
+
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+
+                // Get the latest enrollment_id for this student
+                string getEnrollmentQuery = @"SELECT enrollment_id 
+                                  FROM student_enrollments 
+                                  WHERE student_id = @studentId 
+                                  ORDER BY enrollment_id DESC 
+                                  LIMIT 1";
+
+                using (var getCmd = new MySqlCommand(getEnrollmentQuery, conn))
+                {
+                    getCmd.Parameters.AddWithValue("@studentId", studentId);
+                    object result = getCmd.ExecuteScalar();
+
+                    if (result != null)
+                    {
+                        int enrollmentId = Convert.ToInt32(result);
+
+                        // Update both grade_pdf and grade_pdf_path fields
+                        string updateQuery = @"UPDATE student_enrollments 
+                                   SET grade_pdf = @pdfData,
+                                       grade_pdf_path = @fileName
+                                   WHERE enrollment_id = @enrollmentId";
+
+                        using (var updateCmd = new MySqlCommand(updateQuery, conn))
+                        {
+                            updateCmd.Parameters.Add("@pdfData", MySqlDbType.LongBlob).Value = fileData;
+                            updateCmd.Parameters.AddWithValue("@fileName", fileName);
+                            updateCmd.Parameters.AddWithValue("@enrollmentId", enrollmentId);
+                            updateCmd.ExecuteNonQuery();
+                        }
+                        return fileName;
+                    }
+                    else
+                    {
+                        MessageBox.Show("No enrollment found for this student.");
+                        return null;
+                    }
                 }
             }
         }
@@ -698,7 +822,7 @@ namespace Enrollment_System
 
         private void TxtPreviewSection_Enter_1(object sender, EventArgs e)
         {
-            if (TxtPreviewSection.Text == "e.g. BSIT-22A")
+            if (TxtPreviewSection.Text == "e.g. BSIT-22-A")
             {
                 TxtPreviewSection.Text = "";
                 TxtPreviewSection.ForeColor = Color.Black;
@@ -709,7 +833,7 @@ namespace Enrollment_System
         {
             if (string.IsNullOrWhiteSpace(TxtPreviewSection.Text))
             {
-                TxtPreviewSection.Text = "e.g. BSIT-22A";
+                TxtPreviewSection.Text = "e.g. BSIT-22-A";
                 TxtPreviewSection.ForeColor = Color.Gray;
             }
         }
