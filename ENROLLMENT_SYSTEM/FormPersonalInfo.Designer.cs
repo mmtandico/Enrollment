@@ -424,6 +424,7 @@
             this.TxtStudentNo.ForeColor = System.Drawing.Color.Black;
             this.TxtStudentNo.Location = new System.Drawing.Point(30, 55);
             this.TxtStudentNo.Name = "TxtStudentNo";
+            this.TxtStudentNo.ReadOnly = true;
             this.TxtStudentNo.Size = new System.Drawing.Size(367, 33);
             this.TxtStudentNo.TabIndex = 5;
             this.TxtStudentNo.Click += new System.EventHandler(this.TxtStudentNo_Click);
@@ -670,6 +671,7 @@
             this.TxtAge.ForeColor = System.Drawing.Color.Black;
             this.TxtAge.Location = new System.Drawing.Point(699, 294);
             this.TxtAge.Name = "TxtAge";
+            this.TxtAge.ReadOnly = true;
             this.TxtAge.Size = new System.Drawing.Size(85, 33);
             this.TxtAge.TabIndex = 16;
             // 

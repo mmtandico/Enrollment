@@ -296,7 +296,6 @@ namespace Enrollment_System
                         return;
                     }
 
-
                     string semester = CmbSem.SelectedItem.ToString();
                     string yearLevel = CmbYrLvl.SelectedItem.ToString();
 
@@ -304,13 +303,13 @@ namespace Enrollment_System
                     if (string.IsNullOrEmpty(EnrollmentId))
                     {
                         string checkDuplicateQuery = @"
-                            SELECT COUNT(*) 
-                            FROM student_enrollments 
-                            WHERE student_id = @StudentID 
-                            AND course_id = @CourseID 
-                            AND academic_year = @AcademicYear 
-                            AND semester = @Semester
-                            AND year_level = @YearLevel";
+                    SELECT COUNT(*) 
+                    FROM student_enrollments 
+                    WHERE student_id = @StudentID 
+                    AND course_id = @CourseID 
+                    AND academic_year = @AcademicYear 
+                    AND semester = @Semester
+                    AND year_level = @YearLevel";
 
                         using (var cmd = new MySqlCommand(checkDuplicateQuery, conn))
                         {
@@ -334,13 +333,13 @@ namespace Enrollment_System
                     {
                         // Update existing enrollment
                         string updateQuery = @"
-                            UPDATE student_enrollments
-                            SET course_id = @CourseID,
-                                academic_year = @AcademicYear,
-                                semester = @Semester,
-                                year_level = @YearLevel,
-                                status = 'Pending'
-                            WHERE enrollment_id = @EnrollmentID";
+                    UPDATE student_enrollments
+                    SET course_id = @CourseID,
+                        academic_year = @AcademicYear,
+                        semester = @Semester,
+                        year_level = @YearLevel,
+                        status = 'Pending'
+                    WHERE enrollment_id = @EnrollmentID";
 
                         ExecuteQuery(conn, updateQuery,
                             new MySqlParameter("@CourseID", courseId),
@@ -350,16 +349,30 @@ namespace Enrollment_System
                             new MySqlParameter("@EnrollmentID", EnrollmentId)
                         );
 
+                        // Insert into academic history with previous_section only
+                        string insertHistoryQuery = @"
+                    INSERT INTO academic_history (
+                        enrollment_id, previous_section
+                    ) VALUES (
+                        @EnrollmentID, @PreviousSection
+                    )";
+
+                        ExecuteQuery(conn, insertHistoryQuery,
+                            new MySqlParameter("@EnrollmentID", EnrollmentId),
+                            new MySqlParameter("@PreviousSection", TxtPreviousSection.Text)
+                            
+                        );
+
                         MessageBox.Show("Enrollment updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
                         // Create new enrollment
                         string insertQuery = @"
-                            INSERT INTO student_enrollments 
-                                (student_id, course_id, academic_year, semester, year_level, status)
-                            VALUES 
-                                (@StudentID, @CourseID, @AcademicYear, @Semester, @YearLevel, 'Pending')";
+                    INSERT INTO student_enrollments 
+                        (student_id, course_id, academic_year, semester, year_level, status)
+                    VALUES 
+                        (@StudentID, @CourseID, @AcademicYear, @Semester, @YearLevel, 'Pending')";
 
                         ExecuteQuery(conn, insertQuery,
                             new MySqlParameter("@StudentID", studentId),
@@ -387,6 +400,7 @@ namespace Enrollment_System
             }
         }
 
+
         private void FormNewAcademiccs_Load(object sender, EventArgs e)
         {
             InitializeComboBoxes();
@@ -413,23 +427,19 @@ namespace Enrollment_System
                 }
                 SessionManager.SelectedCourse = null;
             }
-
-            // Set placeholder texts
-            TxtPreviewSection.Text = "e.g. BSIT-22A";
-            TxtPreviewSection.ForeColor = Color.Gray;
         }
 
         private void ClearNewEnrollmentFields()
         {
-            // Clear academic year
             TxtSchoolYear.Clear();
             TxtSchoolYear.ForeColor = Color.Black;
 
-            // Reset semester and year level comboboxes
+            TxtPreviousSection.Clear();
+            TxtPreviousSection.ForeColor = Color.Black;
+
             CmbSem.SelectedIndex = -1;
             CmbYrLvl.SelectedIndex = -1;
 
-            // Clear course selection
             CmbCourse.SelectedIndex = -1;
             CmbCourse.Text = "";
         }
@@ -534,7 +544,6 @@ namespace Enrollment_System
             }
         }
 
-        // Helper class for ComboBox items
         public class ComboboxItem
         {
             public string Text { get; set; }
@@ -544,123 +553,15 @@ namespace Enrollment_System
 
         private void InitializeComboBoxes()
         {
-            // Initialize semester ComboBox
             CmbSem.Items.Clear();
             CmbSem.Items.Add("1st Sem");
             CmbSem.Items.Add("2nd Sem");
 
-            // Initialize year level ComboBox
             CmbYrLvl.Items.Clear();
             CmbYrLvl.Items.Add("1st Year");
             CmbYrLvl.Items.Add("2nd Year");
             CmbYrLvl.Items.Add("3rd Year");
             CmbYrLvl.Items.Add("4th Year");
-        }
-
-        private void LoadUserData()
-        {
-            try
-            {
-                using (var conn = new MySqlConnection(connectionString))
-                {
-                    conn.Open();
-
-                    // Check if student exists
-                    string checkUserQuery = "SELECT COUNT(*) FROM students WHERE user_id = @UserID";
-                    using (var checkCmd = new MySqlCommand(checkUserQuery, conn))
-                    {
-                        checkCmd.Parameters.AddWithValue("@UserID", loggedInUserId);
-                        int userExists = Convert.ToInt32(checkCmd.ExecuteScalar());
-
-                        if (userExists == 0)
-                        {
-                            string insertQuery = @"INSERT INTO students (user_id, student_no, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
-                                      VALUES (@UserID, '', '', '', '', '', '2000-01-01', 0, 'Male', '', '')";
-
-                            using (var insertCmd = new MySqlCommand(insertQuery, conn))
-                            {
-                                insertCmd.Parameters.AddWithValue("@UserID", loggedInUserId);
-                                insertCmd.ExecuteNonQuery();
-                            }
-                        }
-                    }
-
-                    // Main query
-                    string query = @"SELECT 
-                            s.student_id, 
-                            IFNULL(s.student_no, '') AS student_no, 
-                            IFNULL(s.first_name, '') AS first_name, 
-                            IFNULL(s.middle_name, '') AS middle_name, 
-                            IFNULL(s.last_name, '') AS last_name, 
-                            IFNULL(se.academic_year, '') AS academic_year, 
-                            IFNULL(se.semester, '') AS semester, 
-                            IFNULL(se.year_level, '') AS year_level, 
-                            IFNULL(se.status, '') AS status,
-                            IFNULL(c.course_code, '') AS course_code,
-                            IFNULL(c.course_name, '') AS course_name,
-                            s.profile_picture
-                        FROM students s
-                        LEFT JOIN student_enrollments se ON s.student_id = se.student_id
-                        LEFT JOIN courses c ON se.course_id = c.course_id
-                        WHERE s.user_id = @UserID
-                        ORDER BY s.student_id DESC LIMIT 1";
-
-                    using (var cmd = new MySqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@UserID", loggedInUserId);
-
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                TxtStudentNo.Text = reader["student_no"].ToString();
-                                TxtFirstName.Text = reader["first_name"].ToString();
-                                TxtMiddleName.Text = reader["middle_name"].ToString();
-                                TxtLastName.Text = reader["last_name"].ToString();
-                                TxtSchoolYear.Text = reader["academic_year"].ToString();
-                                SetComboBoxSelection(CmbCourse, reader["course_name"].ToString());
-                                SetComboBoxSelection(CmbSem, reader["semester"].ToString());
-                                SetComboBoxSelection(CmbYrLvl, reader["year_level"].ToString());
-
-
-                                // Handle course selection
-                                if (!reader.IsDBNull(reader.GetOrdinal("course_name")))
-                                {
-                                    string courseName = reader["course_name"].ToString();
-                                    int index = CmbCourse.FindStringExact(courseName);
-                                    if (index >= 0)
-                                    {
-                                        CmbCourse.SelectedIndex = index;
-                                    }
-                                    else
-                                    {
-                                        CmbCourse.Text = courseName;
-                                    }
-                                }
-
-                                // Handle profile picture
-                                if (reader["profile_picture"] != DBNull.Value)
-                                {
-                                    byte[] imageBytes = (byte[])reader["profile_picture"];
-                                    using (MemoryStream ms = new MemoryStream(imageBytes))
-                                    {
-                                        PicBoxID.Image = Image.FromStream(ms);
-                                    }
-                                }
-                                else
-                                {
-                                    PicBoxID.Image = Properties.Resources.PROFILE;
-                                }
-                                PicBoxID.SizeMode = PictureBoxSizeMode.StretchImage;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error loading user data: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void LoadExistingEnrollmentData()
@@ -672,21 +573,25 @@ namespace Enrollment_System
                     conn.Open();
 
                     string query = @"
-                        SELECT 
-                            se.academic_year,
-                            se.semester,
-                            se.year_level,
-                            c.course_name,
-                            s.first_name,
-                            s.middle_name,
-                            s.last_name,
-                            s.student_no,
-                            s.profile_picture
-                        FROM student_enrollments se
-                        JOIN courses c ON se.course_id = c.course_id
-                        JOIN students s ON se.student_id = s.student_id
-                        WHERE se.enrollment_id = @EnrollmentId";
+                SELECT 
+                    se.academic_year,
+                    se.semester,
+                    se.year_level,
+                    c.course_name,
+                    s.first_name,
+                    s.middle_name,
+                    s.last_name,
+                    s.student_no,
+                    s.profile_picture,
+                    ah.previous_section -- Fetch previous_section from academic_history
+                FROM student_enrollments se
+                JOIN courses c ON se.course_id = c.course_id
+                JOIN students s ON se.student_id = s.student_id
+                LEFT JOIN academic_history ah ON se.enrollment_id = ah.enrollment_id -- Join academic_history table
+                WHERE se.enrollment_id = @EnrollmentId";
 
+                    Console.WriteLine("SQL Query: " + query); 
+                    Console.WriteLine("Enrollment ID: " + EnrollmentId);
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@EnrollmentId", EnrollmentId);
@@ -705,7 +610,6 @@ namespace Enrollment_System
                                 if (!reader.IsDBNull(reader.GetOrdinal("semester")))
                                 {
                                     string semester = reader["semester"].ToString();
-                                    
                                     SetComboBoxSelection(CmbSem, semester);
                                 }
 
@@ -713,7 +617,6 @@ namespace Enrollment_System
                                 if (!reader.IsDBNull(reader.GetOrdinal("year_level")))
                                 {
                                     string yearLevel = reader["year_level"].ToString();
-                                    
                                     SetComboBoxSelection(CmbYrLvl, yearLevel);
                                 }
 
@@ -739,6 +642,23 @@ namespace Enrollment_System
                                         PicBoxID.Image = Image.FromStream(ms);
                                     }
                                 }
+
+                                // Debugging: Log the previous section value
+                                Console.WriteLine("Previous Section: " + reader["previous_section"]); // Debugging previous_section
+
+                                // Set previous section (from academic_history)
+                                if (!reader.IsDBNull(reader.GetOrdinal("previous_section")))
+                                {
+                                    TxtPreviousSection.Text = reader["previous_section"].ToString();
+                                }
+                                else
+                                {
+                                    TxtPreviousSection.Text = "No previous section available"; // Handle null or empty
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("No data found for Enrollment ID: " + EnrollmentId); // Log if no data is found
                             }
                         }
                     }
@@ -747,16 +667,17 @@ namespace Enrollment_System
             catch (Exception ex)
             {
                 MessageBox.Show("Error loading enrollment data: " + ex.Message,
-                              "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                  "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void SetComboBoxSelection(ComboBox comboBox, string value)
         {
             if (string.IsNullOrEmpty(value))
                 return;
 
-            // Try exact match first
+            
             int index = comboBox.FindStringExact(value);
             if (index >= 0)
             {
@@ -764,7 +685,6 @@ namespace Enrollment_System
                 return;
             }
 
-            // Try partial match (case insensitive)
             for (int i = 0; i < comboBox.Items.Count; i++)
             {
                 if (comboBox.Items[i].ToString().Equals(value, StringComparison.OrdinalIgnoreCase))
@@ -774,7 +694,6 @@ namespace Enrollment_System
                 }
             }
 
-            // If no match found, set text directly
             comboBox.Text = value;
         }
         public void SetText(string message)
@@ -822,19 +741,19 @@ namespace Enrollment_System
 
         private void TxtPreviewSection_Enter_1(object sender, EventArgs e)
         {
-            if (TxtPreviewSection.Text == "e.g. BSIT-22-A")
+            if (TxtPreviousSection.Text == "e.g. BSIT-22-A")
             {
-                TxtPreviewSection.Text = "";
-                TxtPreviewSection.ForeColor = Color.Black;
+                TxtPreviousSection.Text = "";
+                TxtPreviousSection.ForeColor = Color.Black;
             }
         }
 
         private void TxtPreviewSection_Leave_1(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(TxtPreviewSection.Text))
+            if (string.IsNullOrWhiteSpace(TxtPreviousSection.Text))
             {
-                TxtPreviewSection.Text = "e.g. BSIT-22-A";
-                TxtPreviewSection.ForeColor = Color.Gray;
+                TxtPreviousSection.Text = "e.g. BSIT-22-A";
+                TxtPreviousSection.ForeColor = Color.Gray;
             }
         }
 

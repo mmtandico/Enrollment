@@ -47,7 +47,7 @@
             this.TxtGradePdfPath = new System.Windows.Forms.TextBox();
             this.BtnBrowse = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.TxtPreviewSection = new System.Windows.Forms.TextBox();
+            this.TxtPreviousSection = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.TxtCourse = new System.Windows.Forms.TextBox();
@@ -301,23 +301,23 @@
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(672, 205);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(116, 19);
+            this.label6.Size = new System.Drawing.Size(113, 19);
             this.label6.TabIndex = 42;
-            this.label6.Text = "Previews Section";
+            this.label6.Text = "Previous Section";
             // 
-            // TxtPreviewSection
+            // TxtPreviousSection
             // 
-            this.TxtPreviewSection.BackColor = System.Drawing.Color.White;
-            this.TxtPreviewSection.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TxtPreviewSection.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtPreviewSection.ForeColor = System.Drawing.Color.Black;
-            this.TxtPreviewSection.Location = new System.Drawing.Point(676, 227);
-            this.TxtPreviewSection.Name = "TxtPreviewSection";
-            this.TxtPreviewSection.Size = new System.Drawing.Size(232, 33);
-            this.TxtPreviewSection.TabIndex = 41;
-            this.TxtPreviewSection.TextChanged += new System.EventHandler(this.TxtPreviewSection_TextChanged);
-            this.TxtPreviewSection.Enter += new System.EventHandler(this.TxtPreviewSection_Enter_1);
-            this.TxtPreviewSection.Leave += new System.EventHandler(this.TxtPreviewSection_Leave_1);
+            this.TxtPreviousSection.BackColor = System.Drawing.Color.White;
+            this.TxtPreviousSection.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtPreviousSection.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtPreviousSection.ForeColor = System.Drawing.Color.Black;
+            this.TxtPreviousSection.Location = new System.Drawing.Point(676, 227);
+            this.TxtPreviousSection.Name = "TxtPreviousSection";
+            this.TxtPreviousSection.Size = new System.Drawing.Size(232, 33);
+            this.TxtPreviousSection.TabIndex = 41;
+            this.TxtPreviousSection.TextChanged += new System.EventHandler(this.TxtPreviewSection_TextChanged);
+            this.TxtPreviousSection.Enter += new System.EventHandler(this.TxtPreviewSection_Enter_1);
+            this.TxtPreviousSection.Leave += new System.EventHandler(this.TxtPreviewSection_Leave_1);
             // 
             // label7
             // 
@@ -437,7 +437,7 @@
             this.Controls.Add(this.TxtCourse);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.TxtPreviewSection);
+            this.Controls.Add(this.TxtPreviousSection);
             this.Controls.Add(this.BtnBrowse);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.TxtGradePdfPath);
@@ -490,7 +490,7 @@
         private System.Windows.Forms.TextBox TxtGradePdfPath;
         private System.Windows.Forms.Button BtnBrowse;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox TxtPreviewSection;
+        private System.Windows.Forms.TextBox TxtPreviousSection;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox TxtCourse;
