@@ -195,14 +195,27 @@ namespace Enrollment_System
                 var from = new EmailAddress("enrollment.test101@gmail.com", "Enrollment System");
                 var to = new EmailAddress(email);
                 var subject = "Your OTP Code";
-                var msg = MailHelper.CreateSingleEmail(from, to, subject,
-                    $"Your OTP code is: {otp}\nThis OTP will expire in 5 minutes.",
-                    $"<strong>Your OTP code is: {otp}</strong>");
+                
+                string plainTextContent = $"Dear student,\n\n" +
+                                          $"Your OTP code for enrollment at PAMBAYANG DALUBHASAAN NG MARILAO is: *{otp}*\n" +
+                                          $"This OTP will expire in 5 minutes.\n\n" +
+                                          "Thank you for choosing us for your educational journey. If you have any questions, please reach out to our enrollment team.\n\n" +
+                                          "Best regards,\n" +
+                                          "Enrollment Team\nPAMBAYANG DALUBHASAAN NG MARILAO";
+
+                // HTML content with OTP highlighted using <strong> and inline styling
+                string htmlContent = $"<strong>Dear student,</strong><br><br>" +
+                                     $"Your OTP code for enrollment at <strong>PAMBAYANG DALUBHASAAN NG MARILAO</strong> is: " +
+                                     $"<span style='font-size:18px; color: #ff6600; font-weight: bold;'>{otp}</span><br>" + // Highlight OTP in orange color
+                                     $"This OTP will expire in 5 minutes.<br><br>" +
+                                     "Thank you for choosing us for your educational journey. If you have any questions, please reach out to our enrollment team.<br><br>" +
+                                     "<strong>Best regards,</strong><br>" +
+                                     "Enrollment Team<br>PAMBAYANG DALUBHASAAN NG MARILAO";
+
+                var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
 
                 var response = await client.SendEmailAsync(msg);
 
-                string responseBody = await response.Body.ReadAsStringAsync();
-               
                 return response.StatusCode == System.Net.HttpStatusCode.Accepted;
             }
             catch (Exception ex)
