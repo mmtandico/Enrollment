@@ -1,16 +1,22 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.IO;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using System.Threading.Tasks;
+using System.Configuration;
 
 namespace Enrollment_System
 {
     public partial class AdminEnrollment : Form
     {
         private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
+
+        private readonly string _sendGridApiKey = ConfigurationManager.AppSettings["SendGridApiKey"];
 
         private string currentProgramFilter = "All";
         private Button[] programButtons;
@@ -710,11 +716,10 @@ namespace Enrollment_System
             }
         }
 
-        private void BtnConfirm_Click(object sender, EventArgs e)
+        private async void BtnConfirm_Click(object sender, EventArgs e)
         {
             try
             {
-               
                 DataGridView currentGrid;
                 string enrollmentIdColumn, studentNoColumn, lastNameColumn, firstNameColumn,
                        middleNameColumn, courseCodeColumn, academicYearColumn,
@@ -723,11 +728,12 @@ namespace Enrollment_System
                 string successMessage;
                 string confirmationMessage;
                 string newStatus;
+                bool sendEmail = false;
 
                 if (tabControl1.SelectedTab == tabPayment)
                 {
                     currentGrid = DataGridPayment;
-                    
+
                     enrollmentIdColumn = "enrollment_id_payment";
                     studentNoColumn = "student_no_payment";
                     lastNameColumn = "last_name_payment";
@@ -747,7 +753,7 @@ namespace Enrollment_System
                 else if (tabControl1.SelectedTab == tabStudentEnrollment)
                 {
                     currentGrid = DataGridNewEnrollment;
-                    
+
                     enrollmentIdColumn = "enrollment_id";
                     studentNoColumn = "student_no";
                     lastNameColumn = "last_name";
@@ -763,6 +769,7 @@ namespace Enrollment_System
                     newStatus = "Enrolled";
                     confirmationMessage = "Are you sure you want to confirm this enrollment?";
                     successMessage = "Enrollment confirmed successfully!";
+                    sendEmail = true;
                 }
                 else
                 {
@@ -786,7 +793,12 @@ namespace Enrollment_System
                 int enrollmentId = Convert.ToInt32(selectedRow.Cells[enrollmentIdColumn].Value);
                 string studentName = $"{selectedRow.Cells[lastNameColumn].Value} {selectedRow.Cells[firstNameColumn].Value}";
 
-                
+                // Get these values here so you can pass them to the email method
+                string courseCode = selectedRow.Cells[courseCodeColumn].Value.ToString();
+                string yearLevel = selectedRow.Cells[yearLevelColumn].Value.ToString();
+                string semester = selectedRow.Cells[semesterColumn].Value.ToString();
+                string academicYear = selectedRow.Cells[academicYearColumn].Value.ToString();
+
                 DialogResult dialogResult = MessageBox.Show(
                     $"{confirmationMessage}\n\nStudent: {studentName}",
                     "Confirm Action",
@@ -813,6 +825,31 @@ namespace Enrollment_System
                                               MessageBoxButtons.OK,
                                               MessageBoxIcon.Information);
 
+                                if (sendEmail)
+                                {
+                                    string getEmailQuery = @"
+                                SELECT u.email, CONCAT(s.first_name, ' ', s.last_name) AS full_name
+                                FROM student_enrollments se
+                                JOIN students s ON se.student_id = s.student_id
+                                JOIN users u ON s.user_id = u.user_id
+                                WHERE se.enrollment_id = @enrollmentId";
+
+                                    using (MySqlCommand emailCmd = new MySqlCommand(getEmailQuery, conn))
+                                    {
+                                        emailCmd.Parameters.AddWithValue("@enrollmentId", enrollmentId);
+                                        using (MySqlDataReader reader = emailCmd.ExecuteReader())
+                                        {
+                                            if (reader.Read())
+                                            {
+                                                string email = reader.GetString("email");
+                                                string fullName = reader.GetString("full_name");
+
+                                                await SendEnrollmentConfirmationEmail(email, fullName, courseCode, yearLevel, semester, academicYear);
+                                            }
+                                        }
+                                    }
+                                }
+
                                 LoadStudentData();
                                 LoadPaymentData();
                                 ClearDetails();
@@ -836,6 +873,8 @@ namespace Enrollment_System
                               MessageBoxIcon.Error);
             }
         }
+
+
 
         private void ClearDetails()
         {
@@ -967,6 +1006,50 @@ namespace Enrollment_System
 
                 FetchStudentDetails(studentNo);
             }
+        }
+
+        private async Task SendEnrollmentConfirmationEmail(string email, string studentName, string courseCode, string yearLevel, string semester, string academicYear)
+        {
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+
+            var client = new SendGridClient(_sendGridApiKey);
+            var from = new EmailAddress("enrollment.test101@gmail.com", "Enrollment System");
+            var to = new EmailAddress(email, studentName);
+            var subject = "Enrollment Confirmation";
+
+            
+
+            var plainTextContent = $"Dear {studentName},\n\n" +
+                                   $"Congratulations! You are now officially enrolled in:\n" +
+                                   $"Course: {courseCode}\nYear Level: {yearLevel}\nSemester: {semester}\nAcademic Year: {academicYear}\n\n" +
+                                   $"Thank you!";
+
+            var htmlContent = $@"
+            <div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border-radius: 10px; background-color: #f9f9f9;'>
+                <div style='text-align: center;'>
+                    <h2 style='color: #0056b3;'>Enrollment Confirmation</h2>
+                    <img src='https://imgur.com/gallery/listenup-cannons-fire-you-KRMEh1z.png' alt='Enrollment Banner' style='max-width: 100%; height: auto; margin-bottom: 20px;' />
+                </div>
+
+                <p style='font-size: 16px;'>Dear <strong>{studentName}</strong>,</p>
+                <p style='font-size: 16px;'>We are pleased to inform you that your enrollment has been <strong>successfully confirmed</strong>.</p>
+
+                <div style='background-color: #ffffff; padding: 15px; border: 1px solid #ddd; border-radius: 5px; margin: 20px 0;'>
+                    <p style='font-size: 16px;'><strong>Course:</strong> {courseCode}</p>
+                    <p style='font-size: 16px;'><strong>Year Level:</strong> {yearLevel}</p>
+                    <p style='font-size: 16px;'><strong>Semester:</strong> {semester}</p>
+                    <p style='font-size: 16px;'><strong>Academic Year:</strong> {academicYear}</p>
+                </div>
+
+                <p style='font-size: 16px;'>If you have any questions or need further assistance, feel free to contact us at 
+                    <a href='mailto:enrollment.test101@gmail.com' style='color: #0056b3;'>enrollment.test101@gmail.com</a>.
+                </p>
+
+                <p style='font-size: 14px; color: #888;'>© Enrollment System 2025</p>
+            </div>";
+
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            await client.SendEmailAsync(msg);
         }
 
     }
