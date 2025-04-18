@@ -8,6 +8,8 @@ using System.IO;
 using PdfSharp.Pdf;
 using PdfSharp.Drawing;
 using PdfSharp;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace Enrollment_System
 {
@@ -496,44 +498,37 @@ namespace Enrollment_System
         {
             try
             {
-               
+                
                 PdfDocument pdfDoc = new PdfDocument();
-
-               
                 string savePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", "Enrollment_Report_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf");
 
-                
                 PdfPage page = pdfDoc.AddPage();
-                page.Orientation = PageOrientation.Landscape;  
+                page.Orientation = PageOrientation.Landscape;
                 XGraphics gfx = XGraphics.FromPdfPage(page);
 
-               
+                
                 XFont largeFont = new XFont("Verdana", 16, XFontStyle.Bold);
                 XFont font = new XFont("Verdana", 8, XFontStyle.Regular);
                 XFont boldFont = new XFont("Verdana", 9, XFontStyle.Bold);
                 XFont headerFont = new XFont("Verdana", 12, XFontStyle.BoldItalic);
 
-                
                 double marginLeft = 20;
-                double marginTop = 40; 
+                double marginTop = 40;
                 double pageWidth = page.Width;
                 double pageHeight = page.Height;
 
                 
                 gfx.DrawString("PAMBAYANG DALUBHASAAN NG MARILAO", largeFont, XBrushes.Black, marginLeft, marginTop);
-                double yPos = marginTop + 40; 
-
-                
+                double yPos = marginTop + 40;
                 gfx.DrawString("Enrollment Report", headerFont, XBrushes.Black, marginLeft, yPos);
                 gfx.DrawString("Generated on: " + DateTime.Now.ToString("MMMM dd, yyyy HH:mm:ss"), font, XBrushes.Black, marginLeft, yPos + 25);
 
-                yPos += 60; 
+                yPos += 60;
 
                 if (DataGridEnrolled.SelectedRows.Count > 0)
                 {
                     
                     DataGridViewRow selectedRow = DataGridEnrolled.SelectedRows[0];
-
                     string studentNo = selectedRow.Cells["student_no"].Value.ToString();
                     string lastName = selectedRow.Cells["last_name"].Value.ToString();
                     string firstName = selectedRow.Cells["first_name"].Value.ToString();
@@ -543,7 +538,7 @@ namespace Enrollment_System
                     string semester = selectedRow.Cells["semester"].Value.ToString();
                     string status = selectedRow.Cells["status"].Value.ToString();
 
-                   
+                    
                     gfx.DrawString("Selected Student: " + firstName + " " + middleName + " " + lastName, boldFont, XBrushes.Black, marginLeft, yPos);
                     yPos += 20;
                     gfx.DrawString("Student No: " + studentNo, font, XBrushes.Black, marginLeft, yPos);
@@ -555,80 +550,136 @@ namespace Enrollment_System
                     gfx.DrawString("Semester: " + semester, font, XBrushes.Black, marginLeft, yPos);
                     yPos += 20;
                     gfx.DrawString("Status: " + status, font, XBrushes.Black, marginLeft, yPos);
-                    yPos += 30; 
-                }
+                    yPos += 30;
 
-                
-                gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos);
-                yPos += 10; 
+                    gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos);
+                    yPos += 10;
 
-                
-                gfx.DrawString("Enrollment List", boldFont, XBrushes.Black, marginLeft, yPos);
-                yPos += 30;
+                    
+                    List<Subject> subjects = GetSubjectsForStudent(program, semester, yearLevel);
 
-                
-                double[] columnWidths = new double[DataGridEnrolled.Columns.Count];
-                double totalWidth = pageWidth - 2 * marginLeft;
-                double equalWidth = totalWidth / DataGridEnrolled.Columns.Count;
-
-               
-                columnWidths[DataGridEnrolled.Columns["student_no"].Index] = 120;
-
-                
-                for (int i = 0; i < DataGridEnrolled.Columns.Count; i++)
-                {
-                    if (i != DataGridEnrolled.Columns["student_no"].Index) 
-                    {
-                        columnWidths[i] = equalWidth; 
-                    }
-                }
-
-                double xPos = marginLeft;
-                foreach (DataGridViewColumn column in DataGridEnrolled.Columns)
-                {
                    
-                    if (column.ValueType == typeof(System.Drawing.Bitmap))
-                        continue;
+                    double[] columnWidths = new double[7]; 
+                    double totalWidth = pageWidth - 2 * marginLeft;
+                    double columnWidth = totalWidth / 7; 
 
-                    gfx.DrawString(column.HeaderText, boldFont, XBrushes.Black, xPos, yPos);
-                    xPos += columnWidths[DataGridEnrolled.Columns.IndexOf(column)];
-                }
-                yPos += 15; 
+                    columnWidths[0] = 50; // ID
+                    columnWidths[1] = 80; // Subject Code
+                    columnWidths[2] = 300; // Subject Name
+                    columnWidths[3] = 50; // Units
+                    columnWidths[4] = 80; // Course Code
+                    columnWidths[5] = 80; // Semester
+                    columnWidths[6] = 80; // Year Level
 
+                    yPos += 10;
+                    double xPos = marginLeft;
 
-                foreach (DataGridViewRow row in DataGridEnrolled.Rows)
-                {
-                    if (!row.IsNewRow) 
+                    string[] headers = { "ID", "Subject Code", "Subject Name", "Units", "Course Code", "Semester", "Year Level" };
+                    for (int i = 0; i < headers.Length; i++)
+                    {
+                        gfx.DrawString(headers[i], boldFont, XBrushes.Black, xPos, yPos);
+                        xPos += columnWidths[i];
+                    }
+                    yPos += 20; 
+
+                    
+                    foreach (var subject in subjects)
                     {
                         xPos = marginLeft;
-                        foreach (DataGridViewCell cell in row.Cells)
-                        {
-                            
-                            if (cell.Value is System.Drawing.Bitmap)
-                                continue;
+                        gfx.DrawString(subject.SubjectID.ToString(), font, XBrushes.Black, xPos, yPos);
+                        xPos += columnWidths[0];
 
-                            gfx.DrawString(cell.Value?.ToString() ?? "", font, XBrushes.Black, xPos, yPos);
-                            xPos += columnWidths[DataGridEnrolled.Columns.IndexOf(cell.OwningColumn)];
-                        }
+                        gfx.DrawString(subject.SubjectCode, font, XBrushes.Black, xPos, yPos);
+                        xPos += columnWidths[1];
+
+                        gfx.DrawString(subject.SubjectName, font, XBrushes.Black, xPos, yPos);
+                        xPos += columnWidths[2];
+
+                        gfx.DrawString(subject.Units.ToString(), font, XBrushes.Black, xPos, yPos);
+                        xPos += columnWidths[3];
+
+                        gfx.DrawString(subject.CourseCode, font, XBrushes.Black, xPos, yPos);
+                        xPos += columnWidths[4];
+
+                        gfx.DrawString(subject.Semester, font, XBrushes.Black, xPos, yPos);
+                        xPos += columnWidths[5];
+
+                        gfx.DrawString(subject.YearLevel, font, XBrushes.Black, xPos, yPos);
                         yPos += 15; 
                     }
+
+                    gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos);
+                    yPos += 10;
                 }
 
-               
-                gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos);
-                yPos += 10;
-
-              
-                pdfDoc.Save(savePath);
-
                 
+                pdfDoc.Save(savePath);
                 MessageBox.Show("PDF report generated successfully and saved to: " + savePath, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                
                 MessageBox.Show("Error generating PDF: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private List<Subject> GetSubjectsForStudent(string courseCode, string semester, string yearLevel)
+        {
+            List<Subject> subjects = new List<Subject>();
+
+            
+            using (MySqlConnection conn = new MySqlConnection("server=localhost;database=PDM_Enrollment_DB;user=root;password=;"))
+            {
+                conn.Open();
+
+                
+                string query = @"
+            SELECT s.subject_id, s.subject_code, s.subject_name, s.units, 
+                   c.course_code, cs.semester, cs.year_level
+            FROM course_subjects cs
+            JOIN subjects s ON cs.subject_id = s.subject_id
+            JOIN courses c ON cs.course_id = c.course_id
+            WHERE c.course_code = @courseCode
+              AND cs.semester = @semester
+              AND cs.year_level = @yearLevel";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@courseCode", courseCode);
+                    cmd.Parameters.AddWithValue("@semester", semester);
+                    cmd.Parameters.AddWithValue("@yearLevel", yearLevel);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            subjects.Add(new Subject
+                            {
+                                SubjectID = reader.GetInt32(0),
+                                SubjectCode = reader.GetString(1),
+                                SubjectName = reader.GetString(2),
+                                Units = reader.GetInt32(3),
+                                CourseCode = reader.GetString(4), 
+                                Semester = reader.GetString(5),
+                                YearLevel = reader.GetString(6)
+                            });
+                        }
+                    }
+                }
+            }
+
+            return subjects;
+        }
+
+       
+        public class Subject
+        {
+            public int SubjectID { get; set; }
+            public string SubjectCode { get; set; }
+            public string SubjectName { get; set; }
+            public int Units { get; set; }
+            public string CourseCode { get; set; }
+            public string Semester { get; set; }
+            public string YearLevel { get; set; }
         }
     }
 }
