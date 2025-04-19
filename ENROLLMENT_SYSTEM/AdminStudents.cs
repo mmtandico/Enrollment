@@ -506,20 +506,40 @@ namespace Enrollment_System
                 page.Orientation = PageOrientation.Landscape;
                 XGraphics gfx = XGraphics.FromPdfPage(page);
 
-                
+              
                 XFont largeFont = new XFont("Verdana", 16, XFontStyle.Bold);
                 XFont font = new XFont("Verdana", 8, XFontStyle.Regular);
                 XFont boldFont = new XFont("Verdana", 9, XFontStyle.Bold);
                 XFont headerFont = new XFont("Verdana", 12, XFontStyle.BoldItalic);
 
                 double marginLeft = 20;
-                double marginTop = 40;
+                double marginTop = 20;
                 double pageWidth = page.Width;
                 double pageHeight = page.Height;
 
                 
-                gfx.DrawString("PAMBAYANG DALUBHASAAN NG MARILAO", largeFont, XBrushes.Black, marginLeft, marginTop);
-                double yPos = marginTop + 40;
+                double yPos = marginTop + 100; 
+
+               
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    Properties.Resources.BANNERPDM.Save(ms, System.Drawing.Imaging.ImageFormat.Png); 
+                    ms.Position = 0; 
+                    var bannerImage = XImage.FromStream(ms); 
+                    
+                    gfx.DrawImage(bannerImage, marginLeft, marginTop, pageWidth - 2 * marginLeft, 100); 
+                    yPos = marginTop + 120; 
+                }
+
+                
+                string title = "CERTIFICATE OF REGISTRATION";
+                double titleWidth = gfx.MeasureString(title, largeFont).Width;
+                double titleXPos = (pageWidth - titleWidth) / 2;
+
+                gfx.DrawString(title, largeFont, XBrushes.Black, titleXPos, yPos); 
+                yPos += 40; 
+
+               
                 gfx.DrawString("Enrollment Report", headerFont, XBrushes.Black, marginLeft, yPos);
                 gfx.DrawString("Generated on: " + DateTime.Now.ToString("MMMM dd, yyyy HH:mm:ss"), font, XBrushes.Black, marginLeft, yPos + 25);
 
@@ -527,7 +547,7 @@ namespace Enrollment_System
 
                 if (DataGridEnrolled.SelectedRows.Count > 0)
                 {
-                    
+                   
                     DataGridViewRow selectedRow = DataGridEnrolled.SelectedRows[0];
                     string studentNo = selectedRow.Cells["student_no"].Value.ToString();
                     string lastName = selectedRow.Cells["last_name"].Value.ToString();
@@ -552,16 +572,16 @@ namespace Enrollment_System
                     gfx.DrawString("Status: " + status, font, XBrushes.Black, marginLeft, yPos);
                     yPos += 30;
 
-                    gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos);
-                    yPos += 10;
+                    gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos); 
+                    yPos += 10; 
 
-                    
+                  
                     List<Subject> subjects = GetSubjectsForStudent(program, semester, yearLevel);
 
                    
                     double[] columnWidths = new double[7]; 
                     double totalWidth = pageWidth - 2 * marginLeft;
-                    double columnWidth = totalWidth / 7; 
+                    double columnWidth = totalWidth / 7;
 
                     columnWidths[0] = 50; // ID
                     columnWidths[1] = 80; // Subject Code
@@ -571,9 +591,8 @@ namespace Enrollment_System
                     columnWidths[5] = 80; // Semester
                     columnWidths[6] = 80; // Year Level
 
-                    yPos += 10;
+                   
                     double xPos = marginLeft;
-
                     string[] headers = { "ID", "Subject Code", "Subject Name", "Units", "Course Code", "Semester", "Year Level" };
                     for (int i = 0; i < headers.Length; i++)
                     {
@@ -608,8 +627,8 @@ namespace Enrollment_System
                         yPos += 15; 
                     }
 
-                    gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos);
-                    yPos += 10;
+                    gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos); 
+                    yPos += 10; 
                 }
 
                 
@@ -680,6 +699,7 @@ namespace Enrollment_System
             public string CourseCode { get; set; }
             public string Semester { get; set; }
             public string YearLevel { get; set; }
+            public string bannerImage { get; set; }
         }
     }
 }

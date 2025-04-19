@@ -263,6 +263,16 @@ namespace Enrollment_System.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BANNERPDM {
+            get {
+                object obj = ResourceManager.GetObject("BANNERPDM", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BGCOLOR1 {
             get {
                 object obj = ResourceManager.GetObject("BGCOLOR1", resourceCulture);
