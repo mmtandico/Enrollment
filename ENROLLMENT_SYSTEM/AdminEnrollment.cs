@@ -73,6 +73,7 @@ namespace Enrollment_System
             semester.DataPropertyName = "semester";
             year_level.DataPropertyName = "year_level";
             status.DataPropertyName = "status";
+            grade_pdf_path.DataPropertyName = "grade_pdf_path";
 
             DataGridPayment.AutoGenerateColumns = false;
             enrollment_id_payment.DataPropertyName = "enrollment_id";
@@ -289,7 +290,6 @@ namespace Enrollment_System
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-
                     string query = @"
                         SELECT 
                             se.enrollment_id,
@@ -301,7 +301,9 @@ namespace Enrollment_System
                             se.academic_year,
                             se.semester,
                             se.year_level,
-                            se.status
+                            se.status,
+                            se.grade_pdf_path,
+                            se.grade_pdf
                         FROM student_enrollments se
                         INNER JOIN students s ON se.student_id = s.student_id
                         INNER JOIN courses c ON se.course_id = c.course_id
@@ -312,11 +314,15 @@ namespace Enrollment_System
                         using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
                         {
                             DataGridNewEnrollment.AutoGenerateColumns = false;
-
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
-
                             DataGridNewEnrollment.DataSource = dt;
+
+                            // Ensure column stays hidden if it exists
+                            if (DataGridNewEnrollment.Columns.Contains("grade_pdf_path"))
+                            {
+                                DataGridNewEnrollment.Columns["grade_pdf_path"].Visible = false;
+                            }
                         }
                     }
                 }
@@ -641,15 +647,134 @@ namespace Enrollment_System
             };
         }
 
-        private void DataGridNewEnrollment_CellClick(object sender, DataGridViewCellEventArgs e)
+      
+
+
+        private void DeleteNewEnrollment(DataGridViewRow row)
         {
-            if (e.RowIndex >= 0)
+            int enrollmentId = Convert.ToInt32(row.Cells["enrollment_id"].Value);
+            string studentName = $"{row.Cells["last_name"].Value}, {row.Cells["first_name"].Value}";
+
+            DialogResult result = MessageBox.Show(
+                $"Are you sure you want to delete this enrollment?\n\nStudent: {studentName}",
+                "Confirm Deletion",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
             {
-                DataGridViewRow row = DataGridNewEnrollment.Rows[e.RowIndex];
+                try
+                {
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        conn.Open();
+                        string query = "DELETE FROM student_enrollments WHERE enrollment_id = @enrollmentId";
 
-                string studentNo = row.Cells["student_no"].Value.ToString();
+                        using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@enrollmentId", enrollmentId);
+                            int rowsAffected = cmd.ExecuteNonQuery();
 
-                FetchStudentDetails(studentNo);
+                            if (rowsAffected > 0)
+                            {
+                                MessageBox.Show("Enrollment deleted successfully!", "Success",
+                                              MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                LoadStudentData();
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error deleting enrollment: {ex.Message}",
+                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void ViewPdfFromBinary(byte[] pdfData, int enrollmentId)
+        {
+            try
+            {
+                string tempPath = Path.Combine(Path.GetTempPath(), $"grade_{enrollmentId}.pdf");
+                File.WriteAllBytes(tempPath, pdfData);
+                System.Diagnostics.Process.Start(tempPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error opening PDF: {ex.Message}");
+            }
+        }
+
+        private void ViewPdfFromPath(string filePath)
+        {
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    System.Diagnostics.Process.Start(filePath);
+                }
+                else
+                {
+                    MessageBox.Show("PDF file not found at the specified path.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error opening PDF: {ex.Message}");
+            }
+        }
+
+        private void ViewPdfFromDatabase(int enrollmentId)
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = @"SELECT grade_pdf, grade_pdf_path 
+                            FROM student_enrollments 
+                            WHERE enrollment_id = @enrollmentId";
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@enrollmentId", enrollmentId);
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                // Try binary data first
+                                if (reader["grade_pdf"] != DBNull.Value)
+                                {
+                                    byte[] fileData = (byte[])reader["grade_pdf"];
+                                    string tempPath = Path.Combine(Path.GetTempPath(), $"grade_{enrollmentId}.pdf");
+                                    File.WriteAllBytes(tempPath, fileData);
+                                    System.Diagnostics.Process.Start(tempPath);
+                                }
+                                // Fall back to file path
+                                else if (reader["grade_pdf_path"] != DBNull.Value)
+                                {
+                                    string filePath = reader["grade_pdf_path"].ToString();
+                                    if (File.Exists(filePath))
+                                    {
+                                        System.Diagnostics.Process.Start(filePath);
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("PDF file not found at specified path.");
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("No PDF available for this enrollment.");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error opening PDF: {ex.Message}");
             }
         }
 
@@ -1077,6 +1202,52 @@ namespace Enrollment_System
                     DataGridPayment.Rows.RemoveAt(e.RowIndex);
                 }
             }
+        }
+
+        private void DataGridNewEnrollment_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
+            DataGridViewRow row = DataGridNewEnrollment.Rows[e.RowIndex];
+            string columnName = DataGridNewEnrollment.Columns[e.ColumnIndex].Name;
+
+            if (columnName == "colOpen1") // PDF View button
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                try
+                {
+                    int enrollmentId = Convert.ToInt32(row.Cells["enrollment_id"].Value);
+                    ViewPdfFromDatabase(enrollmentId);
+                }
+                finally
+                {
+                    Cursor.Current = Cursors.Default;
+                }
+            }
+            else if (columnName == "colClose1") // Delete button
+            {
+                DeleteNewEnrollment(row);
+            }
+            else // Any other cell click
+            {
+                string studentNo = row.Cells["student_no"].Value.ToString();
+                FetchStudentDetails(studentNo);
+            }
+        }
+
+        private void BtnDrop_Click(object sender, EventArgs e)
+        {
+            if (DataGridNewEnrollment.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select an enrollment to drop.",
+                              "No Selection",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataGridViewRow selectedRow = DataGridNewEnrollment.SelectedRows[0];
+            DeleteNewEnrollment(selectedRow);
         }
     }
 }
