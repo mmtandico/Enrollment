@@ -38,9 +38,9 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.DataGridUsers = new System.Windows.Forms.DataGridView();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.TxtPassword = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -56,19 +56,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.TxtFirstName = new System.Windows.Forms.TextBox();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.subject_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.year_level = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.units = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.courseCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.semester = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colOpen1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colClose1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.DataGridUsers = new System.Windows.Forms.DataGridView();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.DataGridAdmins = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -76,96 +68,38 @@
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.TxtPassword = new System.Windows.Forms.TextBox();
-            this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DataGridUsers)).BeginInit();
+            this.ColOpen = new System.Windows.Forms.DataGridViewImageColumn();
+            this.ColClose = new System.Windows.Forms.DataGridViewImageColumn();
+            this.subject_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.year_level = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.units = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.courseCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.semester = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColOpen2 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.ColClose2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.tabPage3.SuspendLayout();
-            this.tabControl1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridUsers)).BeginInit();
+            this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridAdmins)).BeginInit();
             this.SuspendLayout();
             // 
-            // tabPage2
+            // label3
             // 
-            this.tabPage2.Controls.Add(this.DataGridUsers);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1439, 508);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "ONLINE USERS";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // DataGridUsers
-            // 
-            this.DataGridUsers.AllowUserToAddRows = false;
-            this.DataGridUsers.AllowUserToResizeColumns = false;
-            this.DataGridUsers.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
-            this.DataGridUsers.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.DataGridUsers.BackgroundColor = System.Drawing.Color.White;
-            this.DataGridUsers.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.DataGridUsers.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.DataGridUsers.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DataGridUsers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.DataGridUsers.ColumnHeadersHeight = 40;
-            this.DataGridUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.DataGridUsers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.subject_id,
-            this.subject_code,
-            this.year_level,
-            this.subject_name,
-            this.units,
-            this.courseCode,
-            this.semester,
-            this.colOpen1,
-            this.colClose1});
-            this.DataGridUsers.Cursor = System.Windows.Forms.Cursors.Default;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridUsers.DefaultCellStyle = dataGridViewCellStyle3;
-            this.DataGridUsers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DataGridUsers.GridColor = System.Drawing.SystemColors.Control;
-            this.DataGridUsers.Location = new System.Drawing.Point(3, 3);
-            this.DataGridUsers.Name = "DataGridUsers";
-            this.DataGridUsers.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridUsers.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.DataGridUsers.RowHeadersVisible = false;
-            this.DataGridUsers.RowHeadersWidth = 50;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Gray;
-            this.DataGridUsers.RowsDefaultCellStyle = dataGridViewCellStyle5;
-            this.DataGridUsers.RowTemplate.Height = 30;
-            this.DataGridUsers.RowTemplate.ReadOnly = true;
-            this.DataGridUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DataGridUsers.Size = new System.Drawing.Size(1433, 502);
-            this.DataGridUsers.TabIndex = 3;
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.Black;
+            this.label3.Location = new System.Drawing.Point(78, 22);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(131, 58);
+            this.label3.TabIndex = 63;
+            this.label3.Text = "Users";
             // 
             // panel3
             // 
@@ -192,6 +126,17 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1550, 234);
             this.panel3.TabIndex = 61;
+            // 
+            // TxtPassword
+            // 
+            this.TxtPassword.BackColor = System.Drawing.Color.White;
+            this.TxtPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtPassword.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtPassword.ForeColor = System.Drawing.Color.Black;
+            this.TxtPassword.Location = new System.Drawing.Point(319, 155);
+            this.TxtPassword.Name = "TxtPassword";
+            this.TxtPassword.Size = new System.Drawing.Size(567, 33);
+            this.TxtPassword.TabIndex = 51;
             // 
             // comboBox1
             // 
@@ -380,39 +325,6 @@
             this.TxtFirstName.Size = new System.Drawing.Size(293, 33);
             this.TxtFirstName.TabIndex = 37;
             // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.DataGridAdmins);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1439, 508);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "ADMINS";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Location = new System.Drawing.Point(47, 26);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1447, 534);
-            this.tabControl1.TabIndex = 0;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(78, 22);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(131, 58);
-            this.label3.TabIndex = 63;
-            this.label3.Text = "Users";
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Transparent;
@@ -424,86 +336,104 @@
             this.panel1.Size = new System.Drawing.Size(1550, 588);
             this.panel1.TabIndex = 62;
             // 
-            // subject_id
+            // tabControl1
             // 
-            this.subject_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.subject_id.FillWeight = 10F;
-            this.subject_id.Frozen = true;
-            this.subject_id.HeaderText = "ID";
-            this.subject_id.Name = "subject_id";
-            this.subject_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.subject_id.Width = 53;
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(47, 26);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1447, 534);
+            this.tabControl1.TabIndex = 0;
             // 
-            // subject_code
+            // tabPage2
             // 
-            this.subject_code.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.subject_code.FillWeight = 200F;
-            this.subject_code.Frozen = true;
-            this.subject_code.HeaderText = "Email";
-            this.subject_code.Name = "subject_code";
-            this.subject_code.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.subject_code.Width = 83;
+            this.tabPage2.Controls.Add(this.DataGridUsers);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1439, 508);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "ONLINE USERS";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // year_level
+            // DataGridUsers
             // 
-            this.year_level.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.year_level.HeaderText = "Password";
-            this.year_level.Name = "year_level";
-            this.year_level.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.year_level.Width = 117;
+            this.DataGridUsers.AllowUserToAddRows = false;
+            this.DataGridUsers.AllowUserToResizeColumns = false;
+            this.DataGridUsers.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
+            this.DataGridUsers.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.DataGridUsers.BackgroundColor = System.Drawing.Color.White;
+            this.DataGridUsers.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.DataGridUsers.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            this.DataGridUsers.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataGridUsers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.DataGridUsers.ColumnHeadersHeight = 40;
+            this.DataGridUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.DataGridUsers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.subject_id,
+            this.subject_code,
+            this.year_level,
+            this.subject_name,
+            this.units,
+            this.courseCode,
+            this.semester,
+            this.ColOpen2,
+            this.ColClose2});
+            this.DataGridUsers.Cursor = System.Windows.Forms.Cursors.Default;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridUsers.DefaultCellStyle = dataGridViewCellStyle3;
+            this.DataGridUsers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DataGridUsers.GridColor = System.Drawing.SystemColors.Control;
+            this.DataGridUsers.Location = new System.Drawing.Point(3, 3);
+            this.DataGridUsers.Name = "DataGridUsers";
+            this.DataGridUsers.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridUsers.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.DataGridUsers.RowHeadersVisible = false;
+            this.DataGridUsers.RowHeadersWidth = 50;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Gray;
+            this.DataGridUsers.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            this.DataGridUsers.RowTemplate.Height = 30;
+            this.DataGridUsers.RowTemplate.ReadOnly = true;
+            this.DataGridUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DataGridUsers.Size = new System.Drawing.Size(1433, 502);
+            this.DataGridUsers.TabIndex = 3;
             // 
-            // subject_name
+            // tabPage3
             // 
-            this.subject_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.subject_name.FillWeight = 120F;
-            this.subject_name.HeaderText = "Role";
-            this.subject_name.Name = "subject_name";
-            this.subject_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.subject_name.Width = 74;
-            // 
-            // units
-            // 
-            this.units.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.units.FillWeight = 120F;
-            this.units.HeaderText = "Verified";
-            this.units.Name = "units";
-            this.units.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // courseCode
-            // 
-            this.courseCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.courseCode.HeaderText = "Create Date";
-            this.courseCode.Name = "courseCode";
-            this.courseCode.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.courseCode.Width = 134;
-            // 
-            // semester
-            // 
-            this.semester.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.semester.HeaderText = "Otp Code";
-            this.semester.Name = "semester";
-            this.semester.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.semester.Width = 111;
-            // 
-            // colOpen1
-            // 
-            this.colOpen1.HeaderText = "";
-            this.colOpen1.Image = global::Enrollment_System.Properties.Resources.docuICON;
-            this.colOpen1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.colOpen1.MinimumWidth = 2;
-            this.colOpen1.Name = "colOpen1";
-            this.colOpen1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colOpen1.Width = 40;
-            // 
-            // colClose1
-            // 
-            this.colClose1.HeaderText = "";
-            this.colClose1.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
-            this.colClose1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.colClose1.MinimumWidth = 2;
-            this.colClose1.Name = "colClose1";
-            this.colClose1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colClose1.Width = 40;
+            this.tabPage3.Controls.Add(this.DataGridAdmins);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(1439, 508);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "ADMINS";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // DataGridAdmins
             // 
@@ -535,8 +465,8 @@
             this.dataGridViewTextBoxColumn4,
             this.dataGridViewTextBoxColumn5,
             this.dataGridViewTextBoxColumn6,
-            this.dataGridViewImageColumn1,
-            this.dataGridViewImageColumn2});
+            this.ColOpen,
+            this.ColClose});
             this.DataGridAdmins.Cursor = System.Windows.Forms.Cursors.Default;
             dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle8.BackColor = System.Drawing.Color.White;
@@ -624,36 +554,106 @@
             this.dataGridViewTextBoxColumn6.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn6.Width = 134;
             // 
-            // dataGridViewImageColumn1
+            // ColOpen
             // 
-            this.dataGridViewImageColumn1.HeaderText = "";
-            this.dataGridViewImageColumn1.Image = global::Enrollment_System.Properties.Resources.docuICON;
-            this.dataGridViewImageColumn1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.dataGridViewImageColumn1.MinimumWidth = 2;
-            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
-            this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewImageColumn1.Width = 40;
+            this.ColOpen.HeaderText = "";
+            this.ColOpen.Image = global::Enrollment_System.Properties.Resources.docuICON;
+            this.ColOpen.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColOpen.MinimumWidth = 2;
+            this.ColOpen.Name = "ColOpen";
+            this.ColOpen.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColOpen.Width = 40;
             // 
-            // dataGridViewImageColumn2
+            // ColClose
             // 
-            this.dataGridViewImageColumn2.HeaderText = "";
-            this.dataGridViewImageColumn2.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
-            this.dataGridViewImageColumn2.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.dataGridViewImageColumn2.MinimumWidth = 2;
-            this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
-            this.dataGridViewImageColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewImageColumn2.Width = 40;
+            this.ColClose.HeaderText = "";
+            this.ColClose.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
+            this.ColClose.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColClose.MinimumWidth = 2;
+            this.ColClose.Name = "ColClose";
+            this.ColClose.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColClose.Width = 40;
             // 
-            // TxtPassword
+            // subject_id
             // 
-            this.TxtPassword.BackColor = System.Drawing.Color.White;
-            this.TxtPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TxtPassword.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtPassword.ForeColor = System.Drawing.Color.Black;
-            this.TxtPassword.Location = new System.Drawing.Point(319, 155);
-            this.TxtPassword.Name = "TxtPassword";
-            this.TxtPassword.Size = new System.Drawing.Size(567, 33);
-            this.TxtPassword.TabIndex = 51;
+            this.subject_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.subject_id.FillWeight = 10F;
+            this.subject_id.Frozen = true;
+            this.subject_id.HeaderText = "ID";
+            this.subject_id.Name = "subject_id";
+            this.subject_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.subject_id.Width = 53;
+            // 
+            // subject_code
+            // 
+            this.subject_code.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.subject_code.FillWeight = 200F;
+            this.subject_code.Frozen = true;
+            this.subject_code.HeaderText = "Email";
+            this.subject_code.Name = "subject_code";
+            this.subject_code.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.subject_code.Width = 83;
+            // 
+            // year_level
+            // 
+            this.year_level.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.year_level.HeaderText = "Password";
+            this.year_level.Name = "year_level";
+            this.year_level.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.year_level.Width = 117;
+            // 
+            // subject_name
+            // 
+            this.subject_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.subject_name.FillWeight = 120F;
+            this.subject_name.HeaderText = "Role";
+            this.subject_name.Name = "subject_name";
+            this.subject_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.subject_name.Width = 74;
+            // 
+            // units
+            // 
+            this.units.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.units.FillWeight = 120F;
+            this.units.HeaderText = "Verified";
+            this.units.Name = "units";
+            this.units.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // courseCode
+            // 
+            this.courseCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.courseCode.HeaderText = "Create Date";
+            this.courseCode.Name = "courseCode";
+            this.courseCode.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.courseCode.Width = 134;
+            // 
+            // semester
+            // 
+            this.semester.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.semester.HeaderText = "Otp Code";
+            this.semester.Name = "semester";
+            this.semester.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.semester.Width = 111;
+            // 
+            // ColOpen2
+            // 
+            this.ColOpen2.HeaderText = "";
+            this.ColOpen2.Image = global::Enrollment_System.Properties.Resources.docuICON;
+            this.ColOpen2.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColOpen2.MinimumWidth = 2;
+            this.ColOpen2.Name = "ColOpen2";
+            this.ColOpen2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColOpen2.Width = 40;
+            // 
+            // ColClose2
+            // 
+            this.ColClose2.HeaderText = "";
+            this.ColClose2.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
+            this.ColClose2.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColClose2.MinimumWidth = 2;
+            this.ColClose2.Name = "ColClose2";
+            this.ColClose2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColClose2.Width = 40;
             // 
             // AdminUser
             // 
@@ -668,14 +668,15 @@
             this.Name = "AdminUser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.DataGridUsers)).EndInit();
+            this.Load += new System.EventHandler(this.AdminUser_Load);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.tabPage3.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridUsers)).EndInit();
+            this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DataGridAdmins)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -686,15 +687,6 @@
 
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.DataGridView DataGridUsers;
-        private System.Windows.Forms.DataGridViewTextBoxColumn subject_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn subject_code;
-        private System.Windows.Forms.DataGridViewTextBoxColumn year_level;
-        private System.Windows.Forms.DataGridViewTextBoxColumn subject_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn units;
-        private System.Windows.Forms.DataGridViewTextBoxColumn courseCode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn semester;
-        private System.Windows.Forms.DataGridViewImageColumn colOpen1;
-        private System.Windows.Forms.DataGridViewImageColumn colClose1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ComboBox comboBox2;
@@ -713,17 +705,26 @@
         private System.Windows.Forms.TextBox TxtFirstName;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.DataGridView DataGridAdmins;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox TxtPassword;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
-        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox TxtPassword;
+        private System.Windows.Forms.DataGridViewImageColumn ColOpen;
+        private System.Windows.Forms.DataGridViewImageColumn ColClose;
+        private System.Windows.Forms.DataGridViewTextBoxColumn subject_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn subject_code;
+        private System.Windows.Forms.DataGridViewTextBoxColumn year_level;
+        private System.Windows.Forms.DataGridViewTextBoxColumn subject_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn units;
+        private System.Windows.Forms.DataGridViewTextBoxColumn courseCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn semester;
+        private System.Windows.Forms.DataGridViewImageColumn ColOpen2;
+        private System.Windows.Forms.DataGridViewImageColumn ColClose2;
     }
 }
