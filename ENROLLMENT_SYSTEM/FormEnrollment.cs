@@ -23,6 +23,7 @@ namespace Enrollment_System
         {
             InitializeComponent();
             this.DoubleBuffered = true;
+
             SetStyle(ControlStyles.OptimizedDoubleBuffer |
                      ControlStyles.AllPaintingInWmPaint |
                      ControlStyles.UserPaint, true);
@@ -601,6 +602,35 @@ namespace Enrollment_System
             {
                 column.Resizable = DataGridViewTriState.False;
             }
+
+            /////////////////////////
+            DataGridPayment.BorderStyle = BorderStyle.None;
+
+            DataGridPayment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
+
+            DataGridPayment.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
+            DataGridPayment.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
+
+            DataGridPayment.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
+            DataGridPayment.DefaultCellStyle.SelectionForeColor = Color.White;
+
+            DataGridPayment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33);
+            DataGridPayment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            DataGridPayment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            DataGridPayment.EnableHeadersVisualStyles = false;
+
+            DataGridPayment.GridColor = Color.BurlyWood;
+
+            DataGridPayment.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+
+            DataGridPayment.RowTemplate.Height = 35;
+
+            DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            foreach (DataGridViewColumn column in DataGridPayment.Columns)
+            {
+                column.Resizable = DataGridViewTriState.False;
+            }
         }
 
 
@@ -765,16 +795,34 @@ namespace Enrollment_System
 
         private void DataGridPayment_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
-            if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColPay")
+            // Check if the clicked cell is in the column containing the blue button
+            if (e.ColumnIndex == DataGridPayment.Columns["ColPay"].Index && e.RowIndex >= 0)
             {
-                new FormPayment().Show();
-               
-             }
-         }
+                // Open the FormPayment
+                FormPayment formPayment = new FormPayment();
+                formPayment.ShowDialog();
+            }// Check if the clicked cell is in the delete button column
+            else if (e.ColumnIndex == DataGridPayment.Columns["ColDelete"].Index && e.RowIndex >= 0)
+            {
+                // Confirm deletion with the user
+                DialogResult result = MessageBox.Show(
+                    "Are you sure you want to delete this row?",
+                    "Delete Confirmation",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                if (result == DialogResult.Yes)
+                {
+                    // Remove the row at the specified index
+                    DataGridPayment.Rows.RemoveAt(e.RowIndex);
+                }
+            }
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            new FormPayment().Show();
+            //new FormPayment().Show();
         }
 
         private int LoadSubjectsForEnrollment(int courseId, string yearLevel, string semester)

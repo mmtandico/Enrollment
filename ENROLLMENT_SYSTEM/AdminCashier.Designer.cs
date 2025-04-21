@@ -81,6 +81,7 @@
             this.ExitButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ExitButton.TabIndex = 1;
             this.ExitButton.TabStop = false;
+            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
             // panel10
             // 
@@ -355,6 +356,7 @@
             this.PicBoxID.Location = new System.Drawing.Point(14, 11);
             this.PicBoxID.Name = "PicBoxID";
             this.PicBoxID.Size = new System.Drawing.Size(347, 535);
+            this.PicBoxID.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PicBoxID.TabIndex = 31;
             this.PicBoxID.TabStop = false;
             // 
@@ -392,7 +394,6 @@
             this.Name = "AdminCashier";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " ";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).EndInit();
             this.panel10.ResumeLayout(false);

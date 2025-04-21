@@ -1052,5 +1052,31 @@ namespace Enrollment_System
             await client.SendEmailAsync(msg);
         }
 
+        private void DataGridPayment_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Check if the clicked cell is in the column containing the blue button
+            if (e.ColumnIndex == DataGridPayment.Columns["ColOpen3"].Index && e.RowIndex >= 0)
+            {
+                // Open the FormPayment
+                AdminCashier Cashier = new AdminCashier();
+                Cashier.ShowDialog();
+            }// Check if the clicked cell is in the delete button column
+            else if (e.ColumnIndex == DataGridPayment.Columns["ColClose3"].Index && e.RowIndex >= 0)
+            {
+                // Confirm deletion with the user
+                DialogResult result = MessageBox.Show(
+                    "Are you sure you want to delete this row?",
+                    "Delete Confirmation",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                if (result == DialogResult.Yes)
+                {
+                    // Remove the row at the specified index
+                    DataGridPayment.Rows.RemoveAt(e.RowIndex);
+                }
+            }
+        }
     }
 }
