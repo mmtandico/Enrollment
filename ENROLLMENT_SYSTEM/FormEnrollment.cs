@@ -14,6 +14,7 @@ namespace Enrollment_System
 {
     public partial class FormEnrollment : Form
     {
+        private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
         //private FormNewAcademiccs formNewAcademiccsInstance = null;
 
         private FormCourse mainForm;
@@ -150,12 +151,14 @@ namespace Enrollment_System
         private void FormEnrollment_Activated(object sender, EventArgs e)
         {
             LoadEnrollmentData();
+            LoadStudentPayments();
         }
 
 
         private void FormEnrollment_Load(object sender, EventArgs e)
         {
             LoadEnrollmentData();
+            LoadStudentPayments();
         }
 
 
@@ -225,7 +228,7 @@ namespace Enrollment_System
         {
             try
             {
-                using (MySqlConnection conn = new MySqlConnection("server=localhost;database=PDM_Enrollment_DB;user=root;password=;"))
+                using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
 
@@ -315,11 +318,10 @@ namespace Enrollment_System
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                
                 string columnName = DataGridEnrollment.Columns[e.ColumnIndex].Name;
                 if (columnName == "ColOpen" || columnName == "ColClose")
                 {
-                    return; 
+                    return;
                 }
 
                 var selectedRow = DataGridEnrollment.Rows[e.RowIndex];
@@ -331,19 +333,28 @@ namespace Enrollment_System
                 string courseCode = selectedRow.Cells[5].Value?.ToString() ?? "";
                 string academicYear = selectedRow.Cells[6].Value?.ToString() ?? "";
                 string semester = selectedRow.Cells[7].Value?.ToString() ?? "";
-                
                 string yearLevel = selectedRow.Cells[8].Value?.ToString() ?? "";
 
-                UpdateStudentInfoPanel(studentNo, $"{firstName} {middleName} {lastName}", courseCode, academicYear, semester, yearLevel);
-
                 int courseId = GetCourseId(courseCode);
+                int totalUnits = 0;
+
                 if (courseId > 0)
                 {
-                    LoadSubjectsForEnrollment(courseId, yearLevel, semester);
-
+                    totalUnits = LoadSubjectsForEnrollment(courseId, yearLevel, semester);
                 }
+
+                UpdateStudentInfoPanel(
+                    studentNo,
+                    $"{firstName} {middleName} {lastName}",
+                    courseCode,
+                    academicYear,
+                    semester,
+                    yearLevel,
+                    totalUnits
+                );
             }
         }
+
 
         private void DataGridEnrollment_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -435,7 +446,7 @@ namespace Enrollment_System
         {
             try
             {
-                using (MySqlConnection conn = new MySqlConnection("server=localhost;database=PDM_Enrollment_DB;user=root;password=;"))
+                using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
                     string query = "SELECT course_id FROM courses WHERE course_code = @CourseCode";
@@ -455,7 +466,7 @@ namespace Enrollment_System
             }
         }
 
-        private void UpdateStudentInfoPanel(string studentNo, string fullName, string courseCode, string academicYear, string semester, string yearLevel)
+        private void UpdateStudentInfoPanel(string studentNo, string fullName, string courseCode, string academicYear, string semester, string yearLevel, int totalUnits)
         {
             LblStudentNo.Text = studentNo;
             LblName.Text = fullName;
@@ -463,13 +474,15 @@ namespace Enrollment_System
             LblAcademicYear.Text = academicYear;
             LblSemester.Text = semester;
             LblYearLevel.Text = yearLevel;
+            LblTotalUnit.Text = totalUnits.ToString();
         }
+
 
         private bool DeleteEnrollment(string enrollmentId)
         {
             try
             {
-                using (MySqlConnection conn = new MySqlConnection("server=localhost;database=PDM_Enrollment_DB;user=root;password=;"))
+                using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
 
@@ -764,29 +777,31 @@ namespace Enrollment_System
             new FormPayment().Show();
         }
 
-        private void LoadSubjectsForEnrollment(int courseId, string yearLevel, string semester)
+        private int LoadSubjectsForEnrollment(int courseId, string yearLevel, string semester)
         {
+            int totalUnits = 0;
+
             try
             {
-                using (MySqlConnection conn = new MySqlConnection("server=localhost;database=PDM_Enrollment_DB;user=root;password=;"))
+                using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
 
                     string query = @"
-                        SELECT 
-                            cs.course_subject_id,
-                            s.subject_code,
-                            s.subject_name,
-                            s.units,
-                            c.course_code,
-                            cs.semester AS semester1,
-                            cs.year_level AS year_level1
-                        FROM course_subjects cs
-                        INNER JOIN subjects s ON cs.subject_id = s.subject_id
-                        INNER JOIN courses c ON cs.course_id = c.course_id
-                        WHERE cs.course_id = @CourseId 
-                        AND cs.year_level = @YearLevel
-                        AND cs.semester = @Semester";
+                SELECT 
+                    cs.course_subject_id,
+                    s.subject_code,
+                    s.subject_name,
+                    s.units,
+                    c.course_code,
+                    cs.semester AS semester1,
+                    cs.year_level AS year_level1
+                FROM course_subjects cs
+                INNER JOIN subjects s ON cs.subject_id = s.subject_id
+                INNER JOIN courses c ON cs.course_id = c.course_id
+                WHERE cs.course_id = @CourseId 
+                AND cs.year_level = @YearLevel
+                AND cs.semester = @Semester";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
@@ -810,19 +825,6 @@ namespace Enrollment_System
                         DataGridSubjects.Columns.Add("semester1", "Semester");
                         DataGridSubjects.Columns.Add("year_level1", "Year Level");
 
-                        DataGridSubjects.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                        DataGridSubjects.Columns[0].Width = 50;
-                        DataGridSubjects.Columns[1].Width = 200;
-                        DataGridSubjects.Columns[2].Width = 800;
-                        DataGridSubjects.Columns[3].Width = 100;
-                        DataGridSubjects.Columns[4].Width = 100;
-                        DataGridSubjects.RowTemplate.Height = 35;
-                        DataGridSubjects.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                        DataGridSubjects.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                        DataGridSubjects.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                        DataGridSubjects.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                        DataGridSubjects.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
                         foreach (DataRow row in dt.Rows)
                         {
                             DataGridSubjects.Rows.Add(
@@ -834,6 +836,12 @@ namespace Enrollment_System
                                 row["semester1"],
                                 row["year_level1"]
                             );
+
+                            int units;
+                            if (int.TryParse(row["units"].ToString(), out units))
+                            {
+                                totalUnits += units;
+                            }
                         }
 
                         StyleDataGridSubjects();
@@ -844,11 +852,82 @@ namespace Enrollment_System
             {
                 MessageBox.Show("Error loading subjects: " + ex.Message);
             }
+
+            return totalUnits;
         }
+
+
 
         private void DataGridSubjects_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             
         }
+
+        private void LoadStudentPayments()
+        {
+            string query = @"
+                SELECT 
+                    p.payment_id,
+                    p.payment_date,
+                    p.total_units,
+                    p.total_amount_due,
+                    p.amount_paid,
+                    p.is_unifast,
+                    p.payment_method,
+                    p.receipt_no,
+                    pb_tuition.amount AS Tuition,
+                    pb_misc.amount AS Miscellaneous,
+                    se.status AS enrollment_status
+                FROM payments p
+                INNER JOIN student_enrollments se ON p.enrollment_id = se.enrollment_id
+                LEFT JOIN payment_breakdowns pb_tuition 
+                    ON pb_tuition.payment_id = p.payment_id AND pb_tuition.fee_type = 'Tuition'
+                LEFT JOIN payment_breakdowns pb_misc 
+                    ON pb_misc.payment_id = p.payment_id AND pb_misc.fee_type = 'Miscellaneous'
+                WHERE se.student_id = @studentId
+                ORDER BY p.payment_date DESC";
+
+
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@studentId", SessionManager.UserId);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            DataGridPayment.Rows.Clear();
+
+                            while (reader.Read())
+                            {
+                                DataGridPayment.Rows.Add(
+                                    reader["payment_id"].ToString(),
+                                    Convert.ToDateTime(reader["payment_date"]).ToString("yyyy-MM-dd"),
+                                    reader["total_units"].ToString(),
+                                    reader["total_amount_due"].ToString(),
+                                    reader["amount_paid"].ToString(),
+                                    reader["is_unifast"].ToString(),
+                                    reader["payment_method"].ToString(),
+                                    reader["receipt_no"].ToString(),
+                                    reader["Tuition"] != DBNull.Value ? reader["Tuition"].ToString() : "0.00",
+                                    reader["Miscellaneous"] != DBNull.Value ? reader["Miscellaneous"].ToString() : "0.00",
+                                    reader["enrollment_status"].ToString()
+                                );
+                            }
+                        }
+                    }
+
+                   
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error loading payment data: " + ex.Message);
+                }
+            }
+        }
+
     }
 }
