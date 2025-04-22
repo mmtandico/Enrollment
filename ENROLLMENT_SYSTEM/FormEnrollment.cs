@@ -22,6 +22,9 @@ namespace Enrollment_System
         public FormEnrollment()
         {
             InitializeComponent();
+            
+
+
             this.DoubleBuffered = true;
 
             SetStyle(ControlStyles.OptimizedDoubleBuffer |
@@ -34,6 +37,7 @@ namespace Enrollment_System
             //DataGridEnrollment.CellContentClick += DataGridEnrollment_CellContentClick;
             DataGridEnrollment.CellMouseEnter += DataGridEnrollment_CellMouseEnter;
             DataGridEnrollment.CellMouseLeave += DataGridEnrollment_CellMouseLeave;
+
 
 
             if (!string.IsNullOrEmpty(SessionManager.LastName) && !string.IsNullOrEmpty(SessionManager.FirstName))
@@ -124,6 +128,32 @@ namespace Enrollment_System
             }
         }
 
+        private void DataGridPayment_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (DataGridPayment.Columns[e.ColumnIndex].Name == "ColPay" ||
+                DataGridPayment.Columns[e.ColumnIndex].Name == "ColDelete")
+            {
+                // Set to null to use the column's default image
+                e.Value = null;
+            }
+        }
+
+        private void DataGridPayment_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            if ((e.Exception is FormatException || e.Exception is InvalidCastException) &&
+                (DataGridPayment.Columns[e.ColumnIndex].Name == "ColPay" ||
+                 DataGridPayment.Columns[e.ColumnIndex].Name == "ColDelete" ||
+                 DataGridPayment.Columns[e.ColumnIndex].Name == "is_unifast"))
+            {
+                e.ThrowException = false;
+            }
+        }
+
+        public void RefreshPaymentData()
+        {
+            LoadStudentPayments(); 
+        }
+
         private void DataGridEnrollment_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
@@ -160,8 +190,9 @@ namespace Enrollment_System
         {
             LoadEnrollmentData();
             LoadStudentPayments();
-        }
+            DataGridPayment.DataError += DataGridPayment_DataError;
 
+        }
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
@@ -213,14 +244,12 @@ namespace Enrollment_System
             using (FormNewAcademiccs formNewAcademiccs = new FormNewAcademiccs())
             {
                 formNewAcademiccs.StartPosition = FormStartPosition.CenterParent;
-
-
                 DialogResult result = formNewAcademiccs.ShowDialog();
-
 
                 if (result == DialogResult.OK)
                 {
                     LoadEnrollmentData();
+                    LoadStudentPayments();
                 }
             }
         }
@@ -836,20 +865,20 @@ namespace Enrollment_System
                     conn.Open();
 
                     string query = @"
-                SELECT 
-                    cs.course_subject_id,
-                    s.subject_code,
-                    s.subject_name,
-                    s.units,
-                    c.course_code,
-                    cs.semester AS semester1,
-                    cs.year_level AS year_level1
-                FROM course_subjects cs
-                INNER JOIN subjects s ON cs.subject_id = s.subject_id
-                INNER JOIN courses c ON cs.course_id = c.course_id
-                WHERE cs.course_id = @CourseId 
-                AND cs.year_level = @YearLevel
-                AND cs.semester = @Semester";
+                    SELECT 
+                        cs.course_subject_id,
+                        s.subject_code,
+                        s.subject_name,
+                        s.units,
+                        c.course_code,
+                        cs.semester AS semester1,
+                        cs.year_level AS year_level1
+                    FROM course_subjects cs
+                    INNER JOIN subjects s ON cs.subject_id = s.subject_id
+                    INNER JOIN courses c ON cs.course_id = c.course_id
+                    WHERE cs.course_id = @CourseId 
+                    AND cs.year_level = @YearLevel
+                    AND cs.semester = @Semester";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
@@ -892,6 +921,9 @@ namespace Enrollment_System
                             }
                         }
 
+                        // Update payment calculation when loading subjects
+                        UpdatePaymentCalculation(totalUnits);
+
                         StyleDataGridSubjects();
                     }
                 }
@@ -904,78 +936,107 @@ namespace Enrollment_System
             return totalUnits;
         }
 
-
-
         private void DataGridSubjects_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             
         }
 
+        
+        private decimal CalculateTuitionFee(int totalUnits)
+        {
+            const decimal PER_UNIT_COST = 150.00m;
+            return totalUnits * PER_UNIT_COST;
+        }
+
+        private decimal CalculateMiscellaneousFee()
+        {
+            return 800.00m; 
+        }
+
+        private void UpdatePaymentCalculation(int totalUnits)
+        {
+            decimal tuitionFee = CalculateTuitionFee(totalUnits);
+            decimal miscFee = CalculateMiscellaneousFee();
+            decimal totalAmountDue = tuitionFee + miscFee;
+
+            // Update your UI elements with these values
+            // For example:
+            LblTuitionFee1.Text = tuitionFee.ToString("0.00");
+            LblMiscFee1.Text = miscFee.ToString("0.00");
+            LblTotalAmount.Text = totalAmountDue.ToString("0.00");
+        }
+
         private void LoadStudentPayments()
         {
-            string query = @"
-                SELECT 
-                    p.payment_id,
-                    p.payment_date,
-                    p.total_units,
-                    p.total_amount_due,
-                    p.amount_paid,
-                    p.is_unifast,
-                    p.payment_method,
-                    p.receipt_no,
-                    pb_tuition.amount AS Tuition,
-                    pb_misc.amount AS Miscellaneous,
-                    se.status AS enrollment_status
-                FROM payments p
-                INNER JOIN student_enrollments se ON p.enrollment_id = se.enrollment_id
-                LEFT JOIN payment_breakdowns pb_tuition 
-                    ON pb_tuition.payment_id = p.payment_id AND pb_tuition.fee_type = 'Tuition'
-                LEFT JOIN payment_breakdowns pb_misc 
-                    ON pb_misc.payment_id = p.payment_id AND pb_misc.fee_type = 'Miscellaneous'
-                WHERE se.student_id = @studentId
-                ORDER BY p.payment_date DESC";
-
-
-            using (var conn = new MySqlConnection(connectionString))
+            try
             {
-                try
+                if (SessionManager.StudentId <= 0)
+                {
+                    MessageBox.Show("No student record found for current user");
+                    return;
+                }
+
+                using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
+
+                    string query = @"
+                    SELECT 
+                        p.payment_id,
+                        p.payment_date,
+                        p.total_units,
+                        p.total_amount_due,
+                        p.amount_paid,
+                        p.is_unifast,
+                        p.payment_method,
+                        p.receipt_no,
+                        se.academic_year,
+                        se.semester,
+                        se.status,
+                        (SELECT amount FROM payment_breakdowns WHERE payment_id = p.payment_id AND fee_type = 'Tuition') AS tuition,
+                        (SELECT amount FROM payment_breakdowns WHERE payment_id = p.payment_id AND fee_type = 'Miscellaneous') AS miscellaneous
+                    FROM payments p
+                    INNER JOIN student_enrollments se ON p.enrollment_id = se.enrollment_id
+                    WHERE se.student_id = @StudentId
+                    ORDER BY p.payment_date DESC";
+
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@studentId", SessionManager.UserId);
+                        cmd.Parameters.AddWithValue("@StudentId", SessionManager.StudentId);
+
+                        DataGridPayment.Rows.Clear();
+
+                        DataGridPayment.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            DataGridPayment.Rows.Clear();
-
                             while (reader.Read())
                             {
                                 DataGridPayment.Rows.Add(
-                                    reader["payment_id"].ToString(),
-                                    Convert.ToDateTime(reader["payment_date"]).ToString("yyyy-MM-dd"),
-                                    reader["total_units"].ToString(),
-                                    reader["total_amount_due"].ToString(),
-                                    reader["amount_paid"].ToString(),
-                                    reader["is_unifast"].ToString(),
-                                    reader["payment_method"].ToString(),
-                                    reader["receipt_no"].ToString(),
-                                    reader["Tuition"] != DBNull.Value ? reader["Tuition"].ToString() : "0.00",
-                                    reader["Miscellaneous"] != DBNull.Value ? reader["Miscellaneous"].ToString() : "0.00",
-                                    reader["enrollment_status"].ToString()
+                                    reader["payment_id"]?.ToString() ?? "N/A",
+                                    reader["payment_date"] != DBNull.Value ? Convert.ToDateTime(reader["payment_date"]).ToString("yyyy-MM-dd") : "N/A",
+                                    reader["total_units"]?.ToString() ?? "0",
+                                    reader["total_amount_due"] != DBNull.Value ? Convert.ToDecimal(reader["total_amount_due"]).ToString("0.00") : "0.00",
+                                    reader["amount_paid"] != DBNull.Value ? Convert.ToDecimal(reader["amount_paid"]).ToString("0.00") : "0.00",
+                                    reader["is_unifast"] != DBNull.Value ? (Convert.ToBoolean(reader["is_unifast"]) ? "Yes" : "No") : "No",
+                                    reader["payment_method"]?.ToString() ?? "N/A",
+                                    reader["receipt_no"]?.ToString() ?? "N/A",
+                                    reader["academic_year"]?.ToString() ?? "N/A",
+                                    reader["semester"]?.ToString() ?? "N/A",
+                                    reader["tuition"] != DBNull.Value ? Convert.ToDecimal(reader["tuition"]).ToString("0.00") : "0.00",
+                                    reader["miscellaneous"] != DBNull.Value ? Convert.ToDecimal(reader["miscellaneous"]).ToString("0.00") : "0.00",
+                                    reader["status"]?.ToString() ?? "N/A"
                                 );
                             }
                         }
                     }
-
-                   
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error loading payment data: " + ex.Message);
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading payment data: {ex.Message}", "Database Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-
     }
 }
