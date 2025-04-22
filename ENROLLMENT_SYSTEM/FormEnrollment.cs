@@ -824,11 +824,25 @@ namespace Enrollment_System
 
         private void DataGridPayment_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                var status_payment = DataGridPayment.Rows[e.RowIndex].Cells[12].Value?.ToString()?.ToLower();
+
+                var clickedColumn = DataGridPayment.Columns[e.ColumnIndex].Name;
+
+                if (status_payment == "enrolled" && (clickedColumn == "ColPay" || clickedColumn == "ColDelete"))
+                {
+
+                    return;
+                }
+            }
+
             // Check if the clicked cell is in the column containing the blue button
             if (e.ColumnIndex == DataGridPayment.Columns["ColPay"].Index && e.RowIndex >= 0)
             {
                 // Open the FormPayment
-                FormPayment formPayment = new FormPayment();
+                int enrollmentId = Convert.ToInt32(DataGridPayment.Rows[e.RowIndex].Cells["payment_id"].Value);
+                FormPayment formPayment = new FormPayment(enrollmentId);
                 formPayment.ShowDialog();
             }// Check if the clicked cell is in the delete button column
             else if (e.ColumnIndex == DataGridPayment.Columns["ColDelete"].Index && e.RowIndex >= 0)

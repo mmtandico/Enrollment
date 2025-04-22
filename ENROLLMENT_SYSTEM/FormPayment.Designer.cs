@@ -124,6 +124,7 @@
             this.BtnConfirm.TabIndex = 25;
             this.BtnConfirm.Text = "CONFIRM";
             this.BtnConfirm.UseVisualStyleBackColor = false;
+            this.BtnConfirm.Click += new System.EventHandler(this.BtnConfirm_Click);
             // 
             // label2
             // 

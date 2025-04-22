@@ -76,7 +76,7 @@ namespace Enrollment_System
             grade_pdf_path.DataPropertyName = "grade_pdf_path";
 
             DataGridPayment.AutoGenerateColumns = false;
-            enrollment_id_payment.DataPropertyName = "enrollment_id";
+            payment_id_payment.DataPropertyName = "payment_id";
             student_no_payment.DataPropertyName = "student_no";
             last_name_payment.DataPropertyName = "last_name";
             first_name_payment.DataPropertyName = "first_name";
@@ -846,7 +846,7 @@ namespace Enrollment_System
             try
             {
                 DataGridView currentGrid;
-                string enrollmentIdColumn, studentNoColumn, lastNameColumn, firstNameColumn,
+                string enrollmentIdColumn, studentNoColumn, lastNameColumn, firstNameColumn, 
                        middleNameColumn, courseCodeColumn, academicYearColumn,
                        semesterColumn, yearLevelColumn, statusColumn;
                 string currentStatus;
@@ -859,7 +859,7 @@ namespace Enrollment_System
                 {
                     currentGrid = DataGridPayment;
 
-                    enrollmentIdColumn = "enrollment_id_payment";
+                    enrollmentIdColumn = "payment_id_payment";
                     studentNoColumn = "student_no_payment";
                     lastNameColumn = "last_name_payment";
                     firstNameColumn = "first_name_payment";
@@ -1076,7 +1076,7 @@ namespace Enrollment_System
 
                     string query = @"
                         SELECT 
-                            se.enrollment_id,
+                            p.payment_id,
                             s.student_no,
                             s.last_name,
                             s.first_name,
@@ -1086,10 +1086,12 @@ namespace Enrollment_System
                             se.semester,
                             se.year_level,
                             se.status
-                        FROM student_enrollments se
+                        FROM payments p
+                        INNER JOIN student_enrollments se ON p.enrollment_id = se.enrollment_id
                         INNER JOIN students s ON se.student_id = s.student_id
                         INNER JOIN courses c ON se.course_id = c.course_id
                         WHERE se.status = 'Payment Pending'";
+
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
@@ -1183,7 +1185,8 @@ namespace Enrollment_System
             if (e.ColumnIndex == DataGridPayment.Columns["ColOpen3"].Index && e.RowIndex >= 0)
             {
                 // Open the FormPayment
-                AdminCashier Cashier = new AdminCashier();
+                int enrollmentId = Convert.ToInt32(DataGridPayment.Rows[e.RowIndex].Cells["payment_id_payment"].Value);
+                AdminCashier Cashier = new AdminCashier(enrollmentId);
                 Cashier.ShowDialog();
             }// Check if the clicked cell is in the delete button column
             else if (e.ColumnIndex == DataGridPayment.Columns["ColClose3"].Index && e.RowIndex >= 0)

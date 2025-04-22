@@ -171,13 +171,37 @@ namespace Enrollment_System
                     PicBoxID.Image = Image.FromFile(openFileDialog.FileName);
                     PicBoxID.SizeMode = PictureBoxSizeMode.StretchImage;
 
-                    //byte[] imageBytes = File.ReadAllBytes(openFileDialog.FileName);
+                    byte[] imageBytes = File.ReadAllBytes(openFileDialog.FileName);
 
-                    //SaveProfilePicture(imageBytes);
+                    SaveProfilePicture(imageBytes);
                 }
             }
         }
 
+        private void SaveProfilePicture(byte[] imageBytes)
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "UPDATE students SET profile_picture = @ProfilePicture WHERE user_id = @UserID";
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@UserID", loggedInUserId);
+                        cmd.Parameters.AddWithValue("@ProfilePicture", imageBytes);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                MessageBox.Show("Profile picture updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saving profile picture: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         private string SavePdfToDatabase(string fileName, byte[] fileData)
         {
