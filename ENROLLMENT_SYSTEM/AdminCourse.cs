@@ -8,15 +8,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace Enrollment_System
 {
     public partial class AdminCourse : Form
     {
+        private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
+        private int courseId;
         public AdminCourse()
         {
             InitializeComponent();
-
+            LoadSubjectsCourse(courseId);
             InitializeDataGridView();
             StyleTwoTabControl();
 
@@ -346,5 +349,48 @@ namespace Enrollment_System
                 }
             };
         }
+
+        private void LoadSubjectsCourse(int courseId)
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = @"
+                        SELECT 
+                            s.subject_id,
+                            s.subject_code,
+                            s.subject_name,
+                            s.units,
+                            c.course_code,
+                            cs.semester,
+                            cs.year_level
+                        FROM course_subjects cs
+                        JOIN subjects s ON cs.subject_id = s.subject_id
+                        JOIN courses c ON cs.course_id = c.course_id
+                        WHERE cs.course_id = @courseId
+                        ORDER BY cs.year_level, cs.semester, s.subject_code;";
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@courseId", courseId);
+
+                        using (var adapter = new MySqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            adapter.Fill(dt);
+                            DataGridSubjects.DataSource = dt;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading course subjects: " + ex.Message);
+            }
+        }
+
     }
 }
