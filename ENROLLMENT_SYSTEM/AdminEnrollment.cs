@@ -371,9 +371,7 @@ namespace Enrollment_System
             Button clickedButton = sender as Button;
             if (clickedButton == null) return;
 
-
             currentProgramFilter = clickedButton == BtnAll ? "All" : clickedButton.Text.Replace("Btn", "");
-
 
             ApplyFilters(null, null);
         }
@@ -846,7 +844,7 @@ namespace Enrollment_System
             try
             {
                 DataGridView currentGrid;
-                string enrollmentIdColumn, studentNoColumn, lastNameColumn, firstNameColumn, 
+                string enrollmentIdColumn, studentNoColumn, lastNameColumn, firstNameColumn,
                        middleNameColumn, courseCodeColumn, academicYearColumn,
                        semesterColumn, yearLevelColumn, statusColumn;
                 string currentStatus;
@@ -915,7 +913,6 @@ namespace Enrollment_System
                 }
 
                 DataGridViewRow selectedRow = currentGrid.SelectedRows[0];
-                int enrollmentId = Convert.ToInt32(selectedRow.Cells[enrollmentIdColumn].Value);
                 string studentName = $"{selectedRow.Cells[lastNameColumn].Value} {selectedRow.Cells[firstNameColumn].Value}";
 
                 // Get these values here so you can pass them to the email method
@@ -929,18 +926,40 @@ namespace Enrollment_System
                     "Confirm Action",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
-
                 if (dialogResult == DialogResult.Yes)
                 {
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
                         conn.Open();
-                        string updateQuery = "UPDATE student_enrollments SET status = @newStatus WHERE enrollment_id = @enrollmentId";
+
+                        // For payment tab, we need to get the enrollment_id first
+                        int recordId;
+                        string updateQuery;
+
+                        if (tabControl1.SelectedTab == tabPayment)
+                        {
+                            int paymentId = Convert.ToInt32(selectedRow.Cells[enrollmentIdColumn].Value);
+
+                            // First get the enrollment_id associated with this payment
+                            string getEnrollmentIdQuery = "SELECT enrollment_id FROM payments WHERE payment_id = @paymentId";
+                            using (MySqlCommand getCmd = new MySqlCommand(getEnrollmentIdQuery, conn))
+                            {
+                                getCmd.Parameters.AddWithValue("@paymentId", paymentId);
+                                recordId = Convert.ToInt32(getCmd.ExecuteScalar());
+                            }
+
+                            updateQuery = "UPDATE student_enrollments SET status = @newStatus WHERE enrollment_id = @recordId";
+                        }
+                        else
+                        {
+                            recordId = Convert.ToInt32(selectedRow.Cells[enrollmentIdColumn].Value);
+                            updateQuery = "UPDATE student_enrollments SET status = @newStatus WHERE enrollment_id = @recordId";
+                        }
 
                         using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn))
                         {
                             cmd.Parameters.AddWithValue("@newStatus", newStatus);
-                            cmd.Parameters.AddWithValue("@enrollmentId", enrollmentId);
+                            cmd.Parameters.AddWithValue("@recordId", recordId);
                             int rowsAffected = cmd.ExecuteNonQuery();
 
                             if (rowsAffected > 0)
@@ -953,15 +972,15 @@ namespace Enrollment_System
                                 if (sendEmail)
                                 {
                                     string getEmailQuery = @"
-                                SELECT u.email, CONCAT(s.first_name, ' ', s.last_name) AS full_name
-                                FROM student_enrollments se
-                                JOIN students s ON se.student_id = s.student_id
-                                JOIN users u ON s.user_id = u.user_id
-                                WHERE se.enrollment_id = @enrollmentId";
+                                        SELECT u.email, CONCAT(s.first_name, ' ', s.last_name) AS full_name
+                                        FROM student_enrollments se
+                                        JOIN students s ON se.student_id = s.student_id
+                                        JOIN users u ON s.user_id = u.user_id
+                                        WHERE se.enrollment_id = @enrollmentId";
 
                                     using (MySqlCommand emailCmd = new MySqlCommand(getEmailQuery, conn))
                                     {
-                                        emailCmd.Parameters.AddWithValue("@enrollmentId", enrollmentId);
+                                        emailCmd.Parameters.AddWithValue("@enrollmentId", recordId);
                                         using (MySqlDataReader reader = emailCmd.ExecuteReader())
                                         {
                                             if (reader.Read())

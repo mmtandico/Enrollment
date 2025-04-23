@@ -38,8 +38,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
+            this.BtnUpdate = new System.Windows.Forms.Button();
+            this.BtnAdd = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.BtnAll = new System.Windows.Forms.Button();
@@ -54,7 +54,7 @@
             this.BtnBSTM = new System.Windows.Forms.Button();
             this.BtnBSIT = new System.Windows.Forms.Button();
             this.BtnBSCS = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
+            this.BtnDrop = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.LblEmail = new System.Windows.Forms.Label();
@@ -68,29 +68,30 @@
             this.year_level = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colOpen1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.colClose1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.TxtLastName = new System.Windows.Forms.TextBox();
-            this.TxtMiddleName = new System.Windows.Forms.TextBox();
+            this.TxtSubID = new System.Windows.Forms.TextBox();
+            this.TxtSubName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.TxtFirstName = new System.Windows.Forms.TextBox();
+            this.TxtSubCode = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.DataGridPrerequisite = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.CmbCourse = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.CmbSemester = new System.Windows.Forms.ComboBox();
+            this.CmbYearLevel = new System.Windows.Forms.ComboBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.DataGridPrerequisite = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_id_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_code_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_name_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.units_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prerequisite_code_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prerequisite_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prerequisite_name_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prerequisite_units = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColOpen = new System.Windows.Forms.DataGridViewImageColumn();
             this.ColClose = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel2.SuspendLayout();
@@ -98,45 +99,47 @@
             this.tabPage2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridPrerequisite)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DataGridPrerequisite)).BeginInit();
             this.SuspendLayout();
             // 
-            // button9
+            // BtnUpdate
             // 
-            this.button9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button9.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button9.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button9.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button9.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button9.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button9.ForeColor = System.Drawing.Color.White;
-            this.button9.Location = new System.Drawing.Point(1370, 48);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(111, 37);
-            this.button9.TabIndex = 46;
-            this.button9.Text = "EDIT";
-            this.button9.UseVisualStyleBackColor = true;
+            this.BtnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnUpdate.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnUpdate.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnUpdate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnUpdate.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnUpdate.ForeColor = System.Drawing.Color.White;
+            this.BtnUpdate.Location = new System.Drawing.Point(1370, 48);
+            this.BtnUpdate.Name = "BtnUpdate";
+            this.BtnUpdate.Size = new System.Drawing.Size(111, 37);
+            this.BtnUpdate.TabIndex = 46;
+            this.BtnUpdate.Text = "UPDATE";
+            this.BtnUpdate.UseVisualStyleBackColor = true;
+            this.BtnUpdate.Click += new System.EventHandler(this.BtnUpdate_Click);
             // 
-            // button7
+            // BtnAdd
             // 
-            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button7.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button7.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button7.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button7.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button7.ForeColor = System.Drawing.Color.White;
-            this.button7.Location = new System.Drawing.Point(1370, 151);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(111, 37);
-            this.button7.TabIndex = 9;
-            this.button7.Text = "ADD";
-            this.button7.UseVisualStyleBackColor = true;
+            this.BtnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnAdd.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnAdd.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnAdd.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnAdd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnAdd.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnAdd.ForeColor = System.Drawing.Color.White;
+            this.BtnAdd.Location = new System.Drawing.Point(1370, 151);
+            this.BtnAdd.Name = "BtnAdd";
+            this.BtnAdd.Size = new System.Drawing.Size(111, 37);
+            this.BtnAdd.TabIndex = 9;
+            this.BtnAdd.Text = "ADD";
+            this.BtnAdd.UseVisualStyleBackColor = true;
+            this.BtnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
             // 
             // label6
             // 
@@ -220,8 +223,8 @@
             this.CmbSem.ItemHeight = 18;
             this.CmbSem.Items.AddRange(new object[] {
             "All",
-            "1st",
-            "2nd"});
+            "1st Sem",
+            "2nd Sem"});
             this.CmbSem.Location = new System.Drawing.Point(113, 530);
             this.CmbSem.Name = "CmbSem";
             this.CmbSem.Size = new System.Drawing.Size(108, 26);
@@ -234,10 +237,10 @@
             this.CmbYrLvl.FormattingEnabled = true;
             this.CmbYrLvl.Items.AddRange(new object[] {
             "All",
-            "1st",
-            "2nd",
-            "3rd",
-            "4th"});
+            "1st Year",
+            "2nd Year",
+            "3rd Year",
+            "4th Year"});
             this.CmbYrLvl.Location = new System.Drawing.Point(110, 478);
             this.CmbYrLvl.Name = "CmbYrLvl";
             this.CmbYrLvl.Size = new System.Drawing.Size(111, 26);
@@ -369,22 +372,23 @@
             this.BtnBSCS.Text = "BSCS";
             this.BtnBSCS.UseVisualStyleBackColor = true;
             // 
-            // button8
+            // BtnDrop
             // 
-            this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button8.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button8.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button8.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button8.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button8.ForeColor = System.Drawing.Color.White;
-            this.button8.Location = new System.Drawing.Point(1370, 98);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(111, 37);
-            this.button8.TabIndex = 45;
-            this.button8.Text = "DROP";
-            this.button8.UseVisualStyleBackColor = true;
+            this.BtnDrop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnDrop.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnDrop.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnDrop.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnDrop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnDrop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnDrop.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnDrop.ForeColor = System.Drawing.Color.White;
+            this.BtnDrop.Location = new System.Drawing.Point(1370, 98);
+            this.BtnDrop.Name = "BtnDrop";
+            this.BtnDrop.Size = new System.Drawing.Size(111, 37);
+            this.BtnDrop.TabIndex = 45;
+            this.BtnDrop.Text = "DROP";
+            this.BtnDrop.UseVisualStyleBackColor = true;
+            this.BtnDrop.Click += new System.EventHandler(this.BtnDrop_Click);
             // 
             // label5
             // 
@@ -485,6 +489,7 @@
             this.DataGridSubjects.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DataGridSubjects.Size = new System.Drawing.Size(1222, 510);
             this.DataGridSubjects.TabIndex = 3;
+            this.DataGridSubjects.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridSubjects_CellContentClick);
             // 
             // subject_id
             // 
@@ -568,27 +573,27 @@
             this.colClose1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.colClose1.Width = 40;
             // 
-            // TxtLastName
+            // TxtSubID
             // 
-            this.TxtLastName.BackColor = System.Drawing.Color.White;
-            this.TxtLastName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TxtLastName.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtLastName.ForeColor = System.Drawing.Color.Black;
-            this.TxtLastName.Location = new System.Drawing.Point(319, 70);
-            this.TxtLastName.Name = "TxtLastName";
-            this.TxtLastName.Size = new System.Drawing.Size(243, 33);
-            this.TxtLastName.TabIndex = 35;
+            this.TxtSubID.BackColor = System.Drawing.Color.White;
+            this.TxtSubID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtSubID.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtSubID.ForeColor = System.Drawing.Color.Black;
+            this.TxtSubID.Location = new System.Drawing.Point(319, 70);
+            this.TxtSubID.Name = "TxtSubID";
+            this.TxtSubID.Size = new System.Drawing.Size(243, 33);
+            this.TxtSubID.TabIndex = 35;
             // 
-            // TxtMiddleName
+            // TxtSubName
             // 
-            this.TxtMiddleName.BackColor = System.Drawing.Color.White;
-            this.TxtMiddleName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TxtMiddleName.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtMiddleName.ForeColor = System.Drawing.Color.Black;
-            this.TxtMiddleName.Location = new System.Drawing.Point(925, 70);
-            this.TxtMiddleName.Name = "TxtMiddleName";
-            this.TxtMiddleName.Size = new System.Drawing.Size(415, 33);
-            this.TxtMiddleName.TabIndex = 38;
+            this.TxtSubName.BackColor = System.Drawing.Color.White;
+            this.TxtSubName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtSubName.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtSubName.ForeColor = System.Drawing.Color.Black;
+            this.TxtSubName.Location = new System.Drawing.Point(925, 70);
+            this.TxtSubName.Name = "TxtSubName";
+            this.TxtSubName.Size = new System.Drawing.Size(415, 33);
+            this.TxtSubName.TabIndex = 38;
             // 
             // label1
             // 
@@ -612,16 +617,16 @@
             this.label4.TabIndex = 36;
             this.label4.Text = "Subject Name";
             // 
-            // TxtFirstName
+            // TxtSubCode
             // 
-            this.TxtFirstName.BackColor = System.Drawing.Color.White;
-            this.TxtFirstName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TxtFirstName.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtFirstName.ForeColor = System.Drawing.Color.Black;
-            this.TxtFirstName.Location = new System.Drawing.Point(593, 70);
-            this.TxtFirstName.Name = "TxtFirstName";
-            this.TxtFirstName.Size = new System.Drawing.Size(293, 33);
-            this.TxtFirstName.TabIndex = 37;
+            this.TxtSubCode.BackColor = System.Drawing.Color.White;
+            this.TxtSubCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtSubCode.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtSubCode.ForeColor = System.Drawing.Color.Black;
+            this.TxtSubCode.Location = new System.Drawing.Point(593, 70);
+            this.TxtSubCode.Name = "TxtSubCode";
+            this.TxtSubCode.Size = new System.Drawing.Size(293, 33);
+            this.TxtSubCode.TabIndex = 37;
             // 
             // tabPage2
             // 
@@ -655,112 +660,6 @@
             this.tabPage3.Text = "PREREQUISITES";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.BackgroundImage = global::Enrollment_System.Properties.Resources.BGDBSTUDENTS_removebg_preview;
-            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel1.Controls.Add(this.tabControl1);
-            this.panel1.Location = new System.Drawing.Point(16, 94);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1276, 588);
-            this.panel1.TabIndex = 58;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(78, 22);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(174, 58);
-            this.label3.TabIndex = 59;
-            this.label3.Text = "Courses";
-            // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.Transparent;
-            this.panel3.BackgroundImage = global::Enrollment_System.Properties.Resources.STUDENTINFO_removebg_preview;
-            this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel3.Controls.Add(this.CmbCourse);
-            this.panel3.Controls.Add(this.comboBox1);
-            this.panel3.Controls.Add(this.comboBox2);
-            this.panel3.Controls.Add(this.pictureBox1);
-            this.panel3.Controls.Add(this.button9);
-            this.panel3.Controls.Add(this.button8);
-            this.panel3.Controls.Add(this.button7);
-            this.panel3.Controls.Add(this.label6);
-            this.panel3.Controls.Add(this.label5);
-            this.panel3.Controls.Add(this.label2);
-            this.panel3.Controls.Add(this.LblEmail);
-            this.panel3.Controls.Add(this.TxtLastName);
-            this.panel3.Controls.Add(this.TxtMiddleName);
-            this.panel3.Controls.Add(this.label1);
-            this.panel3.Controls.Add(this.label4);
-            this.panel3.Controls.Add(this.TxtFirstName);
-            this.panel3.Location = new System.Drawing.Point(27, 706);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1550, 234);
-            this.panel3.TabIndex = 57;
-            // 
-            // CmbCourse
-            // 
-            this.CmbCourse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CmbCourse.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold);
-            this.CmbCourse.FormattingEnabled = true;
-            this.CmbCourse.Items.AddRange(new object[] {
-            "Bachelor of Early Childhood Education",
-            "Bachelor of Technology and Livelihood Education",
-            "Bachelor of Science in Computer Science",
-            "Bachelor of Science in Office Administration",
-            "Bachelor of Science in Tourism Management",
-            "Bachelor of Science in Hospitality Management",
-            "Bachelor of Science in Information Technology"});
-            this.CmbCourse.Location = new System.Drawing.Point(319, 144);
-            this.CmbCourse.Name = "CmbCourse";
-            this.CmbCourse.Size = new System.Drawing.Size(567, 33);
-            this.CmbCourse.TabIndex = 51;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.ItemHeight = 23;
-            this.comboBox1.Items.AddRange(new object[] {
-            "1st Sem",
-            "2nd Sem"});
-            this.comboBox1.Location = new System.Drawing.Point(1160, 144);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(180, 31);
-            this.comboBox1.TabIndex = 50;
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
-            "1st Year",
-            "2nd Year",
-            "3rd Year",
-            "4th Year"});
-            this.comboBox2.Location = new System.Drawing.Point(928, 144);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(196, 31);
-            this.comboBox2.TabIndex = 49;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackgroundImage = global::Enrollment_System.Properties.Resources.image_removebg_preview;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(61, 20);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(204, 190);
-            this.pictureBox1.TabIndex = 47;
-            this.pictureBox1.TabStop = false;
-            // 
             // DataGridPrerequisite
             // 
             this.DataGridPrerequisite.AllowUserToAddRows = false;
@@ -785,13 +684,14 @@
             this.DataGridPrerequisite.ColumnHeadersHeight = 40;
             this.DataGridPrerequisite.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.DataGridPrerequisite.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn4,
-            this.dataGridViewTextBoxColumn5,
-            this.dataGridViewTextBoxColumn6,
-            this.dataGridViewTextBoxColumn7,
+            this.subject_id_pre,
+            this.subject_code_pre,
+            this.subject_name_pre,
+            this.units_pre,
+            this.prerequisite_code_pre,
+            this.prerequisite_id,
+            this.prerequisite_name_pre,
+            this.prerequisite_units,
             this.ColOpen,
             this.ColClose});
             this.DataGridPrerequisite.Cursor = System.Windows.Forms.Cursors.Default;
@@ -828,67 +728,177 @@
             this.DataGridPrerequisite.Size = new System.Drawing.Size(1222, 510);
             this.DataGridPrerequisite.TabIndex = 4;
             // 
-            // dataGridViewTextBoxColumn1
+            // panel1
             // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.dataGridViewTextBoxColumn1.FillWeight = 10F;
-            this.dataGridViewTextBoxColumn1.Frozen = true;
-            this.dataGridViewTextBoxColumn1.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn1.Width = 53;
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.BackgroundImage = global::Enrollment_System.Properties.Resources.BGDBSTUDENTS_removebg_preview;
+            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel1.Controls.Add(this.tabControl1);
+            this.panel1.Location = new System.Drawing.Point(16, 94);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1276, 588);
+            this.panel1.TabIndex = 58;
             // 
-            // dataGridViewTextBoxColumn2
+            // label3
             // 
-            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn2.FillWeight = 200F;
-            this.dataGridViewTextBoxColumn2.Frozen = true;
-            this.dataGridViewTextBoxColumn2.HeaderText = "Subject Code";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn2.Width = 144;
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.Black;
+            this.label3.Location = new System.Drawing.Point(78, 22);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(176, 58);
+            this.label3.TabIndex = 59;
+            this.label3.Text = "Courses";
             // 
-            // dataGridViewTextBoxColumn3
+            // panel3
             // 
-            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn3.FillWeight = 120F;
-            this.dataGridViewTextBoxColumn3.HeaderText = "Subject Name";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn3.Width = 151;
+            this.panel3.BackColor = System.Drawing.Color.Transparent;
+            this.panel3.BackgroundImage = global::Enrollment_System.Properties.Resources.STUDENTINFO_removebg_preview;
+            this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel3.Controls.Add(this.CmbCourse);
+            this.panel3.Controls.Add(this.CmbSemester);
+            this.panel3.Controls.Add(this.CmbYearLevel);
+            this.panel3.Controls.Add(this.pictureBox1);
+            this.panel3.Controls.Add(this.BtnUpdate);
+            this.panel3.Controls.Add(this.BtnDrop);
+            this.panel3.Controls.Add(this.BtnAdd);
+            this.panel3.Controls.Add(this.label6);
+            this.panel3.Controls.Add(this.label5);
+            this.panel3.Controls.Add(this.label2);
+            this.panel3.Controls.Add(this.LblEmail);
+            this.panel3.Controls.Add(this.TxtSubID);
+            this.panel3.Controls.Add(this.TxtSubName);
+            this.panel3.Controls.Add(this.label1);
+            this.panel3.Controls.Add(this.label4);
+            this.panel3.Controls.Add(this.TxtSubCode);
+            this.panel3.Location = new System.Drawing.Point(27, 706);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1550, 234);
+            this.panel3.TabIndex = 57;
             // 
-            // dataGridViewTextBoxColumn4
+            // CmbCourse
             // 
-            this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn4.FillWeight = 120F;
-            this.dataGridViewTextBoxColumn4.HeaderText = "Units";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn4.Width = 78;
+            this.CmbCourse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CmbCourse.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold);
+            this.CmbCourse.FormattingEnabled = true;
+            this.CmbCourse.Items.AddRange(new object[] {
+            "Bachelor of Early Childhood Education",
+            "Bachelor of Technology and Livelihood Education",
+            "Bachelor of Science in Computer Science",
+            "Bachelor of Science in Office Administration",
+            "Bachelor of Science in Tourism Management",
+            "Bachelor of Science in Hospitality Management",
+            "Bachelor of Science in Information Technology"});
+            this.CmbCourse.Location = new System.Drawing.Point(319, 144);
+            this.CmbCourse.Name = "CmbCourse";
+            this.CmbCourse.Size = new System.Drawing.Size(567, 33);
+            this.CmbCourse.TabIndex = 51;
             // 
-            // dataGridViewTextBoxColumn5
+            // CmbSemester
             // 
-            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn5.HeaderText = "Course";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn5.Width = 95;
+            this.CmbSemester.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CmbSemester.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CmbSemester.FormattingEnabled = true;
+            this.CmbSemester.ItemHeight = 23;
+            this.CmbSemester.Items.AddRange(new object[] {
+            "1st Sem",
+            "2nd Sem"});
+            this.CmbSemester.Location = new System.Drawing.Point(1160, 144);
+            this.CmbSemester.Name = "CmbSemester";
+            this.CmbSemester.Size = new System.Drawing.Size(180, 31);
+            this.CmbSemester.TabIndex = 50;
             // 
-            // dataGridViewTextBoxColumn6
+            // CmbYearLevel
             // 
-            this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn6.HeaderText = "Semester";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn6.Width = 117;
+            this.CmbYearLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CmbYearLevel.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CmbYearLevel.FormattingEnabled = true;
+            this.CmbYearLevel.Items.AddRange(new object[] {
+            "1st Year",
+            "2nd Year",
+            "3rd Year",
+            "4th Year"});
+            this.CmbYearLevel.Location = new System.Drawing.Point(928, 144);
+            this.CmbYearLevel.Name = "CmbYearLevel";
+            this.CmbYearLevel.Size = new System.Drawing.Size(196, 31);
+            this.CmbYearLevel.TabIndex = 49;
             // 
-            // dataGridViewTextBoxColumn7
+            // pictureBox1
             // 
-            this.dataGridViewTextBoxColumn7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn7.HeaderText = "Year Level";
-            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            this.dataGridViewTextBoxColumn7.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn7.Width = 122;
+            this.pictureBox1.BackgroundImage = global::Enrollment_System.Properties.Resources.image_removebg_preview;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Location = new System.Drawing.Point(61, 20);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(204, 190);
+            this.pictureBox1.TabIndex = 47;
+            this.pictureBox1.TabStop = false;
+            // 
+            // subject_id_pre
+            // 
+            this.subject_id_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.subject_id_pre.FillWeight = 10F;
+            this.subject_id_pre.Frozen = true;
+            this.subject_id_pre.HeaderText = "ID";
+            this.subject_id_pre.Name = "subject_id_pre";
+            this.subject_id_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.subject_id_pre.Width = 53;
+            // 
+            // subject_code_pre
+            // 
+            this.subject_code_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.subject_code_pre.FillWeight = 200F;
+            this.subject_code_pre.HeaderText = "Subject Code";
+            this.subject_code_pre.Name = "subject_code_pre";
+            this.subject_code_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.subject_code_pre.Width = 144;
+            // 
+            // subject_name_pre
+            // 
+            this.subject_name_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.subject_name_pre.FillWeight = 120F;
+            this.subject_name_pre.HeaderText = "Subject Name";
+            this.subject_name_pre.Name = "subject_name_pre";
+            this.subject_name_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.subject_name_pre.Width = 151;
+            // 
+            // units_pre
+            // 
+            this.units_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.units_pre.FillWeight = 120F;
+            this.units_pre.HeaderText = "Units";
+            this.units_pre.Name = "units_pre";
+            this.units_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.units_pre.Width = 78;
+            // 
+            // prerequisite_code_pre
+            // 
+            this.prerequisite_code_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.prerequisite_code_pre.HeaderText = "Prerequisite Code";
+            this.prerequisite_code_pre.Name = "prerequisite_code_pre";
+            this.prerequisite_code_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.prerequisite_code_pre.Width = 184;
+            // 
+            // prerequisite_id
+            // 
+            this.prerequisite_id.HeaderText = "PrerequisiteID";
+            this.prerequisite_id.Name = "prerequisite_id";
+            // 
+            // prerequisite_name_pre
+            // 
+            this.prerequisite_name_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.prerequisite_name_pre.HeaderText = "Prerequisite Name";
+            this.prerequisite_name_pre.Name = "prerequisite_name_pre";
+            this.prerequisite_name_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.prerequisite_name_pre.Width = 191;
+            // 
+            // prerequisite_units
+            // 
+            this.prerequisite_units.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.prerequisite_units.HeaderText = "Prerequisite Units";
+            this.prerequisite_units.Name = "prerequisite_units";
+            this.prerequisite_units.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.prerequisite_units.Width = 184;
             // 
             // ColOpen
             // 
@@ -932,11 +942,11 @@
             this.tabPage2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridPrerequisite)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DataGridPrerequisite)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -944,8 +954,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button BtnUpdate;
+        private System.Windows.Forms.Button BtnAdd;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button BtnAll;
@@ -960,16 +970,16 @@
         private System.Windows.Forms.Button BtnBSTM;
         private System.Windows.Forms.Button BtnBSIT;
         private System.Windows.Forms.Button BtnBSCS;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button BtnDrop;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label LblEmail;
         private System.Windows.Forms.DataGridView DataGridSubjects;
-        private System.Windows.Forms.TextBox TxtLastName;
-        private System.Windows.Forms.TextBox TxtMiddleName;
+        private System.Windows.Forms.TextBox TxtSubID;
+        private System.Windows.Forms.TextBox TxtSubName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox TxtFirstName;
+        private System.Windows.Forms.TextBox TxtSubCode;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage3;
@@ -986,17 +996,18 @@
         private System.Windows.Forms.DataGridViewImageColumn colOpen1;
         private System.Windows.Forms.DataGridViewImageColumn colClose1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox CmbSemester;
+        private System.Windows.Forms.ComboBox CmbYearLevel;
         private System.Windows.Forms.ComboBox CmbCourse;
         private System.Windows.Forms.DataGridView DataGridPrerequisite;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn subject_id_pre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn subject_code_pre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn subject_name_pre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn units_pre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn prerequisite_code_pre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn prerequisite_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn prerequisite_name_pre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn prerequisite_units;
         private System.Windows.Forms.DataGridViewImageColumn ColOpen;
         private System.Windows.Forms.DataGridViewImageColumn ColClose;
     }

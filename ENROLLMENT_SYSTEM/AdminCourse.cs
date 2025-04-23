@@ -15,21 +15,56 @@ namespace Enrollment_System
     public partial class AdminCourse : Form
     {
         private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
-        private int courseId;
+        private string currentProgramFilter = "All";
+        private Button[] programButtons;
+
+        private enum CurrentMode { Subjects, Prerequisites }
+        private CurrentMode currentMode = CurrentMode.Subjects;
+        private int currentPrerequisiteId = -1;
+
         public AdminCourse()
         {
             InitializeComponent();
-            LoadSubjectsCourse(courseId);
             InitializeDataGridView();
             StyleTwoTabControl();
+            InitializeFilterControls();
+            InitializeProgramButtons();
+            
+            LoadSubjectsCourse();
 
+            ProgramButton_Click(BtnAll, EventArgs.Empty);
         }
-
+        
         private void AdminCourse_Load(object sender, EventArgs e)
         {
 
             StyleTwoTabControl();
             InitializeDataGridView();
+            InitializeFilterControls();
+            InitializeProgramButtons();
+            
+
+            LoadSubjectsCourse();
+            //LoadPrerequisites();
+            LoadCourseComboBox();
+
+            DataGridSubjects.CellContentClick += DataGridSubjects_CellContentClick;
+           // DataGridPrerequisite.CellContentClick += DataGridPrerequisite_CellContentClick;
+
+            tabControl1.SelectedIndexChanged += TabControl1_SelectedIndexChanged;
+
+            BtnAdd.Click += BtnAdd_Click;
+            BtnUpdate.Click += BtnUpdate_Click;
+            BtnDrop.Click += BtnDrop_Click;
+
+            DataGridSubjects.AutoGenerateColumns = false;
+            subject_id.DataPropertyName = "subject_id";
+            subject_code.DataPropertyName = "subject_code";
+            subject_name.DataPropertyName = "subject_name";
+            units.DataPropertyName = "units";
+            courseCode.DataPropertyName = "courseCode";
+            semester.DataPropertyName = "semester";
+            year_level.DataPropertyName = "year_level";
 
             DataGridSubjects.AllowUserToResizeColumns = false;
             DataGridSubjects.AllowUserToResizeRows = false;
@@ -94,6 +129,14 @@ namespace Enrollment_System
             CustomizeDataGridPrerequisites();
             CustomizeDataGridSubjects();
             StyleTwoTabControl();
+
+            
+        }
+
+        private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            currentMode = tabControl1.SelectedIndex == 0 ? CurrentMode.Subjects : CurrentMode.Prerequisites;
+            ClearFields();
         }
 
         private void InitializeDataGridView()
@@ -350,7 +393,7 @@ namespace Enrollment_System
             };
         }
 
-        private void LoadSubjectsCourse(int courseId)
+        private void LoadSubjectsCourse()
         {
             try
             {
@@ -359,38 +402,508 @@ namespace Enrollment_System
                     conn.Open();
 
                     string query = @"
-                        SELECT 
-                            s.subject_id,
-                            s.subject_code,
-                            s.subject_name,
-                            s.units,
-                            c.course_code,
-                            cs.semester,
-                            cs.year_level
-                        FROM course_subjects cs
-                        JOIN subjects s ON cs.subject_id = s.subject_id
-                        JOIN courses c ON cs.course_id = c.course_id
-                        WHERE cs.course_id = @courseId
-                        ORDER BY cs.year_level, cs.semester, s.subject_code;";
+                    SELECT 
+                        s.subject_id,
+                        s.subject_code,
+                        s.subject_name,
+                        s.units,
+                        IFNULL(c.course_code, 'N/A') AS courseCode,
+                        IFNULL(cs.semester, 'N/A') AS semester,
+                        IFNULL(cs.year_level, 'N/A') AS year_level
+                    FROM subjects s
+                    LEFT JOIN course_subjects cs ON s.subject_id = cs.subject_id
+                    LEFT JOIN courses c ON cs.course_id = c.course_id
+                    ORDER BY s.subject_code, c.course_code";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@courseId", courseId);
-
+                        
                         using (var adapter = new MySqlDataAdapter(cmd))
                         {
+                            DataGridSubjects.AutoGenerateColumns = false;
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
                             DataGridSubjects.DataSource = dt;
+                        }
+
+                        DataGridSubjects.Columns["subject_id"].DefaultCellStyle.Alignment =
+                            DataGridViewContentAlignment.MiddleCenter;
+                        DataGridSubjects.Columns["subject_code"].DefaultCellStyle.Alignment =
+                            DataGridViewContentAlignment.MiddleCenter;
+                        DataGridSubjects.Columns["units"].DefaultCellStyle.Alignment =
+                            DataGridViewContentAlignment.MiddleCenter;
+                        DataGridSubjects.Columns["courseCode"].DefaultCellStyle.Alignment =
+                            DataGridViewContentAlignment.MiddleCenter;
+                        DataGridSubjects.Columns["semester"].DefaultCellStyle.Alignment =
+                            DataGridViewContentAlignment.MiddleCenter;
+                        DataGridSubjects.Columns["year_level"].DefaultCellStyle.Alignment =
+                            DataGridViewContentAlignment.MiddleCenter;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading subjects: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        //sorting
+        private void InitializeProgramButtons()
+        {
+
+            programButtons = new Button[]
+            {
+                BtnBSCS, BtnBSIT, BtnBSTM, BtnBSHM, BtnBSOAD, BtnBECED, BtnBTLED, BtnAll
+            };
+
+
+            foreach (var btn in programButtons)
+            {
+                btn.Click += ProgramButton_Click;
+            }
+
+        }
+
+        private void InitializeFilterControls()
+        {
+            CmbYrLvl.SelectedIndex = 0;
+
+            CmbSem.SelectedIndex = 0;
+
+            CmbYrLvl.SelectedIndexChanged += ApplyFilters;
+            CmbSem.SelectedIndexChanged += ApplyFilters;
+        }
+
+        private void ApplyFilters(object sender, EventArgs e)
+        {
+            string yearLevelFilter = CmbYrLvl.SelectedItem.ToString();
+            string semesterFilter = CmbSem.SelectedItem.ToString();
+
+            string filterExpression = "";
+
+            if (currentProgramFilter != "All")
+                filterExpression += $"[courseCode] = '{currentProgramFilter}'";
+
+            if (yearLevelFilter != "All")
+            {
+                if (!string.IsNullOrEmpty(filterExpression))
+                    filterExpression += " AND ";
+                filterExpression += $"[year_level] = '{yearLevelFilter}'";
+            }
+
+            if (semesterFilter != "All")
+            {
+                if (!string.IsNullOrEmpty(filterExpression))
+                    filterExpression += " AND ";
+                filterExpression += $"[semester] = '{semesterFilter}'";
+            }
+
+            if (DataGridSubjects.DataSource is DataTable)
+            {
+                DataTable dt = (DataTable)DataGridSubjects.DataSource;
+                dt.DefaultView.RowFilter = filterExpression;
+            }
+        }
+
+        private void ProgramButton_Click(object sender, EventArgs e)
+        {
+            Button clickedButton = sender as Button;
+            if (clickedButton == null) return;
+
+            currentProgramFilter = clickedButton == BtnAll ? "All" : clickedButton.Text.Replace("Btn", "");
+
+            ApplyFilters(null, null);
+        }
+
+        private void DataGridSubjects_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            DataGridViewRow row = DataGridSubjects.Rows[e.RowIndex];
+            currentMode = CurrentMode.Subjects;
+
+            if (e.ColumnIndex != DataGridSubjects.Columns["ColOpen1"].Index &&
+                e.ColumnIndex != DataGridSubjects.Columns["ColClose1"].Index)
+            {
+                PopulateFields(row);
+            }
+
+            if (e.ColumnIndex == DataGridSubjects.Columns["ColOpen1"].Index)
+            {
+                PopulateFields(row);
+            }
+
+            if (e.ColumnIndex == DataGridSubjects.Columns["ColClose1"].Index)
+            {
+                if (MessageBox.Show("Are you sure you want to delete this subject?", "Confirm Delete",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    int subjectId = Convert.ToInt32(row.Cells["subject_id"].Value);
+                    DeleteSubject(subjectId);
+                }
+            }
+        }
+
+        //add, update
+
+        private void ClearFields()
+        {
+            TxtSubID.Clear();
+            TxtSubCode.Clear();
+            TxtSubName.Clear();
+            CmbCourse.SelectedIndex = -1;
+            CmbYearLevel.SelectedIndex = -1;
+            CmbSemester.SelectedIndex = -1;
+        }
+
+        private void LoadCourseComboBox()
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT course_id, course_code FROM courses";
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            CmbCourse.Items.Clear();
+                            while (reader.Read())
+                            {
+                                CmbCourse.Items.Add(new KeyValuePair<int, string>(
+                                    reader.GetInt32("course_id"),
+                                    reader.GetString("course_code")));
+                            }
+                            CmbCourse.DisplayMember = "Value";
+                            CmbCourse.ValueMember = "Key";
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading course subjects: " + ex.Message);
+                MessageBox.Show("Error loading courses: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        private void BtnAdd_Click(object sender, EventArgs e)
+        {
+            if (currentMode == CurrentMode.Subjects)
+            {
+                AddSubject();
+            }
+            else
+            {
+                //AddPrerequisite();
+            }
+        }
+
+        private void BtnUpdate_Click(object sender, EventArgs e)
+        {
+            if (currentMode == CurrentMode.Subjects)
+            {
+                UpdateSubject();
+            }
+            else
+            {
+               // UpdatePrerequisite();
+            }
+        }
+
+        private void BtnDrop_Click(object sender, EventArgs e)
+        {
+            if (currentMode == CurrentMode.Subjects)
+            {
+                DeleteSelectedSubject();
+            }
+            else
+            {
+               // DeleteSelectedPrerequisite();
+            }
+        }
+
+        private void AddSubject()
+        {
+            if (ValidateSubjectFields())
+            {
+                try
+                {
+                    using (var conn = new MySqlConnection(connectionString))
+                    {
+                        conn.Open();
+
+                        // First, insert the subject
+                        string subjectQuery = @"INSERT INTO subjects (subject_code, subject_name, units) 
+                                       VALUES (@code, @name, @units);
+                                       SELECT LAST_INSERT_ID();";
+
+                        using (var cmd = new MySqlCommand(subjectQuery, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@code", TxtSubCode.Text.Trim());
+                            cmd.Parameters.AddWithValue("@name", TxtSubName.Text.Trim());
+                            cmd.Parameters.AddWithValue("@units", 3); // Default units or add a field for this
+
+                            int subjectId = Convert.ToInt32(cmd.ExecuteScalar());
+
+                            // Then link it to the course
+                            if (CmbCourse.SelectedItem != null)
+                            {
+                                int courseId = ((KeyValuePair<int, string>)CmbCourse.SelectedItem).Key;
+
+                                string linkQuery = @"INSERT INTO course_subjects 
+                                           (course_id, subject_id, year_level, semester)
+                                           VALUES (@courseId, @subjectId, @year, @semester)";
+
+                                using (var linkCmd = new MySqlCommand(linkQuery, conn))
+                                {
+                                    linkCmd.Parameters.AddWithValue("@courseId", courseId);
+                                    linkCmd.Parameters.AddWithValue("@subjectId", subjectId);
+                                    linkCmd.Parameters.AddWithValue("@year", CmbYearLevel.Text);
+                                    linkCmd.Parameters.AddWithValue("@semester", CmbSemester.Text);
+                                    linkCmd.ExecuteNonQuery();
+                                }
+                            }
+
+                            MessageBox.Show("Subject added successfully!", "Success",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            ClearFields();
+                            LoadSubjectsCourse();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error adding subject: " + ex.Message, "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void UpdateSubject()
+        {
+            if (string.IsNullOrEmpty(TxtSubID.Text))
+            {
+                MessageBox.Show("Please select a subject to update.", "Warning",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (ValidateSubjectFields() && !string.IsNullOrEmpty(TxtSubID.Text))
+            {
+                try
+                {
+                    using (var conn = new MySqlConnection(connectionString))
+                    {
+                        conn.Open();
+
+                        // Update subject
+                        string subjectQuery = @"UPDATE subjects 
+                                      SET subject_code = @code, 
+                                          subject_name = @name
+                                      WHERE subject_id = @id";
+
+                        using (var cmd = new MySqlCommand(subjectQuery, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@code", TxtSubCode.Text.Trim());
+                            cmd.Parameters.AddWithValue("@name", TxtSubName.Text.Trim());
+                            cmd.Parameters.AddWithValue("@id", Convert.ToInt32(TxtSubID.Text));
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // Update course link if a course is selected
+                        if (CmbCourse.SelectedItem != null)
+                        {
+                            int courseId = ((KeyValuePair<int, string>)CmbCourse.SelectedItem).Key;
+
+                            // First check if link exists
+                            string checkLinkQuery = "SELECT COUNT(*) FROM course_subjects WHERE subject_id = @subjectId";
+                            bool linkExists = false;
+
+                            using (var checkCmd = new MySqlCommand(checkLinkQuery, conn))
+                            {
+                                checkCmd.Parameters.AddWithValue("@subjectId", Convert.ToInt32(TxtSubID.Text));
+                                linkExists = Convert.ToInt32(checkCmd.ExecuteScalar()) > 0;
+                            }
+
+                            if (linkExists)
+                            {
+                                // Update existing link
+                                string updateLinkQuery = @"UPDATE course_subjects 
+                                                SET course_id = @courseId,
+                                                    year_level = @year,
+                                                    semester = @semester
+                                                WHERE subject_id = @subjectId";
+
+                                using (var updateCmd = new MySqlCommand(updateLinkQuery, conn))
+                                {
+                                    updateCmd.Parameters.AddWithValue("@courseId", courseId);
+                                    updateCmd.Parameters.AddWithValue("@year", CmbYearLevel.Text);
+                                    updateCmd.Parameters.AddWithValue("@semester", CmbSemester.Text);
+                                    updateCmd.Parameters.AddWithValue("@subjectId", Convert.ToInt32(TxtSubID.Text));
+                                    updateCmd.ExecuteNonQuery();
+                                }
+                            }
+                            else
+                            {
+                                // Create new link
+                                string insertLinkQuery = @"INSERT INTO course_subjects 
+                                                (course_id, subject_id, year_level, semester)
+                                                VALUES (@courseId, @subjectId, @year, @semester)";
+
+                                using (var insertCmd = new MySqlCommand(insertLinkQuery, conn))
+                                {
+                                    insertCmd.Parameters.AddWithValue("@courseId", courseId);
+                                    insertCmd.Parameters.AddWithValue("@subjectId", Convert.ToInt32(TxtSubID.Text));
+                                    insertCmd.Parameters.AddWithValue("@year", CmbYearLevel.Text);
+                                    insertCmd.Parameters.AddWithValue("@semester", CmbSemester.Text);
+                                    insertCmd.ExecuteNonQuery();
+                                }
+                            }
+                        }
+
+                        MessageBox.Show("Subject updated successfully!", "Success",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ClearFields();
+                        LoadSubjectsCourse();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error updating subject: " + ex.Message, "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void DeleteSelectedSubject()
+        {
+            if (!string.IsNullOrEmpty(TxtSubID.Text))
+            {
+                if (MessageBox.Show("Are you sure you want to delete this subject?", "Confirm Delete",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    DeleteSubject(Convert.ToInt32(TxtSubID.Text));
+                }
+            }
+        }
+
+        private void DeleteSubject(int subjectId)
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    // First delete from course_subjects (foreign key constraint)
+                    string deleteLinkQuery = "DELETE FROM course_subjects WHERE subject_id = @id";
+                    using (var linkCmd = new MySqlCommand(deleteLinkQuery, conn))
+                    {
+                        linkCmd.Parameters.AddWithValue("@id", subjectId);
+                        linkCmd.ExecuteNonQuery();
+                    }
+
+                    // Then delete from subjects
+                    string deleteQuery = "DELETE FROM subjects WHERE subject_id = @id";
+                    using (var cmd = new MySqlCommand(deleteQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", subjectId);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    MessageBox.Show("Subject deleted successfully!", "Success",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ClearFields();
+                    LoadSubjectsCourse();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error deleting subject: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private bool ValidateSubjectFields()
+        {
+            if (string.IsNullOrWhiteSpace(TxtSubCode.Text))
+            {
+                MessageBox.Show("Please enter subject code.", "Warning",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                TxtSubCode.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(TxtSubName.Text))
+            {
+                MessageBox.Show("Please enter subject name.", "Warning",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                TxtSubName.Focus();
+                return false;
+            }
+
+            if (CmbCourse.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a course.", "Warning",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CmbCourse.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(CmbYearLevel.Text))
+            {
+                MessageBox.Show("Please select year level.", "Warning",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CmbYearLevel.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(CmbSemester.Text))
+            {
+                MessageBox.Show("Please select semester.", "Warning",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CmbSemester.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        private void PopulateFields(DataGridViewRow row)
+        {
+            try
+            {
+                TxtSubID.Text = row.Cells["subject_id"].Value?.ToString() ?? "";
+                TxtSubCode.Text = row.Cells["subject_code"].Value?.ToString() ?? "";
+                TxtSubName.Text = row.Cells["subject_name"].Value?.ToString() ?? "";
+
+                string courseCode = DataGridSubjects.Columns.Contains("course_code")
+            ? row.Cells["course_code"].Value?.ToString() ?? "N/A"
+            : "N/A";
+
+                if (courseCode != "N/A")
+                {
+                    foreach (KeyValuePair<int, string> item in CmbCourse.Items)
+                    {
+                        if (item.Value == courseCode)
+                        {
+                            CmbCourse.SelectedItem = item;
+                            break;
+                        }
+                    }
+                }
+
+                CmbYearLevel.Text = row.Cells["year_level"].Value?.ToString() ?? "";
+                CmbSemester.Text = row.Cells["semester"].Value?.ToString() ?? "";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading details: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
