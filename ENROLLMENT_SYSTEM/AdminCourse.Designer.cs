@@ -77,13 +77,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.DataGridPrerequisite = new System.Windows.Forms.DataGridView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.CmbCourse = new System.Windows.Forms.ComboBox();
-            this.CmbSemester = new System.Windows.Forms.ComboBox();
-            this.CmbYearLevel = new System.Windows.Forms.ComboBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.subject_id_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.subject_code_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.subject_name_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -94,6 +87,13 @@
             this.prerequisite_units = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColOpen = new System.Windows.Forms.DataGridViewImageColumn();
             this.ColClose = new System.Windows.Forms.DataGridViewImageColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.CmbCourse = new System.Windows.Forms.ComboBox();
+            this.CmbSemester = new System.Windows.Forms.ComboBox();
+            this.CmbYearLevel = new System.Windows.Forms.ComboBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridSubjects)).BeginInit();
             this.tabPage2.SuspendLayout();
@@ -727,6 +727,93 @@
             this.DataGridPrerequisite.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DataGridPrerequisite.Size = new System.Drawing.Size(1222, 510);
             this.DataGridPrerequisite.TabIndex = 4;
+            this.DataGridPrerequisite.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridPrerequisite_CellContentClick);
+            // 
+            // subject_id_pre
+            // 
+            this.subject_id_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.subject_id_pre.FillWeight = 10F;
+            this.subject_id_pre.Frozen = true;
+            this.subject_id_pre.HeaderText = "ID";
+            this.subject_id_pre.Name = "subject_id_pre";
+            this.subject_id_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.subject_id_pre.Width = 53;
+            // 
+            // subject_code_pre
+            // 
+            this.subject_code_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.subject_code_pre.FillWeight = 200F;
+            this.subject_code_pre.HeaderText = "Subject Code";
+            this.subject_code_pre.Name = "subject_code_pre";
+            this.subject_code_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.subject_code_pre.Width = 144;
+            // 
+            // subject_name_pre
+            // 
+            this.subject_name_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.subject_name_pre.FillWeight = 120F;
+            this.subject_name_pre.HeaderText = "Subject Name";
+            this.subject_name_pre.Name = "subject_name_pre";
+            this.subject_name_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.subject_name_pre.Width = 151;
+            // 
+            // units_pre
+            // 
+            this.units_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.units_pre.FillWeight = 120F;
+            this.units_pre.HeaderText = "Units";
+            this.units_pre.Name = "units_pre";
+            this.units_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.units_pre.Width = 78;
+            // 
+            // prerequisite_code_pre
+            // 
+            this.prerequisite_code_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.prerequisite_code_pre.HeaderText = "Prerequisite Code";
+            this.prerequisite_code_pre.Name = "prerequisite_code_pre";
+            this.prerequisite_code_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.prerequisite_code_pre.Width = 184;
+            // 
+            // prerequisite_id
+            // 
+            this.prerequisite_id.HeaderText = "PrerequisiteID";
+            this.prerequisite_id.Name = "prerequisite_id";
+            // 
+            // prerequisite_name_pre
+            // 
+            this.prerequisite_name_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.prerequisite_name_pre.HeaderText = "Prerequisite Name";
+            this.prerequisite_name_pre.Name = "prerequisite_name_pre";
+            this.prerequisite_name_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.prerequisite_name_pre.Width = 191;
+            // 
+            // prerequisite_units
+            // 
+            this.prerequisite_units.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.prerequisite_units.HeaderText = "Prerequisite Units";
+            this.prerequisite_units.Name = "prerequisite_units";
+            this.prerequisite_units.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.prerequisite_units.Width = 184;
+            // 
+            // ColOpen
+            // 
+            this.ColOpen.HeaderText = "";
+            this.ColOpen.Image = global::Enrollment_System.Properties.Resources.docuICON;
+            this.ColOpen.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColOpen.MinimumWidth = 2;
+            this.ColOpen.Name = "ColOpen";
+            this.ColOpen.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColOpen.Width = 40;
+            // 
+            // ColClose
+            // 
+            this.ColClose.HeaderText = "";
+            this.ColClose.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
+            this.ColClose.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColClose.MinimumWidth = 2;
+            this.ColClose.Name = "ColClose";
+            this.ColClose.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColClose.Width = 40;
             // 
             // panel1
             // 
@@ -833,92 +920,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(204, 190);
             this.pictureBox1.TabIndex = 47;
             this.pictureBox1.TabStop = false;
-            // 
-            // subject_id_pre
-            // 
-            this.subject_id_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.subject_id_pre.FillWeight = 10F;
-            this.subject_id_pre.Frozen = true;
-            this.subject_id_pre.HeaderText = "ID";
-            this.subject_id_pre.Name = "subject_id_pre";
-            this.subject_id_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.subject_id_pre.Width = 53;
-            // 
-            // subject_code_pre
-            // 
-            this.subject_code_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.subject_code_pre.FillWeight = 200F;
-            this.subject_code_pre.HeaderText = "Subject Code";
-            this.subject_code_pre.Name = "subject_code_pre";
-            this.subject_code_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.subject_code_pre.Width = 144;
-            // 
-            // subject_name_pre
-            // 
-            this.subject_name_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.subject_name_pre.FillWeight = 120F;
-            this.subject_name_pre.HeaderText = "Subject Name";
-            this.subject_name_pre.Name = "subject_name_pre";
-            this.subject_name_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.subject_name_pre.Width = 151;
-            // 
-            // units_pre
-            // 
-            this.units_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.units_pre.FillWeight = 120F;
-            this.units_pre.HeaderText = "Units";
-            this.units_pre.Name = "units_pre";
-            this.units_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.units_pre.Width = 78;
-            // 
-            // prerequisite_code_pre
-            // 
-            this.prerequisite_code_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.prerequisite_code_pre.HeaderText = "Prerequisite Code";
-            this.prerequisite_code_pre.Name = "prerequisite_code_pre";
-            this.prerequisite_code_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.prerequisite_code_pre.Width = 184;
-            // 
-            // prerequisite_id
-            // 
-            this.prerequisite_id.HeaderText = "PrerequisiteID";
-            this.prerequisite_id.Name = "prerequisite_id";
-            // 
-            // prerequisite_name_pre
-            // 
-            this.prerequisite_name_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.prerequisite_name_pre.HeaderText = "Prerequisite Name";
-            this.prerequisite_name_pre.Name = "prerequisite_name_pre";
-            this.prerequisite_name_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.prerequisite_name_pre.Width = 191;
-            // 
-            // prerequisite_units
-            // 
-            this.prerequisite_units.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.prerequisite_units.HeaderText = "Prerequisite Units";
-            this.prerequisite_units.Name = "prerequisite_units";
-            this.prerequisite_units.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.prerequisite_units.Width = 184;
-            // 
-            // ColOpen
-            // 
-            this.ColOpen.HeaderText = "";
-            this.ColOpen.Image = global::Enrollment_System.Properties.Resources.docuICON;
-            this.ColOpen.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.ColOpen.MinimumWidth = 2;
-            this.ColOpen.Name = "ColOpen";
-            this.ColOpen.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColOpen.Width = 40;
-            // 
-            // ColClose
-            // 
-            this.ColClose.HeaderText = "";
-            this.ColClose.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
-            this.ColClose.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.ColClose.MinimumWidth = 2;
-            this.ColClose.Name = "ColClose";
-            this.ColClose.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColClose.Width = 40;
             // 
             // AdminCourse
             // 

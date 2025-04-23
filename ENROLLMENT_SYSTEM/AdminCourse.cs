@@ -20,17 +20,21 @@ namespace Enrollment_System
 
         private enum CurrentMode { Subjects, Prerequisites }
         private CurrentMode currentMode = CurrentMode.Subjects;
-        private int currentPrerequisiteId = -1;
+        //private int currentPrerequisiteId = -1;
 
         public AdminCourse()
         {
             InitializeComponent();
-            InitializeDataGridView();
+            //InitializeDataGridView();
+            //BtnAdd.Click += BtnAdd_Click;
+            //BtnUpdate.Click += BtnUpdate_Click;
+            //BtnDrop.Click += BtnDrop_Click;
             StyleTwoTabControl();
             InitializeFilterControls();
             InitializeProgramButtons();
             
             LoadSubjectsCourse();
+          
 
             ProgramButton_Click(BtnAll, EventArgs.Empty);
         }
@@ -39,32 +43,22 @@ namespace Enrollment_System
         {
 
             StyleTwoTabControl();
-            InitializeDataGridView();
+            //InitializeDataGridView();
             InitializeFilterControls();
             InitializeProgramButtons();
             
 
             LoadSubjectsCourse();
-            //LoadPrerequisites();
+            LoadPrerequisiteSubjects();
             LoadCourseComboBox();
 
             DataGridSubjects.CellContentClick += DataGridSubjects_CellContentClick;
-           // DataGridPrerequisite.CellContentClick += DataGridPrerequisite_CellContentClick;
+            DataGridPrerequisite.CellContentClick += DataGridPrerequisite_CellContentClick;
+            DataGridPrerequisite.CellClick += DataGridPrerequisite_CellClick;
 
             tabControl1.SelectedIndexChanged += TabControl1_SelectedIndexChanged;
 
-            BtnAdd.Click += BtnAdd_Click;
-            BtnUpdate.Click += BtnUpdate_Click;
-            BtnDrop.Click += BtnDrop_Click;
-
-            DataGridSubjects.AutoGenerateColumns = false;
-            subject_id.DataPropertyName = "subject_id";
-            subject_code.DataPropertyName = "subject_code";
-            subject_name.DataPropertyName = "subject_name";
-            units.DataPropertyName = "units";
-            courseCode.DataPropertyName = "courseCode";
-            semester.DataPropertyName = "semester";
-            year_level.DataPropertyName = "year_level";
+            
 
             DataGridSubjects.AllowUserToResizeColumns = false;
             DataGridSubjects.AllowUserToResizeRows = false;
@@ -139,54 +133,49 @@ namespace Enrollment_System
             ClearFields();
         }
 
-        private void InitializeDataGridView()
+        private void InitializeDataGridView(DataGridView dataGrid)
         {
-            DataGridSubjects.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            DataGridSubjects.Columns["ColOpen1"].Width = 50;
-            DataGridSubjects.Columns["ColClose1"].Width = 50;
-            DataGridSubjects.Columns["ColOpen1"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridSubjects.Columns["ColClose1"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridSubjects.RowTemplate.Height = 40;
-            DataGridSubjects.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            if (dataGrid.Columns.Count == 0) return;
 
+            dataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGrid.RowTemplate.Height = 40;
+            dataGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            dataGrid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            DataGridSubjects.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            DataGridSubjects.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            DataGridViewImageColumn colOpen1 = (DataGridViewImageColumn)DataGridSubjects.Columns["ColOpen1"];
-            colOpen1.ImageLayout = DataGridViewImageCellLayout.Zoom;
-
-            DataGridViewImageColumn colClose1 = (DataGridViewImageColumn)DataGridSubjects.Columns["ColClose1"];
-            colClose1.ImageLayout = DataGridViewImageCellLayout.Zoom;
-
-            foreach (DataGridViewColumn col in DataGridSubjects.Columns)
+            // Configure image columns if they exist
+            if (dataGrid.Columns.Contains("ColOpen") || dataGrid.Columns.Contains("ColOpen1"))
             {
-                col.Frozen = false;
-                col.Resizable = DataGridViewTriState.True;
+                string colName = dataGrid.Columns.Contains("ColOpen") ? "ColOpen" : "ColOpen1";
+                dataGrid.Columns[colName].Width = 50;
+                dataGrid.Columns[colName].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                ((DataGridViewImageColumn)dataGrid.Columns[colName]).ImageLayout = DataGridViewImageCellLayout.Zoom;
             }
-            //////////////////////////
-            DataGridPrerequisite.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            DataGridPrerequisite.Columns["ColOpen"].Width = 50;
-            DataGridPrerequisite.Columns["ColClose"].Width = 50;
-            DataGridPrerequisite.Columns["ColOpen"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridPrerequisite.Columns["ColClose"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridPrerequisite.RowTemplate.Height = 40;
-            DataGridPrerequisite.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 
-
-            DataGridPrerequisite.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            DataGridPrerequisite.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            DataGridViewImageColumn colOpen = (DataGridViewImageColumn)DataGridPrerequisite.Columns["ColOpen"];
-            colOpen.ImageLayout = DataGridViewImageCellLayout.Zoom;
-
-            DataGridViewImageColumn colClose = (DataGridViewImageColumn)DataGridPrerequisite.Columns["ColClose"];
-            colClose.ImageLayout = DataGridViewImageCellLayout.Zoom;
-
-            foreach (DataGridViewColumn col in DataGridPrerequisite.Columns)
+            if (dataGrid.Columns.Contains("ColClose") || dataGrid.Columns.Contains("ColClose1"))
             {
+                string colName = dataGrid.Columns.Contains("ColClose") ? "ColClose" : "ColClose1";
+                dataGrid.Columns[colName].Width = 50;
+                dataGrid.Columns[colName].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                ((DataGridViewImageColumn)dataGrid.Columns[colName]).ImageLayout = DataGridViewImageCellLayout.Zoom;
+            }
+
+            // Set alignment for other columns
+            foreach (DataGridViewColumn col in dataGrid.Columns)
+            {
+                if (col is DataGridViewImageColumn) continue;
+
                 col.Frozen = false;
                 col.Resizable = DataGridViewTriState.True;
+
+                if (col.Name.EndsWith("_name") || col.Name.EndsWith("_name_pre"))
+                {
+                    col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                }
+                else if (!col.Name.StartsWith("Col"))
+                {
+                    col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
             }
         }
 
@@ -417,27 +406,88 @@ namespace Enrollment_System
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
-                        
+                        DataGridSubjects.AutoGenerateColumns = false;
+                        DataGridSubjects.Columns.Clear();
+
+                        // Add text columns
+                        DataGridSubjects.Columns.Add(new DataGridViewTextBoxColumn()
+                        {
+                            DataPropertyName = "subject_id",
+                            HeaderText = "ID",
+                            Name = "subject_id",
+                            Visible = false
+                        });
+
+                        DataGridSubjects.Columns.Add(new DataGridViewTextBoxColumn()
+                        {
+                            DataPropertyName = "subject_code",
+                            HeaderText = "Subject Code",
+                            Name = "subject_code",
+                            
+                        });
+
+                        DataGridSubjects.Columns.Add(new DataGridViewTextBoxColumn()
+                        {
+                            DataPropertyName = "subject_name",
+                            HeaderText = "Subject Name",
+                            Name = "subject_name",
+                           
+                        });
+
+                        DataGridSubjects.Columns.Add(new DataGridViewTextBoxColumn()
+                        {
+                            DataPropertyName = "units",
+                            HeaderText = "Units",
+                            Name = "units",
+                           
+                        });
+
+                        DataGridSubjects.Columns.Add(new DataGridViewTextBoxColumn()
+                        {
+                            DataPropertyName = "courseCode",
+                            HeaderText = "Course",
+                            Name = "courseCode",
+                            
+                        });
+
+                        DataGridSubjects.Columns.Add(new DataGridViewTextBoxColumn()
+                        {
+                            DataPropertyName = "semester",
+                            HeaderText = "Semester",
+                            Name = "semester",
+                            
+                        });
+
+                        DataGridSubjects.Columns.Add(new DataGridViewTextBoxColumn()
+                        {
+                            DataPropertyName = "year_level",
+                            HeaderText = "Year Level",
+                            Name = "year_level",
+                            
+                        });
+
+                        // Add action button columns
+                        DataGridViewImageColumn openCol = new DataGridViewImageColumn();
+                        openCol.Name = "ColOpen1";
+                        openCol.HeaderText = "";
+                        openCol.Image = Properties.Resources.EditButton; // Your open icon
+                        DataGridSubjects.Columns.Add(openCol);
+
+                        DataGridViewImageColumn closeCol = new DataGridViewImageColumn();
+                        closeCol.Name = "ColClose1";
+                        closeCol.HeaderText = "";
+                        closeCol.Image = Properties.Resources.RemoveButton; // Your close icon
+                        DataGridSubjects.Columns.Add(closeCol);
+
                         using (var adapter = new MySqlDataAdapter(cmd))
                         {
-                            DataGridSubjects.AutoGenerateColumns = false;
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
                             DataGridSubjects.DataSource = dt;
                         }
 
-                        DataGridSubjects.Columns["subject_id"].DefaultCellStyle.Alignment =
-                            DataGridViewContentAlignment.MiddleCenter;
-                        DataGridSubjects.Columns["subject_code"].DefaultCellStyle.Alignment =
-                            DataGridViewContentAlignment.MiddleCenter;
-                        DataGridSubjects.Columns["units"].DefaultCellStyle.Alignment =
-                            DataGridViewContentAlignment.MiddleCenter;
-                        DataGridSubjects.Columns["courseCode"].DefaultCellStyle.Alignment =
-                            DataGridViewContentAlignment.MiddleCenter;
-                        DataGridSubjects.Columns["semester"].DefaultCellStyle.Alignment =
-                            DataGridViewContentAlignment.MiddleCenter;
-                        DataGridSubjects.Columns["year_level"].DefaultCellStyle.Alignment =
-                            DataGridViewContentAlignment.MiddleCenter;
+                        // Initialize grid view
+                        InitializeDataGridView(DataGridSubjects);
                     }
                 }
             }
@@ -609,7 +659,7 @@ namespace Enrollment_System
             }
             else
             {
-               // UpdatePrerequisite();
+               UpdatePrerequisite();
             }
         }
 
@@ -621,7 +671,7 @@ namespace Enrollment_System
             }
             else
             {
-               // DeleteSelectedPrerequisite();
+               DeleteSelectedPrerequisite();
             }
         }
 
@@ -880,20 +930,25 @@ namespace Enrollment_System
                 TxtSubCode.Text = row.Cells["subject_code"].Value?.ToString() ?? "";
                 TxtSubName.Text = row.Cells["subject_name"].Value?.ToString() ?? "";
 
-                string courseCode = DataGridSubjects.Columns.Contains("course_code")
-            ? row.Cells["course_code"].Value?.ToString() ?? "N/A"
-            : "N/A";
+                // Handle course code selection
+                string courseCode = row.Cells["courseCode"].Value?.ToString() ?? "N/A";
 
                 if (courseCode != "N/A")
                 {
-                    foreach (KeyValuePair<int, string> item in CmbCourse.Items)
+                    // Find the matching item in the ComboBox
+                    foreach (var item in CmbCourse.Items)
                     {
-                        if (item.Value == courseCode)
+                        var kvp = (KeyValuePair<int, string>)item;
+                        if (kvp.Value == courseCode)
                         {
                             CmbCourse.SelectedItem = item;
                             break;
                         }
                     }
+                }
+                else
+                {
+                    CmbCourse.SelectedIndex = -1;
                 }
 
                 CmbYearLevel.Text = row.Cells["year_level"].Value?.ToString() ?? "";
@@ -905,5 +960,396 @@ namespace Enrollment_System
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void LoadPrerequisiteSubjects()
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = @"
+                        SELECT 
+                            s1.subject_id AS subject_id_pre,
+                            s1.subject_code AS subject_code_pre,
+                            s1.subject_name AS subject_name_pre,
+                            s1.units AS units_pre,
+                            p.subject_id AS prerequisite_id,
+                            p.subject_code AS prerequisite_code_pre,
+                            p.subject_name AS prerequisite_name_pre,
+                            p.units AS prerequisite_units
+                        FROM 
+                            subjects s1
+                        JOIN 
+                            subject_prerequisites sp ON s1.subject_id = sp.subject_id
+                        JOIN 
+                            subjects p ON sp.prerequisite_id = p.subject_id
+                        ORDER BY 
+                            s1.subject_code, p.subject_code";
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        DataGridPrerequisite.AutoGenerateColumns = false;
+                        DataGridPrerequisite.Columns.Clear();
+
+                        
+                        DataGridPrerequisite.Columns.Add(new DataGridViewTextBoxColumn()
+                        {
+                            DataPropertyName = "subject_id_pre",
+                            HeaderText = "Subject ID",
+                            Name = "subject_id_pre"
+                        });
+
+                        DataGridPrerequisite.Columns.Add(new DataGridViewTextBoxColumn()
+                        {
+                            DataPropertyName = "subject_code_pre",
+                            HeaderText = "Subject Code",
+                            Name = "subject_code_pre",
+                            Width = 120
+                        });
+
+                        DataGridPrerequisite.Columns.Add(new DataGridViewTextBoxColumn()
+                        {
+                            DataPropertyName = "subject_name_pre",
+                            HeaderText = "Subject Name",
+                            Name = "subject_name_pre",
+                            Width = 200
+                        });
+
+                        DataGridPrerequisite.Columns.Add(new DataGridViewTextBoxColumn()
+                        {
+                            DataPropertyName = "units_pre",
+                            HeaderText = "Units",
+                            Name = "units_pre",
+                            Width = 60
+                        });
+
+                        DataGridPrerequisite.Columns.Add(new DataGridViewTextBoxColumn()
+                        {
+                            DataPropertyName = "prerequisite_id",
+                            HeaderText = "Prereq ID",
+                            Name = "prerequisite_id",
+                            Visible = false
+                        });
+
+                        DataGridPrerequisite.Columns.Add(new DataGridViewTextBoxColumn()
+                        {
+                            DataPropertyName = "prerequisite_code_pre",
+                            HeaderText = "Prerequisite Code",
+                            Name = "prerequisite_code_pre",
+                            Width = 120
+                        });
+
+                        DataGridPrerequisite.Columns.Add(new DataGridViewTextBoxColumn()
+                        {
+                            DataPropertyName = "prerequisite_name_pre",
+                            HeaderText = "Prerequisite Name",
+                            Name = "prerequisite_name_pre",
+                            Width = 200
+                        });
+
+                        DataGridPrerequisite.Columns.Add(new DataGridViewTextBoxColumn()
+                        {
+                            DataPropertyName = "prerequisite_units",
+                            HeaderText = "P. Units",
+                            Name = "prerequisite_units",
+                            Width = 60
+                        });
+
+                        
+                        DataGridViewImageColumn openCol = new DataGridViewImageColumn();
+                        openCol.Name = "ColOpen";
+                        openCol.HeaderText = "";
+                        openCol.Image = Properties.Resources.EditButton; 
+                        DataGridPrerequisite.Columns.Add(openCol);
+
+                        DataGridViewImageColumn closeCol = new DataGridViewImageColumn();
+                        closeCol.Name = "ColClose";
+                        closeCol.HeaderText = "";
+                        closeCol.Image = Properties.Resources.RemoveButton; 
+                        DataGridPrerequisite.Columns.Add(closeCol);
+
+                        using (var adapter = new MySqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            adapter.Fill(dt);
+                            DataGridPrerequisite.DataSource = dt;
+                        }
+
+                       
+                        InitializeDataGridView(DataGridPrerequisite);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading prerequisite subjects: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DeletePrerequisite(int subjectId, int prerequisiteId)
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "DELETE FROM subject_prerequisites WHERE subject_id = @subjectId AND prerequisite_id = @prerequisiteId";
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@subjectId", subjectId);
+                        cmd.Parameters.AddWithValue("@prerequisiteId", prerequisiteId);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    MessageBox.Show("Prerequisite deleted successfully!", "Success",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadPrerequisiteSubjects();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error deleting prerequisite: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DataGridPrerequisite_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            DataGridViewRow row = DataGridPrerequisite.Rows[e.RowIndex];
+
+            // Get the IDs from the hidden columns
+            int subjectId = Convert.ToInt32(row.Cells["subject_id_pre"].Value);
+            int prerequisiteId = Convert.ToInt32(row.Cells["prerequisite_id"].Value);
+
+            if (e.ColumnIndex == DataGridPrerequisite.Columns["ColOpen"].Index)
+            {
+                // Update action
+                UpdatePrerequisite();
+            }
+            else if (e.ColumnIndex == DataGridPrerequisite.Columns["ColClose"].Index)
+            {
+                // Delete action
+                if (MessageBox.Show("Are you sure you want to delete this prerequisite?", "Confirm Delete",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    DeletePrerequisite(subjectId, prerequisiteId);
+                }
+            }
+        }
+
+        private void DeleteSelectedPrerequisite()
+        {
+            if (DataGridPrerequisite.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a prerequisite relationship to delete", "Warning",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataGridViewRow selectedRow = DataGridPrerequisite.SelectedRows[0];
+            int subjectId = Convert.ToInt32(selectedRow.Cells["subject_id_pre"].Value);
+            int prerequisiteId = Convert.ToInt32(selectedRow.Cells["prerequisite_id"].Value);
+
+            if (MessageBox.Show("Are you sure you want to delete this prerequisite relationship?", "Confirm Delete",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
+                {
+                    using (var conn = new MySqlConnection(connectionString))
+                    {
+                        conn.Open();
+                        string query = "DELETE FROM subject_prerequisites WHERE subject_id = @subjectId AND prerequisite_id = @prerequisiteId";
+
+                        using (var cmd = new MySqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@subjectId", subjectId);
+                            cmd.Parameters.AddWithValue("@prerequisiteId", prerequisiteId);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        MessageBox.Show("Prerequisite relationship deleted successfully!", "Success",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadPrerequisiteSubjects();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error deleting prerequisite: " + ex.Message, "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void UpdatePrerequisite()
+        {
+            if (DataGridPrerequisite.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a prerequisite relationship to update", "Warning",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataGridViewRow selectedRow = DataGridPrerequisite.SelectedRows[0];
+            int subjectId = Convert.ToInt32(selectedRow.Cells["subject_id_pre"].Value);
+            int prerequisiteId = Convert.ToInt32(selectedRow.Cells["prerequisite_id"].Value);
+
+            // Get the new prerequisite ID from your existing controls
+            if (string.IsNullOrWhiteSpace(TxtSubID.Text))
+            {
+                MessageBox.Show("Please enter a valid subject ID for the new prerequisite", "Warning",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int newPrerequisiteId;
+            if (!int.TryParse(TxtSubID.Text, out newPrerequisiteId))
+            {
+                MessageBox.Show("Please enter a valid numeric subject ID", "Warning",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (newPrerequisiteId == subjectId)
+            {
+                MessageBox.Show("A subject cannot be a prerequisite for itself", "Warning",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    // Verify the new prerequisite exists
+                    string checkQuery = "SELECT COUNT(*) FROM subjects WHERE subject_id = @prerequisiteId";
+                    using (var checkCmd = new MySqlCommand(checkQuery, conn))
+                    {
+                        checkCmd.Parameters.AddWithValue("@prerequisiteId", newPrerequisiteId);
+                        int exists = Convert.ToInt32(checkCmd.ExecuteScalar());
+                        if (exists == 0)
+                        {
+                            MessageBox.Show("The specified prerequisite subject does not exist", "Warning",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                    }
+
+                    // Check if this relationship already exists
+                    string existsQuery = "SELECT COUNT(*) FROM subject_prerequisites WHERE subject_id = @subjectId AND prerequisite_id = @newPrerequisiteId";
+                    using (var existsCmd = new MySqlCommand(existsQuery, conn))
+                    {
+                        existsCmd.Parameters.AddWithValue("@subjectId", subjectId);
+                        existsCmd.Parameters.AddWithValue("@newPrerequisiteId", newPrerequisiteId);
+                        int relationshipExists = Convert.ToInt32(existsCmd.ExecuteScalar());
+                        if (relationshipExists > 0)
+                        {
+                            MessageBox.Show("This prerequisite relationship already exists", "Warning",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                    }
+
+                    // First delete the old relationship
+                    string deleteQuery = "DELETE FROM subject_prerequisites WHERE subject_id = @subjectId AND prerequisite_id = @prerequisiteId";
+                    using (var cmd = new MySqlCommand(deleteQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@subjectId", subjectId);
+                        cmd.Parameters.AddWithValue("@prerequisiteId", prerequisiteId);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // Then add the new relationship
+                    string insertQuery = "INSERT INTO subject_prerequisites (subject_id, prerequisite_id) VALUES (@subjectId, @newPrerequisiteId)";
+                    using (var cmd = new MySqlCommand(insertQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@subjectId", subjectId);
+                        cmd.Parameters.AddWithValue("@newPrerequisiteId", newPrerequisiteId);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    MessageBox.Show("Prerequisite updated successfully!", "Success",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadPrerequisiteSubjects();
+                    ClearFields();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error updating prerequisite: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DataGridPrerequisite_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return; // Ignore header clicks
+
+            DataGridViewRow row = DataGridPrerequisite.Rows[e.RowIndex];
+
+            // Get the subject ID of the prerequisite (the actual subject, not the parent)
+            int prerequisiteId = Convert.ToInt32(row.Cells["prerequisite_id"].Value);
+
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    // Query to get the prerequisite subject details
+                    string query = @"
+                SELECT s.subject_id, s.subject_code, s.subject_name, 
+                       c.course_code, cs.semester, cs.year_level
+                FROM subjects s
+                LEFT JOIN course_subjects cs ON s.subject_id = cs.subject_id
+                LEFT JOIN courses c ON cs.course_id = c.course_id
+                WHERE s.subject_id = @prerequisiteId";
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@prerequisiteId", prerequisiteId);
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                // Populate the text boxes
+                                TxtSubID.Text = reader["subject_id"].ToString();
+                                TxtSubCode.Text = reader["subject_code"].ToString();
+                                TxtSubName.Text = reader["subject_name"].ToString();
+
+                                // Set the course in the combo box
+                                string courseCode = reader["course_code"].ToString();
+                                foreach (KeyValuePair<int, string> item in CmbCourse.Items)
+                                {
+                                    if (item.Value == courseCode)
+                                    {
+                                        CmbCourse.SelectedItem = item;
+                                        break;
+                                    }
+                                }
+
+                                // Set semester and year level
+                                CmbSemester.Text = reader["semester"].ToString();
+                                CmbYearLevel.Text = reader["year_level"].ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading prerequisite details: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }
