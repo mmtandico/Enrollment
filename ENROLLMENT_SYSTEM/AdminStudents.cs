@@ -788,5 +788,18 @@ namespace Enrollment_System
             public string YearLevel { get; set; }
             public string bannerImage { get; set; }
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            string searchTerm = textBox1.Text.ToLower();
+
+
+            if (DataGridEnrolled.DataSource is DataTable)
+            {
+                DataTable dt = (DataTable)DataGridEnrolled.DataSource;
+                dt.DefaultView.RowFilter = string.Format("last_name LIKE '%{0}%' OR first_name LIKE '%{0}%' OR student_no LIKE '%{0}%'", searchTerm);
+            }
+            
+        }
     }
 }
