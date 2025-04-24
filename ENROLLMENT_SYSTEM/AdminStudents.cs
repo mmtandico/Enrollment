@@ -281,7 +281,6 @@ namespace Enrollment_System
             {
                 try
                 {
-
                     if (DataGridEnrolled.SelectedRows.Count == 0)
                     {
                         MessageBox.Show("No row selected for the report.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -295,26 +294,28 @@ namespace Enrollment_System
                     page.Orientation = PageOrientation.Landscape;
                     XGraphics gfx = XGraphics.FromPdfPage(page);
 
-
                     if (pdfDoc == null || gfx == null)
                     {
                         MessageBox.Show("Error initializing PDF document or graphics.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    XFont largeFont = new XFont("Verdana", 16, XFontStyle.Bold);
-                    XFont font = new XFont("Verdana", 8, XFontStyle.Regular);
-                    XFont boldFont = new XFont("Verdana", 9, XFontStyle.Bold);
-                    XFont headerFont = new XFont("Verdana", 12, XFontStyle.BoldItalic);
+                    // Define fonts with better sizing
+                    XFont titleFont = new XFont("Verdana", 18, XFontStyle.Bold);
+                    XFont regularFont = new XFont("Verdana", 9, XFontStyle.Regular);
+                    XFont boldFont = new XFont("Verdana", 10, XFontStyle.Bold);
+                    XFont headerFont = new XFont("Verdana", 12, XFontStyle.Bold);
+                    XFont subHeaderFont = new XFont("Verdana", 11, XFontStyle.BoldItalic);
 
-                    double marginLeft = 20;
-                    double marginTop = 20;
+                    // Set margins and positions
+                    double marginLeft = 30;
+                    double marginTop = 30;
                     double pageWidth = page.Width;
                     double pageHeight = page.Height;
+                    double contentWidth = pageWidth - (2 * marginLeft);
+                    double yPos = marginTop;
 
-                    double yPos = marginTop + 100;
-
-
+                    // Draw header banner
                     using (MemoryStream ms = new MemoryStream())
                     {
                         var bannerImage = Properties.Resources.BANNERPDM;
@@ -323,30 +324,38 @@ namespace Enrollment_System
                             bannerImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                             ms.Position = 0;
                             var xImage = XImage.FromStream(ms);
-                            gfx.DrawImage(xImage, marginLeft, marginTop, pageWidth - 2 * marginLeft, 100);
+
+                            // Make banner slightly smaller in height but same width
+                            double bannerHeight = 80;
+                            gfx.DrawImage(xImage, marginLeft, yPos, contentWidth, bannerHeight);
+                            yPos += bannerHeight + 20;
                         }
                         else
                         {
                             MessageBox.Show("Banner image is missing!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
-                        yPos = marginTop + 120;
                     }
 
-
+                    // Draw title with better spacing
                     string title = "CERTIFICATE OF REGISTRATION";
-                    double titleWidth = gfx.MeasureString(title, largeFont).Width;
+                    double titleWidth = gfx.MeasureString(title, titleFont).Width;
                     double titleXPos = (pageWidth - titleWidth) / 2;
+                    gfx.DrawString(title, titleFont, XBrushes.Black, titleXPos, yPos);
+                    yPos += 30;
 
-                    gfx.DrawString(title, largeFont, XBrushes.Black, titleXPos, yPos);
-                    yPos += 40;
+                    // Draw enrollment report subtitle and date with better alignment
+                    gfx.DrawString("Enrollment Report", subHeaderFont, XBrushes.Black, marginLeft, yPos);
+                    string dateGenerated = "Generated on: " + DateTime.Now.ToString("MMMM dd, yyyy HH:mm:ss");
+                    double dateWidth = gfx.MeasureString(dateGenerated, regularFont).Width;
+                    gfx.DrawString(dateGenerated, regularFont, XBrushes.Black, pageWidth - marginLeft - dateWidth, yPos);
+                    yPos += 30;
 
-                    gfx.DrawString("Enrollment Report", headerFont, XBrushes.Black, marginLeft, yPos);
-                    gfx.DrawString("Generated on: " + DateTime.Now.ToString("MMMM dd, yyyy HH:mm:ss"), font, XBrushes.Black, marginLeft, yPos + 25);
+                    // Draw separator line
+                    gfx.DrawLine(new XPen(XColors.Black, 1), marginLeft, yPos, pageWidth - marginLeft, yPos);
+                    yPos += 15;
 
-                    yPos += 60;
-
-
+                    // Get student information
                     DataGridViewRow selectedRow = DataGridEnrolled.SelectedRows[0];
                     if (selectedRow == null)
                     {
@@ -363,101 +372,197 @@ namespace Enrollment_System
                     string semester = selectedRow.Cells["semester"]?.Value?.ToString() ?? "N/A";
                     string status = selectedRow.Cells["status"]?.Value?.ToString() ?? "N/A";
 
+                    // Create student info section with two columns
+                    double infoColWidth = contentWidth / 2;
+                    double startYPos = yPos;
 
-                    gfx.DrawString("Selected Student: " + firstName + " " + middleName + " " + lastName, boldFont, XBrushes.Black, marginLeft, yPos);
+                    // Left column
+                    gfx.DrawString("Selected Student:", boldFont, XBrushes.Black, marginLeft, yPos);
+                    gfx.DrawString(firstName + " " + middleName + " " + lastName, regularFont, XBrushes.Black, marginLeft + 120, yPos);
                     yPos += 20;
-                    gfx.DrawString("Student No: " + studentNo, font, XBrushes.Black, marginLeft, yPos);
-                    yPos += 20;
-                    gfx.DrawString("Course: " + program, font, XBrushes.Black, marginLeft, yPos);
-                    yPos += 20;
-                    gfx.DrawString("Year Level: " + yearLevel, font, XBrushes.Black, marginLeft, yPos);
-                    yPos += 20;
-                    gfx.DrawString("Semester: " + semester, font, XBrushes.Black, marginLeft, yPos);
-                    yPos += 20;
-                    gfx.DrawString("Status: " + status, font, XBrushes.Black, marginLeft, yPos);
-                    yPos += 30;
 
-                    gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos);
-                    yPos += 10;
+                    gfx.DrawString("Student No:", boldFont, XBrushes.Black, marginLeft, yPos);
+                    gfx.DrawString(studentNo, regularFont, XBrushes.Black, marginLeft + 120, yPos);
+                    yPos += 20;
 
+                    gfx.DrawString("Course:", boldFont, XBrushes.Black, marginLeft, yPos);
+                    gfx.DrawString(program, regularFont, XBrushes.Black, marginLeft + 120, yPos);
 
+                    // Right column
+                    double rightColX = marginLeft + infoColWidth;
+                    double rightColYPos = startYPos;
+
+                    gfx.DrawString("Year Level:", boldFont, XBrushes.Black, rightColX, rightColYPos);
+                    gfx.DrawString(yearLevel, regularFont, XBrushes.Black, rightColX + 120, rightColYPos);
+                    rightColYPos += 20;
+
+                    gfx.DrawString("Semester:", boldFont, XBrushes.Black, rightColX, rightColYPos);
+                    gfx.DrawString(semester, regularFont, XBrushes.Black, rightColX + 120, rightColYPos);
+                    rightColYPos += 20;
+
+                    gfx.DrawString("Status:", boldFont, XBrushes.Black, rightColX, rightColYPos);
+                    gfx.DrawString(status, regularFont, XBrushes.Black, rightColX + 120, rightColYPos);
+
+                    yPos += 40; // Move past student info section
+
+                    // Draw separator line
+                    gfx.DrawLine(new XPen(XColors.Black, 1), marginLeft, yPos, pageWidth - marginLeft, yPos);
+                    yPos += 20;
+
+                    // Subject list title
+                    gfx.DrawString("Enrolled Subjects", headerFont, XBrushes.Black, (pageWidth - gfx.MeasureString("Enrolled Subjects", headerFont).Width) / 2, yPos);
+                    yPos += 25;
+
+                    // Define subjects table
                     List<Subject> subjects = GetSubjectsForStudent(program, semester, yearLevel);
 
+                    // Define column widths
                     double[] columnWidths = new double[7];
-                    double totalWidth = pageWidth - 2 * marginLeft;
-                    double columnWidth = totalWidth / 7;
+                    columnWidths[0] = 50;  // ID
+                    columnWidths[1] = 90;  // Subject Code
+                    columnWidths[2] = 270; // Subject Name
+                    columnWidths[3] = 50;  // Units
+                    columnWidths[4] = 80;  // Course Code
+                    columnWidths[5] = 80;  // Semester
+                    columnWidths[6] = 80;  // Year Level
 
-                    columnWidths[0] = 50;
-                    columnWidths[1] = 80;
-                    columnWidths[2] = 300;
-                    columnWidths[3] = 50;
-                    columnWidths[4] = 80;
-                    columnWidths[5] = 80;
-                    columnWidths[6] = 80;
-
-                    double xPos = marginLeft;
                     string[] headers = { "ID", "Subject Code", "Subject Name", "Units", "Course Code", "Semester", "Year Level" };
+
+                    // Draw table header background
+                    XRect headerRect = new XRect(marginLeft, yPos - 15, contentWidth, 20);
+                    gfx.DrawRectangle(new XSolidBrush(XColor.FromArgb(230, 230, 230)), headerRect);
+
+                    // Draw table header
+                    double xPos = marginLeft;
                     for (int i = 0; i < headers.Length; i++)
                     {
-                        gfx.DrawString(headers[i], boldFont, XBrushes.Black, xPos, yPos);
+                        gfx.DrawString(headers[i], boldFont, XBrushes.Black, xPos + 5, yPos);
                         xPos += columnWidths[i];
                     }
                     yPos += 20;
 
+                    // Draw header horizontal line
+                    gfx.DrawLine(new XPen(XColors.Black, 1), marginLeft, yPos - 5, pageWidth - marginLeft, yPos - 5);
+
+                    // Draw vertical lines for all columns
+                    double vertLineStartY = headerRect.Top;
+                    double vertLineEndY = vertLineStartY; // Will extend as we add rows
+
+                    // Draw table rows
+                    bool alternateRow = false;
                     foreach (var subject in subjects)
                     {
+                        // Alternate row background
+                        if (alternateRow)
+                        {
+                            XRect rowRect = new XRect(marginLeft, yPos - 15, contentWidth, 20);
+                            gfx.DrawRectangle(new XSolidBrush(XColor.FromArgb(245, 245, 245)), rowRect);
+                        }
+                        alternateRow = !alternateRow;
+
                         xPos = marginLeft;
-                        gfx.DrawString(subject.SubjectID.ToString(), font, XBrushes.Black, xPos, yPos);
+                        gfx.DrawString(subject.SubjectID.ToString(), regularFont, XBrushes.Black, xPos + 5, yPos);
                         xPos += columnWidths[0];
 
-                        gfx.DrawString(subject.SubjectCode, font, XBrushes.Black, xPos, yPos);
+                        gfx.DrawString(subject.SubjectCode, regularFont, XBrushes.Black, xPos + 5, yPos);
                         xPos += columnWidths[1];
 
-                        gfx.DrawString(subject.SubjectName, font, XBrushes.Black, xPos, yPos);
+                        gfx.DrawString(subject.SubjectName, regularFont, XBrushes.Black, xPos + 5, yPos);
                         xPos += columnWidths[2];
 
-                        gfx.DrawString(subject.Units.ToString(), font, XBrushes.Black, xPos, yPos);
+                        gfx.DrawString(subject.Units.ToString(), regularFont, XBrushes.Black, xPos + 5, yPos);
                         xPos += columnWidths[3];
 
-                        gfx.DrawString(subject.CourseCode, font, XBrushes.Black, xPos, yPos);
+                        gfx.DrawString(subject.CourseCode, regularFont, XBrushes.Black, xPos + 5, yPos);
                         xPos += columnWidths[4];
 
-                        gfx.DrawString(subject.Semester, font, XBrushes.Black, xPos, yPos);
+                        gfx.DrawString(subject.Semester, regularFont, XBrushes.Black, xPos + 5, yPos);
                         xPos += columnWidths[5];
 
-                        gfx.DrawString(subject.YearLevel, font, XBrushes.Black, xPos, yPos);
-                        yPos += 15;
+                        gfx.DrawString(subject.YearLevel, regularFont, XBrushes.Black, xPos + 5, yPos);
+
+                        yPos += 20;
+                        vertLineEndY = yPos; // Update end position for vertical lines
                     }
 
-                    gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos);
-                    yPos += 10;
+                    // Now draw all vertical lines
+                    xPos = marginLeft;
+                    for (int i = 0; i <= headers.Length; i++)
+                    {
+                        gfx.DrawLine(new XPen(XColors.Gray, 0.5), xPos, vertLineStartY, xPos, vertLineEndY);
+                        if (i < headers.Length)
+                            xPos += columnWidths[i];
+                    }
 
+                    // Draw bottom table line
+                    gfx.DrawLine(new XPen(XColors.Black, 1), marginLeft, yPos - 5, pageWidth - marginLeft, yPos - 5);
+                    yPos += 15;
 
+                    // Calculate and display total units and fees
                     int totalUnits = GetTotalUnits(program, semester, yearLevel);
-
                     decimal tuitionFee = CalculateTuitionFee(totalUnits);
                     decimal miscFee = CalculateMiscellaneousFee();
                     decimal totalAssessment = tuitionFee + miscFee;
 
-                    gfx.DrawString("Total Units: " + totalUnits.ToString(), font, XBrushes.Black, marginLeft, yPos);
-                    yPos += 20;
-                    gfx.DrawString("Tuition Fee: " + tuitionFee.ToString("0.00"), font, XBrushes.Black, marginLeft, yPos);
-                    yPos += 20;
-                    gfx.DrawString("Misc Fee: " + miscFee.ToString("0.00"), font, XBrushes.Black, marginLeft, yPos);
-                    yPos += 20;
-                    gfx.DrawString("Total Assessment: " + totalAssessment.ToString("0.00"), font, XBrushes.Black, marginLeft, yPos);
-                    yPos += 30;
+                    // Draw fee information in a framed box
+                    double feeBoxWidth = 250;
+                    double feeBoxStartX = pageWidth - marginLeft - feeBoxWidth;
+                    double feeBoxStartY = yPos;
 
-                    gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos);
+                    // Fee box title
+                    gfx.DrawString("Assessment Summary", boldFont, XBrushes.Black, feeBoxStartX, feeBoxStartY);
+                    feeBoxStartY += 5;
+
+                    // Fee box frame
+                    XRect feeBoxRect = new XRect(feeBoxStartX, feeBoxStartY, feeBoxWidth, 100);
+                    gfx.DrawRectangle(new XPen(XColors.Black, 1), feeBoxRect);
+
+                    // Fee details
+                    feeBoxStartY += 20;
+                    gfx.DrawString("Total Units:", boldFont, XBrushes.Black, feeBoxStartX + 10, feeBoxStartY);
+                    gfx.DrawString(totalUnits.ToString(), regularFont, XBrushes.Black, feeBoxStartX + 150, feeBoxStartY);
+                    feeBoxStartY += 20;
+
+                    gfx.DrawString("Tuition Fee:", boldFont, XBrushes.Black, feeBoxStartX + 10, feeBoxStartY);
+                    gfx.DrawString("₱" + tuitionFee.ToString("0.00"), regularFont, XBrushes.Black, feeBoxStartX + 150, feeBoxStartY);
+                    feeBoxStartY += 20;
+
+                    gfx.DrawString("Misc Fee:", boldFont, XBrushes.Black, feeBoxStartX + 10, feeBoxStartY);
+                    gfx.DrawString("₱" + miscFee.ToString("0.00"), regularFont, XBrushes.Black, feeBoxStartX + 150, feeBoxStartY);
+                    feeBoxStartY += 20;
+
+                    // Draw line before total
+                    gfx.DrawLine(new XPen(XColors.Black, 0.5), feeBoxStartX + 10, feeBoxStartY - 5, feeBoxStartX + feeBoxWidth - 10, feeBoxStartY - 5);
+
+                    gfx.DrawString("Total Assessment:", boldFont, XBrushes.Black, feeBoxStartX + 10, feeBoxStartY);
+                    gfx.DrawString("₱" + totalAssessment.ToString("0.00"), boldFont, XBrushes.Black, feeBoxStartX + 150, feeBoxStartY);
+
+                    // Add signature area
+                    yPos = feeBoxStartY + 80;
+                    double signatureWidth = 200;
+                    double signatureX = marginLeft + 100;
+
+                    gfx.DrawLine(new XPen(XColors.Black, 1), signatureX, yPos, signatureX + signatureWidth, yPos);
                     yPos += 10;
+                    gfx.DrawString("Student Signature", regularFont, XBrushes.Black, signatureX + (signatureWidth / 2 - 50), yPos);
 
+                    // Add registrar signature
+                    double registrarX = pageWidth - marginLeft - 300;
+                    gfx.DrawLine(new XPen(XColors.Black, 1), registrarX, yPos - 10, registrarX + signatureWidth, yPos - 10);
+                    gfx.DrawString("Registrar", regularFont, XBrushes.Black, registrarX + (signatureWidth / 2 - 30), yPos);
 
+                    // Add footer
+                    yPos = pageHeight - 40;
+                    string footerText = "This document is computer-generated and does not require a signature stamp to be considered valid.";
+                    double footerWidth = gfx.MeasureString(footerText, regularFont).Width;
+                    gfx.DrawString(footerText, regularFont, XBrushes.Gray, (pageWidth - footerWidth) / 2, yPos);
+
+                    // Save the PDF
                     pdfDoc.Save(savePath);
                     MessageBox.Show("PDF report generated successfully and saved to: " + savePath, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-
                     MessageBox.Show("Error generating PDF: " + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
