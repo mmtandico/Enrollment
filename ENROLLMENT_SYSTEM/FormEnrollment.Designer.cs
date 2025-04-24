@@ -61,6 +61,21 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.DataGridPayment = new System.Windows.Forms.DataGridView();
+            this.payment_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.payment_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.total_units = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.total_amount_due = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.amount_paid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.payment_method = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.receipt_no = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.academic_year_payment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.semester_payment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tuition = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Miscellaneous = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.status_payment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColPay = new System.Windows.Forms.DataGridViewImageColumn();
+            this.ColDelete = new System.Windows.Forms.DataGridViewImageColumn();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel8 = new System.Windows.Forms.Panel();
             this.DataGridSubjects = new System.Windows.Forms.DataGridView();
@@ -113,21 +128,6 @@
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn4 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.payment_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.payment_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.total_units = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.total_amount_due = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.amount_paid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.payment_method = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.receipt_no = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.academic_year_payment = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.semester_payment = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tuition = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Miscellaneous = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.status_payment = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColPay = new System.Windows.Forms.DataGridViewImageColumn();
-            this.ColDelete = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -293,7 +293,7 @@
             this.BtnCourses.Name = "BtnCourses";
             this.BtnCourses.Size = new System.Drawing.Size(84, 37);
             this.BtnCourses.TabIndex = 3;
-            this.BtnCourses.Text = "COURSES";
+            this.BtnCourses.Text = "PROGRAMS";
             this.BtnCourses.UseVisualStyleBackColor = true;
             this.BtnCourses.Click += new System.EventHandler(this.BtnCourses_Click);
             // 
@@ -446,6 +446,113 @@
             this.DataGridPayment.Size = new System.Drawing.Size(1292, 329);
             this.DataGridPayment.TabIndex = 2;
             this.DataGridPayment.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridPayment_CellContentClick_1);
+            // 
+            // payment_id
+            // 
+            this.payment_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.payment_id.FillWeight = 10F;
+            this.payment_id.Frozen = true;
+            this.payment_id.HeaderText = "ID";
+            this.payment_id.Name = "payment_id";
+            this.payment_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.payment_id.Width = 53;
+            // 
+            // payment_date
+            // 
+            this.payment_date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.payment_date.FillWeight = 200F;
+            this.payment_date.Frozen = true;
+            this.payment_date.HeaderText = "Payment Date";
+            this.payment_date.Name = "payment_date";
+            this.payment_date.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.payment_date.Width = 150;
+            // 
+            // total_units
+            // 
+            this.total_units.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.total_units.HeaderText = "Units";
+            this.total_units.Name = "total_units";
+            this.total_units.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.total_units.Width = 78;
+            // 
+            // total_amount_due
+            // 
+            this.total_amount_due.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.total_amount_due.HeaderText = "Total Due";
+            this.total_amount_due.Name = "total_amount_due";
+            this.total_amount_due.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.total_amount_due.Width = 112;
+            // 
+            // amount_paid
+            // 
+            this.amount_paid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.amount_paid.HeaderText = "Amount Paid";
+            this.amount_paid.Name = "amount_paid";
+            this.amount_paid.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.amount_paid.Width = 140;
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            this.dataGridViewTextBoxColumn9.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn9.HeaderText = "UniFAST Covered?";
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            this.dataGridViewTextBoxColumn9.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn9.Width = 183;
+            // 
+            // payment_method
+            // 
+            this.payment_method.HeaderText = "Method";
+            this.payment_method.Name = "payment_method";
+            // 
+            // receipt_no
+            // 
+            this.receipt_no.HeaderText = "Receipt No.";
+            this.receipt_no.Name = "receipt_no";
+            // 
+            // academic_year_payment
+            // 
+            this.academic_year_payment.HeaderText = "Academic Year";
+            this.academic_year_payment.Name = "academic_year_payment";
+            // 
+            // semester_payment
+            // 
+            this.semester_payment.HeaderText = "Semester";
+            this.semester_payment.Name = "semester_payment";
+            // 
+            // Tuition
+            // 
+            this.Tuition.HeaderText = "Tuition Fee";
+            this.Tuition.Name = "Tuition";
+            // 
+            // Miscellaneous
+            // 
+            this.Miscellaneous.HeaderText = "Miscellaneous Fee";
+            this.Miscellaneous.Name = "Miscellaneous";
+            // 
+            // status_payment
+            // 
+            this.status_payment.HeaderText = "Status";
+            this.status_payment.Name = "status_payment";
+            // 
+            // ColPay
+            // 
+            this.ColPay.HeaderText = "";
+            this.ColPay.Image = global::Enrollment_System.Properties.Resources.wallet_icon;
+            this.ColPay.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColPay.MinimumWidth = 2;
+            this.ColPay.Name = "ColPay";
+            this.ColPay.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColPay.Width = 40;
+            // 
+            // ColDelete
+            // 
+            this.ColDelete.HeaderText = "";
+            this.ColDelete.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
+            this.ColDelete.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColDelete.MinimumWidth = 2;
+            this.ColDelete.Name = "ColDelete";
+            this.ColDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColDelete.Width = 40;
             // 
             // tabPage1
             // 
@@ -1090,113 +1197,6 @@
             this.dataGridViewImageColumn4.Name = "dataGridViewImageColumn4";
             this.dataGridViewImageColumn4.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewImageColumn4.Width = 40;
-            // 
-            // payment_id
-            // 
-            this.payment_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.payment_id.FillWeight = 10F;
-            this.payment_id.Frozen = true;
-            this.payment_id.HeaderText = "ID";
-            this.payment_id.Name = "payment_id";
-            this.payment_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.payment_id.Width = 53;
-            // 
-            // payment_date
-            // 
-            this.payment_date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.payment_date.FillWeight = 200F;
-            this.payment_date.Frozen = true;
-            this.payment_date.HeaderText = "Payment Date";
-            this.payment_date.Name = "payment_date";
-            this.payment_date.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.payment_date.Width = 150;
-            // 
-            // total_units
-            // 
-            this.total_units.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.total_units.HeaderText = "Units";
-            this.total_units.Name = "total_units";
-            this.total_units.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.total_units.Width = 78;
-            // 
-            // total_amount_due
-            // 
-            this.total_amount_due.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.total_amount_due.HeaderText = "Total Due";
-            this.total_amount_due.Name = "total_amount_due";
-            this.total_amount_due.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.total_amount_due.Width = 112;
-            // 
-            // amount_paid
-            // 
-            this.amount_paid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.amount_paid.HeaderText = "Amount Paid";
-            this.amount_paid.Name = "amount_paid";
-            this.amount_paid.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.amount_paid.Width = 140;
-            // 
-            // dataGridViewTextBoxColumn9
-            // 
-            this.dataGridViewTextBoxColumn9.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn9.HeaderText = "UniFAST Covered?";
-            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
-            this.dataGridViewTextBoxColumn9.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn9.Width = 183;
-            // 
-            // payment_method
-            // 
-            this.payment_method.HeaderText = "Method";
-            this.payment_method.Name = "payment_method";
-            // 
-            // receipt_no
-            // 
-            this.receipt_no.HeaderText = "Receipt No.";
-            this.receipt_no.Name = "receipt_no";
-            // 
-            // academic_year_payment
-            // 
-            this.academic_year_payment.HeaderText = "Academic Year";
-            this.academic_year_payment.Name = "academic_year_payment";
-            // 
-            // semester_payment
-            // 
-            this.semester_payment.HeaderText = "Semester";
-            this.semester_payment.Name = "semester_payment";
-            // 
-            // Tuition
-            // 
-            this.Tuition.HeaderText = "Tuition Fee";
-            this.Tuition.Name = "Tuition";
-            // 
-            // Miscellaneous
-            // 
-            this.Miscellaneous.HeaderText = "Miscellaneous Fee";
-            this.Miscellaneous.Name = "Miscellaneous";
-            // 
-            // status_payment
-            // 
-            this.status_payment.HeaderText = "Status";
-            this.status_payment.Name = "status_payment";
-            // 
-            // ColPay
-            // 
-            this.ColPay.HeaderText = "";
-            this.ColPay.Image = global::Enrollment_System.Properties.Resources.wallet_icon;
-            this.ColPay.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.ColPay.MinimumWidth = 2;
-            this.ColPay.Name = "ColPay";
-            this.ColPay.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColPay.Width = 40;
-            // 
-            // ColDelete
-            // 
-            this.ColDelete.HeaderText = "";
-            this.ColDelete.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
-            this.ColDelete.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.ColDelete.MinimumWidth = 2;
-            this.ColDelete.Name = "ColDelete";
-            this.ColDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColDelete.Width = 40;
             // 
             // FormEnrollment
             // 

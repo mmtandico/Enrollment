@@ -993,7 +993,7 @@
             this.BtnCourses.Name = "BtnCourses";
             this.BtnCourses.Size = new System.Drawing.Size(84, 37);
             this.BtnCourses.TabIndex = 1;
-            this.BtnCourses.Text = "COURSES";
+            this.BtnCourses.Text = "PROGRAMS";
             this.BtnCourses.UseVisualStyleBackColor = true;
             this.BtnCourses.Click += new System.EventHandler(this.BtnCourses_Click);
             // 

@@ -71,6 +71,8 @@ namespace Enrollment_System
             ApplyButtonEffects();
             LoadForm(new AdminDashB());
 
+            CheckAdminButtonVisibility();
+
 
             if (SessionManager.IsLoggedIn)
             {
@@ -78,7 +80,103 @@ namespace Enrollment_System
             }
         }
 
+        private void CheckAdminButtonVisibility()
+        {
+            try
+            {
+                if (!SessionManager.IsLoggedIn)
+                {
+                    // Hide all buttons if not logged in (shouldn't happen but good practice)
+                    BtnAdmin.Visible = false;
+                    BtnStudent.Visible = false;
+                    BtnCourse.Visible = false;
+                    BtnEnroll.Visible = false;
+                    BtnDashB.Visible = false;
+                    return;
+                }
 
+                // Get the current user's role from session
+                string userRole = SessionManager.UserRole?.ToString().ToLower();
+
+                // Cashier role - only show Dashboard and Enrollment buttons
+                if (userRole == "cashier")
+                {
+                    BtnAdmin.Visible = false;
+                    BtnStudent.Visible = false;
+                    BtnCourse.Visible = false;
+                    BtnEnroll.Visible = true;
+                    BtnDashB.Visible = true;
+
+                    // Adjust layout if needed
+                    AdjustCashierLayout();
+                }
+                // Admin role - show all buttons except Admin button (as per original requirement)
+                else if (userRole == "admin")
+                {
+                    BtnAdmin.Visible = false;
+                    BtnStudent.Visible = true;
+                    BtnCourse.Visible = true;
+                    BtnEnroll.Visible = true;
+                    BtnDashB.Visible = true;
+
+                    // Adjust layout back to normal
+                    AdjustAdminLayout();
+                }
+                // Other roles (if any) - show all buttons
+                else
+                {
+                    BtnAdmin.Visible = true;
+                    BtnStudent.Visible = true;
+                    BtnCourse.Visible = true;
+                    BtnEnroll.Visible = true;
+                    BtnDashB.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error and restrict access by default
+                Console.WriteLine("Error checking user role: " + ex.Message);
+                RestrictAllButtons();
+            }
+        }
+
+        private void AdjustCashierLayout()
+        {
+            // Position the two visible buttons at the top
+            int startY = BtnDashB.Top; // Original position of first button
+            int buttonSpacing = 10; // Space between buttons
+
+            BtnDashB.Top = startY;
+            BtnEnroll.Top = BtnDashB.Bottom + buttonSpacing;
+
+            // Hide the remaining space where other buttons would be
+            // You could add a panel or label here if you want to fill the space
+        }
+
+
+        private void AdjustAdminLayout()
+        {
+            // Reset buttons to their original positions
+            // You'll need to store original positions or hardcode them
+            int startY = BtnDashB.Top;
+            int buttonSpacing = 10;
+
+            BtnDashB.Top = startY;
+            BtnEnroll.Top = BtnDashB.Bottom + buttonSpacing;
+            BtnStudent.Top = BtnEnroll.Bottom + buttonSpacing;
+            BtnCourse.Top = BtnStudent.Bottom + buttonSpacing;
+            // BtnAdmin would normally be here but it's hidden for admin role
+        }
+
+        private void RestrictAllButtons()
+        {
+            // Default to most restrictive access if there's an error
+            BtnAdmin.Visible = false;
+            BtnStudent.Visible = false;
+            BtnCourse.Visible = false;
+            BtnEnroll.Visible = false;
+            BtnDashB.Visible = true; // At least show dashboard
+        }
 
         // Function to load forms inside MAINPANEL
         private void LoadForm(Form form)
