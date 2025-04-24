@@ -691,20 +691,24 @@ namespace Enrollment_System
                 XGraphics gfx = XGraphics.FromPdfPage(page);
 
                 // Define fonts
-                XFont titleFont = new XFont("Verdana", 14, XFontStyle.Bold);  // Smaller font for title
-                XFont headerFont = new XFont("Verdana", 9, XFontStyle.Bold);  // Smaller font for header
-                XFont contentFont = new XFont("Verdana", 8);                  // Smaller font for content
+                XFont titleFont = new XFont("Verdana", 14, XFontStyle.Bold);
+                XFont headerFont = new XFont("Verdana", 9, XFontStyle.Bold);
+                XFont contentFont = new XFont("Verdana", 8);
 
                 // Title
                 string title = "Student Enrollment Report";
                 double titleWidth = gfx.MeasureString(title, titleFont).Width;
                 double pageWidth = page.Width;
-                gfx.DrawString(title, titleFont, XBrushes.Black, new XPoint((pageWidth - titleWidth) / 2, 40));  // Center the title
+                gfx.DrawString(title, titleFont, XBrushes.Black, new XPoint((pageWidth - titleWidth) / 2, 40));
+
+                // Draw a line under the title
+                double titleYPosition = 60;
+                gfx.DrawLine(XPens.Black, 40, titleYPosition + 10, pageWidth - 40, titleYPosition + 10);
 
                 // Column Names for the table
                 string[] headers = { "ID", "Student No.", "Last Name", "First Name", "Middle Name", "Course", "School Year", "Semester", "Year Level", "Status" };
 
-                // Calculate column widths based on content and header length
+                // Calculate column widths
                 double[] columnWidths = new double[headers.Length];
                 double marginLeft = 40;
                 double availableWidth = pageWidth - 2 * marginLeft;
@@ -735,35 +739,67 @@ namespace Enrollment_System
                     columnWidths[i] *= scaleFactor;
                 }
 
-                // Draw Header Row (Table Columns) without a background, simply as text
+                // Adjusted starting Y position for header
+                double headerYPosition = 80;
                 double currentX = marginLeft;
-                double headerYPosition = 100;  // Lowered the header row to avoid overlapping
+
+                // Draw Header Row
                 for (int i = 0; i < headers.Length; i++)
                 {
-                    gfx.DrawString(headers[i], headerFont, XBrushes.Black, new XPoint(currentX + 5, headerYPosition + 3)); // Adding padding
+                    gfx.DrawString(headers[i], headerFont, XBrushes.Black, new XPoint(currentX + 5, headerYPosition + 3));
                     currentX += columnWidths[i];
                 }
 
-                // Draw a line under the header row
-                gfx.DrawLine(XPens.Black, marginLeft, headerYPosition + 15, pageWidth - marginLeft, headerYPosition + 15); // Line under header
+                // Draw vertical grid lines for columns
+                currentX = marginLeft;
+                for (int i = 0; i <= headers.Length; i++)
+                {
+                    // Draw vertical lines from header to the end of the table
+                    double lineStartY = headerYPosition - 5; // Start slightly above the header text
+                    double lineEndY = headerYPosition + 25 + (DataGridEnrolled.Rows.Count - 1) * 20; // Extend to the last row + padding
 
-                // Adjusted starting Y position for row content to align properly under the header
-                int yPosition = (int)(headerYPosition + 20);  // Increased this value to move the content rows down slightly
+                    gfx.DrawLine(XPens.Gray, currentX, lineStartY, currentX, lineEndY);
 
-                // Loop through all rows in the DataGridView and add to the PDF
+                    if (i < headers.Length)
+                        currentX += columnWidths[i];
+                }
+
+                // Draw a line under the header row - THIS IS THE LINE YOU WANTED TO ADJUST
+                double headerLineY = headerYPosition + 15;
+                gfx.DrawLine(new XPen(XColors.Black, 1), marginLeft, headerLineY, pageWidth - marginLeft, headerLineY);
+
+                // Adjusted starting Y position for row content
+                int yPosition = (int)(headerYPosition + 25); // Increased space after header line
+
+                // Loop through all rows in the DataGridView
+                int idCounter = 1;
                 foreach (DataGridViewRow row in DataGridEnrolled.Rows)
                 {
-                    if (row.IsNewRow) continue; // Skip the new row placeholder
+                    if (row.IsNewRow) continue;
+
+                    // Draw horizontal grid line above each row (except the first one which comes after header)
+                    if (idCounter > 1)
+                    {
+                        gfx.DrawLine(XPens.LightGray, marginLeft, yPosition - 10, pageWidth - marginLeft, yPosition - 10);
+                    }
 
                     currentX = marginLeft;
-                    for (int i = 0; i < headers.Length; i++)
+                    gfx.DrawString(idCounter.ToString(), contentFont, XBrushes.Black, new XPoint(currentX + 5, yPosition));
+                    currentX += columnWidths[0];
+
+                    for (int i = 1; i < headers.Length; i++)
                     {
                         string cellValue = row.Cells[i]?.Value?.ToString() ?? "N/A";
-                        gfx.DrawString(cellValue, contentFont, XBrushes.Black, new XPoint(currentX + 5, yPosition)); // Adding padding
+                        gfx.DrawString(cellValue, contentFont, XBrushes.Black, new XPoint(currentX + 5, yPosition));
                         currentX += columnWidths[i];
                     }
-                    yPosition += 20; // Move down to the next row
+
+                    idCounter++;
+                    yPosition += 20;
                 }
+
+                // Draw a line at the bottom of the table
+                gfx.DrawLine(new XPen(XColors.Black, 1), marginLeft, yPosition - 10, pageWidth - marginLeft, yPosition - 10);
 
                 // Save the PDF
                 pdfDoc.Save(savePath);
