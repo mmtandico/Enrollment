@@ -1271,5 +1271,27 @@ namespace Enrollment_System
             DataGridViewRow selectedRow = DataGridNewEnrollment.SelectedRows[0];
             DeleteNewEnrollment(selectedRow);
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            string searchTerm = textBox1.Text.ToLower(); 
+
+           
+            if (DataGridNewEnrollment.DataSource is DataTable)
+            {
+                DataTable dt = (DataTable)DataGridNewEnrollment.DataSource;
+                dt.DefaultView.RowFilter = string.Format("last_name LIKE '%{0}%' OR first_name LIKE '%{0}%' OR student_no LIKE '%{0}%'", searchTerm);
+            }
+            if (DataGridPaidEnrollment.DataSource is DataTable)
+            {
+                DataTable dt = (DataTable)DataGridPaidEnrollment.DataSource;
+                dt.DefaultView.RowFilter = string.Format("last_name LIKE '%{0}%' OR first_name LIKE '%{0}%' OR student_no LIKE '%{0}%'", searchTerm);
+            }
+            if (DataGridPayment.DataSource is DataTable)
+            {
+                DataTable dt = (DataTable)DataGridPayment.DataSource;
+                dt.DefaultView.RowFilter = string.Format("last_name LIKE '%{0}%' OR first_name LIKE '%{0}%' OR student_no LIKE '%{0}%'", searchTerm);
+            }
+        }
     }
 }
