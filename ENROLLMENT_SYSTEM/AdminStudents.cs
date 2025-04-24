@@ -277,7 +277,190 @@ namespace Enrollment_System
 
         private void DataGridEnrolled_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.ColumnIndex == DataGridEnrolled.Columns["ColClose"].Index && e.RowIndex >= 0)
+            {
+                try
+                {
 
+                    if (DataGridEnrolled.SelectedRows.Count == 0)
+                    {
+                        MessageBox.Show("No row selected for the report.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    PdfDocument pdfDoc = new PdfDocument();
+                    string savePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", "Enrollment_Report_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf");
+
+                    PdfPage page = pdfDoc.AddPage();
+                    page.Orientation = PageOrientation.Landscape;
+                    XGraphics gfx = XGraphics.FromPdfPage(page);
+
+
+                    if (pdfDoc == null || gfx == null)
+                    {
+                        MessageBox.Show("Error initializing PDF document or graphics.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    XFont largeFont = new XFont("Verdana", 16, XFontStyle.Bold);
+                    XFont font = new XFont("Verdana", 8, XFontStyle.Regular);
+                    XFont boldFont = new XFont("Verdana", 9, XFontStyle.Bold);
+                    XFont headerFont = new XFont("Verdana", 12, XFontStyle.BoldItalic);
+
+                    double marginLeft = 20;
+                    double marginTop = 20;
+                    double pageWidth = page.Width;
+                    double pageHeight = page.Height;
+
+                    double yPos = marginTop + 100;
+
+
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        var bannerImage = Properties.Resources.BANNERPDM;
+                        if (bannerImage != null)
+                        {
+                            bannerImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                            ms.Position = 0;
+                            var xImage = XImage.FromStream(ms);
+                            gfx.DrawImage(xImage, marginLeft, marginTop, pageWidth - 2 * marginLeft, 100);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Banner image is missing!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                        yPos = marginTop + 120;
+                    }
+
+
+                    string title = "CERTIFICATE OF REGISTRATION";
+                    double titleWidth = gfx.MeasureString(title, largeFont).Width;
+                    double titleXPos = (pageWidth - titleWidth) / 2;
+
+                    gfx.DrawString(title, largeFont, XBrushes.Black, titleXPos, yPos);
+                    yPos += 40;
+
+                    gfx.DrawString("Enrollment Report", headerFont, XBrushes.Black, marginLeft, yPos);
+                    gfx.DrawString("Generated on: " + DateTime.Now.ToString("MMMM dd, yyyy HH:mm:ss"), font, XBrushes.Black, marginLeft, yPos + 25);
+
+                    yPos += 60;
+
+
+                    DataGridViewRow selectedRow = DataGridEnrolled.SelectedRows[0];
+                    if (selectedRow == null)
+                    {
+                        MessageBox.Show("Selected row is invalid.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    string studentNo = selectedRow.Cells["student_no"]?.Value?.ToString() ?? "N/A";
+                    string lastName = selectedRow.Cells["last_name"]?.Value?.ToString() ?? "N/A";
+                    string firstName = selectedRow.Cells["first_name"]?.Value?.ToString() ?? "N/A";
+                    string middleName = selectedRow.Cells["middle_name"]?.Value?.ToString() ?? "N/A";
+                    string program = selectedRow.Cells["CourseCode"]?.Value?.ToString() ?? "N/A";
+                    string yearLevel = selectedRow.Cells["year_level"]?.Value?.ToString() ?? "N/A";
+                    string semester = selectedRow.Cells["semester"]?.Value?.ToString() ?? "N/A";
+                    string status = selectedRow.Cells["status"]?.Value?.ToString() ?? "N/A";
+
+
+                    gfx.DrawString("Selected Student: " + firstName + " " + middleName + " " + lastName, boldFont, XBrushes.Black, marginLeft, yPos);
+                    yPos += 20;
+                    gfx.DrawString("Student No: " + studentNo, font, XBrushes.Black, marginLeft, yPos);
+                    yPos += 20;
+                    gfx.DrawString("Course: " + program, font, XBrushes.Black, marginLeft, yPos);
+                    yPos += 20;
+                    gfx.DrawString("Year Level: " + yearLevel, font, XBrushes.Black, marginLeft, yPos);
+                    yPos += 20;
+                    gfx.DrawString("Semester: " + semester, font, XBrushes.Black, marginLeft, yPos);
+                    yPos += 20;
+                    gfx.DrawString("Status: " + status, font, XBrushes.Black, marginLeft, yPos);
+                    yPos += 30;
+
+                    gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos);
+                    yPos += 10;
+
+
+                    List<Subject> subjects = GetSubjectsForStudent(program, semester, yearLevel);
+
+                    double[] columnWidths = new double[7];
+                    double totalWidth = pageWidth - 2 * marginLeft;
+                    double columnWidth = totalWidth / 7;
+
+                    columnWidths[0] = 50;
+                    columnWidths[1] = 80;
+                    columnWidths[2] = 300;
+                    columnWidths[3] = 50;
+                    columnWidths[4] = 80;
+                    columnWidths[5] = 80;
+                    columnWidths[6] = 80;
+
+                    double xPos = marginLeft;
+                    string[] headers = { "ID", "Subject Code", "Subject Name", "Units", "Course Code", "Semester", "Year Level" };
+                    for (int i = 0; i < headers.Length; i++)
+                    {
+                        gfx.DrawString(headers[i], boldFont, XBrushes.Black, xPos, yPos);
+                        xPos += columnWidths[i];
+                    }
+                    yPos += 20;
+
+                    foreach (var subject in subjects)
+                    {
+                        xPos = marginLeft;
+                        gfx.DrawString(subject.SubjectID.ToString(), font, XBrushes.Black, xPos, yPos);
+                        xPos += columnWidths[0];
+
+                        gfx.DrawString(subject.SubjectCode, font, XBrushes.Black, xPos, yPos);
+                        xPos += columnWidths[1];
+
+                        gfx.DrawString(subject.SubjectName, font, XBrushes.Black, xPos, yPos);
+                        xPos += columnWidths[2];
+
+                        gfx.DrawString(subject.Units.ToString(), font, XBrushes.Black, xPos, yPos);
+                        xPos += columnWidths[3];
+
+                        gfx.DrawString(subject.CourseCode, font, XBrushes.Black, xPos, yPos);
+                        xPos += columnWidths[4];
+
+                        gfx.DrawString(subject.Semester, font, XBrushes.Black, xPos, yPos);
+                        xPos += columnWidths[5];
+
+                        gfx.DrawString(subject.YearLevel, font, XBrushes.Black, xPos, yPos);
+                        yPos += 15;
+                    }
+
+                    gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos);
+                    yPos += 10;
+
+
+                    int totalUnits = GetTotalUnits(program, semester, yearLevel);
+
+                    decimal tuitionFee = CalculateTuitionFee(totalUnits);
+                    decimal miscFee = CalculateMiscellaneousFee();
+                    decimal totalAssessment = tuitionFee + miscFee;
+
+                    gfx.DrawString("Total Units: " + totalUnits.ToString(), font, XBrushes.Black, marginLeft, yPos);
+                    yPos += 20;
+                    gfx.DrawString("Tuition Fee: " + tuitionFee.ToString("0.00"), font, XBrushes.Black, marginLeft, yPos);
+                    yPos += 20;
+                    gfx.DrawString("Misc Fee: " + miscFee.ToString("0.00"), font, XBrushes.Black, marginLeft, yPos);
+                    yPos += 20;
+                    gfx.DrawString("Total Assessment: " + totalAssessment.ToString("0.00"), font, XBrushes.Black, marginLeft, yPos);
+                    yPos += 30;
+
+                    gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos);
+                    yPos += 10;
+
+
+                    pdfDoc.Save(savePath);
+                    MessageBox.Show("PDF report generated successfully and saved to: " + savePath, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Error generating PDF: " + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void DataGridNewEnrollment_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -499,13 +682,7 @@ namespace Enrollment_System
         {
             try
             {
-               
-                if (DataGridEnrolled.SelectedRows.Count == 0)
-                {
-                    MessageBox.Show("No row selected for the report.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
+                // Create a new PDF document
                 PdfDocument pdfDoc = new PdfDocument();
                 string savePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", "Enrollment_Report_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf");
 
@@ -513,170 +690,88 @@ namespace Enrollment_System
                 page.Orientation = PageOrientation.Landscape;
                 XGraphics gfx = XGraphics.FromPdfPage(page);
 
-               
-                if (pdfDoc == null || gfx == null)
-                {
-                    MessageBox.Show("Error initializing PDF document or graphics.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                // Define fonts
+                XFont titleFont = new XFont("Verdana", 14, XFontStyle.Bold);  // Smaller font for title
+                XFont headerFont = new XFont("Verdana", 9, XFontStyle.Bold);  // Smaller font for header
+                XFont contentFont = new XFont("Verdana", 8);                  // Smaller font for content
 
-                XFont largeFont = new XFont("Verdana", 16, XFontStyle.Bold);
-                XFont font = new XFont("Verdana", 8, XFontStyle.Regular);
-                XFont boldFont = new XFont("Verdana", 9, XFontStyle.Bold);
-                XFont headerFont = new XFont("Verdana", 12, XFontStyle.BoldItalic);
-
-                double marginLeft = 20;
-                double marginTop = 20;
+                // Title
+                string title = "Student Enrollment Report";
+                double titleWidth = gfx.MeasureString(title, titleFont).Width;
                 double pageWidth = page.Width;
-                double pageHeight = page.Height;
+                gfx.DrawString(title, titleFont, XBrushes.Black, new XPoint((pageWidth - titleWidth) / 2, 40));  // Center the title
 
-                double yPos = marginTop + 100;
+                // Column Names for the table
+                string[] headers = { "ID", "Student No.", "Last Name", "First Name", "Middle Name", "Course", "School Year", "Semester", "Year Level", "Status" };
 
-                
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    var bannerImage = Properties.Resources.BANNERPDM;
-                    if (bannerImage != null)
-                    {
-                        bannerImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                        ms.Position = 0;
-                        var xImage = XImage.FromStream(ms);
-                        gfx.DrawImage(xImage, marginLeft, marginTop, pageWidth - 2 * marginLeft, 100);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Banner image is missing!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return; 
-                    }
-                    yPos = marginTop + 120;
-                }
+                // Calculate column widths based on content and header length
+                double[] columnWidths = new double[headers.Length];
+                double marginLeft = 40;
+                double availableWidth = pageWidth - 2 * marginLeft;
 
-               
-                string title = "CERTIFICATE OF REGISTRATION";
-                double titleWidth = gfx.MeasureString(title, largeFont).Width;
-                double titleXPos = (pageWidth - titleWidth) / 2;
-
-                gfx.DrawString(title, largeFont, XBrushes.Black, titleXPos, yPos);
-                yPos += 40;
-
-                gfx.DrawString("Enrollment Report", headerFont, XBrushes.Black, marginLeft, yPos);
-                gfx.DrawString("Generated on: " + DateTime.Now.ToString("MMMM dd, yyyy HH:mm:ss"), font, XBrushes.Black, marginLeft, yPos + 25);
-
-                yPos += 60;
-
-                
-                DataGridViewRow selectedRow = DataGridEnrolled.SelectedRows[0];
-                if (selectedRow == null)
-                {
-                    MessageBox.Show("Selected row is invalid.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                string studentNo = selectedRow.Cells["student_no"]?.Value?.ToString() ?? "N/A";
-                string lastName = selectedRow.Cells["last_name"]?.Value?.ToString() ?? "N/A";
-                string firstName = selectedRow.Cells["first_name"]?.Value?.ToString() ?? "N/A";
-                string middleName = selectedRow.Cells["middle_name"]?.Value?.ToString() ?? "N/A";
-                string program = selectedRow.Cells["CourseCode"]?.Value?.ToString() ?? "N/A";
-                string yearLevel = selectedRow.Cells["year_level"]?.Value?.ToString() ?? "N/A";
-                string semester = selectedRow.Cells["semester"]?.Value?.ToString() ?? "N/A";
-                string status = selectedRow.Cells["status"]?.Value?.ToString() ?? "N/A";
-
-               
-                gfx.DrawString("Selected Student: " + firstName + " " + middleName + " " + lastName, boldFont, XBrushes.Black, marginLeft, yPos);
-                yPos += 20;
-                gfx.DrawString("Student No: " + studentNo, font, XBrushes.Black, marginLeft, yPos);
-                yPos += 20;
-                gfx.DrawString("Course: " + program, font, XBrushes.Black, marginLeft, yPos);
-                yPos += 20;
-                gfx.DrawString("Year Level: " + yearLevel, font, XBrushes.Black, marginLeft, yPos);
-                yPos += 20;
-                gfx.DrawString("Semester: " + semester, font, XBrushes.Black, marginLeft, yPos);
-                yPos += 20;
-                gfx.DrawString("Status: " + status, font, XBrushes.Black, marginLeft, yPos);
-                yPos += 30;
-
-                gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos);
-                yPos += 10;
-
-              
-                List<Subject> subjects = GetSubjectsForStudent(program, semester, yearLevel);
-
-                double[] columnWidths = new double[7];
-                double totalWidth = pageWidth - 2 * marginLeft;
-                double columnWidth = totalWidth / 7;
-
-                columnWidths[0] = 50;
-                columnWidths[1] = 80;
-                columnWidths[2] = 300;
-                columnWidths[3] = 50;
-                columnWidths[4] = 80;
-                columnWidths[5] = 80;
-                columnWidths[6] = 80;
-
-                double xPos = marginLeft;
-                string[] headers = { "ID", "Subject Code", "Subject Name", "Units", "Course Code", "Semester", "Year Level" };
+                // Measure the width of each column's content
+                double totalContentWidth = 0;
                 for (int i = 0; i < headers.Length; i++)
                 {
-                    gfx.DrawString(headers[i], boldFont, XBrushes.Black, xPos, yPos);
-                    xPos += columnWidths[i];
-                }
-                yPos += 20;
+                    // Measure the header width
+                    double maxContentWidth = gfx.MeasureString(headers[i], headerFont).Width;
 
-                foreach (var subject in subjects)
+                    foreach (DataGridViewRow row in DataGridEnrolled.Rows)
+                    {
+                        if (row.IsNewRow) continue;
+                        string cellValue = row.Cells[i].Value?.ToString() ?? "";
+                        double cellWidth = gfx.MeasureString(cellValue, contentFont).Width;
+                        maxContentWidth = Math.Max(maxContentWidth, cellWidth);
+                    }
+
+                    columnWidths[i] = maxContentWidth + 10; // Added padding
+                    totalContentWidth += columnWidths[i];
+                }
+
+                // Scale the column widths to fit the page
+                double scaleFactor = availableWidth / totalContentWidth;
+                for (int i = 0; i < columnWidths.Length; i++)
                 {
-                    xPos = marginLeft;
-                    gfx.DrawString(subject.SubjectID.ToString(), font, XBrushes.Black, xPos, yPos);
-                    xPos += columnWidths[0];
-
-                    gfx.DrawString(subject.SubjectCode, font, XBrushes.Black, xPos, yPos);
-                    xPos += columnWidths[1];
-
-                    gfx.DrawString(subject.SubjectName, font, XBrushes.Black, xPos, yPos);
-                    xPos += columnWidths[2];
-
-                    gfx.DrawString(subject.Units.ToString(), font, XBrushes.Black, xPos, yPos);
-                    xPos += columnWidths[3];
-
-                    gfx.DrawString(subject.CourseCode, font, XBrushes.Black, xPos, yPos);
-                    xPos += columnWidths[4];
-
-                    gfx.DrawString(subject.Semester, font, XBrushes.Black, xPos, yPos);
-                    xPos += columnWidths[5];
-
-                    gfx.DrawString(subject.YearLevel, font, XBrushes.Black, xPos, yPos);
-                    yPos += 15;
+                    columnWidths[i] *= scaleFactor;
                 }
 
-                gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos);
-                yPos += 10;
+                // Draw Header Row (Table Columns) without a background, simply as text
+                double currentX = marginLeft;
+                double headerYPosition = 100;  // Lowered the header row to avoid overlapping
+                for (int i = 0; i < headers.Length; i++)
+                {
+                    gfx.DrawString(headers[i], headerFont, XBrushes.Black, new XPoint(currentX + 5, headerYPosition + 3)); // Adding padding
+                    currentX += columnWidths[i];
+                }
 
-               
-                int totalUnits = GetTotalUnits(program, semester, yearLevel);
+                // Draw a line under the header row
+                gfx.DrawLine(XPens.Black, marginLeft, headerYPosition + 15, pageWidth - marginLeft, headerYPosition + 15); // Line under header
 
-                decimal tuitionFee = CalculateTuitionFee(totalUnits);
-                decimal miscFee = CalculateMiscellaneousFee();
-                decimal totalAssessment = tuitionFee + miscFee;
+                // Adjusted starting Y position for row content to align properly under the header
+                int yPosition = (int)(headerYPosition + 20);  // Increased this value to move the content rows down slightly
 
-                gfx.DrawString("Total Units: " + totalUnits.ToString(), font, XBrushes.Black, marginLeft, yPos);
-                yPos += 20;
-                gfx.DrawString("Tuition Fee: " + tuitionFee.ToString("0.00"), font, XBrushes.Black, marginLeft, yPos);
-                yPos += 20;
-                gfx.DrawString("Misc Fee: " + miscFee.ToString("0.00"), font, XBrushes.Black, marginLeft, yPos);
-                yPos += 20;
-                gfx.DrawString("Total Assessment: " + totalAssessment.ToString("0.00"), font, XBrushes.Black, marginLeft, yPos);
-                yPos += 30;
+                // Loop through all rows in the DataGridView and add to the PDF
+                foreach (DataGridViewRow row in DataGridEnrolled.Rows)
+                {
+                    if (row.IsNewRow) continue; // Skip the new row placeholder
 
-                gfx.DrawLine(XPens.Black, marginLeft, yPos, pageWidth - marginLeft, yPos);
-                yPos += 10;
+                    currentX = marginLeft;
+                    for (int i = 0; i < headers.Length; i++)
+                    {
+                        string cellValue = row.Cells[i]?.Value?.ToString() ?? "N/A";
+                        gfx.DrawString(cellValue, contentFont, XBrushes.Black, new XPoint(currentX + 5, yPosition)); // Adding padding
+                        currentX += columnWidths[i];
+                    }
+                    yPosition += 20; // Move down to the next row
+                }
 
-               
+                // Save the PDF
                 pdfDoc.Save(savePath);
-                MessageBox.Show("PDF report generated successfully and saved to: " + savePath, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Report generated successfully!\nSaved to: " + savePath);
             }
             catch (Exception ex)
             {
-                
-                MessageBox.Show("Error generating PDF: " + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error generating report: " + ex.Message);
             }
         }
 

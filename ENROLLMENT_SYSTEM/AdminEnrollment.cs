@@ -1293,5 +1293,10 @@ namespace Enrollment_System
                 dt.DefaultView.RowFilter = string.Format("last_name LIKE '%{0}%' OR first_name LIKE '%{0}%' OR student_no LIKE '%{0}%'", searchTerm);
             }
         }
+
+        private void DataGridNewEnrollment_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
