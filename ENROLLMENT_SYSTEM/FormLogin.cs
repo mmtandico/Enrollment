@@ -108,5 +108,11 @@ namespace Enrollment_System
         {
             Application.Exit();
         }
+
+        private void LblForgetPass_Click(object sender, EventArgs e)
+        {
+            FormResetPass formResetPass = new FormResetPass();
+            formResetPass.ShowDialog();
+        }
     }
 }
