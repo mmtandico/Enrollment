@@ -31,7 +31,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.LblSay = new System.Windows.Forms.Label();
             this.LblPDM = new System.Windows.Forms.Label();
-            this.PbPDM = new System.Windows.Forms.PictureBox();
             this.LblLogin = new System.Windows.Forms.Label();
             this.LblEmail = new System.Windows.Forms.Label();
             this.LblPass = new System.Windows.Forms.Label();
@@ -41,6 +40,8 @@
             this.ChkShowPass = new System.Windows.Forms.CheckBox();
             this.Btn_Login = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
+            this.PbPDM = new System.Windows.Forms.PictureBox();
+            this.LblForgetPass = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbPDM)).BeginInit();
             this.SuspendLayout();
@@ -79,16 +80,6 @@
             this.LblPDM.Size = new System.Drawing.Size(331, 25);
             this.LblPDM.TabIndex = 2;
             this.LblPDM.Text = "PAMBAYANG DALUHASAAN NG MARILAO";
-            // 
-            // PbPDM
-            // 
-            this.PbPDM.BackgroundImage = global::Enrollment_System.Properties.Resources.image_removebg_preview;
-            this.PbPDM.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.PbPDM.Location = new System.Drawing.Point(111, 75);
-            this.PbPDM.Name = "PbPDM";
-            this.PbPDM.Size = new System.Drawing.Size(142, 137);
-            this.PbPDM.TabIndex = 0;
-            this.PbPDM.TabStop = false;
             // 
             // LblLogin
             // 
@@ -202,12 +193,35 @@
             this.BtnExit.UseVisualStyleBackColor = false;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
+            // PbPDM
+            // 
+            this.PbPDM.BackgroundImage = global::Enrollment_System.Properties.Resources.image_removebg_preview;
+            this.PbPDM.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.PbPDM.Location = new System.Drawing.Point(111, 75);
+            this.PbPDM.Name = "PbPDM";
+            this.PbPDM.Size = new System.Drawing.Size(142, 137);
+            this.PbPDM.TabIndex = 0;
+            this.PbPDM.TabStop = false;
+            // 
+            // LblForgetPass
+            // 
+            this.LblForgetPass.AutoSize = true;
+            this.LblForgetPass.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblForgetPass.ForeColor = System.Drawing.Color.White;
+            this.LblForgetPass.Location = new System.Drawing.Point(459, 345);
+            this.LblForgetPass.Name = "LblForgetPass";
+            this.LblForgetPass.Size = new System.Drawing.Size(83, 13);
+            this.LblForgetPass.TabIndex = 11;
+            this.LblForgetPass.Text = "Forget Password?";
+            this.LblForgetPass.Click += new System.EventHandler(this.LblForgetPass_Click);
+            // 
             // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(5F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Orange;
             this.ClientSize = new System.Drawing.Size(650, 400);
+            this.Controls.Add(this.LblForgetPass);
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.Btn_Login);
             this.Controls.Add(this.ChkShowPass);
@@ -247,6 +261,7 @@
         private System.Windows.Forms.CheckBox ChkShowPass;
         private System.Windows.Forms.Button Btn_Login;
         private System.Windows.Forms.Button BtnExit;
+        private System.Windows.Forms.Label LblForgetPass;
     }
 }
 
