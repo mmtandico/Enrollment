@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using BCrypt.Net;
+using System.Linq;
 
 namespace Enrollment_System
 {
@@ -13,6 +14,7 @@ namespace Enrollment_System
         public FormLogin()
         {
             InitializeComponent();
+            this.LblForgetPass.Click += new System.EventHandler(this.LblForgetPass_Click);
         }
 
         private void ChkShowPass_CheckedChanged(object sender, EventArgs e)
@@ -111,8 +113,22 @@ namespace Enrollment_System
 
         private void LblForgetPass_Click(object sender, EventArgs e)
         {
-            FormResetPass formResetPass = new FormResetPass();
-            formResetPass.ShowDialog();
+
+            // Check if FormResetPass is already open
+            FormResetPass formResetPass = Application.OpenForms.OfType<FormResetPass>().FirstOrDefault();
+
+            if (formResetPass == null)
+            {
+                // If FormResetPass is not open, create and show a new instance
+                formResetPass = new FormResetPass();
+                formResetPass.Show();
+                this.Hide();  // Hide FormLogin
+            }
+            else
+            {
+                // If FormResetPass is already open, bring it to the front
+                formResetPass.BringToFront();
+            }
         }
     }
 }
