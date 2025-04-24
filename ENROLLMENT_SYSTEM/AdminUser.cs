@@ -8,19 +8,48 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
+using BCrypt.Net;
 
 namespace Enrollment_System
 {
     public partial class AdminUser : Form
     {
+        private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
+
         public AdminUser()
         {
             InitializeComponent();
             InitializeDataGridView();
+            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
+            LoadAdmins();
+            LoadUsers();
         }
 
         private void AdminUser_Load(object sender, EventArgs e)
         {
+            DataGridAdmins.CellContentClick += DataGridAdmins_CellContentClick;
+            DataGridUsers.CellContentClick += DataGridUsers_CellContentClick;
+            //admins
+            DataGridAdmins.AutoGenerateColumns = false;
+            user_id.DataPropertyName = "user_id";
+            email.DataPropertyName = "email";
+            password.DataPropertyName = "password";
+            role.DataPropertyName = "role";
+            is_verified.DataPropertyName = "is_verified";
+            created_at.DataPropertyName = "created_at";
+
+            //user
+            DataGridUsers.AutoGenerateColumns = false;
+            user_id_ol.DataPropertyName = "user_id";
+            email_ol.DataPropertyName = "email";
+            password_ol.DataPropertyName = "password";
+            role_ol.DataPropertyName = "role";
+            is_verified_ol.DataPropertyName = "is_verified";
+            created_at_ol.DataPropertyName = "created_at";
+
+          
+
             DataGridUsers.AllowUserToResizeColumns = false;
             DataGridUsers.AllowUserToResizeRows = false;
             DataGridUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -70,7 +99,7 @@ namespace Enrollment_System
             DataGridAdmins.Columns[3].Width = 50;
             DataGridAdmins.Columns[4].Width = 100;
             DataGridAdmins.Columns[5].Width = 100;
-            
+
             DataGridAdmins.RowTemplate.Height = 35;
             DataGridAdmins.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
@@ -273,6 +302,334 @@ namespace Enrollment_System
             foreach (DataGridViewColumn column in DataGridAdmins.Columns)
             {
                 column.Resizable = DataGridViewTriState.False;
+            }
+        }
+
+        private void LoadAdmins()
+        {
+            try
+            {
+                
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = "SELECT user_id, email, password_hash as password, role, is_verified, created_at FROM users where role = 'admin'";
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        DataTable dataTable = new DataTable();
+
+                        using (var adapter = new MySqlDataAdapter(cmd))
+                        {
+                            DataGridAdmins.AutoGenerateColumns = false;
+                            DataTable dt = new DataTable();
+                            adapter.Fill(dataTable);
+                            DataGridAdmins.DataSource = dataTable;
+                        }
+                        //DataGridAdmins.DataSource = dataTable;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
+        }
+
+        private void LoadUsers()
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = "SELECT user_id, email, password_hash as password, role, is_verified, created_at FROM users where role = 'user'";
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        DataTable dataTable = new DataTable();
+
+                        using (var adapter = new MySqlDataAdapter(cmd))
+                        {
+                            DataGridUsers.AutoGenerateColumns = false;
+                            DataTable dt = new DataTable();
+                            adapter.Fill(dataTable);
+                            DataGridUsers.DataSource = dataTable;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
+        }
+
+        private void PopulateFields(DataGridViewRow row)
+        {
+            try
+            {
+                
+                bool isUsersGrid = row.DataGridView == DataGridUsers;
+
+                string userIdColumn = isUsersGrid ? "user_id_ol" : "user_id";
+                string emailColumn = isUsersGrid ? "email_ol" : "email";
+                string roleColumn = isUsersGrid ? "role_ol" : "role";
+                string verifiedColumn = isUsersGrid ? "is_verified_ol" : "is_verified";
+
+                TxtUserID.Text = row.Cells[userIdColumn]?.Value?.ToString() ?? "";
+                TxtEmail.Text = row.Cells[emailColumn]?.Value?.ToString() ?? "";
+                TxtPass.Text = "***********";
+
+                CmbRole.Text = row.Cells[roleColumn]?.Value?.ToString() ?? "";
+
+                var isVerifiedCell = row.Cells[verifiedColumn];
+                bool isVerified = isVerifiedCell?.Value != null && isVerifiedCell.Value != DBNull.Value && Convert.ToBoolean(isVerifiedCell.Value);
+                CmbVerified.Text = isVerified ? "Yes" : "No";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading details: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DataGridAdmins_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            DataGridViewRow row = DataGridAdmins.Rows[e.RowIndex];
+
+
+            if (e.ColumnIndex != DataGridAdmins.Columns["ColOpen"].Index &&
+                e.ColumnIndex != DataGridAdmins.Columns["ColClose"].Index)
+            {
+
+                PopulateFields(row);
+            }
+
+
+            if (e.ColumnIndex == DataGridAdmins.Columns["ColOpen"].Index)
+            {
+
+                PopulateFields(row);
+            }
+
+
+            if (e.ColumnIndex == DataGridAdmins.Columns["ColClose"].Index)
+            {
+
+                if (MessageBox.Show("Are you sure you want to delete this admin?", "Confirm Delete",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    int userId = Convert.ToInt32(row.Cells["user_id"].Value);
+                }
+            }
+        }
+
+
+        private void DeleteAdmins(int subjectId)
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string deleteLinkQuery = "DELETE FROM course_subjects WHERE subject_id = @id";
+                    using (var linkCmd = new MySqlCommand(deleteLinkQuery, conn))
+                    {
+                        linkCmd.Parameters.AddWithValue("@id", subjectId);
+                        linkCmd.ExecuteNonQuery();
+                    }
+
+                    string deleteQuery = "DELETE FROM subjects WHERE subject_id = @id";
+                    using (var cmd = new MySqlCommand(deleteQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", subjectId);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    MessageBox.Show("Subject deleted successfully!", "Success",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ClearFields();
+                    LoadAdmins();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error deleting subject: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ClearFields()
+        {
+            TxtUserID.Clear();
+            TxtPass.Clear();
+            TxtEmail.Clear();
+            CmbRole.SelectedIndex = -1;
+            CmbVerified.SelectedIndex = -1;
+        }
+        
+        private void BtnEdit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                
+
+                int userId = Convert.ToInt32(TxtUserID.Text);
+
+                string email = TxtEmail.Text;
+                string password = TxtPass.Text;
+                string role = CmbRole.Text;
+                bool isVerified = CmbVerified.Text == "Yes";
+
+                string hashedPassword = string.IsNullOrEmpty(password) ? null : BCrypt.Net.BCrypt.HashPassword(password);
+
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = "UPDATE users SET email = @Email, password_hash = @PasswordHash, role = @Role, is_verified = @IsVerified WHERE user_id = @UserId";
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Email", email);
+                        cmd.Parameters.AddWithValue("@PasswordHash", hashedPassword);
+                        cmd.Parameters.AddWithValue("@Role", role);
+                        cmd.Parameters.AddWithValue("@IsVerified", isVerified);
+                        cmd.Parameters.AddWithValue("@UserId", userId);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                MessageBox.Show("User updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadAdmins();
+                LoadUsers();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error updating user: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void BtnDelete_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                
+
+                int userId = Convert.ToInt32(TxtUserID.Text);
+
+                if (MessageBox.Show("Are you sure you want to delete this user?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    using (var conn = new MySqlConnection(connectionString))
+                    {
+                        conn.Open();
+
+                        string query = "DELETE FROM users WHERE user_id = @UserId";
+                        using (var cmd = new MySqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@UserId", userId);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    MessageBox.Show("User deleted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ClearFields();
+                    LoadAdmins();
+                    LoadUsers();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error deleting user: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void BtnAdd_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                string email = TxtEmail.Text;
+                string password = TxtPass.Text;
+                string role = CmbRole.Text;
+                bool isVerified = CmbVerified.Text == "Yes";
+
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = "INSERT INTO users (email, password_hash, role, is_verified) VALUES (@Email, @PasswordHash, @Role, @IsVerified)";
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Email", email);
+                        cmd.Parameters.AddWithValue("@PasswordHash", hashedPassword);
+                        cmd.Parameters.AddWithValue("@Role", role);
+                        cmd.Parameters.AddWithValue("@IsVerified", isVerified);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                MessageBox.Show("User added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ClearFields();
+                LoadAdmins();
+                LoadUsers();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error adding user: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DataGridUsers_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            DataGridViewRow row = DataGridUsers.Rows[e.RowIndex];
+
+            if (e.ColumnIndex != DataGridUsers.Columns["ColOpen2"].Index &&
+                e.ColumnIndex != DataGridUsers.Columns["ColClose2"].Index)
+            {
+                PopulateFields(row);
+            }
+
+            if (e.ColumnIndex == DataGridUsers.Columns["ColOpen2"].Index)
+            {
+                PopulateFields(row);
+            }
+
+            if (e.ColumnIndex == DataGridUsers.Columns["ColClose2"].Index)
+            {
+                if (MessageBox.Show("Are you sure you want to delete this user?", "Confirm Delete",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    int userId = Convert.ToInt32(row.Cells["user_id"].Value);
+                }
+            }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshCurrentTab();
+        }
+
+        private void RefreshCurrentTab()
+        {
+            if (tabControl1.SelectedTab == tabPage3)
+            {
+                LoadAdmins();
+            }
+            else if (tabControl1.SelectedTab == tabPage2)
+            {
+                 LoadUsers();
             }
         }
     }

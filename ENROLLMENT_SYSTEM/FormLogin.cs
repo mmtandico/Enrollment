@@ -68,7 +68,7 @@ namespace Enrollment_System
                                     MessageBox.Show($"Welcome, {firstName} {lastName}!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     this.Hide();
 
-                                    if (role == "admin")
+                                    if (role == "admin"|| role== "super_admin" || role == "cashier")
                                     {
                                         new FormDatabaseInfo().Show(); 
                                     }
