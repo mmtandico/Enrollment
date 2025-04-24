@@ -289,7 +289,7 @@ namespace Enrollment_System
                     }
 
                     PdfDocument pdfDoc = new PdfDocument();
-                    string savePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", "Enrollment_Report_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf");
+                    string savePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", "Enrollment_COR_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf");
 
                     PdfPage page = pdfDoc.AddPage();
                     page.Orientation = PageOrientation.Landscape;
