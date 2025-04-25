@@ -523,12 +523,14 @@ namespace Enrollment_System
 
             CmbYrLvl.SelectedIndexChanged += ApplyFilters;
             CmbSem.SelectedIndexChanged += ApplyFilters;
+          
         }
 
         private void ApplyFilters(object sender, EventArgs e)
         {
             string yearLevelFilter = CmbYrLvl.SelectedItem.ToString();
             string semesterFilter = CmbSem.SelectedItem.ToString();
+            
 
             string filterExpression = "";
 
@@ -548,6 +550,9 @@ namespace Enrollment_System
                     filterExpression += " AND ";
                 filterExpression += $"[semester] = '{semesterFilter}'";
             }
+
+           
+
 
             if (DataGridSubjects.DataSource is DataTable)
             {
@@ -953,6 +958,7 @@ namespace Enrollment_System
 
                 CmbYearLevel.Text = row.Cells["year_level"].Value?.ToString() ?? "";
                 CmbSemester.Text = row.Cells["semester"].Value?.ToString() ?? "";
+               
             }
             catch (Exception ex)
             {

@@ -38,6 +38,9 @@ namespace Enrollment_System
             DataGridEnrollment.CellMouseEnter += DataGridEnrollment_CellMouseEnter;
             DataGridEnrollment.CellMouseLeave += DataGridEnrollment_CellMouseLeave;
 
+            DataGridEnrollment.Sorted += DataGridNewEnrollment_Sorted;
+            DataGridPayment.Sorted += DataGridPayment_Sorted;
+            DataGridSubjects.Sorted += DataGridSubjects_Sorted;
 
 
             if (!string.IsNullOrEmpty(SessionManager.LastName) && !string.IsNullOrEmpty(SessionManager.FirstName))
@@ -57,8 +60,12 @@ namespace Enrollment_System
                 LblWelcome.Text = "";
             }
 
+            foreach (DataGridViewColumn col in DataGridEnrollment.Columns)
+            {
+                col.Frozen = false;
+            }
             DataGridEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+           // DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DataGridEnrollment.Columns["ColOpen"].Width = 50;
             DataGridEnrollment.Columns["ColClose"].Width = 50;
             DataGridEnrollment.Columns["ColOpen"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
@@ -78,13 +85,17 @@ namespace Enrollment_System
 
             foreach (DataGridViewColumn col in DataGridEnrollment.Columns)
             {
-                col.Frozen = false;
+                //col.Frozen = false;
                 col.Resizable = DataGridViewTriState.True;
             }
 
             /////////////////////////////////////////
+            foreach (DataGridViewColumn col in DataGridPayment.Columns)
+            {
+                col.Frozen = false;
+            }
             DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+           // DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DataGridPayment.Columns["ColPay"].Width = 50;
             DataGridPayment.Columns["ColDelete"].Width = 50;
             DataGridPayment.Columns["ColPay"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
@@ -110,7 +121,10 @@ namespace Enrollment_System
             }
 
             /////////////////////////////////////////////
-            DataGridSubjects.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            foreach (DataGridViewColumn col in DataGridSubjects.Columns)
+            {
+                col.Frozen = false;
+            }
             DataGridSubjects.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DataGridSubjects.RowTemplate.Height = 40;
             DataGridSubjects.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
@@ -123,7 +137,7 @@ namespace Enrollment_System
 
             foreach (DataGridViewColumn col in DataGridSubjects.Columns)
             {
-                col.Frozen = false;
+                //col.Frozen = false;
                 col.Resizable = DataGridViewTriState.True;
             }
         }
@@ -407,11 +421,13 @@ namespace Enrollment_System
                         {
 
                             DataGridEnrollment.Rows.Clear();
+                            int rowNumber = 1;
 
                             while (reader.Read())
                             {
                                 DataGridEnrollment.Rows.Add(
                                     reader["enrollment_id"].ToString(),
+                                    rowNumber.ToString(),
                                     reader["student_no"].ToString(),
                                     reader["last_name"].ToString(),
                                     reader["first_name"].ToString(),
@@ -422,6 +438,7 @@ namespace Enrollment_System
                                     reader["year_level"].ToString(),
                                     reader["status"].ToString()
                                 );
+                                rowNumber++;
                             }
                         }
                     }
@@ -434,7 +451,7 @@ namespace Enrollment_System
 
             foreach (DataGridViewRow row in DataGridEnrollment.Rows)
             {
-                string status = row.Cells[9].Value?.ToString()?.ToLower() ?? "";
+                string status = row.Cells[10].Value?.ToString()?.ToLower() ?? "";
 
                 if (status == "enrolled")
                 {
@@ -475,14 +492,14 @@ namespace Enrollment_System
 
                 var selectedRow = DataGridEnrollment.Rows[e.RowIndex];
 
-                string studentNo = selectedRow.Cells[1].Value?.ToString() ?? "";
-                string lastName = selectedRow.Cells[2].Value?.ToString() ?? "";
-                string firstName = selectedRow.Cells[3].Value?.ToString() ?? "";
-                string middleName = selectedRow.Cells[4].Value?.ToString() ?? "";
-                string courseCode = selectedRow.Cells[5].Value?.ToString() ?? "";
-                string academicYear = selectedRow.Cells[6].Value?.ToString() ?? "";
-                string semester = selectedRow.Cells[7].Value?.ToString() ?? "";
-                string yearLevel = selectedRow.Cells[8].Value?.ToString() ?? "";
+                string studentNo = selectedRow.Cells[2].Value?.ToString() ?? "";
+                string lastName = selectedRow.Cells[3].Value?.ToString() ?? "";
+                string firstName = selectedRow.Cells[4].Value?.ToString() ?? "";
+                string middleName = selectedRow.Cells[5].Value?.ToString() ?? "";
+                string courseCode = selectedRow.Cells[6].Value?.ToString() ?? "";
+                string academicYear = selectedRow.Cells[7].Value?.ToString() ?? "";
+                string semester = selectedRow.Cells[8].Value?.ToString() ?? "";
+                string yearLevel = selectedRow.Cells[9].Value?.ToString() ?? "";
 
                 int courseId = GetCourseId(courseCode);
                 int totalUnits = 0;
@@ -525,8 +542,8 @@ namespace Enrollment_System
             }
 
             string enrollmentId = selectedRow.Cells[0].Value?.ToString() ?? "";
-            string firstName = selectedRow.Cells[3].Value?.ToString() ?? "";
-            string lastName = selectedRow.Cells[2].Value?.ToString() ?? "";
+            string firstName = selectedRow.Cells[4].Value?.ToString() ?? "";
+            string lastName = selectedRow.Cells[3].Value?.ToString() ?? "";
             string studentName = $"{lastName}, {firstName}";
 
             if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColOpen")
@@ -998,20 +1015,20 @@ namespace Enrollment_System
                     conn.Open();
 
                     string query = @"
-                    SELECT 
-                        cs.course_subject_id,
-                        s.subject_code,
-                        s.subject_name,
-                        s.units,
-                        c.course_code,
-                        cs.semester AS semester1,
-                        cs.year_level AS year_level1
-                    FROM course_subjects cs
-                    INNER JOIN subjects s ON cs.subject_id = s.subject_id
-                    INNER JOIN courses c ON cs.course_id = c.course_id
-                    WHERE cs.course_id = @CourseId 
-                    AND cs.year_level = @YearLevel
-                    AND cs.semester = @Semester";
+                        SELECT 
+                            cs.course_subject_id,
+                            s.subject_code,
+                            s.subject_name,
+                            s.units,
+                            c.course_code,
+                            cs.semester AS semester1,
+                            cs.year_level AS year_level1
+                        FROM course_subjects cs
+                        INNER JOIN subjects s ON cs.subject_id = s.subject_id
+                        INNER JOIN courses c ON cs.course_id = c.course_id
+                        WHERE cs.course_id = @CourseId 
+                        AND cs.year_level = @YearLevel
+                        AND cs.semester = @Semester";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
@@ -1026,8 +1043,10 @@ namespace Enrollment_System
                         }
 
                         DataGridSubjects.Columns.Clear();
+                        DataGridSubjects.Rows.Clear();
 
                         DataGridSubjects.Columns.Add("course_subject_id", "ID");
+                        DataGridSubjects.Columns.Add("No.", "No.");
                         DataGridSubjects.Columns.Add("subject_code", "Subject Code");
                         DataGridSubjects.Columns.Add("subject_name", "Subject Name");
                         DataGridSubjects.Columns.Add("units", "Units");
@@ -1035,10 +1054,17 @@ namespace Enrollment_System
                         DataGridSubjects.Columns.Add("semester1", "Semester");
                         DataGridSubjects.Columns.Add("year_level1", "Year Level");
 
+                        DataGridSubjects.Columns["No."].ReadOnly = true;
+                        DataGridSubjects.Columns["No."].Width = 50;
+
+                        DataGridSubjects.Columns["course_subject_id"].Visible = false;
+
+                        int rowNumber = 1;
                         foreach (DataRow row in dt.Rows)
                         {
                             DataGridSubjects.Rows.Add(
-                                row["course_subject_id"],
+                                row["course_subject_id"],  
+                                rowNumber.ToString(),      
                                 row["subject_code"],
                                 row["subject_name"],
                                 row["units"],
@@ -1047,6 +1073,8 @@ namespace Enrollment_System
                                 row["year_level1"]
                             );
 
+                            rowNumber++;
+
                             int units;
                             if (int.TryParse(row["units"].ToString(), out units))
                             {
@@ -1054,16 +1082,15 @@ namespace Enrollment_System
                             }
                         }
 
-                        // Update payment calculation when loading subjects
                         UpdatePaymentCalculation(totalUnits);
-
                         StyleDataGridSubjects();
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading subjects: " + ex.Message);
+                MessageBox.Show("Error loading subjects: " + ex.Message, "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return totalUnits;
@@ -1132,15 +1159,18 @@ namespace Enrollment_System
                         cmd.Parameters.AddWithValue("@StudentId", SessionManager.StudentId);
 
                         DataGridPayment.Rows.Clear();
-
+                        int rowNumber = 1;
+                        
                         DataGridPayment.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
                             {
+
                                 DataGridPayment.Rows.Add(
                                     reader["payment_id"]?.ToString() ?? "N/A",
+                                    rowNumber.ToString(),
                                     reader["payment_date"] != DBNull.Value ? Convert.ToDateTime(reader["payment_date"]).ToString("yyyy-MM-dd") : "N/A",
                                     reader["total_units"]?.ToString() ?? "0",
                                     reader["total_amount_due"] != DBNull.Value ? Convert.ToDecimal(reader["total_amount_due"]).ToString("0.00") : "0.00",
@@ -1154,6 +1184,7 @@ namespace Enrollment_System
                                     reader["miscellaneous"] != DBNull.Value ? Convert.ToDecimal(reader["miscellaneous"]).ToString("0.00") : "0.00",
                                     reader["status"]?.ToString() ?? "N/A"
                                 );
+                                rowNumber++; 
                             }
                         }
                     }
@@ -1164,6 +1195,60 @@ namespace Enrollment_System
                 MessageBox.Show($"Error loading payment data: {ex.Message}", "Database Error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void UpdateRowNumbersEnrollment()
+        {
+            if (DataGridEnrollment.Rows.Count == 0) return;
+
+            int noColumnIndex = DataGridEnrollment.Columns[1].Index;
+
+            for (int i = 0; i < DataGridEnrollment.Rows.Count; i++)
+            {
+                if (DataGridEnrollment.Rows[i].IsNewRow) continue;
+                DataGridEnrollment.Rows[i].Cells[noColumnIndex].Value = (i + 1).ToString();
+            }
+        }
+
+        private void UpdateRowNumbersPayment()
+        {
+            if (DataGridPayment.Rows.Count == 0) return;
+
+            int noColumnIndex = DataGridPayment.Columns[1].Index;
+
+            for (int i = 0; i < DataGridPayment.Rows.Count; i++)
+            {
+                if (DataGridPayment.Rows[i].IsNewRow) continue;
+                DataGridPayment.Rows[i].Cells[noColumnIndex].Value = (i + 1).ToString();
+            }
+        }
+
+        private void UpdateRowNumbersSubject()
+        {
+            if (DataGridSubjects.Rows.Count == 0) return;
+
+            int noColumnIndex = DataGridSubjects.Columns[1].Index;
+
+            for (int i = 0; i < DataGridSubjects.Rows.Count; i++)
+            {
+                if (DataGridSubjects.Rows[i].IsNewRow) continue;
+                DataGridSubjects.Rows[i].Cells[noColumnIndex].Value = (i + 1).ToString();
+            }
+        }
+
+        private void DataGridNewEnrollment_Sorted(object sender, EventArgs e)
+        {
+            UpdateRowNumbersEnrollment();
+        }
+
+        private void DataGridPayment_Sorted(object sender, EventArgs e)
+        {
+            UpdateRowNumbersPayment();
+        }
+
+        private void DataGridSubjects_Sorted(object sender, EventArgs e)
+        {
+            UpdateRowNumbersSubject();
         }
     }
 }

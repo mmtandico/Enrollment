@@ -29,12 +29,20 @@ namespace Enrollment_System
             InitializeDataGridView();
             LoadStudentData();
             InitializeFilterControls();
+            
+
+            DataGridEnrolled.Sorted += DataGridEnrolled_Sorted;
 
             ProgramButton_Click(BtnAll, EventArgs.Empty);
         }
 
         private void InitializeDataGridView()
         {
+            foreach (DataGridViewColumn col in DataGridEnrolled.Columns)
+            {
+                col.Frozen = false;  
+            }
+
             DataGridEnrolled.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DataGridEnrolled.Columns["ColOpen"].Width = 50;
             DataGridEnrolled.Columns["ColClose"].Width = 50;
@@ -55,10 +63,11 @@ namespace Enrollment_System
 
             foreach (DataGridViewColumn col in DataGridEnrolled.Columns)
             {
-                col.Frozen = false;
+                
                 col.Resizable = DataGridViewTriState.True;
             }
         }
+
 
         private void InitializeProgramButtons()
         {
@@ -81,16 +90,19 @@ namespace Enrollment_System
 
             CmbSem.SelectedIndex = 0;
 
+            CmbSchoolYear.SelectedIndex = 0;
+
             CmbYrLvl.SelectedIndexChanged += ApplyFilters;
             CmbSem.SelectedIndexChanged += ApplyFilters;
+            CmbSchoolYear.SelectedIndexChanged += ApplyFilters;
         }
 
         private void AdminStudents_Load(object sender, EventArgs e)
         {
             DataGridEnrolled.CellClick += DataGridNewEnrollment_CellClick;
             StyleTwoTabControl();
-            InitializeDataGridView(); 
-            
+            InitializeDataGridView();   
+
             InitializeFilterControls();
             DataGridEnrolled.AutoGenerateColumns = false;
             student_id.DataPropertyName = "enrollment_id";
@@ -679,6 +691,7 @@ namespace Enrollment_System
                             adapter.Fill(dt);
 
                             DataGridEnrolled.DataSource = dt;
+                            UpdateRowNumbers();
                         }
                     }
                 }
@@ -690,11 +703,24 @@ namespace Enrollment_System
             }
         }
 
+        private void UpdateRowNumbers()
+        {
+            if (DataGridEnrolled.Rows.Count == 0) return;
+
+            int noColumnIndex = DataGridEnrolled.Columns[1].Index;
+
+            for (int i = 0; i < DataGridEnrolled.Rows.Count; i++)
+            {
+                if (DataGridEnrolled.Rows[i].IsNewRow) continue; 
+                DataGridEnrolled.Rows[i].Cells[noColumnIndex].Value = (i + 1).ToString();
+            }
+        }
 
         private void ApplyFilters(object sender, EventArgs e)
         {
             string yearLevelFilter = CmbYrLvl.SelectedItem.ToString();
             string semesterFilter = CmbSem.SelectedItem.ToString();
+            string schoolyearFilter = CmbSchoolYear.SelectedItem.ToString();
 
             string filterExpression = "";
 
@@ -718,11 +744,24 @@ namespace Enrollment_System
                 filterExpression += $"[semester] = '{semesterFilter}'";
             }
 
+            if (schoolyearFilter != "All")
+            {
+                if (!string.IsNullOrEmpty(filterExpression))
+                    filterExpression += " AND ";
+                filterExpression += $"[academic_year] = '{schoolyearFilter}'";
+            }
+
             if (DataGridEnrolled.DataSource is DataTable)
             {
                 DataTable dt = (DataTable)DataGridEnrolled.DataSource;
                 dt.DefaultView.RowFilter = filterExpression;
+                UpdateRowNumbers();
             }
+        }
+
+        private void DataGridEnrolled_Sorted(object sender, EventArgs e)
+        {
+            UpdateRowNumbers(); 
         }
 
         private void ProgramButton_Click(object sender, EventArgs e)
@@ -730,10 +769,15 @@ namespace Enrollment_System
             Button clickedButton = sender as Button;
             if (clickedButton == null) return;
 
-            
             currentProgramFilter = clickedButton == BtnAll ? "All" : clickedButton.Text.Replace("Btn", "");
 
-        
+            if (clickedButton == BtnAll)
+            {
+                CmbYrLvl.SelectedIndex = 0;
+                CmbSem.SelectedIndex = 0;
+                CmbSchoolYear.SelectedIndex = 0;
+            }
+
             ApplyFilters(null, null);
         }
 
@@ -1003,13 +1047,13 @@ namespace Enrollment_System
                     conn.Open();
 
                     string query = @"
-                SELECT SUM(s.units) AS total_units
-                FROM subjects s
-                INNER JOIN course_subjects cs ON s.subject_id = cs.subject_id
-                INNER JOIN courses c ON cs.course_id = c.course_id
-                WHERE c.course_code = @CourseCode
-                AND cs.semester = @Semester
-                AND cs.year_level = @YearLevel";
+                        SELECT SUM(s.units) AS total_units
+                        FROM subjects s
+                        INNER JOIN course_subjects cs ON s.subject_id = cs.subject_id
+                        INNER JOIN courses c ON cs.course_id = c.course_id
+                        WHERE c.course_code = @CourseCode
+                        AND cs.semester = @Semester
+                        AND cs.year_level = @YearLevel";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
@@ -1040,14 +1084,14 @@ namespace Enrollment_System
 
                 
                 string query = @"
-            SELECT s.subject_id, s.subject_code, s.subject_name, s.units, 
-                   c.course_code, cs.semester, cs.year_level
-            FROM course_subjects cs
-            JOIN subjects s ON cs.subject_id = s.subject_id
-            JOIN courses c ON cs.course_id = c.course_id
-            WHERE c.course_code = @courseCode
-              AND cs.semester = @semester
-              AND cs.year_level = @yearLevel";
+                    SELECT s.subject_id, s.subject_code, s.subject_name, s.units, 
+                           c.course_code, cs.semester, cs.year_level
+                    FROM course_subjects cs
+                    JOIN subjects s ON cs.subject_id = s.subject_id
+                    JOIN courses c ON cs.course_id = c.course_id
+                    WHERE c.course_code = @courseCode
+                      AND cs.semester = @semester
+                      AND cs.year_level = @yearLevel";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {

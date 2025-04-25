@@ -36,6 +36,8 @@ namespace Enrollment_System
             LoadStudentData();
             InitializeFilterControls();
 
+            DataGridNewEnrollment.Sorted += DataGridNewEnrollment_Sorted;
+            DataGridPayment.Sorted += DataGridPayment_Sorted;
             ProgramButton_Click(BtnAll, EventArgs.Empty);
             tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
 
@@ -184,6 +186,11 @@ namespace Enrollment_System
 
         private void InitializeDataGridView()
         {
+            foreach (DataGridViewColumn col in DataGridNewEnrollment.Columns)
+            {
+                col.Frozen = false;
+            }
+
             DataGridNewEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DataGridNewEnrollment.Columns["ColOpen1"].Width = 50;
             DataGridNewEnrollment.Columns["ColClose1"].Width = 50;
@@ -204,10 +211,13 @@ namespace Enrollment_System
 
             foreach (DataGridViewColumn col in DataGridNewEnrollment.Columns)
             {
-                col.Frozen = false;
                 col.Resizable = DataGridViewTriState.True;
             }
             ///////////////////////////////
+            foreach (DataGridViewColumn col in DataGridPaidEnrollment.Columns)
+            {
+                col.Frozen = false;
+            }
             DataGridPaidEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DataGridPaidEnrollment.Columns["ColOpen2"].Width = 50;
             DataGridPaidEnrollment.Columns["ColClose2"].Width = 50;
@@ -228,10 +238,14 @@ namespace Enrollment_System
 
             foreach (DataGridViewColumn col in DataGridPaidEnrollment.Columns)
             {
-                col.Frozen = false;
+                //col.Frozen = false;
                 col.Resizable = DataGridViewTriState.True;
             }
             /////////////////////////////////
+            foreach (DataGridViewColumn col in DataGridPayment.Columns)
+            {
+                col.Frozen = false;
+            }
             DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DataGridPayment.Columns["ColOpen3"].Width = 50;
             DataGridPayment.Columns["ColClose3"].Width = 50;
@@ -251,8 +265,7 @@ namespace Enrollment_System
             colClose3.ImageLayout = DataGridViewImageCellLayout.Zoom;
 
             foreach (DataGridViewColumn col in DataGridPayment.Columns)
-            {
-                col.Frozen = false;
+            {     
                 col.Resizable = DataGridViewTriState.True;
             }
         }
@@ -278,10 +291,13 @@ namespace Enrollment_System
             CmbYrLvl.SelectedIndex = 0; 
 
             CmbSem.SelectedIndex = 0;
+            CmbSchoolYear.SelectedIndex = 0;
 
             CmbYrLvl.SelectedIndexChanged += ApplyFilters;
             CmbSem.SelectedIndexChanged += ApplyFilters;
+             CmbSchoolYear.SelectedIndexChanged += ApplyFilters;
         }
+    
 
         private void LoadStudentData()
         {
@@ -317,6 +333,7 @@ namespace Enrollment_System
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
                             DataGridNewEnrollment.DataSource = dt;
+                            UpdateRowNumbersNewEnrollment();
 
                             // Ensure column stays hidden if it exists
                             if (DataGridNewEnrollment.Columns.Contains("grade_pdf_path"))
@@ -334,11 +351,47 @@ namespace Enrollment_System
             }
         }
 
+        private void UpdateRowNumbersNewEnrollment()
+        {
+            if (DataGridNewEnrollment.Rows.Count == 0) return;
+
+            int noColumnIndex = DataGridNewEnrollment.Columns[1].Index;
+
+            for (int i = 0; i < DataGridNewEnrollment.Rows.Count; i++)
+            {
+                if (DataGridNewEnrollment.Rows[i].IsNewRow) continue;
+                DataGridNewEnrollment.Rows[i].Cells[noColumnIndex].Value = (i + 1).ToString();
+            }
+        }
+
+        private void UpdateRowNumbersPyment()
+        {
+            if (DataGridPayment.Rows.Count == 0) return;
+
+            int noColumnIndex = DataGridPayment.Columns[1].Index;
+
+            for (int i = 0; i < DataGridPayment.Rows.Count; i++)
+            {
+                if (DataGridPayment.Rows[i].IsNewRow) continue;
+                DataGridPayment.Rows[i].Cells[noColumnIndex].Value = (i + 1).ToString();
+            }
+        }
+
+        private void DataGridNewEnrollment_Sorted(object sender, EventArgs e)
+        {
+            UpdateRowNumbersNewEnrollment();
+        }
+
+        private void DataGridPayment_Sorted(object sender, EventArgs e)
+        {
+            UpdateRowNumbersPyment();
+        }
 
         private void ApplyFilters(object sender, EventArgs e)
         {
             string yearLevelFilter = CmbYrLvl.SelectedItem.ToString();
             string semesterFilter = CmbSem.SelectedItem.ToString();
+            string schoolyearFilter = CmbSchoolYear.SelectedItem.ToString();
 
             string filterExpression = "";
 
@@ -359,10 +412,25 @@ namespace Enrollment_System
                 filterExpression += $"[semester] = '{semesterFilter}'";
             }
 
+            if (schoolyearFilter != "All")
+            {
+                if (!string.IsNullOrEmpty(filterExpression))
+                    filterExpression += " AND ";
+                filterExpression += $"[academic_year] = '{schoolyearFilter}'";
+            }
+
             if (DataGridNewEnrollment.DataSource is DataTable)
             {
                 DataTable dt = (DataTable)DataGridNewEnrollment.DataSource;
                 dt.DefaultView.RowFilter = filterExpression;
+                UpdateRowNumbersNewEnrollment();
+            }
+
+            if (DataGridPayment.DataSource is DataTable)
+            {
+                DataTable dt = (DataTable)DataGridPayment.DataSource;
+                dt.DefaultView.RowFilter = filterExpression;
+                UpdateRowNumbersPyment();
             }
         }
 
@@ -372,6 +440,13 @@ namespace Enrollment_System
             if (clickedButton == null) return;
 
             currentProgramFilter = clickedButton == BtnAll ? "All" : clickedButton.Text.Replace("Btn", "");
+
+            if (clickedButton == BtnAll)
+            {
+                CmbYrLvl.SelectedIndex = 0; 
+                CmbSem.SelectedIndex = 0;
+                CmbSchoolYear.SelectedIndex = 0;
+            }
 
             ApplyFilters(null, null);
         }
@@ -1115,6 +1190,7 @@ namespace Enrollment_System
                             adapter.Fill(dt);
 
                             DataGridPayment.DataSource = dt;
+                            UpdateRowNumbersPyment();
                         }
                     }
                 }
