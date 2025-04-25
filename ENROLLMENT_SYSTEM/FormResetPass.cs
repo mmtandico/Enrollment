@@ -24,6 +24,8 @@ namespace Enrollment_System
         public FormResetPass()
         {
             InitializeComponent();
+            this.LblBackLogin.Click += new System.EventHandler(this.LblBackLogin_Click);
+            //FormLogin formLogin = Application.OpenForms.OfType<FormLogin>().FirstOrDefault();
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
@@ -218,8 +220,28 @@ namespace Enrollment_System
 
         private void LblBackLogin_Click(object sender, EventArgs e)
         {
-            FormLogin formlogin = new FormLogin();
-            formlogin.ShowDialog();
+
+            
+            FormLogin formLogin = Application.OpenForms.OfType<FormLogin>().FirstOrDefault();
+
+            if (formLogin == null)
+            {
+                
+                formLogin = new FormLogin();
+                formLogin.Show();
+                this.Hide(); 
+            }
+            else
+            {
+                
+                formLogin.Show();
+                formLogin.BringToFront();
+            }
+
+           
+            this.Close();
         }
+
+
     }
 }
