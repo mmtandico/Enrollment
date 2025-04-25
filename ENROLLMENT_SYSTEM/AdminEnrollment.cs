@@ -472,8 +472,6 @@ namespace Enrollment_System
 
         }
 
-
-
         private void CustomizeDataGridNewEnrollment()
         {
             DataGridNewEnrollment.BorderStyle = BorderStyle.None;
@@ -644,9 +642,6 @@ namespace Enrollment_System
                 }
             };
         }
-
-      
-
 
         private void DeleteNewEnrollment(DataGridViewRow row)
         {
@@ -1017,8 +1012,6 @@ namespace Enrollment_System
                               MessageBoxIcon.Error);
             }
         }
-
-
 
         private void ClearDetails()
         {
