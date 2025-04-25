@@ -15,6 +15,7 @@ namespace Enrollment_System
     {
         private MySqlConnection dbConnection;
         private FormCourse parentForm;
+
         public CourseViewBTLED(FormCourse form)
         {
             InitializeComponent();
