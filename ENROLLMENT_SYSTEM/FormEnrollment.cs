@@ -241,6 +241,20 @@ namespace Enrollment_System
 
         private void BtnAddAcademic_Click(object sender, EventArgs e)
         {
+            // First check if personal info is complete
+            if (!IsPersonalInfoComplete())
+            {
+                MessageBox.Show("Please complete your personal information before enrolling.",
+                              "Information Required",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+
+                // Optionally open the personal info form
+                SwitchForm(new FormPersonalInfo());
+                return;
+            }
+
+            // Proceed with enrollment if info is complete
             using (FormNewAcademiccs formNewAcademiccs = new FormNewAcademiccs())
             {
                 formNewAcademiccs.StartPosition = FormStartPosition.CenterParent;
@@ -252,6 +266,80 @@ namespace Enrollment_System
                     LoadStudentPayments();
                 }
             }
+        }
+
+        private bool IsPersonalInfoComplete()
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = @"
+                SELECT 
+                    s.student_no, s.student_lrn, s.first_name, s.last_name, s.birth_date,
+                    s.sex, s.nationality, c.phone_no, a.barangay, a.city, a.province,
+                    g.first_name AS guardian_first, g.last_name AS guardian_last,
+                    g.contact_number AS guardian_contact
+                FROM students s
+                LEFT JOIN contact_info c ON s.student_id = c.student_id
+                LEFT JOIN addresses a ON s.student_id = a.student_id
+                LEFT JOIN student_guardians sg ON s.student_id = sg.student_id
+                LEFT JOIN parents_guardians g ON sg.guardian_id = g.guardian_id
+                WHERE s.user_id = @UserID";
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@UserID", SessionManager.UserId);
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                // Check all required fields - handle both NULL and empty strings
+                                if (reader["student_no"] == DBNull.Value || string.IsNullOrWhiteSpace(reader["student_no"].ToString()))
+                                    return false;
+                                if (reader["student_lrn"] == DBNull.Value || string.IsNullOrWhiteSpace(reader["student_lrn"].ToString()))
+                                    return false;
+                                if (reader["first_name"] == DBNull.Value || string.IsNullOrWhiteSpace(reader["first_name"].ToString()))
+                                    return false;
+                                if (reader["last_name"] == DBNull.Value || string.IsNullOrWhiteSpace(reader["last_name"].ToString()))
+                                    return false;
+                                if (reader["birth_date"] == DBNull.Value)
+                                    return false;
+                                if (reader["sex"] == DBNull.Value || string.IsNullOrWhiteSpace(reader["sex"].ToString()))
+                                    return false;
+                                if (reader["phone_no"] == DBNull.Value || string.IsNullOrWhiteSpace(reader["phone_no"].ToString()))
+                                    return false;
+                                if (reader["barangay"] == DBNull.Value || string.IsNullOrWhiteSpace(reader["barangay"].ToString()))
+                                    return false;
+                                if (reader["city"] == DBNull.Value || string.IsNullOrWhiteSpace(reader["city"].ToString()))
+                                    return false;
+                                if (reader["province"] == DBNull.Value || string.IsNullOrWhiteSpace(reader["province"].ToString()))
+                                    return false;
+                                if (reader["guardian_first"] == DBNull.Value || string.IsNullOrWhiteSpace(reader["guardian_first"].ToString()))
+                                    return false;
+                                if (reader["guardian_last"] == DBNull.Value || string.IsNullOrWhiteSpace(reader["guardian_last"].ToString()))
+                                    return false;
+                                if (reader["guardian_contact"] == DBNull.Value || string.IsNullOrWhiteSpace(reader["guardian_contact"].ToString()))
+                                    return false;
+
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error verifying personal information: " + ex.Message,
+                              "Error",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
+            }
+
+            return false;
         }
 
         private void LoadEnrollmentData()
@@ -984,12 +1072,6 @@ namespace Enrollment_System
         {
             try
             {
-                if (SessionManager.StudentId <= 0)
-                {
-                    MessageBox.Show("No student record found for current user");
-                    return;
-                }
-
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
