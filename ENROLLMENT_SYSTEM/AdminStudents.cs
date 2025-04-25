@@ -277,6 +277,7 @@ namespace Enrollment_System
 
         private void DataGridEnrolled_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+
             if (e.ColumnIndex == DataGridEnrolled.Columns["ColClose"].Index && e.RowIndex >= 0)
             {
                 try
@@ -410,93 +411,156 @@ namespace Enrollment_System
                     yPos += 20;
 
                     // Subject list title
-                    gfx.DrawString("Enrolled Subjects", headerFont, XBrushes.Black, (pageWidth - gfx.MeasureString("Enrolled Subjects", headerFont).Width) / 2, yPos);
+                    string subjectsTitle = "Enrolled Subjects";
+                    double subjectsTitleWidth = gfx.MeasureString(subjectsTitle, headerFont).Width;
+                    gfx.DrawString(subjectsTitle, headerFont, XBrushes.Black, (pageWidth - subjectsTitleWidth) / 2, yPos);
                     yPos += 25;
 
                     // Define subjects table
                     List<Subject> subjects = GetSubjectsForStudent(program, semester, yearLevel);
 
-                    // Define column widths
+                    // Define column widths - adjusted for better balance and separation
                     double[] columnWidths = new double[7];
-                    columnWidths[0] = 50;  // ID
-                    columnWidths[1] = 90;  // Subject Code
-                    columnWidths[2] = 270; // Subject Name
-                    columnWidths[3] = 50;  // Units
-                    columnWidths[4] = 80;  // Course Code
-                    columnWidths[5] = 80;  // Semester
-                    columnWidths[6] = 80;  // Year Level
+                    columnWidths[0] = 40;   // ID
+                    columnWidths[1] = 80;   // Subject Code
+                    columnWidths[2] = 350;  // Subject Name
+                    columnWidths[3] = 60;   // Units
+                    columnWidths[4] = 80;   // Course Code
+                    columnWidths[5] = 80;   // Semester
+                    columnWidths[6] = 80;   // Year Level
 
                     string[] headers = { "ID", "Subject Code", "Subject Name", "Units", "Course Code", "Semester", "Year Level" };
 
+                    // Define table properties
+                    double tableStartY = yPos - 15;
+                    double tableWidth = contentWidth;
+                    double rowHeight = 20;
+                    double cellPadding = 5;
+
+                    // CREATE IMPROVED TABLE WITH CLEAN BORDERS AND CONSISTENT ALIGNMENT
+
                     // Draw table header background
-                    XRect headerRect = new XRect(marginLeft, yPos - 15, contentWidth, 20);
+                    XRect headerRect = new XRect(marginLeft, tableStartY, tableWidth, rowHeight);
                     gfx.DrawRectangle(new XSolidBrush(XColor.FromArgb(230, 230, 230)), headerRect);
 
-                    // Draw table header
+                    // Draw the table outer border first - this ensures a perfect rectangle
+                    XRect tableRect = new XRect(marginLeft, tableStartY, tableWidth, (subjects.Count + 1) * rowHeight);
+                    gfx.DrawRectangle(new XPen(XColors.Black, 1), tableRect);
+
+                    // Draw header text with center alignment for specific columns
                     double xPos = marginLeft;
                     for (int i = 0; i < headers.Length; i++)
                     {
-                        gfx.DrawString(headers[i], boldFont, XBrushes.Black, xPos + 5, yPos);
+                        string header = headers[i];
+                        double textWidth = gfx.MeasureString(header, boldFont).Width;
+                        double xOffset = cellPadding;
+
+                        // Center alignment for Units, Course Code, Semester, Year Level
+                        if (i >= 3)
+                        {
+                            xOffset = (columnWidths[i] - textWidth) / 2;
+                        }
+
+                        gfx.DrawString(header, boldFont, XBrushes.Black, xPos + xOffset, tableStartY + rowHeight - cellPadding);
                         xPos += columnWidths[i];
+
+                        // Draw vertical divider lines
+                        if (i < headers.Length - 1)
+                        {
+                            gfx.DrawLine(new XPen(XColors.Black, 0.5), xPos, tableStartY, xPos, tableStartY + (subjects.Count + 1) * rowHeight);
+                        }
                     }
-                    yPos += 20;
 
-                    // Draw header horizontal line
-                    gfx.DrawLine(new XPen(XColors.Black, 1), marginLeft, yPos - 5, pageWidth - marginLeft, yPos - 5);
+                    // Draw header separator line
+                    gfx.DrawLine(new XPen(XColors.Black, 1), marginLeft, tableStartY + rowHeight, marginLeft + tableWidth, tableStartY + rowHeight);
 
-                    // Draw vertical lines for all columns
-                    double vertLineStartY = headerRect.Top;
-                    double vertLineEndY = vertLineStartY; // Will extend as we add rows
-
-                    // Draw table rows
+                    // Draw the rows
+                    double currentY = tableStartY + rowHeight;
                     bool alternateRow = false;
-                    foreach (var subject in subjects)
+
+                    for (int row = 0; row < subjects.Count; row++)
                     {
-                        // Alternate row background
+                        var subject = subjects[row];
+
+                        // Draw alternating row background
                         if (alternateRow)
                         {
-                            XRect rowRect = new XRect(marginLeft, yPos - 15, contentWidth, 20);
+                            XRect rowRect = new XRect(marginLeft + 0.5, currentY + 0.5, tableWidth - 1, rowHeight - 1);
                             gfx.DrawRectangle(new XSolidBrush(XColor.FromArgb(245, 245, 245)), rowRect);
                         }
                         alternateRow = !alternateRow;
 
+                        // Draw cell content with consistent vertical alignment
+                        double textY = currentY + rowHeight - cellPadding; // Align text to bottom with padding
                         xPos = marginLeft;
-                        gfx.DrawString(subject.SubjectID.ToString(), regularFont, XBrushes.Black, xPos + 5, yPos);
+
+                        // ID column
+                        gfx.DrawString(subject.SubjectID.ToString(), regularFont, XBrushes.Black, xPos + cellPadding, textY);
                         xPos += columnWidths[0];
 
-                        gfx.DrawString(subject.SubjectCode, regularFont, XBrushes.Black, xPos + 5, yPos);
+                        // Subject Code
+                        gfx.DrawString(subject.SubjectCode, regularFont, XBrushes.Black, xPos + cellPadding, textY);
                         xPos += columnWidths[1];
 
-                        gfx.DrawString(subject.SubjectName, regularFont, XBrushes.Black, xPos + 5, yPos);
+                        // Subject Name - handle long text with potential wrapping
+                        string subjectName = subject.SubjectName;
+                        XSize subjectNameSize = gfx.MeasureString(subjectName, regularFont);
+
+                        // If the text width exceeds column width minus padding, trim with ellipsis
+                        double availableWidth = columnWidths[2] - (2 * cellPadding);
+                        if (subjectNameSize.Width > availableWidth)
+                        {
+                            while (subjectNameSize.Width > availableWidth && subjectName.Length > 3)
+                            {
+                                subjectName = subjectName.Substring(0, subjectName.Length - 4) + "...";
+                                subjectNameSize = gfx.MeasureString(subjectName, regularFont);
+                            }
+                        }
+
+                        gfx.DrawString(subjectName, regularFont, XBrushes.Black, xPos + cellPadding, textY);
                         xPos += columnWidths[2];
 
-                        gfx.DrawString(subject.Units.ToString(), regularFont, XBrushes.Black, xPos + 5, yPos);
+                        // Units - center aligned
+                        string units = subject.Units.ToString();
+                        double unitsWidth = gfx.MeasureString(units, regularFont).Width;
+                        double unitsCenterX = xPos + ((columnWidths[3] - unitsWidth) / 2);
+                        gfx.DrawString(units, regularFont, XBrushes.Black, unitsCenterX, textY);
                         xPos += columnWidths[3];
 
-                        gfx.DrawString(subject.CourseCode, regularFont, XBrushes.Black, xPos + 5, yPos);
+                        // Course Code - center aligned
+                        string courseCode = subject.CourseCode;
+                        double courseWidth = gfx.MeasureString(courseCode, regularFont).Width;
+                        double courseCenterX = xPos + ((columnWidths[4] - courseWidth) / 2);
+                        gfx.DrawString(courseCode, regularFont, XBrushes.Black, courseCenterX, textY);
                         xPos += columnWidths[4];
 
-                        gfx.DrawString(subject.Semester, regularFont, XBrushes.Black, xPos + 5, yPos);
+                        // Semester - center aligned
+                        string semesters = subject.Semester;
+                        double semWidth = gfx.MeasureString(semester, regularFont).Width;
+                        double semCenterX = xPos + ((columnWidths[5] - semWidth) / 2);
+                        gfx.DrawString(semester, regularFont, XBrushes.Black, semCenterX, textY);
                         xPos += columnWidths[5];
 
-                        gfx.DrawString(subject.YearLevel, regularFont, XBrushes.Black, xPos + 5, yPos);
+                        // Year Level - center aligned
+                        string year_level = subject.YearLevel;
+                        double yearWidth = gfx.MeasureString(yearLevel, regularFont).Width;
+                        double yearCenterX = xPos + ((columnWidths[6] - yearWidth) / 2);
+                        gfx.DrawString(yearLevel, regularFont, XBrushes.Black, yearCenterX, textY);
 
-                        yPos += 20;
-                        vertLineEndY = yPos; // Update end position for vertical lines
+                        // Draw horizontal row divider (except after the last row)
+                        if (row < subjects.Count - 1)
+                        {
+                            currentY += rowHeight;
+                            gfx.DrawLine(new XPen(XColors.Black, 0.5), marginLeft, currentY, marginLeft + tableWidth, currentY);
+                        }
+                        else
+                        {
+                            currentY += rowHeight;
+                        }
                     }
 
-                    // Now draw all vertical lines
-                    xPos = marginLeft;
-                    for (int i = 0; i <= headers.Length; i++)
-                    {
-                        gfx.DrawLine(new XPen(XColors.Gray, 0.5), xPos, vertLineStartY, xPos, vertLineEndY);
-                        if (i < headers.Length)
-                            xPos += columnWidths[i];
-                    }
-
-                    // Draw bottom table line
-                    gfx.DrawLine(new XPen(XColors.Black, 1), marginLeft, yPos - 5, pageWidth - marginLeft, yPos - 5);
-                    yPos += 15;
+                    // Update the Y position for subsequent elements
+                    yPos = currentY + 20;
 
                     // Calculate and display total units and fees
                     int totalUnits = GetTotalUnits(program, semester, yearLevel);
@@ -513,7 +577,7 @@ namespace Enrollment_System
                     gfx.DrawString("Assessment Summary", boldFont, XBrushes.Black, feeBoxStartX, feeBoxStartY);
                     feeBoxStartY += 5;
 
-                    // Fee box frame
+                    // Fee box frame with clean border
                     XRect feeBoxRect = new XRect(feeBoxStartX, feeBoxStartY, feeBoxWidth, 100);
                     gfx.DrawRectangle(new XPen(XColors.Black, 1), feeBoxRect);
 
@@ -566,6 +630,7 @@ namespace Enrollment_System
                     MessageBox.Show("Error generating PDF: " + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+
         }
 
         private void DataGridNewEnrollment_CellContentClick(object sender, DataGridViewCellEventArgs e)
