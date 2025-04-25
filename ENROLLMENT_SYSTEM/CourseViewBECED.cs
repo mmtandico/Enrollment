@@ -87,5 +87,15 @@ namespace Enrollment_System
             newAcademicForm.ShowDialog();
 
         }
+
+        private void BtnBack_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void BtnBack1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

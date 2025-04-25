@@ -201,6 +201,7 @@
             this.BtnBack.TabIndex = 1;
             this.BtnBack.Text = "<";
             this.BtnBack.UseVisualStyleBackColor = false;
+            this.BtnBack.Click += new System.EventHandler(this.BtnBack_Click);
             // 
             // label6
             // 
@@ -300,6 +301,7 @@
             this.BtnBack1.TabIndex = 66;
             this.BtnBack1.Text = "<";
             this.BtnBack1.UseVisualStyleBackColor = false;
+            this.BtnBack1.Click += new System.EventHandler(this.BtnBack1_Click);
             // 
             // label7
             // 
