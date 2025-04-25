@@ -17,14 +17,14 @@ namespace Enrollment_System
     {
         private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
         private long loggedInUserId;
-        
+
 
         public string EnrollmentId { get; set; }
         public Dictionary<string, string> StudentData { get; set; }
         public string CourseText
         {
             get { return TxtCourse.Text; }
-            set { TxtCourse.Text = value; } 
+            set { TxtCourse.Text = value; }
         }
 
         public FormNewAcademiccs()
@@ -33,7 +33,7 @@ namespace Enrollment_System
             PicBoxID.Image = Properties.Resources.PROFILE;
             PicBoxID.SizeMode = PictureBoxSizeMode.StretchImage;
             loggedInUserId = SessionManager.UserId;
-            
+
         }
 
         private bool IsValidAcademicYear(string year)
@@ -328,13 +328,13 @@ namespace Enrollment_System
                     if (string.IsNullOrEmpty(EnrollmentId))
                     {
                         string checkDuplicateQuery = @"
-                    SELECT COUNT(*) 
-                    FROM student_enrollments 
-                    WHERE student_id = @StudentID 
-                    AND course_id = @CourseID 
-                    AND academic_year = @AcademicYear 
-                    AND semester = @Semester
-                    AND year_level = @YearLevel";
+                            SELECT COUNT(*) 
+                            FROM student_enrollments 
+                            WHERE student_id = @StudentID 
+                            AND course_id = @CourseID 
+                            AND academic_year = @AcademicYear 
+                            AND semester = @Semester
+                            AND year_level = @YearLevel";
 
                         using (var cmd = new MySqlCommand(checkDuplicateQuery, conn))
                         {
@@ -429,7 +429,7 @@ namespace Enrollment_System
                             new MySqlParameter("@EnrollmentID", newEnrollmentId),
                             new MySqlParameter("@TotalUnits", totalUnits),
                             new MySqlParameter("@TotalAmountDue", totalAmountDue)
-                           
+
                         );
 
                         long paymentId = GetLastInsertId(conn);
@@ -517,7 +517,7 @@ namespace Enrollment_System
         {
             InitializeComboBoxes();
             LoadCourseList();
-            
+            SetDefaultAcademicYear();
 
             if (!string.IsNullOrEmpty(EnrollmentId))
             {
@@ -544,9 +544,6 @@ namespace Enrollment_System
 
         private void ClearNewEnrollmentFields()
         {
-            TxtSchoolYear.Clear();
-            TxtSchoolYear.ForeColor = Color.Black;
-
             TxtPreviousSection.Clear();
             TxtPreviousSection.ForeColor = Color.Black;
 
@@ -561,9 +558,6 @@ namespace Enrollment_System
         {
             try
             {
-                TxtSchoolYear.Text = "e.g. 20**-20**";
-                TxtSchoolYear.ForeColor = Color.Gray;
-
                 TxtPreviousSection.Text = "e.g. BSIT-22-A";
                 TxtPreviousSection.ForeColor = Color.Gray;
 
@@ -571,8 +565,8 @@ namespace Enrollment_System
                 {
                     conn.Open();
 
-                    
-                        string query = @"SELECT
+
+                    string query = @"SELECT
                             s.student_id, 
                             IFNULL(s.student_no, '') AS student_no,
                             IFNULL(s.first_name, '') AS first_name,
@@ -689,24 +683,24 @@ namespace Enrollment_System
                     conn.Open();
 
                     string query = @"
-                SELECT 
-                    se.academic_year,
-                    se.semester,
-                    se.year_level,
-                    c.course_name,
-                    s.first_name,
-                    s.middle_name,
-                    s.last_name,
-                    s.student_no,
-                    s.profile_picture,
-                    ah.previous_section -- Fetch previous_section from academic_history
-                FROM student_enrollments se
-                JOIN courses c ON se.course_id = c.course_id
-                JOIN students s ON se.student_id = s.student_id
-                LEFT JOIN academic_history ah ON se.enrollment_id = ah.enrollment_id -- Join academic_history table
-                WHERE se.enrollment_id = @EnrollmentId";
+                        SELECT 
+                            se.academic_year,
+                            se.semester,
+                            se.year_level,
+                            c.course_name,
+                            s.first_name,
+                            s.middle_name,
+                            s.last_name,
+                            s.student_no,
+                            s.profile_picture,
+                            ah.previous_section -- Fetch previous_section from academic_history
+                        FROM student_enrollments se
+                        JOIN courses c ON se.course_id = c.course_id
+                        JOIN students s ON se.student_id = s.student_id
+                        LEFT JOIN academic_history ah ON se.enrollment_id = ah.enrollment_id -- Join academic_history table
+                        WHERE se.enrollment_id = @EnrollmentId";
 
-                    Console.WriteLine("SQL Query: " + query); 
+                    Console.WriteLine("SQL Query: " + query);
                     Console.WriteLine("Enrollment ID: " + EnrollmentId);
                     using (var cmd = new MySqlCommand(query, conn))
                     {
@@ -793,7 +787,7 @@ namespace Enrollment_System
             if (string.IsNullOrEmpty(value))
                 return;
 
-            
+
             int index = comboBox.FindStringExact(value);
             if (index >= 0)
             {
@@ -875,20 +869,23 @@ namespace Enrollment_System
 
         private void TxtSchoolYear_Enter(object sender, EventArgs e)
         {
-            if (TxtSchoolYear.Text == "e.g. 20**-20**")
-            {
-                TxtSchoolYear.Text = "";
-                TxtSchoolYear.ForeColor = Color.Black;
-            }
+
         }
 
         private void TxtSchoolYear_Leave(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(TxtSchoolYear.Text))
-            {
-                TxtSchoolYear.Text = "e.g. 20**-20**";
-                TxtSchoolYear.ForeColor = Color.Gray;
-            }
+
+        }
+
+        private void SetDefaultAcademicYear()
+        {
+            int currentYear = DateTime.Now.Year;
+
+            int startYear = DateTime.Now.Month >= 1 ? currentYear : currentYear - 1;
+            int endYear = startYear + 1;
+
+            TxtSchoolYear.Text = $"{startYear}-{endYear}";
+            TxtSchoolYear.ForeColor = Color.Black;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Enrollment_System
         public FormEnrollment()
         {
             InitializeComponent();
-            
+
 
 
             this.DoubleBuffered = true;
@@ -59,7 +59,7 @@ namespace Enrollment_System
 
             DataGridEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            DataGridEnrollment.Columns["ColOpen"].Width = 50; 
+            DataGridEnrollment.Columns["ColOpen"].Width = 50;
             DataGridEnrollment.Columns["ColClose"].Width = 50;
             DataGridEnrollment.Columns["ColOpen"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             DataGridEnrollment.Columns["ColClose"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
@@ -78,8 +78,8 @@ namespace Enrollment_System
 
             foreach (DataGridViewColumn col in DataGridEnrollment.Columns)
             {
-                col.Frozen = false; 
-                col.Resizable = DataGridViewTriState.True; 
+                col.Frozen = false;
+                col.Resizable = DataGridViewTriState.True;
             }
 
             /////////////////////////////////////////
@@ -120,7 +120,7 @@ namespace Enrollment_System
             DataGridSubjects.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             DataGridSubjects.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-    
+
             foreach (DataGridViewColumn col in DataGridSubjects.Columns)
             {
                 col.Frozen = false;
@@ -151,7 +151,7 @@ namespace Enrollment_System
 
         public void RefreshPaymentData()
         {
-            LoadStudentPayments(); 
+            LoadStudentPayments();
         }
 
         private void DataGridEnrollment_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
@@ -242,19 +242,23 @@ namespace Enrollment_System
         private void BtnAddAcademic_Click(object sender, EventArgs e)
         {
             // First check if personal info is complete
-            if (!IsPersonalInfoComplete())
+            if (!ValidationHelper.IsPersonalInfoComplete(SessionManager.UserId))
             {
-                MessageBox.Show("Please complete your personal information before enrolling.",
-                              "Information Required",
-                              MessageBoxButtons.OK,
-                              MessageBoxIcon.Warning);
-
-                // Optionally open the personal info form
+                ValidationHelper.ShowValidationError(this);
                 SwitchForm(new FormPersonalInfo());
                 return;
             }
 
-            // Proceed with enrollment if info is complete
+            // Check for existing pending enrollments
+            if (HasPendingEnrollment())
+            {
+                MessageBox.Show("You already have a pending enrollment request. Please wait for it to be processed before creating a new one.",
+                               "Pending Enrollment Exists",
+                               MessageBoxButtons.OK,
+                               MessageBoxIcon.Warning);
+                return;
+            }
+
             using (FormNewAcademiccs formNewAcademiccs = new FormNewAcademiccs())
             {
                 formNewAcademiccs.StartPosition = FormStartPosition.CenterParent;
@@ -268,6 +272,33 @@ namespace Enrollment_System
             }
         }
 
+        private bool HasPendingEnrollment()
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = @"SELECT COUNT(*) 
+                          FROM student_enrollments 
+                          WHERE student_id = @StudentId 
+                          AND status IN ('Pending', 'Payment Pending')";
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@StudentId", SessionManager.StudentId);
+                        int count = Convert.ToInt32(cmd.ExecuteScalar());
+                        return count > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error checking pending enrollments: " + ex.Message);
+                return false;
+            }
+        }
+
         private bool IsPersonalInfoComplete()
         {
             try
@@ -277,17 +308,17 @@ namespace Enrollment_System
                     conn.Open();
 
                     string query = @"
-                SELECT 
-                    s.student_no, s.student_lrn, s.first_name, s.last_name, s.birth_date,
-                    s.sex, s.nationality, c.phone_no, a.barangay, a.city, a.province,
-                    g.first_name AS guardian_first, g.last_name AS guardian_last,
-                    g.contact_number AS guardian_contact
-                FROM students s
-                LEFT JOIN contact_info c ON s.student_id = c.student_id
-                LEFT JOIN addresses a ON s.student_id = a.student_id
-                LEFT JOIN student_guardians sg ON s.student_id = sg.student_id
-                LEFT JOIN parents_guardians g ON sg.guardian_id = g.guardian_id
-                WHERE s.user_id = @UserID";
+                        SELECT 
+                            s.student_no, s.student_lrn, s.first_name, s.last_name, s.birth_date,
+                            s.sex, s.nationality, c.phone_no, a.barangay, a.city, a.province,
+                            g.first_name AS guardian_first, g.last_name AS guardian_last,
+                            g.contact_number AS guardian_contact
+                        FROM students s
+                        LEFT JOIN contact_info c ON s.student_id = c.student_id
+                        LEFT JOIN addresses a ON s.student_id = a.student_id
+                        LEFT JOIN student_guardians sg ON s.student_id = sg.student_id
+                        LEFT JOIN parents_guardians g ON sg.guardian_id = g.guardian_id
+                        WHERE s.user_id = @UserID";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
@@ -500,7 +531,7 @@ namespace Enrollment_System
 
             if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColOpen")
             {
-                
+
                 if (selectedRow.Cells["ColOpen"].ReadOnly) return;
 
                 using (FormNewAcademiccs editForm = new FormNewAcademiccs())
@@ -516,7 +547,7 @@ namespace Enrollment_System
             }
             else if (DataGridEnrollment.Columns[e.ColumnIndex].Name == "ColClose")
             {
-                
+
                 if (selectedRow.Cells["ColClose"].ReadOnly) return;
 
                 DialogResult confirmResult = MessageBox.Show(
@@ -608,17 +639,17 @@ namespace Enrollment_System
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                      
+
                         cmd.Parameters.AddWithValue("@EnrollmentId", enrollmentId);
 
-                        int rowsAffected = cmd.ExecuteNonQuery(); 
+                        int rowsAffected = cmd.ExecuteNonQuery();
                         return rowsAffected > 0;
                     }
                 }
             }
             catch (Exception ex)
             {
-                
+
                 throw new Exception("Error deleting enrollment: " + ex.Message);
             }
         }
@@ -630,16 +661,16 @@ namespace Enrollment_System
             ///////////////////////////////////
             DataGridEnrollment.AllowUserToResizeColumns = false;
             DataGridEnrollment.AllowUserToResizeRows = false;
-            DataGridEnrollment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;        
+            DataGridEnrollment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             foreach (DataGridViewColumn column in DataGridEnrollment.Columns)
             {
                 column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            }     
+            }
             int totalCols = DataGridEnrollment.Columns.Count;
             DataGridEnrollment.Columns[totalCols - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridEnrollment.Columns[totalCols - 1].Width = 40; 
+            DataGridEnrollment.Columns[totalCols - 1].Width = 40;
             DataGridEnrollment.Columns[totalCols - 2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridEnrollment.Columns[totalCols - 2].Width = 40; 
+            DataGridEnrollment.Columns[totalCols - 2].Width = 40;
             DataGridEnrollment.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             DataGridEnrollment.Columns[0].Width = 50;
             DataGridEnrollment.RowTemplate.Height = 35;
@@ -693,16 +724,16 @@ namespace Enrollment_System
         private void CustomizeDataGrid()
         {
             DataGridEnrollment.BorderStyle = BorderStyle.None;
-      
-            DataGridEnrollment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220); 
+
+            DataGridEnrollment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
 
             DataGridEnrollment.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
             DataGridEnrollment.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
-           
+
             DataGridEnrollment.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
             DataGridEnrollment.DefaultCellStyle.SelectionForeColor = Color.White;
-          
-            DataGridEnrollment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33); 
+
+            DataGridEnrollment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33);
             DataGridEnrollment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             DataGridEnrollment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             DataGridEnrollment.EnableHeadersVisualStyles = false;
@@ -712,7 +743,7 @@ namespace Enrollment_System
             DataGridEnrollment.DefaultCellStyle.Font = new Font("Segoe UI", 10);
 
             DataGridEnrollment.RowTemplate.Height = 35;
-            
+
             DataGridEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             foreach (DataGridViewColumn column in DataGridEnrollment.Columns)
@@ -755,13 +786,13 @@ namespace Enrollment_System
         {
             tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
             tabControl1.SizeMode = TabSizeMode.Fixed;
-            tabControl1.ItemSize = new Size(160, 36);  
+            tabControl1.ItemSize = new Size(160, 36);
 
-            Color darkBrown = Color.FromArgb(94, 55, 30);    
-            Color mediumBrown = Color.FromArgb(139, 69, 19);  
-            Color lightBrown = Color.FromArgb(210, 180, 140);  
-            Color goldYellow = Color.FromArgb(218, 165, 32);  
-            Color cream = Color.FromArgb(253, 245, 230);      
+            Color darkBrown = Color.FromArgb(94, 55, 30);
+            Color mediumBrown = Color.FromArgb(139, 69, 19);
+            Color lightBrown = Color.FromArgb(210, 180, 140);
+            Color goldYellow = Color.FromArgb(218, 165, 32);
+            Color cream = Color.FromArgb(253, 245, 230);
 
             tabControl1.DrawItem += (sender, e) =>
             {
@@ -770,13 +801,13 @@ namespace Enrollment_System
                 Rectangle tabRect = tabControl1.GetTabRect(e.Index);
                 bool isSelected = tabControl1.SelectedIndex == e.Index;
 
-                
+
                 if (isSelected)
                 {
                     tabRect.Inflate(0, 2);
                     tabRect.Y -= 2;
                 }
- 
+
                 if (isSelected)
                 {
                     using (var brush = new LinearGradientBrush(
@@ -796,7 +827,7 @@ namespace Enrollment_System
                     }
                 }
 
-               
+
                 using (var pen = new Pen(isSelected ? goldYellow : darkBrown, isSelected ? 2f : 1f))
                 {
                     g.DrawRectangle(pen, tabRect);
@@ -832,13 +863,13 @@ namespace Enrollment_System
 
             tabControl1.BackColor = lightBrown;
 
-           
-            this.BackColor = Color.FromArgb(250, 240, 220); 
+
+            this.BackColor = Color.FromArgb(250, 240, 220);
         }
 
         private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
         {
-             
+
         }
 
         private void DataGridPayment_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -858,7 +889,7 @@ namespace Enrollment_System
             DataGridPayment.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
             DataGridPayment.DefaultCellStyle.SelectionForeColor = Color.White;
 
-            DataGridPayment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33); 
+            DataGridPayment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33);
             DataGridPayment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             DataGridPayment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             DataGridPayment.EnableHeadersVisualStyles = false;
@@ -890,7 +921,7 @@ namespace Enrollment_System
             DataGridSubjects.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
             DataGridSubjects.DefaultCellStyle.SelectionForeColor = Color.White;
 
-            DataGridSubjects.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33); 
+            DataGridSubjects.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33);
             DataGridSubjects.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             DataGridSubjects.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             DataGridSubjects.EnableHeadersVisualStyles = false;
@@ -1040,10 +1071,10 @@ namespace Enrollment_System
 
         private void DataGridSubjects_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+
         }
 
-        
+
         private decimal CalculateTuitionFee(int totalUnits)
         {
             const decimal PER_UNIT_COST = 150.00m;
@@ -1052,7 +1083,7 @@ namespace Enrollment_System
 
         private decimal CalculateMiscellaneousFee()
         {
-            return 800.00m; 
+            return 800.00m;
         }
 
         private void UpdatePaymentCalculation(int totalUnits)

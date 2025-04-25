@@ -631,7 +631,7 @@
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(291, 103);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(286, 33);
+            this.label4.Size = new System.Drawing.Size(289, 33);
             this.label4.TabIndex = 42;
             this.label4.Text = "Future Office Professionls";
             // 

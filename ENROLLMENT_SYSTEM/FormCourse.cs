@@ -43,7 +43,24 @@ namespace Enrollment_System
             this.PboxBanner.TabStop = false;
             this.PboxBanner.SizeMode = PictureBoxSizeMode.StretchImage;
             this.panel8.Controls.Add(this.PboxBanner);
+        }
 
+        public Image GetCurrentBannerImage()
+        {
+            return PboxBanner?.Image;
+        }
+
+        public void SetBannerImage(Image image)
+        {
+            if (PboxBanner != null)
+            {
+                if (PboxBanner.Image != null)
+                {
+                    PboxBanner.Image.Dispose();
+                }
+                PboxBanner.Image = image;
+                BringBannerToFront();
+            }
         }
 
         private void LoadWelcomeMessage()
@@ -73,7 +90,14 @@ namespace Enrollment_System
 
         private void LoadEnrolledCourseBanner()
         {
-            // Check if we have a valid student ID
+            // Check session first
+            if (SessionManager.CurrentBannerImage != null)
+            {
+                SetBannerImage(SessionManager.CurrentBannerImage);
+                return;
+            }
+
+            // Rest of your existing banner loading logic
             if (SessionManager.StudentId <= 0)
             {
                 SetDefaultBanner();
@@ -81,15 +105,14 @@ namespace Enrollment_System
             }
 
             string courseCode = GetEnrolledCourseCode(SessionManager.StudentId);
-
             if (!string.IsNullOrEmpty(courseCode))
             {
                 UpdateCourseBannerImage(courseCode);
                 SessionManager.SelectedCourse = courseCode;
+                SessionManager.CurrentBannerCourse = courseCode;
             }
             else
             {
-                // No enrollment found - show default banner without message
                 SetDefaultBanner();
             }
         }
@@ -141,7 +164,10 @@ namespace Enrollment_System
                             PboxBanner.Image.Dispose();
                         }
 
-                        PboxBanner.Image = Image.FromStream(stream);
+                        var image = Image.FromStream(stream);
+                        PboxBanner.Image = image;
+                        SessionManager.CurrentBannerImage = (Image)image.Clone();
+                        SessionManager.CurrentBannerCourse = courseCode;
                         BringBannerToFront();
                     }
                     else
@@ -174,28 +200,23 @@ namespace Enrollment_System
                             PboxBanner.Image.Dispose();
                         }
 
-                        PboxBanner.Image = Image.FromStream(stream);
-                    }
-                    else
-                    {
-                        PboxBanner.Image = null;
+                        var image = Image.FromStream(stream);
+                        PboxBanner.Image = image;
+                        SessionManager.CurrentBannerImage = (Image)image.Clone();
+                        SessionManager.CurrentBannerCourse = null;
                     }
                 }
             }
             catch
             {
                 PboxBanner.Image = null;
+                SessionManager.CurrentBannerImage = null;
+                SessionManager.CurrentBannerCourse = null;
             }
         }
 
 
         #region Navigation Buttons
-        private void BtnHome_Click(object sender, EventArgs e)
-        {
-            this.Close();
-            new FormHome().Show();
-        }
-
         private void BtnEnrollment_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -216,7 +237,6 @@ namespace Enrollment_System
 
         private void CloseAllForms()
         {
-            // Close current course view
             if (currentCourseView != null && !currentCourseView.IsDisposed)
             {
                 currentCourseView.FormClosed -= CurrentFormClosed;
@@ -225,7 +245,6 @@ namespace Enrollment_System
                 currentCourseView = null;
             }
 
-            // Close other forms
             foreach (Form form in Application.OpenForms.Cast<Form>().ToList())
             {
                 if (form != this && !(form is FormLogin) && !form.IsDisposed)
@@ -236,17 +255,24 @@ namespace Enrollment_System
             }
         }
 
+
         private void BtnLogout_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to log out?", "Logout Confirmation",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
+
+                SessionManager.CurrentBannerImage?.Dispose();
+                SessionManager.CurrentBannerImage = null;
+                SessionManager.CurrentBannerCourse = null;
+
                 CloseAllForms();
                 SessionManager.Logout();
                 new FormLogin().Show();
                 this.Close();
             }
         }
+
 
         public void BringBannerToFront()
         {
@@ -256,7 +282,7 @@ namespace Enrollment_System
             }
         }
 
-        
+
         private void BtnBSCS_Click(object sender, EventArgs e)
         {
             UpdateCourseBannerImage("BSCS");
@@ -307,7 +333,6 @@ namespace Enrollment_System
 
         private void ShowCourseViewForm(Form newForm)
         {
-            
             if (newForm == null)
             {
                 MessageBox.Show("Error: Form cannot be null");
@@ -316,10 +341,8 @@ namespace Enrollment_System
 
             try
             {
-                
                 if (currentCourseView != null)
                 {
-                   
                     if (currentCourseView.GetType() == newForm.GetType())
                     {
                         if (currentCourseView.WindowState == FormWindowState.Minimized)
@@ -327,25 +350,24 @@ namespace Enrollment_System
 
                         currentCourseView.BringToFront();
                         currentCourseView.Activate();
-                        newForm.Dispose(); 
+                        newForm.Dispose();
                         return;
                     }
 
-                    
-                    currentCourseView.FormClosed -= CurrentFormClosed; 
+                    currentCourseView.FormClosed -= CurrentFormClosed;
                     currentCourseView.Close();
                     currentCourseView.Dispose();
                     currentCourseView = null;
                 }
 
-                
                 currentCourseView = newForm;
                 currentCourseView.FormClosed += CurrentFormClosed;
                 currentCourseView.Show();
+
+                SetBannerImage(null);
             }
             catch (Exception ex)
             {
-                
                 newForm.Dispose();
                 MessageBox.Show($"Error showing form: {ex.Message}");
             }
@@ -353,7 +375,7 @@ namespace Enrollment_System
 
         private void CurrentFormClosed(object sender, FormClosedEventArgs e)
         {
-            
+
             if (currentCourseView != null && !currentCourseView.IsDisposed)
             {
                 currentCourseView.Dispose();

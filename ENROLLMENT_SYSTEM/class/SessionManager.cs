@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Enrollment_System
 {
@@ -14,6 +15,8 @@ namespace Enrollment_System
         public static string FirstName { get; set; }
         public static string LastName { get; set; }
         public static string SelectedCourse { get; set; }
+        public static string CurrentBannerCourse { get; set; }
+        public static Image CurrentBannerImage { get; set; }
         public static string FullName => $"{FirstName} {LastName}".Trim();
         public static string Initials => GetInitials();
         public static bool IsLoggedIn => UserId > 0;
@@ -75,7 +78,7 @@ namespace Enrollment_System
 
         private static void LogSessionActivity(string message)
         {
-            
+
             System.Diagnostics.Debug.WriteLine($"[{DateTime.Now}] {message}");
         }
         #endregion
