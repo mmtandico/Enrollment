@@ -221,23 +221,24 @@ namespace Enrollment_System
         private void LblBackLogin_Click(object sender, EventArgs e)
         {
 
-            // Check if FormLogin is already open
+            
             FormLogin formLogin = Application.OpenForms.OfType<FormLogin>().FirstOrDefault();
 
             if (formLogin == null)
             {
-                // If FormLogin is not open, create and show a new instance
+                
                 formLogin = new FormLogin();
                 formLogin.Show();
-                this.Hide();  // Hide FormResetPass
+                this.Hide(); 
             }
             else
             {
-                // If FormLogin is already open, bring it to the front
+                
+                formLogin.Show();
                 formLogin.BringToFront();
             }
 
-            // Close FormResetPass
+           
             this.Close();
         }
 

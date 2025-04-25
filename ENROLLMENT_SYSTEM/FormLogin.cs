@@ -126,9 +126,10 @@ namespace Enrollment_System
             }
             else
             {
-                // If FormResetPass is already open, bring it to the front
-                formResetPass.BringToFront();
+               
+                formResetPass.BringToFront();   
             }
+            
         }
     }
 }
