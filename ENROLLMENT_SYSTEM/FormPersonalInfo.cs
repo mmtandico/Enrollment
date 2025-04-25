@@ -103,8 +103,8 @@ namespace Enrollment_System
                         if (userExists == 0)
                         {
                             string insertQuery = @"
-                                INSERT INTO students (user_id,student_no, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
-                                VALUES (@UserID,'', '', '', '', '', '2000-01-01', 0, 'Male', '', '')";
+                                INSERT INTO students (user_id, student_no, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
+                                VALUES (@UserID, NULL, NULL, '', '', '', '2000-01-01', 0, 'Male', '', '')";
 
                             using (var insertCmd = new MySqlCommand(insertQuery, conn))
                             {
@@ -571,9 +571,9 @@ namespace Enrollment_System
 
                             string currentYear = DateTime.Now.Year.ToString();
                             string query = $@"
-                    SELECT IFNULL(MAX(CAST(SUBSTRING(student_no, 10, 6) AS UNSIGNED)), 0) + 1 
-                    FROM students 
-                    WHERE student_no LIKE 'PDM-{currentYear}-%'";
+                                SELECT IFNULL(MAX(CAST(SUBSTRING(student_no, 10, 6) AS UNSIGNED)), 0) + 1 
+                                FROM students 
+                                WHERE student_no LIKE 'PDM-{currentYear}-%'";
 
                             using (var cmd = new MySqlCommand(query, conn))
                             {
