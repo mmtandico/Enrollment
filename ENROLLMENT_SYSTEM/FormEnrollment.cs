@@ -690,13 +690,16 @@ namespace Enrollment_System
             DataGridEnrollment.Columns[totalCols - 2].Width = 40;
             DataGridEnrollment.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             DataGridEnrollment.Columns[0].Width = 50;
+            DataGridEnrollment.Columns[1].Width = 50;
             DataGridEnrollment.RowTemplate.Height = 35;
             DataGridEnrollment.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            DataGridEnrollment.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridEnrollment.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            //DataGridEnrollment.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             DataGridEnrollment.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             DataGridEnrollment.Columns[7].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             DataGridEnrollment.Columns[8].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             DataGridEnrollment.Columns[9].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridEnrollment.Columns[10].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             ///////////////////////////////////////////
             DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -714,6 +717,7 @@ namespace Enrollment_System
             DataGridPayment.Columns[totalCol - 2].Width = 40;
             DataGridPayment.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             DataGridPayment.Columns[0].Width = 50;
+            DataGridPayment.Columns[1].Width = 50;
             DataGridPayment.RowTemplate.Height = 35;
             ///////////////////////////////////////////////
             DataGridSubjects.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -726,10 +730,18 @@ namespace Enrollment_System
             }
             DataGridSubjects.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             DataGridSubjects.Columns[0].Width = 50;
-            DataGridSubjects.Columns[1].Width = 200;
-            DataGridSubjects.Columns[2].Width = 800;
-            DataGridSubjects.Columns[3].Width = 100;
-            DataGridSubjects.Columns[4].Width = 100;
+            DataGridSubjects.Columns[1].Width = 50;
+            //DataGridSubjects.Columns[2].Width = 500;
+            //DataGridSubjects.Columns[3].Width = 800;
+            //DataGridSubjects.Columns[4].Width = 50;
+            //DataGridSubjects.Columns[5].Width = 80;
+            //DataGridSubjects.Columns[6].Width = 80;
+            //DataGridSubjects.Columns[7].Width = 80;
+
+            DataGridSubjects.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridSubjects.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridSubjects.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridSubjects.Columns[7].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             DataGridSubjects.RowTemplate.Height = 35;
 
             CustomizeDataGrid();

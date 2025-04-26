@@ -1357,5 +1357,23 @@ namespace Enrollment_System
             }
         }
 
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            string searchTerm = textBox1.Text.ToLower();
+
+            // Filtering for DataGridSubjects
+            if (DataGridSubjects.DataSource is DataTable)
+            {
+                DataTable dt = (DataTable)DataGridSubjects.DataSource;
+                dt.DefaultView.RowFilter = string.Format("Subject_Code LIKE '%{0}%' OR Subject_Name LIKE '%{0}%'", searchTerm);
+            }
+
+            // Filtering for DataGridPrerequisite
+            if (DataGridPrerequisite.DataSource is DataTable)
+            {
+                DataTable dt = (DataTable)DataGridPrerequisite.DataSource;
+                dt.DefaultView.RowFilter = string.Format("subject_code_pre LIKE '%{0}%' OR subject_name_pre LIKE '%{0}%' OR prerequisite_code_pre LIKE '%{0}%' OR prerequisite_name_pre LIKE '%{0}%'", searchTerm);
+            }
+        }
     }
 }

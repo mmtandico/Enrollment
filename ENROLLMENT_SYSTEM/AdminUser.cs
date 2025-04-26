@@ -68,8 +68,8 @@ namespace Enrollment_System
             DataGridUsers.Columns[2].Width = 500;
             DataGridUsers.Columns[3].Width = 50;
             DataGridUsers.Columns[4].Width = 100;
-            DataGridUsers.Columns[5].Width = 100;
-            DataGridUsers.Columns[6].Width = 100;
+            DataGridUsers.Columns[5].Width = 200;
+            //DataGridUsers.Columns[6].Width = 100;
             DataGridUsers.RowTemplate.Height = 35;
             DataGridUsers.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
