@@ -17,6 +17,8 @@ namespace Enrollment_System
         private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
         private string currentProgramFilter = "All";
         private Button[] programButtons;
+        private bool isUpdatingRowNumbers = false;
+
 
         private enum CurrentMode { Subjects, Prerequisites }
         private CurrentMode currentMode = CurrentMode.Subjects;
@@ -25,6 +27,12 @@ namespace Enrollment_System
         public AdminCourse()
         {
             InitializeComponent();
+
+            DataGridSubjects.DataBindingComplete += DataGridSubjects_DataBindingComplete;
+            DataGridPrerequisite.DataBindingComplete += DataGridPrerequisite_DataBindingComplete;
+            DataGridSubjects.Sorted += DataGridSubjects_Sorted;
+            DataGridPrerequisite.Sorted += DataGridPrerequisite_Sorted;
+
             //InitializeDataGridView();
             //BtnAdd.Click += BtnAdd_Click;
             //BtnUpdate.Click += BtnUpdate_Click;
@@ -34,14 +42,13 @@ namespace Enrollment_System
             InitializeProgramButtons();
             
             LoadSubjectsCourse();
-          
 
             ProgramButton_Click(BtnAll, EventArgs.Empty);
         }
         
         private void AdminCourse_Load(object sender, EventArgs e)
         {
-
+         
             StyleTwoTabControl();
             //InitializeDataGridView();
             InitializeFilterControls();
@@ -74,14 +81,17 @@ namespace Enrollment_System
             DataGridSubjects.Columns[totalCols1 - 2].Width = 40;
             DataGridSubjects.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             DataGridSubjects.Columns[0].Width = 50;
-            DataGridSubjects.Columns[1].Width = 150;
-            DataGridSubjects.Columns[2].Width = 500;
-            DataGridSubjects.Columns[3].Width = 50;
-            DataGridSubjects.Columns[4].Width = 100;
+            DataGridSubjects.Columns[1].Width = 50;
+            DataGridSubjects.Columns[2].Width = 150;
+            DataGridSubjects.Columns[3].Width = 500;
+            DataGridSubjects.Columns[4].Width = 50;
             DataGridSubjects.Columns[5].Width = 100;
             DataGridSubjects.Columns[6].Width = 100;
+            DataGridSubjects.Columns[7].Width = 100;
             DataGridSubjects.RowTemplate.Height = 35;
-            DataGridSubjects.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridSubjects.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridSubjects.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridSubjects.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
 
             foreach (DataGridViewColumn col in DataGridSubjects.Columns)
@@ -104,15 +114,18 @@ namespace Enrollment_System
             DataGridPrerequisite.Columns[totalCols2 - 2].Width = 40;
             DataGridPrerequisite.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             DataGridPrerequisite.Columns[0].Width = 50;
-            DataGridPrerequisite.Columns[1].Width = 150;
-            DataGridPrerequisite.Columns[2].Width = 500;
-            DataGridPrerequisite.Columns[3].Width = 50;
-            DataGridPrerequisite.Columns[4].Width = 100;
-            DataGridPrerequisite.Columns[5].Width = 100;
-            DataGridPrerequisite.Columns[6].Width = 100;
+            DataGridPrerequisite.Columns[2].Width = 150;
+            DataGridPrerequisite.Columns[3].Width = 350;
+            DataGridPrerequisite.Columns[4].Width = 50;
+            DataGridPrerequisite.Columns[5].Width = 50;
+            DataGridPrerequisite.Columns[6].Width = 150;
+            DataGridPrerequisite.Columns[7].Width = 300;
+            DataGridPrerequisite.Columns[8].Width = 50;
             DataGridPrerequisite.RowTemplate.Height = 35;
-            DataGridPrerequisite.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
+            DataGridPrerequisite.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridPrerequisite.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridPrerequisite.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridPrerequisite.Columns[8].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             foreach (DataGridViewColumn col in DataGridPrerequisite.Columns)
             {
@@ -131,6 +144,20 @@ namespace Enrollment_System
         {
             currentMode = tabControl1.SelectedIndex == 0 ? CurrentMode.Subjects : CurrentMode.Prerequisites;
             ClearFields();
+
+            bool isTabPage3 = tabControl1.SelectedIndex == 1;
+
+            CmbYrLvl.Enabled = !isTabPage3;
+            CmbSem.Enabled = !isTabPage3;
+
+            BtnBSCS.Enabled = !isTabPage3;
+            BtnBSIT.Enabled = !isTabPage3;
+            BtnBSTM.Enabled = !isTabPage3;
+            BtnBSHM.Enabled = !isTabPage3;
+            BtnBSOAD.Enabled = !isTabPage3;
+            BtnBECED.Enabled = !isTabPage3;
+            BtnBTLED.Enabled = !isTabPage3;
+            BtnAll.Enabled = !isTabPage3;
         }
 
         private void InitializeDataGridView(DataGridView dataGrid)
@@ -391,25 +418,34 @@ namespace Enrollment_System
                     conn.Open();
 
                     string query = @"
-                    SELECT 
-                        s.subject_id,
-                        s.subject_code,
-                        s.subject_name,
-                        s.units,
-                        IFNULL(c.course_code, 'N/A') AS courseCode,
-                        IFNULL(cs.semester, 'N/A') AS semester,
-                        IFNULL(cs.year_level, 'N/A') AS year_level
-                    FROM subjects s
-                    LEFT JOIN course_subjects cs ON s.subject_id = cs.subject_id
-                    LEFT JOIN courses c ON cs.course_id = c.course_id
-                    ORDER BY s.subject_code, c.course_code";
+                SELECT 
+                    s.subject_id,
+                    s.subject_code,
+                    s.subject_name,
+                    s.units,
+                    IFNULL(c.course_code, 'N/A') AS courseCode,
+                    IFNULL(cs.semester, 'N/A') AS semester,
+                    IFNULL(cs.year_level, 'N/A') AS year_level
+                FROM subjects s
+                LEFT JOIN course_subjects cs ON s.subject_id = cs.subject_id
+                LEFT JOIN courses c ON cs.course_id = c.course_id
+                ORDER BY s.subject_code, c.course_code";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         DataGridSubjects.AutoGenerateColumns = false;
                         DataGridSubjects.Columns.Clear();
 
-                        // Add text columns
+                        DataGridSubjects.Columns.Add(new DataGridViewTextBoxColumn()
+                        {
+                            DataPropertyName = "RowNumber",
+                            Name = "no_subjects",
+                            HeaderText = "No.",
+                            Width = 50,
+                            ReadOnly = true,
+                            SortMode = DataGridViewColumnSortMode.NotSortable
+                        });
+
                         DataGridSubjects.Columns.Add(new DataGridViewTextBoxColumn()
                         {
                             DataPropertyName = "subject_id",
@@ -418,12 +454,14 @@ namespace Enrollment_System
                             Visible = false
                         });
 
+                       
+      
                         DataGridSubjects.Columns.Add(new DataGridViewTextBoxColumn()
                         {
                             DataPropertyName = "subject_code",
                             HeaderText = "Subject Code",
                             Name = "subject_code",
-                            
+                            Width = 120
                         });
 
                         DataGridSubjects.Columns.Add(new DataGridViewTextBoxColumn()
@@ -431,7 +469,8 @@ namespace Enrollment_System
                             DataPropertyName = "subject_name",
                             HeaderText = "Subject Name",
                             Name = "subject_name",
-                           
+                            Width = 200,
+                            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                         });
 
                         DataGridSubjects.Columns.Add(new DataGridViewTextBoxColumn()
@@ -439,7 +478,11 @@ namespace Enrollment_System
                             DataPropertyName = "units",
                             HeaderText = "Units",
                             Name = "units",
-                           
+                            Width = 60,
+                            DefaultCellStyle = new DataGridViewCellStyle()
+                            {
+                                Alignment = DataGridViewContentAlignment.MiddleCenter
+                            }
                         });
 
                         DataGridSubjects.Columns.Add(new DataGridViewTextBoxColumn()
@@ -447,7 +490,7 @@ namespace Enrollment_System
                             DataPropertyName = "courseCode",
                             HeaderText = "Course",
                             Name = "courseCode",
-                            
+                            Width = 100
                         });
 
                         DataGridSubjects.Columns.Add(new DataGridViewTextBoxColumn()
@@ -455,7 +498,11 @@ namespace Enrollment_System
                             DataPropertyName = "semester",
                             HeaderText = "Semester",
                             Name = "semester",
-                            
+                            Width = 80,
+                            DefaultCellStyle = new DataGridViewCellStyle()
+                            {
+                                Alignment = DataGridViewContentAlignment.MiddleCenter
+                            }
                         });
 
                         DataGridSubjects.Columns.Add(new DataGridViewTextBoxColumn()
@@ -463,31 +510,49 @@ namespace Enrollment_System
                             DataPropertyName = "year_level",
                             HeaderText = "Year Level",
                             Name = "year_level",
-                            
+                            Width = 80,
+                            DefaultCellStyle = new DataGridViewCellStyle()
+                            {
+                                Alignment = DataGridViewContentAlignment.MiddleCenter
+                            }
                         });
 
-                        // Add action button columns
-                        DataGridViewImageColumn openCol = new DataGridViewImageColumn();
-                        openCol.Name = "ColOpen1";
-                        openCol.HeaderText = "";
-                        openCol.Image = Properties.Resources.EditButton; // Your open icon
+                        // Action buttons
+                        DataGridViewImageColumn openCol = new DataGridViewImageColumn()
+                        {
+                            Name = "ColOpen1",
+                            HeaderText = "",
+                            Image = Properties.Resources.EditButton,
+                            Width = 40,
+                            ImageLayout = DataGridViewImageCellLayout.Zoom
+                        };
                         DataGridSubjects.Columns.Add(openCol);
 
-                        DataGridViewImageColumn closeCol = new DataGridViewImageColumn();
-                        closeCol.Name = "ColClose1";
-                        closeCol.HeaderText = "";
-                        closeCol.Image = Properties.Resources.RemoveButton; // Your close icon
+                        DataGridViewImageColumn closeCol = new DataGridViewImageColumn()
+                        {
+                            Name = "ColClose1",
+                            HeaderText = "",
+                            Image = Properties.Resources.RemoveButton,
+                            Width = 40,
+                            ImageLayout = DataGridViewImageCellLayout.Zoom
+                        };
                         DataGridSubjects.Columns.Add(closeCol);
-
                         using (var adapter = new MySqlDataAdapter(cmd))
                         {
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
+
+                            // Add row numbers to the DataTable before binding
+                            dt.Columns.Add("RowNumber", typeof(int));
+                            for (int i = 0; i < dt.Rows.Count; i++)
+                            {
+                                dt.Rows[i]["RowNumber"] = i + 1;
+                            }
+
                             DataGridSubjects.DataSource = dt;
                         }
 
-                        // Initialize grid view
-                        InitializeDataGridView(DataGridSubjects);
+                        // InitializeDataGridView(DataGridSubjects);
                     }
                 }
             }
@@ -526,6 +591,42 @@ namespace Enrollment_System
           
         }
 
+        private void UpdateRowNumbers(DataGridView dataGrid)
+        {
+            if (isUpdatingRowNumbers || dataGrid == null || dataGrid.Rows == null) return;
+
+            isUpdatingRowNumbers = true;
+
+            try
+            {
+                string columnName = dataGrid == DataGridSubjects ? "no_subjects" : "no_pre";
+                int columnIndex = dataGrid.Columns[columnName]?.Index ?? -1;
+
+                if (columnIndex < 0) return;
+
+                for (int i = 0; i < dataGrid.Rows.Count; i++)
+                {
+                    if (dataGrid.Rows[i].IsNewRow) continue;
+                    dataGrid.Rows[i].Cells[columnIndex].Value = (i + 1).ToString();
+                }
+            }
+            finally
+            {
+                isUpdatingRowNumbers = false;
+            }
+        }
+
+        private void DataGrid_Sorted(object sender, EventArgs e)
+        {
+            var grid = sender as DataGridView;
+            if (grid != null)
+            {
+                UpdateRowNumbers(grid);
+            }
+        }
+
+
+
         private void ApplyFilters(object sender, EventArgs e)
         {
             string yearLevelFilter = CmbYrLvl.SelectedItem.ToString();
@@ -551,14 +652,14 @@ namespace Enrollment_System
                 filterExpression += $"[semester] = '{semesterFilter}'";
             }
 
-           
-
 
             if (DataGridSubjects.DataSource is DataTable)
             {
                 DataTable dt = (DataTable)DataGridSubjects.DataSource;
                 dt.DefaultView.RowFilter = filterExpression;
+                UpdateRowNumbers(DataGridSubjects);
             }
+           
         }
 
         private void ProgramButton_Click(object sender, EventArgs e)
@@ -976,35 +1077,44 @@ namespace Enrollment_System
                     conn.Open();
 
                     string query = @"
-                        SELECT 
-                            s1.subject_id AS subject_id_pre,
-                            s1.subject_code AS subject_code_pre,
-                            s1.subject_name AS subject_name_pre,
-                            s1.units AS units_pre,
-                            p.subject_id AS prerequisite_id,
-                            p.subject_code AS prerequisite_code_pre,
-                            p.subject_name AS prerequisite_name_pre,
-                            p.units AS prerequisite_units
-                        FROM 
-                            subjects s1
-                        JOIN 
-                            subject_prerequisites sp ON s1.subject_id = sp.subject_id
-                        JOIN 
-                            subjects p ON sp.prerequisite_id = p.subject_id
-                        ORDER BY 
-                            s1.subject_code, p.subject_code";
+                SELECT 
+                    s1.subject_id AS subject_id_pre,
+                    s1.subject_code AS subject_code_pre,
+                    s1.subject_name AS subject_name_pre,
+                    s1.units AS units_pre,
+                    p.subject_id AS prerequisite_id,
+                    p.subject_code AS prerequisite_code_pre,
+                    p.subject_name AS prerequisite_name_pre,
+                    p.units AS prerequisite_units
+                FROM 
+                    subjects s1
+                JOIN 
+                    subject_prerequisites sp ON s1.subject_id = sp.subject_id
+                JOIN 
+                    subjects p ON sp.prerequisite_id = p.subject_id
+                ORDER BY 
+                    s1.subject_code, p.subject_code";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         DataGridPrerequisite.AutoGenerateColumns = false;
                         DataGridPrerequisite.Columns.Clear();
 
-                        
+                        DataGridPrerequisite.Columns.Add(new DataGridViewTextBoxColumn()
+                        {
+                            DataPropertyName = "RowNumber",
+                            Name = "no_pre",
+                            HeaderText = "No.",
+                            Width = 50,
+                            ReadOnly = true,
+                            SortMode = DataGridViewColumnSortMode.NotSortable
+                        });
                         DataGridPrerequisite.Columns.Add(new DataGridViewTextBoxColumn()
                         {
                             DataPropertyName = "subject_id_pre",
                             HeaderText = "Subject ID",
-                            Name = "subject_id_pre"
+                            Name = "subject_id_pre",
+                            Visible = false
                         });
 
                         DataGridPrerequisite.Columns.Add(new DataGridViewTextBoxColumn()
@@ -1020,7 +1130,8 @@ namespace Enrollment_System
                             DataPropertyName = "subject_name_pre",
                             HeaderText = "Subject Name",
                             Name = "subject_name_pre",
-                            Width = 200
+                            Width = 200,
+                            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                         });
 
                         DataGridPrerequisite.Columns.Add(new DataGridViewTextBoxColumn()
@@ -1028,7 +1139,11 @@ namespace Enrollment_System
                             DataPropertyName = "units_pre",
                             HeaderText = "Units",
                             Name = "units_pre",
-                            Width = 60
+                            Width = 60,
+                            DefaultCellStyle = new DataGridViewCellStyle()
+                            {
+                                Alignment = DataGridViewContentAlignment.MiddleCenter
+                            }
                         });
 
                         DataGridPrerequisite.Columns.Add(new DataGridViewTextBoxColumn()
@@ -1063,28 +1178,43 @@ namespace Enrollment_System
                             Width = 60
                         });
 
-                        
-                        DataGridViewImageColumn openCol = new DataGridViewImageColumn();
-                        openCol.Name = "ColOpen";
-                        openCol.HeaderText = "";
-                        openCol.Image = Properties.Resources.EditButton; 
+                        // Action buttons
+                        DataGridViewImageColumn openCol = new DataGridViewImageColumn()
+                        {
+                            Name = "ColOpen",
+                            HeaderText = "",
+                            Image = Properties.Resources.EditButton,
+                            Width = 40,
+                            ImageLayout = DataGridViewImageCellLayout.Zoom
+                        };
                         DataGridPrerequisite.Columns.Add(openCol);
 
-                        DataGridViewImageColumn closeCol = new DataGridViewImageColumn();
-                        closeCol.Name = "ColClose";
-                        closeCol.HeaderText = "";
-                        closeCol.Image = Properties.Resources.RemoveButton; 
+                        DataGridViewImageColumn closeCol = new DataGridViewImageColumn()
+                        {
+                            Name = "ColClose",
+                            HeaderText = "",
+                            Image = Properties.Resources.RemoveButton,
+                            Width = 40,
+                            ImageLayout = DataGridViewImageCellLayout.Zoom
+                        };
                         DataGridPrerequisite.Columns.Add(closeCol);
 
                         using (var adapter = new MySqlDataAdapter(cmd))
                         {
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
+
+                            // Add row numbers
+                            dt.Columns.Add("RowNumber", typeof(int));
+                            for (int i = 0; i < dt.Rows.Count; i++)
+                            {
+                                dt.Rows[i]["RowNumber"] = i + 1;
+                            }
+
                             DataGridPrerequisite.DataSource = dt;
                         }
 
-                       
-                        InitializeDataGridView(DataGridPrerequisite);
+                        //InitializeDataGridView(DataGridPrerequisite);
                     }
                 }
             }
@@ -1296,11 +1426,10 @@ namespace Enrollment_System
 
         private void DataGridPrerequisite_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return; // Ignore header clicks
+            if (e.RowIndex < 0) return; 
 
             DataGridViewRow row = DataGridPrerequisite.Rows[e.RowIndex];
 
-            // Get the subject ID of the prerequisite (the actual subject, not the parent)
             int prerequisiteId = Convert.ToInt32(row.Cells["prerequisite_id"].Value);
 
             try
@@ -1309,7 +1438,6 @@ namespace Enrollment_System
                 {
                     conn.Open();
 
-                    // Query to get the prerequisite subject details
                     string query = @"
                 SELECT s.subject_id, s.subject_code, s.subject_name, 
                        c.course_code, cs.semester, cs.year_level
@@ -1326,12 +1454,10 @@ namespace Enrollment_System
                         {
                             if (reader.Read())
                             {
-                                // Populate the text boxes
                                 TxtSubID.Text = reader["subject_id"].ToString();
                                 TxtSubCode.Text = reader["subject_code"].ToString();
                                 TxtSubName.Text = reader["subject_name"].ToString();
 
-                                // Set the course in the combo box
                                 string courseCode = reader["course_code"].ToString();
                                 foreach (KeyValuePair<int, string> item in CmbCourse.Items)
                                 {
@@ -1342,7 +1468,6 @@ namespace Enrollment_System
                                     }
                                 }
 
-                                // Set semester and year level
                                 CmbSemester.Text = reader["semester"].ToString();
                                 CmbYearLevel.Text = reader["year_level"].ToString();
                             }
@@ -1361,19 +1486,37 @@ namespace Enrollment_System
         {
             string searchTerm = textBox1.Text.ToLower();
 
-            // Filtering for DataGridSubjects
             if (DataGridSubjects.DataSource is DataTable)
             {
                 DataTable dt = (DataTable)DataGridSubjects.DataSource;
                 dt.DefaultView.RowFilter = string.Format("Subject_Code LIKE '%{0}%' OR Subject_Name LIKE '%{0}%'", searchTerm);
             }
 
-            // Filtering for DataGridPrerequisite
             if (DataGridPrerequisite.DataSource is DataTable)
             {
                 DataTable dt = (DataTable)DataGridPrerequisite.DataSource;
                 dt.DefaultView.RowFilter = string.Format("subject_code_pre LIKE '%{0}%' OR subject_name_pre LIKE '%{0}%' OR prerequisite_code_pre LIKE '%{0}%' OR prerequisite_name_pre LIKE '%{0}%'", searchTerm);
             }
+        }
+
+        private void DataGridSubjects_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            UpdateRowNumbers(DataGridSubjects);
+        }
+
+        private void DataGridPrerequisite_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            UpdateRowNumbers(DataGridPrerequisite);
+        }
+
+        private void DataGridSubjects_Sorted(object sender, EventArgs e)
+        {
+            UpdateRowNumbers(DataGridSubjects);
+        }
+
+        private void DataGridPrerequisite_Sorted(object sender, EventArgs e)
+        {
+            UpdateRowNumbers(DataGridPrerequisite);
         }
     }
 }

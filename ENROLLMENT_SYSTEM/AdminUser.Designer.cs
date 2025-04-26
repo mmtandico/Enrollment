@@ -130,6 +130,7 @@
             this.TxtPass.ForeColor = System.Drawing.Color.Black;
             this.TxtPass.Location = new System.Drawing.Point(319, 155);
             this.TxtPass.Name = "TxtPass";
+            this.TxtPass.PasswordChar = '*';
             this.TxtPass.Size = new System.Drawing.Size(567, 33);
             this.TxtPass.TabIndex = 51;
             // 
@@ -143,7 +144,7 @@
             "User",
             "Admin",
             "Cashier"});
-            this.CmbRole.Location = new System.Drawing.Point(1160, 144);
+            this.CmbRole.Location = new System.Drawing.Point(1160, 122);
             this.CmbRole.Name = "CmbRole";
             this.CmbRole.Size = new System.Drawing.Size(180, 31);
             this.CmbRole.TabIndex = 50;
@@ -156,7 +157,7 @@
             this.CmbVerified.Items.AddRange(new object[] {
             "Yes",
             "No"});
-            this.CmbVerified.Location = new System.Drawing.Point(928, 144);
+            this.CmbVerified.Location = new System.Drawing.Point(928, 122);
             this.CmbVerified.Name = "CmbVerified";
             this.CmbVerified.Size = new System.Drawing.Size(196, 31);
             this.CmbVerified.TabIndex = 49;
@@ -230,7 +231,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(1161, 116);
+            this.label6.Location = new System.Drawing.Point(1161, 94);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(36, 19);
             this.label6.TabIndex = 43;
@@ -241,7 +242,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(924, 116);
+            this.label5.Location = new System.Drawing.Point(924, 94);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(57, 19);
             this.label5.TabIndex = 41;
@@ -277,7 +278,8 @@
             this.TxtUserID.ForeColor = System.Drawing.Color.Black;
             this.TxtUserID.Location = new System.Drawing.Point(319, 70);
             this.TxtUserID.Name = "TxtUserID";
-            this.TxtUserID.Size = new System.Drawing.Size(243, 33);
+            this.TxtUserID.ReadOnly = true;
+            this.TxtUserID.Size = new System.Drawing.Size(121, 33);
             this.TxtUserID.TabIndex = 35;
             // 
             // label1
@@ -285,7 +287,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(589, 48);
+            this.label1.Location = new System.Drawing.Point(500, 48);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(45, 19);
             this.label1.TabIndex = 34;
@@ -297,9 +299,9 @@
             this.TxtEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TxtEmail.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TxtEmail.ForeColor = System.Drawing.Color.Black;
-            this.TxtEmail.Location = new System.Drawing.Point(593, 70);
+            this.TxtEmail.Location = new System.Drawing.Point(504, 70);
             this.TxtEmail.Name = "TxtEmail";
-            this.TxtEmail.Size = new System.Drawing.Size(293, 33);
+            this.TxtEmail.Size = new System.Drawing.Size(382, 33);
             this.TxtEmail.TabIndex = 37;
             // 
             // panel1

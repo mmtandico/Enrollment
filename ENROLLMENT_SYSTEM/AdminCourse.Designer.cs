@@ -28,16 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.BtnUpdate = new System.Windows.Forms.Button();
             this.BtnAdd = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -60,6 +60,7 @@
             this.LblEmail = new System.Windows.Forms.Label();
             this.DataGridSubjects = new System.Windows.Forms.DataGridView();
             this.subject_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.no_subjects = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.subject_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.subject_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.units = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,16 +78,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.DataGridPrerequisite = new System.Windows.Forms.DataGridView();
-            this.subject_id_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_code_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subject_name_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.units_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.prerequisite_code_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.prerequisite_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.prerequisite_name_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.prerequisite_units = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColOpen = new System.Windows.Forms.DataGridViewImageColumn();
-            this.ColClose = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -97,6 +88,17 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.subject_id_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.no_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_code_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subject_name_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.units_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prerequisite_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prerequisite_code_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prerequisite_name_pre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prerequisite_units = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColOpen = new System.Windows.Forms.DataGridViewImageColumn();
+            this.ColClose = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridSubjects)).BeginInit();
             this.tabPage2.SuspendLayout();
@@ -433,26 +435,27 @@
             this.DataGridSubjects.AllowUserToAddRows = false;
             this.DataGridSubjects.AllowUserToResizeColumns = false;
             this.DataGridSubjects.AllowUserToResizeRows = false;
-            dataGridViewCellStyle11.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.White;
-            this.DataGridSubjects.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
+            this.DataGridSubjects.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.DataGridSubjects.BackgroundColor = System.Drawing.Color.White;
             this.DataGridSubjects.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.DataGridSubjects.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.DataGridSubjects.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DataGridSubjects.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataGridSubjects.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.DataGridSubjects.ColumnHeadersHeight = 40;
             this.DataGridSubjects.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.DataGridSubjects.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.subject_id,
+            this.no_subjects,
             this.subject_code,
             this.subject_name,
             this.units,
@@ -462,33 +465,33 @@
             this.colOpen1,
             this.colClose1});
             this.DataGridSubjects.Cursor = System.Windows.Forms.Cursors.Default;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridSubjects.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridSubjects.DefaultCellStyle = dataGridViewCellStyle3;
             this.DataGridSubjects.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DataGridSubjects.GridColor = System.Drawing.SystemColors.Control;
             this.DataGridSubjects.Location = new System.Drawing.Point(3, 3);
             this.DataGridSubjects.Name = "DataGridSubjects";
             this.DataGridSubjects.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridSubjects.RowHeadersDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridSubjects.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.DataGridSubjects.RowHeadersVisible = false;
             this.DataGridSubjects.RowHeadersWidth = 50;
-            dataGridViewCellStyle15.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.Color.Gray;
-            this.DataGridSubjects.RowsDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Gray;
+            this.DataGridSubjects.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.DataGridSubjects.RowTemplate.Height = 30;
             this.DataGridSubjects.RowTemplate.ReadOnly = true;
             this.DataGridSubjects.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -504,7 +507,16 @@
             this.subject_id.HeaderText = "ID";
             this.subject_id.Name = "subject_id";
             this.subject_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.subject_id.Visible = false;
             this.subject_id.Width = 53;
+            // 
+            // no_subjects
+            // 
+            this.no_subjects.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.no_subjects.Frozen = true;
+            this.no_subjects.HeaderText = "No.";
+            this.no_subjects.Name = "no_subjects";
+            this.no_subjects.Width = 63;
             // 
             // subject_code
             // 
@@ -670,155 +682,70 @@
             this.DataGridPrerequisite.AllowUserToAddRows = false;
             this.DataGridPrerequisite.AllowUserToResizeColumns = false;
             this.DataGridPrerequisite.AllowUserToResizeRows = false;
-            dataGridViewCellStyle16.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.White;
-            this.DataGridPrerequisite.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.White;
+            this.DataGridPrerequisite.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
             this.DataGridPrerequisite.BackgroundColor = System.Drawing.Color.White;
             this.DataGridPrerequisite.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.DataGridPrerequisite.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.DataGridPrerequisite.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DataGridPrerequisite.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataGridPrerequisite.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.DataGridPrerequisite.ColumnHeadersHeight = 40;
             this.DataGridPrerequisite.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.DataGridPrerequisite.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.subject_id_pre,
+            this.no_pre,
             this.subject_code_pre,
             this.subject_name_pre,
             this.units_pre,
-            this.prerequisite_code_pre,
             this.prerequisite_id,
+            this.prerequisite_code_pre,
             this.prerequisite_name_pre,
             this.prerequisite_units,
             this.ColOpen,
             this.ColClose});
             this.DataGridPrerequisite.Cursor = System.Windows.Forms.Cursors.Default;
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle18.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridPrerequisite.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridPrerequisite.DefaultCellStyle = dataGridViewCellStyle8;
             this.DataGridPrerequisite.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DataGridPrerequisite.GridColor = System.Drawing.SystemColors.Control;
             this.DataGridPrerequisite.Location = new System.Drawing.Point(3, 3);
             this.DataGridPrerequisite.Name = "DataGridPrerequisite";
             this.DataGridPrerequisite.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle19.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle19.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridPrerequisite.RowHeadersDefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridPrerequisite.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.DataGridPrerequisite.RowHeadersVisible = false;
             this.DataGridPrerequisite.RowHeadersWidth = 50;
-            dataGridViewCellStyle20.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.Color.Gray;
-            this.DataGridPrerequisite.RowsDefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.Gray;
+            this.DataGridPrerequisite.RowsDefaultCellStyle = dataGridViewCellStyle10;
             this.DataGridPrerequisite.RowTemplate.Height = 30;
             this.DataGridPrerequisite.RowTemplate.ReadOnly = true;
             this.DataGridPrerequisite.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DataGridPrerequisite.Size = new System.Drawing.Size(1222, 510);
             this.DataGridPrerequisite.TabIndex = 4;
             this.DataGridPrerequisite.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridPrerequisite_CellContentClick);
-            // 
-            // subject_id_pre
-            // 
-            this.subject_id_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.subject_id_pre.FillWeight = 10F;
-            this.subject_id_pre.Frozen = true;
-            this.subject_id_pre.HeaderText = "ID";
-            this.subject_id_pre.Name = "subject_id_pre";
-            this.subject_id_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.subject_id_pre.Width = 53;
-            // 
-            // subject_code_pre
-            // 
-            this.subject_code_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.subject_code_pre.FillWeight = 200F;
-            this.subject_code_pre.HeaderText = "Subject Code";
-            this.subject_code_pre.Name = "subject_code_pre";
-            this.subject_code_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.subject_code_pre.Width = 144;
-            // 
-            // subject_name_pre
-            // 
-            this.subject_name_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.subject_name_pre.FillWeight = 120F;
-            this.subject_name_pre.HeaderText = "Subject Name";
-            this.subject_name_pre.Name = "subject_name_pre";
-            this.subject_name_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.subject_name_pre.Width = 151;
-            // 
-            // units_pre
-            // 
-            this.units_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.units_pre.FillWeight = 120F;
-            this.units_pre.HeaderText = "Units";
-            this.units_pre.Name = "units_pre";
-            this.units_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.units_pre.Width = 78;
-            // 
-            // prerequisite_code_pre
-            // 
-            this.prerequisite_code_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.prerequisite_code_pre.HeaderText = "Prerequisite Code";
-            this.prerequisite_code_pre.Name = "prerequisite_code_pre";
-            this.prerequisite_code_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.prerequisite_code_pre.Width = 184;
-            // 
-            // prerequisite_id
-            // 
-            this.prerequisite_id.HeaderText = "PrerequisiteID";
-            this.prerequisite_id.Name = "prerequisite_id";
-            // 
-            // prerequisite_name_pre
-            // 
-            this.prerequisite_name_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.prerequisite_name_pre.HeaderText = "Prerequisite Name";
-            this.prerequisite_name_pre.Name = "prerequisite_name_pre";
-            this.prerequisite_name_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.prerequisite_name_pre.Width = 191;
-            // 
-            // prerequisite_units
-            // 
-            this.prerequisite_units.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.prerequisite_units.HeaderText = "Prerequisite Units";
-            this.prerequisite_units.Name = "prerequisite_units";
-            this.prerequisite_units.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.prerequisite_units.Width = 184;
-            // 
-            // ColOpen
-            // 
-            this.ColOpen.HeaderText = "";
-            this.ColOpen.Image = global::Enrollment_System.Properties.Resources.docuICON;
-            this.ColOpen.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.ColOpen.MinimumWidth = 2;
-            this.ColOpen.Name = "ColOpen";
-            this.ColOpen.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColOpen.Width = 40;
-            // 
-            // ColClose
-            // 
-            this.ColClose.HeaderText = "";
-            this.ColClose.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
-            this.ColClose.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.ColClose.MinimumWidth = 2;
-            this.ColClose.Name = "ColClose";
-            this.ColClose.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColClose.Width = 40;
             // 
             // panel1
             // 
@@ -839,7 +766,7 @@
             this.label3.ForeColor = System.Drawing.Color.Black;
             this.label3.Location = new System.Drawing.Point(78, 22);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(174, 58);
+            this.label3.Size = new System.Drawing.Size(176, 58);
             this.label3.TabIndex = 59;
             this.label3.Text = "Courses";
             // 
@@ -959,6 +886,100 @@
             this.textBox1.TabIndex = 0;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
+            // subject_id_pre
+            // 
+            this.subject_id_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.subject_id_pre.FillWeight = 10F;
+            this.subject_id_pre.Frozen = true;
+            this.subject_id_pre.HeaderText = "ID";
+            this.subject_id_pre.Name = "subject_id_pre";
+            this.subject_id_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.subject_id_pre.Visible = false;
+            this.subject_id_pre.Width = 53;
+            // 
+            // no_pre
+            // 
+            this.no_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.no_pre.HeaderText = "No.";
+            this.no_pre.Name = "no_pre";
+            this.no_pre.Width = 63;
+            // 
+            // subject_code_pre
+            // 
+            this.subject_code_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.subject_code_pre.FillWeight = 200F;
+            this.subject_code_pre.HeaderText = "Subject Code";
+            this.subject_code_pre.Name = "subject_code_pre";
+            this.subject_code_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.subject_code_pre.Width = 144;
+            // 
+            // subject_name_pre
+            // 
+            this.subject_name_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.subject_name_pre.FillWeight = 120F;
+            this.subject_name_pre.HeaderText = "Subject Name";
+            this.subject_name_pre.Name = "subject_name_pre";
+            this.subject_name_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.subject_name_pre.Width = 151;
+            // 
+            // units_pre
+            // 
+            this.units_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.units_pre.FillWeight = 120F;
+            this.units_pre.HeaderText = "Units";
+            this.units_pre.Name = "units_pre";
+            this.units_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.units_pre.Width = 78;
+            // 
+            // prerequisite_id
+            // 
+            this.prerequisite_id.HeaderText = "PrerequisiteID";
+            this.prerequisite_id.Name = "prerequisite_id";
+            // 
+            // prerequisite_code_pre
+            // 
+            this.prerequisite_code_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.prerequisite_code_pre.HeaderText = "Prerequisite Code";
+            this.prerequisite_code_pre.Name = "prerequisite_code_pre";
+            this.prerequisite_code_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.prerequisite_code_pre.Width = 184;
+            // 
+            // prerequisite_name_pre
+            // 
+            this.prerequisite_name_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.prerequisite_name_pre.HeaderText = "Prerequisite Name";
+            this.prerequisite_name_pre.Name = "prerequisite_name_pre";
+            this.prerequisite_name_pre.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.prerequisite_name_pre.Width = 191;
+            // 
+            // prerequisite_units
+            // 
+            this.prerequisite_units.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.prerequisite_units.HeaderText = "Prerequisite Units";
+            this.prerequisite_units.Name = "prerequisite_units";
+            this.prerequisite_units.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.prerequisite_units.Width = 184;
+            // 
+            // ColOpen
+            // 
+            this.ColOpen.HeaderText = "";
+            this.ColOpen.Image = global::Enrollment_System.Properties.Resources.docuICON;
+            this.ColOpen.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColOpen.MinimumWidth = 2;
+            this.ColOpen.Name = "ColOpen";
+            this.ColOpen.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColOpen.Width = 40;
+            // 
+            // ColClose
+            // 
+            this.ColClose.HeaderText = "";
+            this.ColClose.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
+            this.ColClose.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.ColClose.MinimumWidth = 2;
+            this.ColClose.Name = "ColClose";
+            this.ColClose.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColClose.Width = 40;
+            // 
             // AdminCourse
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1029,7 +1050,16 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ComboBox CmbSemester;
+        private System.Windows.Forms.ComboBox CmbYearLevel;
+        private System.Windows.Forms.ComboBox CmbCourse;
+        private System.Windows.Forms.DataGridView DataGridPrerequisite;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.DataGridViewTextBoxColumn subject_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn no_subjects;
         private System.Windows.Forms.DataGridViewTextBoxColumn subject_code;
         private System.Windows.Forms.DataGridViewTextBoxColumn subject_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn units;
@@ -1038,23 +1068,16 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn year_level;
         private System.Windows.Forms.DataGridViewImageColumn colOpen1;
         private System.Windows.Forms.DataGridViewImageColumn colClose1;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.ComboBox CmbSemester;
-        private System.Windows.Forms.ComboBox CmbYearLevel;
-        private System.Windows.Forms.ComboBox CmbCourse;
-        private System.Windows.Forms.DataGridView DataGridPrerequisite;
         private System.Windows.Forms.DataGridViewTextBoxColumn subject_id_pre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn no_pre;
         private System.Windows.Forms.DataGridViewTextBoxColumn subject_code_pre;
         private System.Windows.Forms.DataGridViewTextBoxColumn subject_name_pre;
         private System.Windows.Forms.DataGridViewTextBoxColumn units_pre;
-        private System.Windows.Forms.DataGridViewTextBoxColumn prerequisite_code_pre;
         private System.Windows.Forms.DataGridViewTextBoxColumn prerequisite_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn prerequisite_code_pre;
         private System.Windows.Forms.DataGridViewTextBoxColumn prerequisite_name_pre;
         private System.Windows.Forms.DataGridViewTextBoxColumn prerequisite_units;
         private System.Windows.Forms.DataGridViewImageColumn ColOpen;
         private System.Windows.Forms.DataGridViewImageColumn ColClose;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.TextBox textBox1;
     }
 }
