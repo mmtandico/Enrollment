@@ -500,6 +500,7 @@
             this.DataGridPaidEnrollment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DataGridPaidEnrollment.Size = new System.Drawing.Size(1222, 510);
             this.DataGridPaidEnrollment.TabIndex = 4;
+            this.DataGridPaidEnrollment.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridPaidEnrollment_CellContentClick);
             // 
             // tabPayment
             // 
@@ -1216,12 +1217,13 @@
             // 
             // no_paid
             // 
+            this.no_paid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.no_paid.Frozen = true;
             this.no_paid.HeaderText = "No.";
             this.no_paid.Name = "no_paid";
             this.no_paid.ReadOnly = true;
             this.no_paid.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.no_paid.Width = 50;
+            this.no_paid.Width = 44;
             // 
             // payment_id_pe
             // 
@@ -1306,10 +1308,10 @@
             // status_pe
             // 
             this.status_pe.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.status_pe.HeaderText = "Status";
+            this.status_pe.HeaderText = "Payment Status";
             this.status_pe.Name = "status_pe";
             this.status_pe.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.status_pe.Width = 89;
+            this.status_pe.Width = 165;
             // 
             // ColOpen2
             // 

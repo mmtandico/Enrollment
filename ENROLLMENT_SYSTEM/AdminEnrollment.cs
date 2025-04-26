@@ -36,7 +36,8 @@ namespace Enrollment_System
             InitializeDataGridView();
             LoadStudentData();
             InitializeFilterControls();
-            
+
+            DataGridPaidEnrollment.DataBindingComplete += (s, e) => UpdateRowNumbesPaidEnrollment();
 
             DataGridNewEnrollment.Sorted += DataGridNewEnrollment_Sorted;
             DataGridPayment.Sorted += DataGridPayment_Sorted;
@@ -102,7 +103,7 @@ namespace Enrollment_System
             academic_year_pe.DataPropertyName = "academic_year";
             semester_pe.DataPropertyName = "semester";
             year_level_pe.DataPropertyName = "year_level";
-            status_pe.DataPropertyName = "status";
+            status_pe.DataPropertyName = "payment_status";
 
 
             LoadStudentData();
@@ -402,9 +403,10 @@ namespace Enrollment_System
         {
             if (DataGridPaidEnrollment.Rows.Count == 0) return;
 
+            // Assuming the first column (index 0) is where you want the numbers to appear
             int noColumnIndex = DataGridPaidEnrollment.Columns[0].Index;
 
-            for (int i = 0; i < DataGridPayment.Rows.Count; i++)
+            for (int i = 0; i < DataGridPaidEnrollment.Rows.Count; i++)
             {
                 if (DataGridPaidEnrollment.Rows[i].IsNewRow) continue;
                 DataGridPaidEnrollment.Rows[i].Cells[noColumnIndex].Value = (i + 1).ToString();
@@ -1141,7 +1143,7 @@ namespace Enrollment_System
 
 
                                 LoadPaidEnrollments();
-                               
+                                LoadPaidEnrollments();
                                 LoadPaymentData();
                                 ClearDetails();
                             }
@@ -1213,6 +1215,7 @@ namespace Enrollment_System
 
                                     LoadStudentData();
                                     LoadPaymentData();
+                                    LoadPaidEnrollments();
                                 }
                             }
                         }
@@ -1316,6 +1319,7 @@ namespace Enrollment_System
                         DataTable dt = new DataTable();
                         adapter.Fill(dt);
                         DataGridPaidEnrollment.DataSource = dt;
+                        UpdateRowNumbesPaidEnrollment();
                     }
                 }
             }
@@ -1336,7 +1340,7 @@ namespace Enrollment_System
             {
                 LoadPaidEnrollments();
             }
-            else
+            else if (tabControl1.SelectedTab == tabStudentEnrollment)
             {
                 LoadPaidEnrollments();
             }
@@ -1401,14 +1405,14 @@ namespace Enrollment_System
 
         private void DataGridPayment_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Check if the clicked cell is in the column containing the blue button
+           
             if (e.ColumnIndex == DataGridPayment.Columns["ColOpen3"].Index && e.RowIndex >= 0)
             {
-                // Open the FormPayment
+
                 int enrollmentId = Convert.ToInt32(DataGridPayment.Rows[e.RowIndex].Cells["payment_id_payment"].Value);
                 AdminCashier Cashier = new AdminCashier(enrollmentId);
                 Cashier.ShowDialog();
-            }// Check if the clicked cell is in the delete button column
+            }
             else if (e.ColumnIndex == DataGridPayment.Columns["ColClose3"].Index && e.RowIndex >= 0)
             {
                 // Confirm deletion with the user
@@ -1421,7 +1425,7 @@ namespace Enrollment_System
 
                 if (result == DialogResult.Yes)
                 {
-                    // Remove the row at the specified index
+                    
                     DataGridPayment.Rows.RemoveAt(e.RowIndex);
                 }
             }
@@ -1498,6 +1502,18 @@ namespace Enrollment_System
         private void DataGridNewEnrollment_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void DataGridPaidEnrollment_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = DataGridPaidEnrollment.Rows[e.RowIndex];
+
+                string studentNo = row.Cells["student_no_pe"].Value.ToString();
+
+                FetchStudentDetails(studentNo);
+            }
         }
     }
 }
