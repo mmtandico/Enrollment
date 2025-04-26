@@ -40,6 +40,7 @@ namespace Enrollment_System
 
             DataGridNewEnrollment.Sorted += DataGridNewEnrollment_Sorted;
             DataGridPayment.Sorted += DataGridPayment_Sorted;
+            DataGridPaidEnrollment.Sorted += DataGridPaidEnrollment_Sorted;
             ProgramButton_Click(BtnAll, EventArgs.Empty);
             tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
 
@@ -91,9 +92,22 @@ namespace Enrollment_System
             year_level_payment.DataPropertyName = "year_level";
             status_payment.DataPropertyName = "status";
 
+            DataGridPaidEnrollment.AutoGenerateColumns = false;
+            payment_id_pe.DataPropertyName = "payment_id";
+            student_no_pe.DataPropertyName = "student_no";
+            last_name_pe.DataPropertyName = "last_name";
+            first_name_pe.DataPropertyName = "first_name";
+            middle_name_pe.DataPropertyName = "middle_name";
+            courseCode_pe.DataPropertyName = "Program";
+            academic_year_pe.DataPropertyName = "academic_year";
+            semester_pe.DataPropertyName = "semester";
+            year_level_pe.DataPropertyName = "year_level";
+            status_pe.DataPropertyName = "status";
+
 
             LoadStudentData();
             LoadPaymentData();
+            LoadPaidEnrollments();
 
             DataGridNewEnrollment.AllowUserToResizeColumns = false;
             DataGridNewEnrollment.AllowUserToResizeRows = false;
@@ -384,6 +398,19 @@ namespace Enrollment_System
             }
         }
 
+        private void UpdateRowNumbesPaidEnrollment()
+        {
+            if (DataGridPaidEnrollment.Rows.Count == 0) return;
+
+            int noColumnIndex = DataGridPaidEnrollment.Columns[0].Index;
+
+            for (int i = 0; i < DataGridPayment.Rows.Count; i++)
+            {
+                if (DataGridPaidEnrollment.Rows[i].IsNewRow) continue;
+                DataGridPaidEnrollment.Rows[i].Cells[noColumnIndex].Value = (i + 1).ToString();
+            }
+        }
+
         private void DataGridNewEnrollment_Sorted(object sender, EventArgs e)
         {
             UpdateRowNumbersNewEnrollment();
@@ -392,6 +419,11 @@ namespace Enrollment_System
         private void DataGridPayment_Sorted(object sender, EventArgs e)
         {
             UpdateRowNumbersPyment();
+        }
+
+        private void DataGridPaidEnrollment_Sorted(object sender, EventArgs e)
+        {
+            UpdateRowNumbesPaidEnrollment();
         }
 
         private void ApplyFilters(object sender, EventArgs e)
@@ -438,6 +470,13 @@ namespace Enrollment_System
                 DataTable dt = (DataTable)DataGridPayment.DataSource;
                 dt.DefaultView.RowFilter = filterExpression;
                 UpdateRowNumbersPyment();
+            }
+
+            if (DataGridPaidEnrollment.DataSource is DataTable)
+            {
+                DataTable dt = (DataTable)DataGridPaidEnrollment.DataSource;
+                dt.DefaultView.RowFilter = filterExpression;
+                UpdateRowNumbesPaidEnrollment();
             }
         }
 
@@ -929,10 +968,12 @@ namespace Enrollment_System
                 string confirmationMessage;
                 string newStatus;
                 bool sendEmail = false;
+                bool isPaymentConfirmation = false;
 
                 if (tabControl1.SelectedTab == tabPayment)
                 {
                     currentGrid = DataGridPayment;
+                    isPaymentConfirmation = true;
 
                     enrollmentIdColumn = "payment_id_payment";
                     studentNoColumn = "student_no_payment";
@@ -947,8 +988,8 @@ namespace Enrollment_System
 
                     currentStatus = "Payment Pending";
                     newStatus = "Pending";
-                    confirmationMessage = "Are you sure you want to confirm this payment and return the student to pending status?";
-                    successMessage = "Payment confirmed! Student returned to pending status.";
+                    confirmationMessage = "Are you sure you want to confirm this payment?";
+                    successMessage = "Payment confirmed completed!";
                 }
                 else if (tabControl1.SelectedTab == tabStudentEnrollment)
                 {
@@ -992,7 +1033,6 @@ namespace Enrollment_System
                 DataGridViewRow selectedRow = currentGrid.SelectedRows[0];
                 string studentName = $"{selectedRow.Cells[lastNameColumn].Value} {selectedRow.Cells[firstNameColumn].Value}";
 
-                // Get these values here so you can pass them to the email method
                 string courseCode = selectedRow.Cells[courseCodeColumn].Value.ToString();
                 string yearLevel = selectedRow.Cells[yearLevelColumn].Value.ToString();
                 string semester = selectedRow.Cells[semesterColumn].Value.ToString();
@@ -1003,84 +1043,115 @@ namespace Enrollment_System
                     "Confirm Action",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
+
                 if (dialogResult == DialogResult.Yes)
                 {
+                    string email = "";
+                    string fullName = "";
+
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
                         conn.Open();
 
-                        // For payment tab, we need to get the enrollment_id first
-                        int recordId;
-                        string updateQuery;
-
-                        if (tabControl1.SelectedTab == tabPayment)
+                        using (MySqlTransaction transaction = conn.BeginTransaction())
                         {
-                            int paymentId = Convert.ToInt32(selectedRow.Cells[enrollmentIdColumn].Value);
-
-                            // First get the enrollment_id associated with this payment
-                            string getEnrollmentIdQuery = "SELECT enrollment_id FROM payments WHERE payment_id = @paymentId";
-                            using (MySqlCommand getCmd = new MySqlCommand(getEnrollmentIdQuery, conn))
+                            try
                             {
-                                getCmd.Parameters.AddWithValue("@paymentId", paymentId);
-                                recordId = Convert.ToInt32(getCmd.ExecuteScalar());
-                            }
+                                int recordId;
+                                string updateQuery;
 
-                            updateQuery = "UPDATE student_enrollments SET status = @newStatus WHERE enrollment_id = @recordId";
-                        }
-                        else
-                        {
-                            recordId = Convert.ToInt32(selectedRow.Cells[enrollmentIdColumn].Value);
-                            updateQuery = "UPDATE student_enrollments SET status = @newStatus WHERE enrollment_id = @recordId";
-                        }
+                                if (isPaymentConfirmation)
+                                {
+                                    int paymentId = Convert.ToInt32(selectedRow.Cells[enrollmentIdColumn].Value);
 
-                        using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn))
-                        {
-                            cmd.Parameters.AddWithValue("@newStatus", newStatus);
-                            cmd.Parameters.AddWithValue("@recordId", recordId);
-                            int rowsAffected = cmd.ExecuteNonQuery();
+                                    // First get the enrollment_id associated with this payment
+                                    string getEnrollmentIdQuery = "SELECT enrollment_id FROM payments WHERE payment_id = @paymentId";
+                                    using (MySqlCommand getCmd = new MySqlCommand(getEnrollmentIdQuery, conn, transaction))
+                                    {
+                                        getCmd.Parameters.AddWithValue("@paymentId", paymentId);
+                                        recordId = Convert.ToInt32(getCmd.ExecuteScalar());
+                                    }
 
-                            if (rowsAffected > 0)
-                            {
-                                MessageBox.Show($"{successMessage}\nStudent: {studentName}",
-                                              "Success",
-                                              MessageBoxButtons.OK,
-                                              MessageBoxIcon.Information);
+                                    // Update enrollment status to "Enrolled"
+                                    updateQuery = "UPDATE student_enrollments SET status = @newStatus WHERE enrollment_id = @recordId";
+                                    using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn, transaction))
+                                    {
+                                        cmd.Parameters.AddWithValue("@newStatus", newStatus);
+                                        cmd.Parameters.AddWithValue("@recordId", recordId);
+                                        cmd.ExecuteNonQuery();
+                                    }
 
+                                    // Update payment status to "Completed"
+                                    string updatePaymentQuery = "UPDATE payments SET payment_status = 'Completed' WHERE payment_id = @paymentId";
+                                    using (MySqlCommand paymentCmd = new MySqlCommand(updatePaymentQuery, conn, transaction))
+                                    {
+                                        paymentCmd.Parameters.AddWithValue("@paymentId", paymentId);
+                                        paymentCmd.ExecuteNonQuery();
+                                    }
+
+                                    sendEmail = true;
+                                }
+                                else
+                                {
+                                    recordId = Convert.ToInt32(selectedRow.Cells[enrollmentIdColumn].Value);
+                                    updateQuery = "UPDATE student_enrollments SET status = @newStatus WHERE enrollment_id = @recordId";
+                                    using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn, transaction))
+                                    {
+                                        cmd.Parameters.AddWithValue("@newStatus", newStatus);
+                                        cmd.Parameters.AddWithValue("@recordId", recordId);
+                                        cmd.ExecuteNonQuery();
+                                    }
+                                }
+
+                                // Get email and name in a separate command
                                 if (sendEmail)
                                 {
                                     string getEmailQuery = @"
-                                        SELECT u.email, CONCAT(s.first_name, ' ', s.last_name) AS full_name
-                                        FROM student_enrollments se
-                                        JOIN students s ON se.student_id = s.student_id
-                                        JOIN users u ON s.user_id = u.user_id
-                                        WHERE se.enrollment_id = @enrollmentId";
+                                SELECT u.email, CONCAT(s.first_name, ' ', s.last_name) AS full_name
+                                FROM student_enrollments se
+                                JOIN students s ON se.student_id = s.student_id
+                                JOIN users u ON s.user_id = u.user_id
+                                WHERE se.enrollment_id = @enrollmentId";
 
-                                    using (MySqlCommand emailCmd = new MySqlCommand(getEmailQuery, conn))
+                                    using (MySqlCommand emailCmd = new MySqlCommand(getEmailQuery, conn, transaction))
                                     {
                                         emailCmd.Parameters.AddWithValue("@enrollmentId", recordId);
                                         using (MySqlDataReader reader = emailCmd.ExecuteReader())
                                         {
                                             if (reader.Read())
                                             {
-                                                string email = reader.GetString("email");
-                                                string fullName = reader.GetString("full_name");
-
-                                                await SendEnrollmentConfirmationEmail(email, fullName, courseCode, yearLevel, semester, academicYear);
+                                                email = reader.GetString("email");
+                                                fullName = reader.GetString("full_name");
                                             }
                                         }
                                     }
                                 }
 
-                                LoadStudentData();
+                                transaction.Commit();
+
+                                if (sendEmail && !string.IsNullOrEmpty(email))
+                                {
+                                    await SendEnrollmentConfirmationEmail(email, fullName, courseCode, yearLevel, semester, academicYear);
+                                }
+
+                                MessageBox.Show($"{successMessage}\nStudent: {studentName}",
+                                              "Success",
+                                              MessageBoxButtons.OK,
+                                              MessageBoxIcon.Information);
+
+
+                                LoadPaidEnrollments();
+                               
                                 LoadPaymentData();
                                 ClearDetails();
                             }
-                            else
+                            catch (Exception ex)
                             {
-                                MessageBox.Show("No changes were made to the record.",
-                                              "Warning",
+                                transaction.Rollback();
+                                MessageBox.Show($"An error occurred: {ex.Message}\n\nPlease try again or contact support.",
+                                              "Error",
                                               MessageBoxButtons.OK,
-                                              MessageBoxIcon.Warning);
+                                              MessageBoxIcon.Error);
                             }
                         }
                     }
@@ -1209,11 +1280,65 @@ namespace Enrollment_System
             }
         }
 
+        private void LoadPaidEnrollments()
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string query = @"
+                        SELECT 
+                            p.payment_id,
+                            s.student_no,
+                            s.last_name,
+                            s.first_name,
+                            s.middle_name,
+                            c.course_code AS Program,
+                            se.academic_year,
+                            se.semester,
+                            se.year_level,
+                            se.status,
+                            p.payment_date,
+                            p.amount_paid,
+                            p.payment_method,
+                            p.payment_status
+                        FROM payments p
+                        INNER JOIN student_enrollments se ON p.enrollment_id = se.enrollment_id
+                        INNER JOIN students s ON se.student_id = s.student_id
+                        INNER JOIN courses c ON se.course_id = c.course_id
+                        WHERE p.payment_status = 'Completed'
+                        ORDER BY p.payment_date DESC";
+
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection))
+                    {
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+                        DataGridPaidEnrollment.DataSource = dt;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading paid enrollments: " + ex.Message,
+                              "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl1.SelectedTab == tabPayment) 
+            if (tabControl1.SelectedTab == tabPayment)
             {
                 LoadPaymentData();
+            }
+            else if (tabControl1.SelectedTab == tabPaidEnrollment)
+            {
+                LoadPaidEnrollments();
+            }
+            else
+            {
+                LoadPaidEnrollments();
             }
         }
 

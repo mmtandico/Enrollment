@@ -595,7 +595,7 @@ namespace Enrollment_System
                                 TxtMiddleName.Text = reader["middle_name"].ToString();
                                 TxtLastName.Text = reader["last_name"].ToString();
                                 SetComboBoxSelection(CmbCourse, reader["course_name"].ToString());
-                                CmbCourse.Enabled = false;
+                                //CmbCourse.Enabled = false;
                                 // Handle profile picture
                                 if (reader["profile_picture"] != DBNull.Value)
                                 {
