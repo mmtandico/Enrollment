@@ -22,14 +22,24 @@ namespace Enrollment_System
             InitializeComponent();
             InitializeDataGridView();
             tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
+
+           
+            DataGridAdmins.DataBindingComplete += (s, e) => UpdateRowNumbersAdmins();
+            DataGridUsers.DataBindingComplete += (s, e) => UpdateRowNumbersUsers();
+
             LoadAdmins();
             LoadUsers();
+            DataGridAdmins.Sorted += DataGridAdmins_Sorted;
+            DataGridUsers.Sorted += DataGridUsers_Sorted;
+
         }
 
         private void AdminUser_Load(object sender, EventArgs e)
         {
             DataGridAdmins.CellContentClick += DataGridAdmins_CellContentClick;
             DataGridUsers.CellContentClick += DataGridUsers_CellContentClick;
+            DataGridAdmins.Sorted += DataGridAdmins_Sorted;
+            DataGridUsers.Sorted += DataGridUsers_Sorted;
             //admins
             DataGridAdmins.AutoGenerateColumns = false;
             user_id.DataPropertyName = "user_id";
@@ -64,14 +74,19 @@ namespace Enrollment_System
             DataGridUsers.Columns[totalCols1 - 2].Width = 40;
             DataGridUsers.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             DataGridUsers.Columns[0].Width = 50;
-            DataGridUsers.Columns[1].Width = 150;
-            DataGridUsers.Columns[2].Width = 500;
-            DataGridUsers.Columns[3].Width = 50;
-            DataGridUsers.Columns[4].Width = 100;
-            DataGridUsers.Columns[5].Width = 200;
-            //DataGridUsers.Columns[6].Width = 100;
+            DataGridUsers.Columns[1].Width = 50;
+            DataGridUsers.Columns[2].Width = 250;
+            DataGridUsers.Columns[3].Width = 300;
+            DataGridUsers.Columns[4].Width = 75;
+            DataGridUsers.Columns[5].Width = 75;
+            DataGridUsers.Columns[6].Width = 125;
             DataGridUsers.RowTemplate.Height = 35;
+            DataGridUsers.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             DataGridUsers.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridUsers.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridUsers.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridUsers.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
 
 
             foreach (DataGridViewColumn col in DataGridUsers.Columns)
@@ -94,14 +109,18 @@ namespace Enrollment_System
             DataGridAdmins.Columns[totalCols - 2].Width = 40;
             DataGridAdmins.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             DataGridAdmins.Columns[0].Width = 50;
-            DataGridAdmins.Columns[1].Width = 150;
-            DataGridAdmins.Columns[2].Width = 500;
-            DataGridAdmins.Columns[3].Width = 50;
-            DataGridAdmins.Columns[4].Width = 100;
-            DataGridAdmins.Columns[5].Width = 100;
-
+            DataGridAdmins.Columns[1].Width = 50;
+            DataGridAdmins.Columns[2].Width = 250;
+            DataGridAdmins.Columns[3].Width = 300;
+            DataGridAdmins.Columns[4].Width = 75;
+            DataGridAdmins.Columns[5].Width = 75;
+            DataGridAdmins.Columns[6].Width = 125;
             DataGridAdmins.RowTemplate.Height = 35;
+            DataGridAdmins.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             DataGridAdmins.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridAdmins.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridAdmins.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridAdmins.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
 
             foreach (DataGridViewColumn col in DataGridAdmins.Columns)
@@ -117,6 +136,10 @@ namespace Enrollment_System
 
         private void InitializeDataGridView()
         {
+            foreach (DataGridViewColumn col in DataGridUsers.Columns)
+            {
+                col.Frozen = false;
+            }
             DataGridUsers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DataGridUsers.Columns["ColOpen2"].Width = 50;
             DataGridUsers.Columns["ColClose2"].Width = 50;
@@ -137,10 +160,15 @@ namespace Enrollment_System
 
             foreach (DataGridViewColumn col in DataGridUsers.Columns)
             {
-                col.Frozen = false;
+                //col.Frozen = false;
                 col.Resizable = DataGridViewTriState.True;
             }
             //////////////////////////
+            foreach (DataGridViewColumn col in DataGridAdmins.Columns)
+            {
+                col.Frozen = false;
+                //col.Resizable = DataGridViewTriState.True;
+            }
             DataGridAdmins.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DataGridAdmins.Columns["ColOpen"].Width = 50;
             DataGridAdmins.Columns["ColClose"].Width = 50;
@@ -305,6 +333,42 @@ namespace Enrollment_System
             }
         }
 
+        private void UpdateRowNumbersAdmins()
+        {
+            if (DataGridAdmins.Rows.Count == 0) return;
+
+            int noColumnIndex = DataGridAdmins.Columns["user_id"].Index - 1; 
+
+            for (int i = 0; i < DataGridAdmins.Rows.Count; i++)
+            {
+                if (DataGridAdmins.Rows[i].IsNewRow) continue;
+                DataGridAdmins.Rows[i].Cells[0].Value = (i + 1).ToString(); 
+            }
+        }
+
+        private void UpdateRowNumbersUsers()
+        {
+            if (DataGridUsers.Rows.Count == 0) return;
+
+            int noColumnIndex = DataGridUsers.Columns["user_id_ol"].Index - 1; 
+
+            for (int i = 0; i < DataGridUsers.Rows.Count; i++)
+            {
+                if (DataGridUsers.Rows[i].IsNewRow) continue;
+                DataGridUsers.Rows[i].Cells[0].Value = (i + 1).ToString(); 
+            }
+        }
+
+        private void DataGridAdmins_Sorted(object sender, EventArgs e)
+        {
+            UpdateRowNumbersAdmins();
+        }
+
+        private void DataGridUsers_Sorted(object sender, EventArgs e)
+        {
+            UpdateRowNumbersUsers();
+        }
+
         private void LoadAdmins()
         {
             try
@@ -326,6 +390,8 @@ namespace Enrollment_System
                             DataTable dt = new DataTable();
                             adapter.Fill(dataTable);
                             DataGridAdmins.DataSource = dataTable;
+                            DataGridAdmins.Refresh();
+                            UpdateRowNumbersAdmins();
                         }
                         //DataGridAdmins.DataSource = dataTable;
                     }
@@ -357,6 +423,8 @@ namespace Enrollment_System
                             DataTable dt = new DataTable();
                             adapter.Fill(dataTable);
                             DataGridUsers.DataSource = dataTable;
+                            DataGridUsers.Refresh();
+                            UpdateRowNumbersUsers();
                         }
                     }
                 }
@@ -554,19 +622,35 @@ namespace Enrollment_System
         {
             try
             {
-
                 string email = TxtEmail.Text;
                 string password = TxtPass.Text;
                 string role = CmbRole.Text;
                 bool isVerified = CmbVerified.Text == "Yes";
+
+                // Validate inputs
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    MessageBox.Show("Please enter an email address", "Validation Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(password))
+                {
+                    MessageBox.Show("Please enter a password", "Validation Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
 
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
+                    string query = @"INSERT INTO users (email, password_hash, role, is_verified) 
+                           VALUES (@Email, @PasswordHash, @Role, @IsVerified);
+                           SELECT LAST_INSERT_ID();";
 
-                    string query = "INSERT INTO users (email, password_hash, role, is_verified) VALUES (@Email, @PasswordHash, @Role, @IsVerified)";
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Email", email);
@@ -574,18 +658,21 @@ namespace Enrollment_System
                         cmd.Parameters.AddWithValue("@Role", role);
                         cmd.Parameters.AddWithValue("@IsVerified", isVerified);
 
-                        cmd.ExecuteNonQuery();
+                        int newUserId = Convert.ToInt32(cmd.ExecuteScalar());
+                        TxtUserID.Text = newUserId.ToString();
+
+                        MessageBox.Show($"User added successfully with ID: {newUserId}", "Success",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ClearFields();
+                        LoadAdmins();
+                        LoadUsers();
                     }
                 }
-
-                MessageBox.Show("User added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ClearFields();
-                LoadAdmins();
-                LoadUsers();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error adding user: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error adding user: " + ex.Message, "Error",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -623,13 +710,47 @@ namespace Enrollment_System
 
         private void RefreshCurrentTab()
         {
-            if (tabControl1.SelectedTab == tabPage3)
+            if (tabControl1.SelectedTab == tabPage3) // Admins tab
             {
                 LoadAdmins();
+                DataGridAdmins.Refresh();
+                Application.DoEvents(); // Force UI update
+                UpdateRowNumbersAdmins();
             }
-            else if (tabControl1.SelectedTab == tabPage2)
+            else if (tabControl1.SelectedTab == tabPage2) // Users tab
             {
-                 LoadUsers();
+                LoadUsers();
+                DataGridUsers.Refresh();
+                Application.DoEvents(); // Force UI update
+                UpdateRowNumbersUsers();
+            }
+        }
+
+        private int GetNextUserId()
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = "SELECT AUTO_INCREMENT " +
+                                  "FROM information_schema.TABLES " +
+                                  "WHERE TABLE_SCHEMA = DATABASE() " +
+                                  "AND TABLE_NAME = 'users'";
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        object result = cmd.ExecuteScalar();
+                        return result != null ? Convert.ToInt32(result) : -1;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error getting next user ID: " + ex.Message, "Error",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return -1;
             }
         }
     }

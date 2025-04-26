@@ -58,6 +58,9 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.DataGridUsers = new System.Windows.Forms.DataGridView();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.DataGridAdmins = new System.Windows.Forms.DataGridView();
+            this.no_users = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.user_id_ol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.email_ol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.password_ol = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -66,8 +69,7 @@
             this.created_at_ol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColOpen2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.ColClose2 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.DataGridAdmins = new System.Windows.Forms.DataGridView();
+            this.no_admins = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.user_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.email = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.password = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -360,6 +362,7 @@
             this.DataGridUsers.ColumnHeadersHeight = 40;
             this.DataGridUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.DataGridUsers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.no_users,
             this.user_id_ol,
             this.email_ol,
             this.password_ol,
@@ -402,6 +405,93 @@
             this.DataGridUsers.Size = new System.Drawing.Size(1433, 502);
             this.DataGridUsers.TabIndex = 3;
             this.DataGridUsers.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridUsers_CellContentClick);
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.DataGridAdmins);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(1439, 508);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "ADMINS";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // DataGridAdmins
+            // 
+            this.DataGridAdmins.AllowUserToAddRows = false;
+            this.DataGridAdmins.AllowUserToResizeColumns = false;
+            this.DataGridAdmins.AllowUserToResizeRows = false;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.White;
+            this.DataGridAdmins.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
+            this.DataGridAdmins.BackgroundColor = System.Drawing.Color.White;
+            this.DataGridAdmins.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.DataGridAdmins.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            this.DataGridAdmins.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataGridAdmins.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.DataGridAdmins.ColumnHeadersHeight = 40;
+            this.DataGridAdmins.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.DataGridAdmins.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.no_admins,
+            this.user_id,
+            this.email,
+            this.password,
+            this.role,
+            this.is_verified,
+            this.created_at,
+            this.ColOpen,
+            this.ColClose});
+            this.DataGridAdmins.Cursor = System.Windows.Forms.Cursors.Default;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridAdmins.DefaultCellStyle = dataGridViewCellStyle8;
+            this.DataGridAdmins.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DataGridAdmins.GridColor = System.Drawing.SystemColors.Control;
+            this.DataGridAdmins.Location = new System.Drawing.Point(3, 3);
+            this.DataGridAdmins.Name = "DataGridAdmins";
+            this.DataGridAdmins.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridAdmins.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            this.DataGridAdmins.RowHeadersVisible = false;
+            this.DataGridAdmins.RowHeadersWidth = 50;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.Gray;
+            this.DataGridAdmins.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            this.DataGridAdmins.RowTemplate.Height = 30;
+            this.DataGridAdmins.RowTemplate.ReadOnly = true;
+            this.DataGridAdmins.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DataGridAdmins.Size = new System.Drawing.Size(1433, 502);
+            this.DataGridAdmins.TabIndex = 4;
+            // 
+            // no_users
+            // 
+            this.no_users.Frozen = true;
+            this.no_users.HeaderText = "No.";
+            this.no_users.Name = "no_users";
+            this.no_users.ReadOnly = true;
+            this.no_users.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.no_users.Width = 50;
             // 
             // user_id_ol
             // 
@@ -476,82 +566,14 @@
             this.ColClose2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.ColClose2.Width = 40;
             // 
-            // tabPage3
+            // no_admins
             // 
-            this.tabPage3.Controls.Add(this.DataGridAdmins);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1439, 508);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "ADMINS";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // DataGridAdmins
-            // 
-            this.DataGridAdmins.AllowUserToAddRows = false;
-            this.DataGridAdmins.AllowUserToResizeColumns = false;
-            this.DataGridAdmins.AllowUserToResizeRows = false;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.White;
-            this.DataGridAdmins.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
-            this.DataGridAdmins.BackgroundColor = System.Drawing.Color.White;
-            this.DataGridAdmins.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.DataGridAdmins.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.DataGridAdmins.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DataGridAdmins.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            this.DataGridAdmins.ColumnHeadersHeight = 40;
-            this.DataGridAdmins.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.DataGridAdmins.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.user_id,
-            this.email,
-            this.password,
-            this.role,
-            this.is_verified,
-            this.created_at,
-            this.ColOpen,
-            this.ColClose});
-            this.DataGridAdmins.Cursor = System.Windows.Forms.Cursors.Default;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridAdmins.DefaultCellStyle = dataGridViewCellStyle8;
-            this.DataGridAdmins.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DataGridAdmins.GridColor = System.Drawing.SystemColors.Control;
-            this.DataGridAdmins.Location = new System.Drawing.Point(3, 3);
-            this.DataGridAdmins.Name = "DataGridAdmins";
-            this.DataGridAdmins.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridAdmins.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
-            this.DataGridAdmins.RowHeadersVisible = false;
-            this.DataGridAdmins.RowHeadersWidth = 50;
-            dataGridViewCellStyle10.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.Gray;
-            this.DataGridAdmins.RowsDefaultCellStyle = dataGridViewCellStyle10;
-            this.DataGridAdmins.RowTemplate.Height = 30;
-            this.DataGridAdmins.RowTemplate.ReadOnly = true;
-            this.DataGridAdmins.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DataGridAdmins.Size = new System.Drawing.Size(1433, 502);
-            this.DataGridAdmins.TabIndex = 4;
+            this.no_admins.Frozen = true;
+            this.no_admins.HeaderText = "No.";
+            this.no_admins.Name = "no_admins";
+            this.no_admins.ReadOnly = true;
+            this.no_admins.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.no_admins.Width = 50;
             // 
             // user_id
             // 
@@ -678,14 +700,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox TxtPass;
-        private System.Windows.Forms.DataGridViewTextBoxColumn user_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn email;
-        private System.Windows.Forms.DataGridViewTextBoxColumn password;
-        private System.Windows.Forms.DataGridViewTextBoxColumn role;
-        private System.Windows.Forms.DataGridViewTextBoxColumn is_verified;
-        private System.Windows.Forms.DataGridViewTextBoxColumn created_at;
-        private System.Windows.Forms.DataGridViewImageColumn ColOpen;
-        private System.Windows.Forms.DataGridViewImageColumn ColClose;
+        private System.Windows.Forms.DataGridViewTextBoxColumn no_users;
         private System.Windows.Forms.DataGridViewTextBoxColumn user_id_ol;
         private System.Windows.Forms.DataGridViewTextBoxColumn email_ol;
         private System.Windows.Forms.DataGridViewTextBoxColumn password_ol;
@@ -694,5 +709,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn created_at_ol;
         private System.Windows.Forms.DataGridViewImageColumn ColOpen2;
         private System.Windows.Forms.DataGridViewImageColumn ColClose2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn no_admins;
+        private System.Windows.Forms.DataGridViewTextBoxColumn user_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn email;
+        private System.Windows.Forms.DataGridViewTextBoxColumn password;
+        private System.Windows.Forms.DataGridViewTextBoxColumn role;
+        private System.Windows.Forms.DataGridViewTextBoxColumn is_verified;
+        private System.Windows.Forms.DataGridViewTextBoxColumn created_at;
+        private System.Windows.Forms.DataGridViewImageColumn ColOpen;
+        private System.Windows.Forms.DataGridViewImageColumn ColClose;
     }
 }

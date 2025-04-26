@@ -991,6 +991,8 @@
             this.no_newEnrollment.Frozen = true;
             this.no_newEnrollment.HeaderText = "No.";
             this.no_newEnrollment.Name = "no_newEnrollment";
+            this.no_newEnrollment.ReadOnly = true;
+            this.no_newEnrollment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.no_newEnrollment.Width = 50;
             // 
             // student_no
@@ -1111,6 +1113,8 @@
             this.no_payments.Frozen = true;
             this.no_payments.HeaderText = "No.";
             this.no_payments.Name = "no_payments";
+            this.no_payments.ReadOnly = true;
+            this.no_payments.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.no_payments.Width = 50;
             // 
             // student_no_payment
@@ -1226,6 +1230,8 @@
             this.no_paid.Frozen = true;
             this.no_paid.HeaderText = "No.";
             this.no_paid.Name = "no_paid";
+            this.no_paid.ReadOnly = true;
+            this.no_paid.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.no_paid.Width = 50;
             // 
             // dataGridViewTextBoxColumn2
@@ -1427,19 +1433,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn grade_pdf_path;
         private System.Windows.Forms.DataGridViewImageColumn colOpen1;
         private System.Windows.Forms.DataGridViewImageColumn colClose1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn payment_id_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn no_payments;
-        private System.Windows.Forms.DataGridViewTextBoxColumn student_no_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn last_name_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn first_name_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn middle_name_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn courseCode_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn academic_year_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn semester_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn year_level_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn status_payment;
-        private System.Windows.Forms.DataGridViewImageColumn ColOpen3;
-        private System.Windows.Forms.DataGridViewImageColumn ColClose3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn no_paid;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
@@ -1453,5 +1446,18 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
         private System.Windows.Forms.DataGridViewImageColumn ColOpen2;
         private System.Windows.Forms.DataGridViewImageColumn ColClose2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn payment_id_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn no_payments;
+        private System.Windows.Forms.DataGridViewTextBoxColumn student_no_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn last_name_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn first_name_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn middle_name_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn courseCode_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn academic_year_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn semester_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn year_level_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn status_payment;
+        private System.Windows.Forms.DataGridViewImageColumn ColOpen3;
+        private System.Windows.Forms.DataGridViewImageColumn ColClose3;
     }
 }

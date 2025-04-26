@@ -20,6 +20,7 @@ namespace Enrollment_System
 
         private string currentProgramFilter = "All";
         private Button[] programButtons;
+       
 
         protected override void OnActivated(EventArgs e)
         {
@@ -35,6 +36,7 @@ namespace Enrollment_System
             InitializeDataGridView();
             LoadStudentData();
             InitializeFilterControls();
+            
 
             DataGridNewEnrollment.Sorted += DataGridNewEnrollment_Sorted;
             DataGridPayment.Sorted += DataGridPayment_Sorted;
@@ -182,6 +184,11 @@ namespace Enrollment_System
             CustomizeDataGridPayment();
             StyleTwoTabControl();
 
+            if (SessionManager.HasRole("cashier"))
+            {
+                
+                tabControl1.TabPages.Remove(tabStudentEnrollment);
+            }
         }
 
         private void InitializeDataGridView()

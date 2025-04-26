@@ -51,9 +51,6 @@
             this.panel15 = new System.Windows.Forms.Panel();
             this.panel19 = new System.Windows.Forms.Panel();
             this.DataGridAdmin = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel14 = new System.Windows.Forms.Panel();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.panel13 = new System.Windows.Forms.Panel();
@@ -65,6 +62,10 @@
             this.label4 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
+            this.user_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.role = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel16.SuspendLayout();
             this.panel15.SuspendLayout();
             this.panel19.SuspendLayout();
@@ -292,9 +293,10 @@
             this.DataGridAdmin.ColumnHeadersHeight = 40;
             this.DataGridAdmin.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.DataGridAdmin.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn3,
-            this.ColCode,
-            this.dataGridViewTextBoxColumn14});
+            this.user_id,
+            this.last_name,
+            this.first_name,
+            this.role});
             this.DataGridAdmin.Cursor = System.Windows.Forms.Cursors.Default;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
@@ -329,30 +331,6 @@
             this.DataGridAdmin.Size = new System.Drawing.Size(405, 417);
             this.DataGridAdmin.TabIndex = 3;
             this.DataGridAdmin.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridAdmin_CellContentClick);
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.dataGridViewTextBoxColumn3.FillWeight = 10F;
-            this.dataGridViewTextBoxColumn3.Frozen = true;
-            this.dataGridViewTextBoxColumn3.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn3.Width = 53;
-            // 
-            // ColCode
-            // 
-            this.ColCode.HeaderText = "Last Name";
-            this.ColCode.Name = "ColCode";
-            this.ColCode.Width = 130;
-            // 
-            // dataGridViewTextBoxColumn14
-            // 
-            this.dataGridViewTextBoxColumn14.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn14.HeaderText = "First Name";
-            this.dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
-            this.dataGridViewTextBoxColumn14.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn14.Width = 128;
             // 
             // panel14
             // 
@@ -470,9 +448,38 @@
             this.label3.ForeColor = System.Drawing.Color.Black;
             this.label3.Location = new System.Drawing.Point(39, 29);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(226, 58);
+            this.label3.Size = new System.Drawing.Size(227, 58);
             this.label3.TabIndex = 33;
             this.label3.Text = "Dashboard";
+            // 
+            // user_id
+            // 
+            this.user_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.user_id.FillWeight = 10F;
+            this.user_id.Frozen = true;
+            this.user_id.HeaderText = "ID";
+            this.user_id.Name = "user_id";
+            this.user_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.user_id.Width = 53;
+            // 
+            // last_name
+            // 
+            this.last_name.HeaderText = "Last Name";
+            this.last_name.Name = "last_name";
+            this.last_name.Width = 130;
+            // 
+            // first_name
+            // 
+            this.first_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.first_name.HeaderText = "First Name";
+            this.first_name.Name = "first_name";
+            this.first_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.first_name.Width = 128;
+            // 
+            // role
+            // 
+            this.role.HeaderText = "Role";
+            this.role.Name = "role";
             // 
             // AdminDashB
             // 
@@ -526,9 +533,6 @@
         private System.Windows.Forms.Panel panel15;
         private System.Windows.Forms.Panel panel19;
         private System.Windows.Forms.DataGridView DataGridAdmin;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColCode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
         private System.Windows.Forms.Panel panel14;
         private System.Windows.Forms.MonthCalendar monthCalendar1;
         private System.Windows.Forms.Panel panel13;
@@ -540,5 +544,9 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn user_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn last_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn first_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn role;
     }
 }

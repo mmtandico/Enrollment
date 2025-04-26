@@ -902,7 +902,9 @@
             this.no_pre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.no_pre.HeaderText = "No.";
             this.no_pre.Name = "no_pre";
-            this.no_pre.Width = 63;
+            this.no_pre.ReadOnly = true;
+            this.no_pre.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.no_pre.Width = 44;
             // 
             // subject_code_pre
             // 

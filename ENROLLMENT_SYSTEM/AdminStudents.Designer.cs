@@ -55,6 +55,12 @@
             this.panel10 = new System.Windows.Forms.Panel();
             this.PicBoxID = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.CmbSchoolYear = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.CmbSem = new System.Windows.Forms.ComboBox();
+            this.CmbYrLvl = new System.Windows.Forms.ComboBox();
             this.BtnAll = new System.Windows.Forms.Button();
             this.BtnBTLED = new System.Windows.Forms.Button();
             this.BtnBECED = new System.Windows.Forms.Button();
@@ -70,12 +76,6 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.CmbSchoolYear = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.CmbSem = new System.Windows.Forms.ComboBox();
-            this.CmbYrLvl = new System.Windows.Forms.ComboBox();
             this.student_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.no_students = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.student_no = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -391,6 +391,95 @@
             this.panel2.Size = new System.Drawing.Size(243, 588);
             this.panel2.TabIndex = 1;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.Color.Transparent;
+            this.label9.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.White;
+            this.label9.Location = new System.Drawing.Point(17, 472);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(83, 19);
+            this.label9.TabIndex = 61;
+            this.label9.Text = "School Year:";
+            // 
+            // CmbSchoolYear
+            // 
+            this.CmbSchoolYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CmbSchoolYear.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CmbSchoolYear.FormattingEnabled = true;
+            this.CmbSchoolYear.Items.AddRange(new object[] {
+            "All",
+            "2020-2021",
+            "2021-2022",
+            "2022-2023",
+            "2023-2024",
+            "2024-2025",
+            "2025-2026",
+            "2026-2027",
+            "2027-2028",
+            "2028-2029",
+            "2029-2030"});
+            this.CmbSchoolYear.Location = new System.Drawing.Point(106, 470);
+            this.CmbSchoolYear.Name = "CmbSchoolYear";
+            this.CmbSchoolYear.Size = new System.Drawing.Size(111, 26);
+            this.CmbSchoolYear.TabIndex = 60;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.Transparent;
+            this.label8.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.White;
+            this.label8.Location = new System.Drawing.Point(30, 541);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(70, 19);
+            this.label8.TabIndex = 59;
+            this.label8.Text = "Semester:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(24, 505);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(76, 19);
+            this.label7.TabIndex = 58;
+            this.label7.Text = "Year Level:";
+            // 
+            // CmbSem
+            // 
+            this.CmbSem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CmbSem.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CmbSem.FormattingEnabled = true;
+            this.CmbSem.ItemHeight = 18;
+            this.CmbSem.Items.AddRange(new object[] {
+            "All",
+            "1st Sem",
+            "2nd Sem"});
+            this.CmbSem.Location = new System.Drawing.Point(106, 536);
+            this.CmbSem.Name = "CmbSem";
+            this.CmbSem.Size = new System.Drawing.Size(111, 26);
+            this.CmbSem.TabIndex = 57;
+            // 
+            // CmbYrLvl
+            // 
+            this.CmbYrLvl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CmbYrLvl.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CmbYrLvl.FormattingEnabled = true;
+            this.CmbYrLvl.Items.AddRange(new object[] {
+            "All",
+            "1st Year",
+            "2nd Year",
+            "3rd Year",
+            "4th Year"});
+            this.CmbYrLvl.Location = new System.Drawing.Point(106, 503);
+            this.CmbYrLvl.Name = "CmbYrLvl";
+            this.CmbYrLvl.Size = new System.Drawing.Size(111, 26);
+            this.CmbYrLvl.TabIndex = 56;
+            // 
             // BtnAll
             // 
             this.BtnAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -671,95 +760,6 @@
             this.textBox1.TabIndex = 0;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(17, 472);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(83, 19);
-            this.label9.TabIndex = 61;
-            this.label9.Text = "School Year:";
-            // 
-            // CmbSchoolYear
-            // 
-            this.CmbSchoolYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CmbSchoolYear.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CmbSchoolYear.FormattingEnabled = true;
-            this.CmbSchoolYear.Items.AddRange(new object[] {
-            "All",
-            "2020-2021",
-            "2021-2022",
-            "2022-2023",
-            "2023-2024",
-            "2024-2025",
-            "2025-2026",
-            "2026-2027",
-            "2027-2028",
-            "2028-2029",
-            "2029-2030"});
-            this.CmbSchoolYear.Location = new System.Drawing.Point(106, 470);
-            this.CmbSchoolYear.Name = "CmbSchoolYear";
-            this.CmbSchoolYear.Size = new System.Drawing.Size(111, 26);
-            this.CmbSchoolYear.TabIndex = 60;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.BackColor = System.Drawing.Color.Transparent;
-            this.label8.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(30, 541);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(70, 19);
-            this.label8.TabIndex = 59;
-            this.label8.Text = "Semester:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(24, 505);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(76, 19);
-            this.label7.TabIndex = 58;
-            this.label7.Text = "Year Level:";
-            // 
-            // CmbSem
-            // 
-            this.CmbSem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CmbSem.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CmbSem.FormattingEnabled = true;
-            this.CmbSem.ItemHeight = 18;
-            this.CmbSem.Items.AddRange(new object[] {
-            "All",
-            "1st Sem",
-            "2nd Sem"});
-            this.CmbSem.Location = new System.Drawing.Point(106, 536);
-            this.CmbSem.Name = "CmbSem";
-            this.CmbSem.Size = new System.Drawing.Size(111, 26);
-            this.CmbSem.TabIndex = 57;
-            // 
-            // CmbYrLvl
-            // 
-            this.CmbYrLvl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CmbYrLvl.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CmbYrLvl.FormattingEnabled = true;
-            this.CmbYrLvl.Items.AddRange(new object[] {
-            "All",
-            "1st Year",
-            "2nd Year",
-            "3rd Year",
-            "4th Year"});
-            this.CmbYrLvl.Location = new System.Drawing.Point(106, 503);
-            this.CmbYrLvl.Name = "CmbYrLvl";
-            this.CmbYrLvl.Size = new System.Drawing.Size(111, 26);
-            this.CmbYrLvl.TabIndex = 56;
-            // 
             // student_id
             // 
             this.student_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
@@ -776,6 +776,8 @@
             this.no_students.Frozen = true;
             this.no_students.HeaderText = "NO.";
             this.no_students.Name = "no_students";
+            this.no_students.ReadOnly = true;
+            this.no_students.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.no_students.Width = 50;
             // 
             // student_no

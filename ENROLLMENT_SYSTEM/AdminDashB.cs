@@ -26,6 +26,7 @@ namespace Enrollment_System
           
         private void InitializeDataGridView()
         {
+            LoadAdminsCashier();
             DataGridAdmin.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DataGridAdmin.RowTemplate.Height = 40;
             DataGridAdmin.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
@@ -38,6 +39,50 @@ namespace Enrollment_System
                 col.Resizable = DataGridViewTriState.True;
             }
         }
+
+        private void LoadAdminsCashier()
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = @"
+                        SELECT 
+                            u.user_id,
+                            s.last_name,
+                            s.first_name,
+                            u.role
+                        FROM users u
+                        LEFT JOIN students s ON u.user_id = s.user_id
+                        WHERE u.role IN ('admin', 'cashier')";
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        DataTable dataTable = new DataTable();
+
+                        using (var adapter = new MySqlDataAdapter(cmd))
+                        {
+                            DataGridAdmin.AutoGenerateColumns = false;
+                            DataTable dt = new DataTable();
+                            adapter.Fill(dataTable);
+                            DataGridAdmin.DataSource = dataTable;
+                            
+                        }
+                        
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading Admin and Cashier data: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+
 
         private void LoadDashboardData()
         {
@@ -131,6 +176,12 @@ namespace Enrollment_System
 
         private void AdminDashB_Load(object sender, EventArgs e)
         {
+            DataGridAdmin.AutoGenerateColumns = false;
+            user_id.DataPropertyName = "user_id";
+            last_name.DataPropertyName = "last_name";
+            first_name.DataPropertyName = "first_name";
+            role.DataPropertyName = "role";
+
             monthCalendar1.Width = 300;
             monthCalendar1.Height = 300;
 
@@ -145,6 +196,8 @@ namespace Enrollment_System
             }
             DataGridAdmin.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             DataGridAdmin.Columns[0].Width = 50;
+            DataGridAdmin.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridAdmin.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
 
 
