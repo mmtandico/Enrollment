@@ -763,7 +763,7 @@ namespace Enrollment_System
             {
                 UpdateSubject();
             }
-            else
+            else 
             {
                UpdatePrerequisite();
             }
