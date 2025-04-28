@@ -41,9 +41,9 @@ namespace Enrollment_System
                     conn.Open();
 
                     string query = @"
-                SELECT proof_image_path
-                FROM payments
-                WHERE payment_id = @paymentId";
+                        SELECT proof_image_path
+                        FROM payments
+                        WHERE payment_id = @paymentId";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
@@ -109,7 +109,8 @@ namespace Enrollment_System
                         p.receipt_no,
                         p.payment_method,
                         p.amount_paid,
-                        p.remarks
+                        p.remarks,
+                        p.is_unifast
                     FROM payments p
                     INNER JOIN student_enrollments se ON p.enrollment_id = se.enrollment_id
                     INNER JOIN students s ON se.student_id = s.student_id
@@ -140,6 +141,10 @@ namespace Enrollment_System
 
                                 TxtTotalAmount.Text = reader["amount_paid"] != DBNull.Value ? reader["amount_paid"].ToString() : "";
                                 TxtRemarks.Text = reader["remarks"]?.ToString();
+
+                      
+                                bool isUniFast = reader["is_unifast"] != DBNull.Value && Convert.ToBoolean(reader["is_unifast"]);
+                                ChkUniFast.Checked = isUniFast;
                             }
                             else
                             {
@@ -155,14 +160,19 @@ namespace Enrollment_System
             }
         }
 
+
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(TxtReferenceNo.Text) ||
-                string.IsNullOrWhiteSpace(TxtTotalAmount.Text) ||
-                CmbPaymentMethod.SelectedItem == null)
+            if (!ChkUniFast.Checked)
             {
-                MessageBox.Show("Please fill in all payment details.");
-                return;
+                // Ensure all fields are filled when UniFAST is not selected
+                if (string.IsNullOrWhiteSpace(TxtReferenceNo.Text) ||
+                    string.IsNullOrWhiteSpace(TxtTotalAmount.Text) ||
+                    CmbPaymentMethod.SelectedItem == null)
+                {
+                    MessageBox.Show("Please fill in all payment details.");
+                    return;
+                }
             }
 
             try
@@ -172,22 +182,36 @@ namespace Enrollment_System
                     conn.Open();
 
                     string query = @"
-                        UPDATE payments 
-                        SET 
-                            receipt_no = @receiptNo,
-                            amount_paid = @amountPaid,
-                            payment_method = @paymentMethod,
-                            payment_date = NOW(),
-                            remarks = @remarks
-                        WHERE payment_id = @paymentId";
+                    UPDATE payments 
+                    SET 
+                        payment_date = NOW(),
+                        remarks = @remarks,
+                        is_unifast = @isUniFast";
+
+                    
+                    if (!ChkUniFast.Checked)
+                    {
+                        query += @",
+                        receipt_no = @receiptNo,
+                        amount_paid = @amountPaid,
+                        payment_method = @paymentMethod";
+                    }
+
+                    query += " WHERE payment_id = @paymentId";  
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@receiptNo", TxtReferenceNo.Text.Trim());
-                        cmd.Parameters.AddWithValue("@amountPaid", Convert.ToDecimal(TxtTotalAmount.Text));
-                        cmd.Parameters.AddWithValue("@paymentMethod", CmbPaymentMethod.SelectedItem.ToString());
                         cmd.Parameters.AddWithValue("@remarks", TxtRemarks.Text.Trim());
+                        cmd.Parameters.AddWithValue("@isUniFast", ChkUniFast.Checked);  
                         cmd.Parameters.AddWithValue("@paymentId", paymentId);
+
+                        // Add parameters for the fields only if UniFAST is not checked
+                        if (!ChkUniFast.Checked)
+                        {
+                            cmd.Parameters.AddWithValue("@receiptNo", TxtReferenceNo.Text.Trim());
+                            cmd.Parameters.AddWithValue("@amountPaid", Convert.ToDecimal(TxtTotalAmount.Text));
+                            cmd.Parameters.AddWithValue("@paymentMethod", CmbPaymentMethod.SelectedItem.ToString());
+                        }
 
                         int rowsAffected = cmd.ExecuteNonQuery();
 
@@ -207,5 +231,6 @@ namespace Enrollment_System
                 MessageBox.Show("Error updating payment: " + ex.Message);
             }
         }
+
     }
 }

@@ -54,6 +54,7 @@
             this.TxtCourseCode = new System.Windows.Forms.TextBox();
             this.TxtRemarks = new System.Windows.Forms.TextBox();
             this.LblRemarks = new System.Windows.Forms.Label();
+            this.ChkUniFast = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).BeginInit();
             this.panel10.SuspendLayout();
@@ -373,6 +374,19 @@
             this.LblRemarks.TabIndex = 72;
             this.LblRemarks.Text = "Remarks";
             // 
+            // ChkUniFast
+            // 
+            this.ChkUniFast.AutoSize = true;
+            this.ChkUniFast.BackColor = System.Drawing.Color.Transparent;
+            this.ChkUniFast.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold);
+            this.ChkUniFast.ForeColor = System.Drawing.Color.White;
+            this.ChkUniFast.Location = new System.Drawing.Point(442, 595);
+            this.ChkUniFast.Name = "ChkUniFast";
+            this.ChkUniFast.Size = new System.Drawing.Size(137, 23);
+            this.ChkUniFast.TabIndex = 74;
+            this.ChkUniFast.Text = "uniFAST Covered?";
+            this.ChkUniFast.UseVisualStyleBackColor = false;
+            // 
             // AdminCashier
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -380,6 +394,7 @@
             this.BackgroundImage = global::Enrollment_System.Properties.Resources.COLORPDMBACKGROUND;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1112, 655);
+            this.Controls.Add(this.ChkUniFast);
             this.Controls.Add(this.TxtRemarks);
             this.Controls.Add(this.LblRemarks);
             this.Controls.Add(this.label9);
@@ -445,5 +460,6 @@
         private System.Windows.Forms.PictureBox PBProofOfPayment;
         private System.Windows.Forms.TextBox TxtRemarks;
         private System.Windows.Forms.Label LblRemarks;
+        private System.Windows.Forms.CheckBox ChkUniFast;
     }
 }
