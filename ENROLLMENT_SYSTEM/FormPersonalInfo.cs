@@ -96,7 +96,12 @@ namespace Enrollment_System
                 this.Size = new Size(1366, 768);
                 this.Scale(new SizeF(0.8f, 0.8f));
 
-                this.StartPosition = FormStartPosition.CenterScreen; 
+                //this.StartPosition = FormStartPosition.CenterScreen; 
+                Rectangle screen = Screen.PrimaryScreen.WorkingArea;
+                this.Location = new Point(
+                    (screen.Width - this.Width) / 2,
+                    (screen.Height - this.Height) / 2
+                );
             }
 
             LoadUserData();
