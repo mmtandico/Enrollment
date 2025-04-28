@@ -261,7 +261,6 @@ namespace Enrollment_System
         {
             try
             {
-                // Validate required fields
                 if (string.IsNullOrWhiteSpace(CmbCourse.Text))
                 {
                     MessageBox.Show("Please select a course.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -294,12 +293,18 @@ namespace Enrollment_System
                     return;
                 }
 
+                if (string.IsNullOrWhiteSpace(TxtPreviousSection.Text))
+                {
+                    MessageBox.Show("Please provide the previous section.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    TxtPreviousSection.Focus();
+                    return;
+                }
+
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
                     long studentId = -1;
 
-                    // Get the student ID
                     string getStudentQuery = "SELECT student_id FROM students WHERE user_id = @UserID";
                     using (var cmd = new MySqlCommand(getStudentQuery, conn))
                     {
@@ -313,7 +318,6 @@ namespace Enrollment_System
                         studentId = Convert.ToInt64(result);
                     }
 
-                    // Get the course ID
                     int courseId = GetCourseIdFromText(CmbCourse.Text);
                     if (courseId == -1)
                     {
@@ -324,17 +328,16 @@ namespace Enrollment_System
                     string semester = CmbSem.SelectedItem.ToString();
                     string yearLevel = CmbYrLvl.SelectedItem.ToString();
 
-                    // Check for duplicate enrollment (only for new enrollments)
                     if (string.IsNullOrEmpty(EnrollmentId))
                     {
                         string checkDuplicateQuery = @"
-                            SELECT COUNT(*) 
-                            FROM student_enrollments 
-                            WHERE student_id = @StudentID 
-                            AND course_id = @CourseID 
-                            AND academic_year = @AcademicYear 
-                            AND semester = @Semester
-                            AND year_level = @YearLevel";
+                    SELECT COUNT(*) 
+                    FROM student_enrollments 
+                    WHERE student_id = @StudentID 
+                    AND course_id = @CourseID 
+                    AND academic_year = @AcademicYear 
+                    AND semester = @Semester
+                    AND year_level = @YearLevel";
 
                         using (var cmd = new MySqlCommand(checkDuplicateQuery, conn))
                         {
@@ -353,18 +356,16 @@ namespace Enrollment_System
                         }
                     }
 
-                    // Handle either update or insert
                     if (!string.IsNullOrEmpty(EnrollmentId))
                     {
-                        // Update existing enrollment
                         string updateQuery = @"
-                        UPDATE student_enrollments
-                        SET course_id = @CourseID,
-                            academic_year = @AcademicYear,
-                            semester = @Semester,
-                            year_level = @YearLevel,
-                            status = 'Pending'
-                        WHERE enrollment_id = @EnrollmentID";
+                UPDATE student_enrollments
+                SET course_id = @CourseID,
+                    academic_year = @AcademicYear,
+                    semester = @Semester,
+                    year_level = @YearLevel,
+                    status = 'Payment Pending'
+                WHERE enrollment_id = @EnrollmentID";
 
                         ExecuteQuery(conn, updateQuery,
                             new MySqlParameter("@CourseID", courseId),
@@ -374,30 +375,27 @@ namespace Enrollment_System
                             new MySqlParameter("@EnrollmentID", EnrollmentId)
                         );
 
-                        // Insert into academic history with previous_section only
                         string insertHistoryQuery = @"
-                        INSERT INTO academic_history (
-                            enrollment_id, previous_section
-                        ) VALUES (
-                            @EnrollmentID, @PreviousSection
-                        )";
+                INSERT INTO academic_history (
+                    enrollment_id, previous_section
+                ) VALUES (
+                    @EnrollmentID, @PreviousSection
+                )";
 
                         ExecuteQuery(conn, insertHistoryQuery,
                             new MySqlParameter("@EnrollmentID", EnrollmentId),
                             new MySqlParameter("@PreviousSection", TxtPreviousSection.Text)
-
                         );
 
                         MessageBox.Show("Enrollment updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
-                        // Create new enrollment
                         string insertQuery = @"
-                        INSERT INTO student_enrollments 
-                            (student_id, course_id, academic_year, semester, year_level, status)
-                        VALUES 
-                            (@StudentID, @CourseID, @AcademicYear, @Semester, @YearLevel, 'Payment Pending')"; // Changed status to 'Payment Pending'
+                INSERT INTO student_enrollments 
+                    (student_id, course_id, academic_year, semester, year_level, status)
+                VALUES 
+                    (@StudentID, @CourseID, @AcademicYear, @Semester, @YearLevel, 'Payment Pending')";
 
                         ExecuteQuery(conn, insertQuery,
                             new MySqlParameter("@StudentID", studentId),
@@ -407,48 +405,52 @@ namespace Enrollment_System
                             new MySqlParameter("@YearLevel", yearLevel)
                         );
 
-                        // Get the newly created enrollment ID
                         long newEnrollmentId = GetLastInsertId(conn);
 
-                        // Calculate total units for this enrollment
+                        string insertHistoryQuery = @"
+                INSERT INTO academic_history (
+                    enrollment_id, previous_section
+                ) VALUES (
+                    @EnrollmentID, @PreviousSection
+                )";
+
+                        ExecuteQuery(conn, insertHistoryQuery,
+                            new MySqlParameter("@EnrollmentID", newEnrollmentId),
+                            new MySqlParameter("@PreviousSection", TxtPreviousSection.Text)
+                        );
+
                         int totalUnits = CalculateTotalUnits(courseId, yearLevel, semester);
 
-                        // Calculate fees
-                        decimal tuitionFee = totalUnits * 150m; // 150 per unit
-                        decimal miscFee = 800m; // Fixed miscellaneous fee
+                        decimal tuitionFee = totalUnits * 150m;
+                        decimal miscFee = 800m; 
                         decimal totalAmountDue = tuitionFee + miscFee;
 
-                        // Create initial payment record
                         string insertPaymentQuery = @"
-                        INSERT INTO payments 
-                            (enrollment_id, total_units, total_amount_due, amount_paid, is_unifast, payment_method, payment_date)
-                        VALUES 
-                            (@EnrollmentID, @TotalUnits, @TotalAmountDue, 0, 0, 'Pending', NULL)";
+                INSERT INTO payments 
+                    (enrollment_id, total_units, total_amount_due, amount_paid, is_unifast, payment_method, payment_date)
+                VALUES 
+                    (@EnrollmentID, @TotalUnits, @TotalAmountDue, 0, 0, 'Payment Pending', NULL)";
 
                         ExecuteQuery(conn, insertPaymentQuery,
                             new MySqlParameter("@EnrollmentID", newEnrollmentId),
                             new MySqlParameter("@TotalUnits", totalUnits),
                             new MySqlParameter("@TotalAmountDue", totalAmountDue)
-
                         );
 
                         long paymentId = GetLastInsertId(conn);
 
-                        // Insert payment breakdowns
                         string insertBreakdownQuery = @"
-                        INSERT INTO payment_breakdowns 
-                            (payment_id, fee_type, amount)
-                        VALUES 
-                            (@PaymentID, @FeeType, @Amount)";
+                            INSERT INTO payment_breakdowns 
+                                (payment_id, fee_type, amount)
+                            VALUES 
+                                (@PaymentID, @FeeType, @Amount)";
 
-                        // Tuition breakdown
                         ExecuteQuery(conn, insertBreakdownQuery,
                             new MySqlParameter("@PaymentID", paymentId),
                             new MySqlParameter("@FeeType", "Tuition"),
                             new MySqlParameter("@Amount", tuitionFee)
                         );
 
-                        // Miscellaneous breakdown
                         ExecuteQuery(conn, insertBreakdownQuery,
                             new MySqlParameter("@PaymentID", paymentId),
                             new MySqlParameter("@FeeType", "Miscellaneous"),
@@ -458,11 +460,9 @@ namespace Enrollment_System
                         MessageBox.Show("New enrollment created successfully! Payment pending.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
-                    // Update session data
                     SessionManager.FirstName = TxtFirstName.Text;
                     SessionManager.LastName = TxtLastName.Text;
 
-                    // Close the form with OK result
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
@@ -472,6 +472,7 @@ namespace Enrollment_System
                 MessageBox.Show("Error saving enrollment: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private long GetLastInsertId(MySqlConnection conn)
         {
