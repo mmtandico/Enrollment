@@ -16,6 +16,7 @@ namespace Enrollment_System
         //private object panel11;
         private bool fieldsLocked = true;
         private long? currentGuardianId = null;
+        public bool IsViewMode { get; set; } = false;
 
 
         public FormPersonalInfo()
@@ -27,22 +28,7 @@ namespace Enrollment_System
                      ControlStyles.UserPaint, true);
             UIHelper.ApplyAdminVisibility(BtnDataBase);
 
-            if (!string.IsNullOrEmpty(SessionManager.LastName) && !string.IsNullOrEmpty(SessionManager.FirstName))
-            {
-                LblWelcome.Text = $"{SessionManager.LastName}, {SessionManager.FirstName[0]}.";
-            }
-            else if (!string.IsNullOrEmpty(SessionManager.LastName))
-            {
-                LblWelcome.Text = $"{SessionManager.LastName}";
-            }
-            else if (!string.IsNullOrEmpty(SessionManager.FirstName))
-            {
-                LblWelcome.Text = $"{SessionManager.FirstName[0]}.";
-            }
-            else
-            {
-                LblWelcome.Text = "";
-            }
+            WelcomeGreetings();
 
             this.Activated += FormPersonalInfo_Activated;
             if (!SessionManager.IsLoggedIn)
@@ -73,18 +59,54 @@ namespace Enrollment_System
             this.Load += FormPersonalInfo_Load;
         }
 
+        private void WelcomeGreetings()
+        {
+            if (!string.IsNullOrEmpty(SessionManager.LastName) && !string.IsNullOrEmpty(SessionManager.FirstName))
+            {
+                LblWelcome.Text = $"{SessionManager.LastName}, {SessionManager.FirstName[0]}.";
+            }
+            else if (!string.IsNullOrEmpty(SessionManager.LastName))
+            {
+                LblWelcome.Text = $"{SessionManager.LastName}";
+            }
+            else if (!string.IsNullOrEmpty(SessionManager.FirstName))
+            {
+                LblWelcome.Text = $"{SessionManager.FirstName[0]}.";
+            }
+            else
+            {
+                LblWelcome.Text = "";
+            }
+        }
+
         private void FormPersonalInfo_Activated(object sender, EventArgs e)
         {
             LoadUserData();
         }
+
         private void FormPersonalInfo_Load(object sender, EventArgs e)
         {
+            if (IsViewMode)
+            {
+                this.ControlBox = false;
+                this.FormBorderStyle = FormBorderStyle.FixedDialog;
+                this.WindowState = FormWindowState.Normal;
+
+                
+                this.Size = new Size(1366, 768);
+                this.Scale(new SizeF(0.8f, 0.8f));
+
+                this.StartPosition = FormStartPosition.CenterScreen; 
+            }
+
             LoadUserData();
             if (fieldsLocked)
             {
                 ToggleFields(false);
             }
         }
+
+
 
         private void LoadUserData()
         {
@@ -433,8 +455,7 @@ namespace Enrollment_System
         private void BtnEdit_Click(object sender, EventArgs e)
         {
             ToggleFields(true);
-            //MessageBox.Show("Fields are now unlocked for editing.", "Edit Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+          
             SetEnabledRecursive(groupBox1, true);
             SetEnabledRecursive(groupBox2, true);
             SetEnabledRecursive(groupBox3, true);
@@ -600,6 +621,161 @@ namespace Enrollment_System
         private int GetNextStudentIdNumber()
         {
             return ++studentIdCounter;
+        }
+
+        public bool LoadStudentDataByStudentNo(string studentNo)
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = @"
+                        SELECT 
+                            s.student_id, 
+                            s.student_no, 
+                            s.student_lrn, 
+                            s.first_name, 
+                            s.middle_name, 
+                            s.last_name, 
+                            s.birth_date, 
+                            s.age, 
+                            s.sex, 
+                            s.civil_status, 
+                            s.nationality, 
+                            c.phone_no, 
+                            u.email, 
+                            a.block_street, 
+                            a.subdivision, 
+                            a.barangay, 
+                            a.city, 
+                            a.province, 
+                            a.zipcode, 
+                            s.profile_picture,
+                            g.first_name AS guardian_first_name,
+                            g.last_name AS guardian_last_name, 
+                            g.middle_name AS guardian_middle_name,
+                            g.contact_number AS guardian_contact, 
+                            sg.relationship,
+                            g.guardian_id
+                        FROM students s
+                        LEFT JOIN users u ON s.user_id = u.user_id
+                        LEFT JOIN contact_info c ON s.student_id = c.student_id
+                        LEFT JOIN addresses a ON s.student_id = a.student_id
+                        LEFT JOIN student_guardians sg ON s.student_id = sg.student_id
+                        LEFT JOIN parents_guardians g ON sg.guardian_id = g.guardian_id
+                        WHERE s.student_no = @StudentNo
+                        ORDER BY s.student_id DESC LIMIT 1";
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@StudentNo", studentNo);
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                // Populate all fields
+                                TxtStudentNo.Text = reader["student_no"].ToString();
+                                TxtStudentLRN.Text = reader["student_lrn"].ToString();
+                                TxtFirstName.Text = reader["first_name"].ToString();
+                                TxtMiddleName.Text = reader["middle_name"].ToString();
+                                TxtLastName.Text = reader["last_name"].ToString();
+                                DateBirthPicker.Value = Convert.ToDateTime(reader["birth_date"]);
+                                TxtAge.Text = reader["age"].ToString();
+                                TxtCivilStatus.Text = reader["civil_status"].ToString();
+                                TxtNational.Text = reader["nationality"].ToString();
+                                ChkMale.Checked = reader["sex"].ToString() == "Male";
+                                ChkFemale.Checked = reader["sex"].ToString() == "Female";
+                                TxtPhoneNo.Text = reader["phone_no"].ToString();
+                                TxtEmail.Text = reader["email"].ToString();
+                                TxtBStreet.Text = reader["block_street"].ToString();
+                                TxtSubCom.Text = reader["subdivision"].ToString();
+                                TxtBrgy.Text = reader["barangay"].ToString();
+                                TxtCity.Text = reader["city"].ToString();
+                                TxtProvince.Text = reader["province"].ToString();
+                                TxtZipcode.Text = reader["zipcode"].ToString();
+                                TxtGuardianFirstName.Text = reader["guardian_first_name"].ToString();
+                                TxtGuardianLastName.Text = reader["guardian_last_name"].ToString();
+                                TxtGuardianMiddleName.Text = reader["guardian_middle_name"].ToString();
+                                TxtGuardianContact.Text = reader["guardian_contact"].ToString();
+                                TxtGuardianRelation.Text = reader["relationship"].ToString();
+                                currentGuardianId = reader["guardian_id"] != DBNull.Value ? Convert.ToInt64(reader["guardian_id"]) : (long?)null;
+
+                                // Load profile picture
+                                if (reader["profile_picture"] != DBNull.Value)
+                                {
+                                    byte[] imageBytes = (byte[])reader["profile_picture"];
+                                    using (MemoryStream ms = new MemoryStream(imageBytes))
+                                    {
+                                        pictureBox2.Image = Image.FromStream(ms);
+                                    }
+                                }
+                                else
+                                {
+                                    pictureBox2.Image = Properties.Resources.PROFILE;
+                                }
+
+                                pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
+
+                                // Lock fields if in view mode
+                                if (IsViewMode)
+                                {
+                                    SetEnabledRecursive(groupBox1, false);
+                                    SetEnabledRecursive(groupBox2, false);
+                                    SetEnabledRecursive(groupBox3, false);
+                                    SetEnabledRecursive(groupBox4, false);
+                                    //BtnSave.Visible = false;
+                                    //BtnEdit.Visible = false;
+                                   // BtnUpload.Visible = false;
+                                    BtnExit.Visible = false;
+                                    BtnClose.Visible = true;
+                                    BtnCourses.Visible = false;
+                                    BtnEnrollment.Visible = false;
+                                    BtnHome.Visible = false;
+                                    BtnDataBase.Visible = false;
+                                    BtnPI.Visible = false;
+                                    BtnLogout.Visible = false;
+                                    LblGreetings.Visible = false;
+                                    LblWelcome.Visible = false;
+                                    
+                                }
+
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading student data: " + ex.Message, "Database Error",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return false;
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            if (IsViewMode)
+            {
+                // BtnSave.Visible = false;
+                // BtnEdit.Visible = false;
+                // BtnUpload.Visible = false;
+                
+                this.Text = "View Student Information";
+            }
+        }
+
+      
+
+        private void BtnClose_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+
         }
     }
 }

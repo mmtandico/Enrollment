@@ -105,13 +105,14 @@
             this.BtnHome = new System.Windows.Forms.Button();
             this.BtnPI = new System.Windows.Forms.Button();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.LblGreetings = new System.Windows.Forms.Label();
             this.LblWelcome = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.BtnLogout = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.BtnExit = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.BtnClose = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -1053,7 +1054,7 @@
             // 
             // panel6
             // 
-            this.panel6.Controls.Add(this.label1);
+            this.panel6.Controls.Add(this.LblGreetings);
             this.panel6.Controls.Add(this.LblWelcome);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel6.Location = new System.Drawing.Point(0, 0);
@@ -1061,16 +1062,16 @@
             this.panel6.Size = new System.Drawing.Size(204, 72);
             this.panel6.TabIndex = 29;
             // 
-            // label1
+            // LblGreetings
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(21, 3);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(116, 33);
-            this.label1.TabIndex = 26;
-            this.label1.Text = "Welcome!";
+            this.LblGreetings.AutoSize = true;
+            this.LblGreetings.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblGreetings.ForeColor = System.Drawing.Color.White;
+            this.LblGreetings.Location = new System.Drawing.Point(21, 3);
+            this.LblGreetings.Name = "LblGreetings";
+            this.LblGreetings.Size = new System.Drawing.Size(116, 33);
+            this.LblGreetings.TabIndex = 26;
+            this.LblGreetings.Text = "Welcome!";
             // 
             // LblWelcome
             // 
@@ -1085,6 +1086,7 @@
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.BtnClose);
             this.panel4.Controls.Add(this.BtnLogout);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel4.Location = new System.Drawing.Point(1140, 0);
@@ -1143,6 +1145,26 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1300, 36);
             this.panel1.TabIndex = 11;
+            // 
+            // BtnClose
+            // 
+            this.BtnClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(44)))), ((int)(((byte)(21)))));
+            this.BtnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnClose.FlatAppearance.BorderSize = 0;
+            this.BtnClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(44)))), ((int)(((byte)(21)))));
+            this.BtnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(44)))), ((int)(((byte)(21)))));
+            this.BtnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnClose.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnClose.ForeColor = System.Drawing.Color.White;
+            this.BtnClose.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.BtnClose.Location = new System.Drawing.Point(89, 23);
+            this.BtnClose.Name = "BtnClose";
+            this.BtnClose.Size = new System.Drawing.Size(32, 27);
+            this.BtnClose.TabIndex = 30;
+            this.BtnClose.Text = "x";
+            this.BtnClose.UseVisualStyleBackColor = false;
+            this.BtnClose.Visible = false;
+            this.BtnClose.Click += new System.EventHandler(this.BtnClose_Click_1);
             // 
             // FormPersonalInfo
             // 
@@ -1262,12 +1284,13 @@
         private System.Windows.Forms.Button BtnHome;
         private System.Windows.Forms.Button BtnPI;
         private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label LblGreetings;
         private System.Windows.Forms.Label LblWelcome;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button BtnLogout;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Button BtnExit;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button BtnClose;
     }
 }

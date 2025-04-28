@@ -21,6 +21,7 @@ namespace Enrollment_System
         private string currentProgramFilter = "All";
         private Button[] programButtons;
         private XStringFormat yPos;
+        public bool IsViewMode { get; set; } = false;
 
         public AdminStudents()
         {
@@ -1146,5 +1147,53 @@ namespace Enrollment_System
             }
             
         }
+
+        private void BtnInfos_Click(object sender, EventArgs e)
+        {
+           
+            if (DataGridEnrolled.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a student first.", "No Selection",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataGridViewRow selectedRow = DataGridEnrolled.SelectedRows[0];
+            string studentNo = selectedRow.Cells["student_no"].Value?.ToString();
+
+            if (string.IsNullOrEmpty(studentNo))
+            {
+                MessageBox.Show("Invalid student selected.", "Error",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                using (FormPersonalInfo formPersonalInfo = new FormPersonalInfo())
+                {
+                   
+                    formPersonalInfo.IsViewMode = true;
+
+ 
+                    if (!formPersonalInfo.LoadStudentDataByStudentNo(studentNo))
+                    {
+                        MessageBox.Show("Failed to load student data.", "Error",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    
+                    formPersonalInfo.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error opening student information: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        
+
     }
 }
