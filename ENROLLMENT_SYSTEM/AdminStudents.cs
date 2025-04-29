@@ -100,7 +100,7 @@ namespace Enrollment_System
 
         private void AdminStudents_Load(object sender, EventArgs e)
         {
-            DataGridEnrolled.CellClick += DataGridNewEnrollment_CellClick;
+            DataGridEnrolled.CellClick += DataGridEnrolled_CellContentClick;
             StyleTwoTabControl();
             InitializeDataGridView();   
 
@@ -290,6 +290,15 @@ namespace Enrollment_System
 
         private void DataGridEnrolled_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+
+            if (e.RowIndex >= 0) 
+            {
+                DataGridViewRow row = DataGridEnrolled.Rows[e.RowIndex];
+
+                string studentNo = row.Cells["student_no"].Value.ToString();
+
+                FetchStudentDetails(studentNo);
+            }
 
             if (e.ColumnIndex == DataGridEnrolled.Columns["ColClose"].Index && e.RowIndex >= 0)
             {
@@ -651,10 +660,7 @@ namespace Enrollment_System
 
         }
 
-        private void DataGridNewEnrollment_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+    
 
         private void label7_Click(object sender, EventArgs e)
         {
@@ -821,17 +827,7 @@ namespace Enrollment_System
 
         }
 
-        private void DataGridNewEnrollment_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0) // ensure a valid row was clicked
-            {
-                DataGridViewRow row = DataGridEnrolled.Rows[e.RowIndex];
-
-                string studentNo = row.Cells["student_no"].Value.ToString();
-
-                FetchStudentDetails(studentNo);
-            }
-        }
+       
 
         private void FetchStudentDetails(string studentNo)
         {
@@ -1155,7 +1151,6 @@ namespace Enrollment_System
 
         private void BtnInfos_Click(object sender, EventArgs e)
         {
-           
             if (DataGridEnrolled.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Please select a student first.", "No Selection",
@@ -1175,20 +1170,10 @@ namespace Enrollment_System
 
             try
             {
-                using (FormPersonalInfo formPersonalInfo = new FormPersonalInfo())
+                // Pass the student number to the constructor
+                using (FormPersonalInfo formPersonalInfo = new FormPersonalInfo(studentNo))
                 {
-                   
                     formPersonalInfo.IsViewMode = true;
-
- 
-                    if (!formPersonalInfo.LoadStudentDataByStudentNo(studentNo))
-                    {
-                        MessageBox.Show("Failed to load student data.", "Error",
-                                      MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    
                     formPersonalInfo.ShowDialog();
                 }
             }
@@ -1198,7 +1183,7 @@ namespace Enrollment_System
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
+
 
     }
 }

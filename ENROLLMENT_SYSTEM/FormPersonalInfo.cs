@@ -13,27 +13,34 @@ namespace Enrollment_System
         private Image[] images;
         private int currentImageIndex = 0;
         private long loggedInUserId;
-        //private object panel11;
         private bool fieldsLocked = true;
         private long? currentGuardianId = null;
+        private string _viewingStudentNo = null;
+        private long _currentStudentId = 0;
         public bool IsViewMode { get; set; } = false;
 
-
-        public FormPersonalInfo()
+        public FormPersonalInfo(string studentNo = null)
         {
             InitializeComponent();
+            _viewingStudentNo = studentNo;
             this.DoubleBuffered = true;
             SetStyle(ControlStyles.OptimizedDoubleBuffer |
                      ControlStyles.AllPaintingInWmPaint |
                      ControlStyles.UserPaint, true);
-            UIHelper.ApplyAdminVisibility(BtnDataBase);
 
+            InitializeForm();
+        }
+
+        private void InitializeForm()
+        {
+            UIHelper.ApplyAdminVisibility(BtnDataBase);
             WelcomeGreetings();
 
             this.Activated += FormPersonalInfo_Activated;
             if (!SessionManager.IsLoggedIn)
             {
-                MessageBox.Show("Session expired. Please log in again.", "Session Expired", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Session expired. Please log in again.", "Session Expired",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 new FormLogin().Show();
                 this.Close();
                 return;
@@ -92,11 +99,9 @@ namespace Enrollment_System
                 this.FormBorderStyle = FormBorderStyle.FixedDialog;
                 this.WindowState = FormWindowState.Normal;
 
-                
                 this.Size = new Size(1366, 768);
                 this.Scale(new SizeF(0.8f, 0.8f));
 
-                //this.StartPosition = FormStartPosition.CenterScreen; 
                 Rectangle screen = Screen.PrimaryScreen.WorkingArea;
                 this.Location = new Point(
                     (screen.Width - this.Width) / 2,
@@ -111,8 +116,6 @@ namespace Enrollment_System
             }
         }
 
-
-
         private void LoadUserData()
         {
             try
@@ -121,181 +124,224 @@ namespace Enrollment_System
                 {
                     conn.Open();
 
-                    string checkUserQuery = "SELECT COUNT(*) FROM students WHERE user_id = @UserID";
-                    using (var checkCmd = new MySqlCommand(checkUserQuery, conn))
+                    if (IsViewMode && !string.IsNullOrEmpty(_viewingStudentNo))
                     {
-                        checkCmd.Parameters.AddWithValue("@UserID", loggedInUserId);
-                        int userExists = Convert.ToInt32(checkCmd.ExecuteScalar());
-
-                        if (userExists == 0)
-                        {
-                            string insertQuery = @"
-                                INSERT INTO students (user_id, student_no, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
-                                VALUES (@UserID, NULL, NULL, '', '', '', '2000-01-01', 0, 'Male', '', '')";
-
-                            using (var insertCmd = new MySqlCommand(insertQuery, conn))
-                            {
-                                insertCmd.Parameters.AddWithValue("@UserID", loggedInUserId);
-                                insertCmd.ExecuteNonQuery();
-                            }
-                        }
+                        LoadStudentByStudentNo(conn);
                     }
-
-                    string query = @"
-                        SELECT 
-                            s.student_id, 
-                            IFNULL(s.student_no, '') AS student_no, 
-                            IFNULL(s.student_lrn, '') AS student_lrn, 
-                            IFNULL(s.first_name, '') AS first_name, 
-                            IFNULL(s.middle_name, '') AS middle_name, 
-                            IFNULL(s.last_name, '') AS last_name, 
-                            IFNULL(s.birth_date, '2000-01-01') AS birth_date, 
-                            IFNULL(s.age, 0) AS age, 
-                            IFNULL(s.sex, 'Unknown') AS sex, 
-                            IFNULL(s.civil_status, '') AS civil_status, 
-                            IFNULL(s.nationality, '') AS nationality, 
-                            IFNULL(c.phone_no, '') AS phone_no, 
-                            IFNULL(u.email, '') AS email, 
-                            IFNULL(a.block_street, '') AS block_street, 
-                            IFNULL(a.subdivision, '') AS subdivision, 
-                            IFNULL(a.barangay, '') AS barangay, 
-                            IFNULL(a.city, '') AS city, 
-                            IFNULL(a.province, '') AS province, 
-                            IFNULL(a.zipcode, '') AS zipcode, 
-                            s.profile_picture,
-                            IFNULL(g.first_name, '') AS guardian_first_name,
-                            IFNULL(g.last_name, '') AS guardian_last_name, 
-                            IFNULL(g.middle_name, '') AS guardian_middle_name,
-                            IFNULL(g.contact_number, '' )AS guardian_contact, 
-                            sg.relationship,
-                            IFNULL(g.guardian_id, 0) AS guardian_id
-                        FROM students s
-                        LEFT JOIN users u ON s.user_id = u.user_id
-                        LEFT JOIN contact_info c ON s.student_id = c.student_id
-                        LEFT JOIN addresses a ON s.student_id = a.student_id
-                        LEFT JOIN student_guardians sg ON s.student_id = sg.student_id
-                        LEFT JOIN parents_guardians g ON sg.guardian_id = g.guardian_id
-                        WHERE s.user_id = @UserID
-                        ORDER BY s.student_id DESC LIMIT 1";
-
-                    using (var cmd = new MySqlCommand(query, conn))
+                    else
                     {
-                        cmd.Parameters.AddWithValue("@UserID", loggedInUserId);
-
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                TxtStudentNo.Text = reader["student_no"].ToString();
-                                TxtStudentLRN.Text = reader["student_lrn"].ToString();
-                                TxtFirstName.Text = reader["first_name"].ToString();
-                                TxtMiddleName.Text = reader["middle_name"].ToString();
-                                TxtLastName.Text = reader["last_name"].ToString();
-                                DateBirthPicker.Value = Convert.ToDateTime(reader["birth_date"]);
-                                TxtAge.Text = reader["age"].ToString();
-                                TxtCivilStatus.Text = reader["civil_status"].ToString();
-                                TxtNational.Text = reader["nationality"].ToString();
-                                ChkMale.Checked = reader["sex"].ToString() == "Male";
-                                ChkFemale.Checked = reader["sex"].ToString() == "Female";
-                                TxtPhoneNo.Text = reader["phone_no"].ToString();
-                                TxtEmail.Text = reader["email"].ToString();
-                                TxtBStreet.Text = reader["block_street"].ToString();
-                                TxtSubCom.Text = reader["subdivision"].ToString();
-                                TxtBrgy.Text = reader["barangay"].ToString();
-                                TxtCity.Text = reader["city"].ToString();
-                                TxtProvince.Text = reader["province"].ToString();
-                                TxtZipcode.Text = reader["zipcode"].ToString();
-                                TxtGuardianFirstName.Text = reader["guardian_first_name"].ToString();
-                                TxtGuardianLastName.Text = reader["guardian_last_name"].ToString();
-                                TxtGuardianMiddleName.Text = reader["guardian_middle_name"].ToString();
-                                TxtGuardianContact.Text = reader["guardian_contact"].ToString();
-                                TxtGuardianRelation.Text = reader["relationship"].ToString();
-                                currentGuardianId = Convert.ToInt64(reader["guardian_id"]);
-
-                                if (reader["profile_picture"] != DBNull.Value)
-                                {
-                                    byte[] imageBytes = (byte[])reader["profile_picture"];
-                                    using (MemoryStream ms = new MemoryStream(imageBytes))
-                                    {
-                                        pictureBox2.Image = Image.FromStream(ms);
-                                    }
-                                }
-                                else
-                                {
-                                    pictureBox2.Image = Properties.Resources.PROFILE;
-                                }
-
-                                pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-                            }
-                        }
+                        LoadLoggedInUser(conn);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading user data: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error loading user data: " + ex.Message,
+                    "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        private void LoadStudentByStudentNo(MySqlConnection conn)
+        {
+            string query = @"
+                SELECT 
+                    s.student_id, 
+                    s.student_no, 
+                    s.student_lrn, 
+                    s.first_name, 
+                    s.middle_name, 
+                    s.last_name, 
+                    s.birth_date, 
+                    s.age, 
+                    s.sex, 
+                    s.civil_status, 
+                    s.nationality, 
+                    c.phone_no, 
+                    u.email, 
+                    a.block_street, 
+                    a.subdivision, 
+                    a.barangay, 
+                    a.city, 
+                    a.province, 
+                    a.zipcode, 
+                    s.profile_picture,
+                    g.first_name AS guardian_first_name,
+                    g.last_name AS guardian_last_name, 
+                    g.middle_name AS guardian_middle_name,
+                    g.contact_number AS guardian_contact, 
+                    sg.relationship,
+                    g.guardian_id
+                FROM students s
+                LEFT JOIN users u ON s.user_id = u.user_id
+                LEFT JOIN contact_info c ON s.student_id = c.student_id
+                LEFT JOIN addresses a ON s.student_id = a.student_id
+                LEFT JOIN student_guardians sg ON s.student_id = sg.student_id
+                LEFT JOIN parents_guardians g ON sg.guardian_id = g.guardian_id
+                WHERE s.student_no = @StudentNo
+                ORDER BY s.student_id DESC LIMIT 1";
+
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@StudentNo", _viewingStudentNo);
+                LoadStudentData(cmd);
+            }
+        }
+
+        private void LoadLoggedInUser(MySqlConnection conn)
+        {
+            string checkUserQuery = "SELECT COUNT(*) FROM students WHERE user_id = @UserID";
+            using (var checkCmd = new MySqlCommand(checkUserQuery, conn))
+            {
+                checkCmd.Parameters.AddWithValue("@UserID", loggedInUserId);
+                int userExists = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                if (userExists == 0)
+                {
+                    CreateDefaultStudentRecord(conn);
+                }
+            }
+
+            string query = @"
+                SELECT 
+                    s.student_id, 
+                    s.student_no, 
+                    s.student_lrn, 
+                    s.first_name, 
+                    s.middle_name, 
+                    s.last_name, 
+                    s.birth_date, 
+                    s.age, 
+                    s.sex, 
+                    s.civil_status, 
+                    s.nationality, 
+                    c.phone_no, 
+                    u.email, 
+                    a.block_street, 
+                    a.subdivision, 
+                    a.barangay, 
+                    a.city, 
+                    a.province, 
+                    a.zipcode, 
+                    s.profile_picture,
+                    g.first_name AS guardian_first_name,
+                    g.last_name AS guardian_last_name, 
+                    g.middle_name AS guardian_middle_name,
+                    g.contact_number AS guardian_contact, 
+                    sg.relationship,
+                    g.guardian_id
+                FROM students s
+                LEFT JOIN users u ON s.user_id = u.user_id
+                LEFT JOIN contact_info c ON s.student_id = c.student_id
+                LEFT JOIN addresses a ON s.student_id = a.student_id
+                LEFT JOIN student_guardians sg ON s.student_id = sg.student_id
+                LEFT JOIN parents_guardians g ON sg.guardian_id = g.guardian_id
+                WHERE s.user_id = @UserID
+                ORDER BY s.student_id DESC LIMIT 1";
+
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@UserID", loggedInUserId);
+                LoadStudentData(cmd);
+            }
+        }
+
+        private void CreateDefaultStudentRecord(MySqlConnection conn)
+        {
+            string insertQuery = @"
+                INSERT INTO students (user_id, student_no, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
+                VALUES (@UserID, NULL, NULL, '', '', '', '2000-01-01', 0, 'Male', '', '')";
+
+            using (var insertCmd = new MySqlCommand(insertQuery, conn))
+            {
+                insertCmd.Parameters.AddWithValue("@UserID", loggedInUserId);
+                insertCmd.ExecuteNonQuery();
+            }
+        }
+
+        private void LoadStudentData(MySqlCommand cmd)
+        {
+            using (var reader = cmd.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    _currentStudentId = Convert.ToInt64(reader["student_id"]);
+
+                    TxtStudentNo.Text = reader["student_no"].ToString();
+                    TxtStudentLRN.Text = reader["student_lrn"].ToString();
+                    TxtFirstName.Text = reader["first_name"].ToString();
+                    TxtMiddleName.Text = reader["middle_name"].ToString();
+                    TxtLastName.Text = reader["last_name"].ToString();
+                    DateBirthPicker.Value = Convert.ToDateTime(reader["birth_date"]);
+                    TxtAge.Text = reader["age"].ToString();
+                    TxtCivilStatus.Text = reader["civil_status"].ToString();
+                    TxtNational.Text = reader["nationality"].ToString();
+                    ChkMale.Checked = reader["sex"].ToString() == "Male";
+                    ChkFemale.Checked = reader["sex"].ToString() == "Female";
+                    TxtPhoneNo.Text = reader["phone_no"].ToString();
+                    TxtEmail.Text = reader["email"].ToString();
+                    TxtBStreet.Text = reader["block_street"].ToString();
+                    TxtSubCom.Text = reader["subdivision"].ToString();
+                    TxtBrgy.Text = reader["barangay"].ToString();
+                    TxtCity.Text = reader["city"].ToString();
+                    TxtProvince.Text = reader["province"].ToString();
+                    TxtZipcode.Text = reader["zipcode"].ToString();
+                    TxtGuardianFirstName.Text = reader["guardian_first_name"].ToString();
+                    TxtGuardianLastName.Text = reader["guardian_last_name"].ToString();
+                    TxtGuardianMiddleName.Text = reader["guardian_middle_name"].ToString();
+                    TxtGuardianContact.Text = reader["guardian_contact"].ToString();
+                    TxtGuardianRelation.Text = reader["relationship"].ToString();
+                    currentGuardianId = reader["guardian_id"] != DBNull.Value ?
+                        Convert.ToInt64(reader["guardian_id"]) : (long?)null;
+
+                    if (reader["profile_picture"] != DBNull.Value)
+                    {
+                        byte[] imageBytes = (byte[])reader["profile_picture"];
+                        using (MemoryStream ms = new MemoryStream(imageBytes))
+                        {
+                            pictureBox2.Image = Image.FromStream(ms);
+                        }
+                    }
+                    else
+                    {
+                        pictureBox2.Image = Properties.Resources.PROFILE;
+                    }
+
+                    pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
+                }
+            }
+        }
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
+            if (IsViewMode && !SessionManager.IsAdminOrSuperAdmin)
+            {
+                MessageBox.Show("You don't have permission to edit student information.",
+                    "Permission Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    long studentId = -1;
-
-
-                    string checkStudentQuery = "SELECT student_id FROM students WHERE user_id = @UserID";
-                    using (var checkCmd = new MySqlCommand(checkStudentQuery, conn))
-                    {
-                        checkCmd.Parameters.AddWithValue("@UserID", loggedInUserId);
-                        object result = checkCmd.ExecuteScalar();
-
-                        if (result == null)
-                        {
-
-                            string insertStudentQuery = @"
-                                INSERT INTO students (user_id, student_no, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
-                                VALUES (@UserID, '', '', '', '', '2000-01-01', '', '', '', '')";
-
-                            using (var insertCmd = new MySqlCommand(insertStudentQuery, conn))
-                            {
-                                insertCmd.Parameters.AddWithValue("@UserID", loggedInUserId);
-                                insertCmd.ExecuteNonQuery();
-
-
-                                studentId = Convert.ToInt64(new MySqlCommand("SELECT LAST_INSERT_ID()", conn).ExecuteScalar());
-                            }
-                        }
-                        else
-                        {
-
-                            studentId = Convert.ToInt64(result);
-                        }
-                    }
-
 
                     string studentQuery = @"
-                        INSERT INTO students (student_id, user_id, student_no, student_lrn, first_name, middle_name, last_name, birth_date, age, sex, civil_status, nationality) 
-                        VALUES (@StudentID, @UserID, @StudentNo, @StudentLRN, @FirstName, @MiddleName, @LastName, @BirthDate, @Age, @Sex, @CivilStatus, @Nationality)
-                        ON DUPLICATE KEY UPDATE 
-                            student_no = VALUES(student_no), 
-                            student_lrn = VALUES(student_lrn), 
-                            first_name = VALUES(first_name), 
-                            middle_name = VALUES(middle_name), 
-                            last_name = VALUES(last_name), 
-                            birth_date = VALUES(birth_date), 
-                            age = VALUES(age), 
-                            sex = VALUES(sex), 
-                            civil_status = VALUES(civil_status), 
-                            nationality = VALUES(nationality)";
+                        UPDATE students 
+                        SET student_no = @StudentNo,
+                            student_lrn = @StudentLRN,
+                            first_name = @FirstName,
+                            middle_name = @MiddleName,
+                            last_name = @LastName,
+                            birth_date = @BirthDate,
+                            age = @Age,
+                            sex = @Sex,
+                            civil_status = @CivilStatus,
+                            nationality = @Nationality
+                        WHERE student_id = @StudentID";
 
                     ExecuteQuery(conn, studentQuery,
-                        new MySqlParameter("@StudentID", studentId),
-                        new MySqlParameter("@UserID", loggedInUserId),
+                        new MySqlParameter("@StudentID", _currentStudentId),
                         new MySqlParameter("@StudentNo", TxtStudentNo.Text),
                         new MySqlParameter("@StudentLRN", TxtStudentLRN.Text),
                         new MySqlParameter("@FirstName", TxtFirstName.Text),
@@ -308,17 +354,15 @@ namespace Enrollment_System
                         new MySqlParameter("@Nationality", TxtNational.Text)
                     );
 
-
                     string contactQuery = @"
-                        INSERT INTO contact_info(student_id, phone_no)
-                        VALUES(@StudentID, @PhoneNo)
+                        INSERT INTO contact_info (student_id, phone_no)
+                        VALUES (@StudentID, @PhoneNo)
                         ON DUPLICATE KEY UPDATE phone_no = @PhoneNo";
 
                     ExecuteQuery(conn, contactQuery,
-                        new MySqlParameter("@StudentID", studentId),
+                        new MySqlParameter("@StudentID", _currentStudentId),
                         new MySqlParameter("@PhoneNo", TxtPhoneNo.Text)
                     );
-
 
                     string addressQuery = @"
                         INSERT INTO addresses (student_id, block_street, subdivision, barangay, city, province, zipcode) 
@@ -332,7 +376,7 @@ namespace Enrollment_System
                             zipcode = VALUES(zipcode)";
 
                     ExecuteQuery(conn, addressQuery,
-                        new MySqlParameter("@StudentID", studentId),
+                        new MySqlParameter("@StudentID", _currentStudentId),
                         new MySqlParameter("@BlockStreet", TxtBStreet.Text),
                         new MySqlParameter("@Subdivision", TxtSubCom.Text),
                         new MySqlParameter("@Barangay", TxtBrgy.Text),
@@ -341,79 +385,86 @@ namespace Enrollment_System
                         new MySqlParameter("@Zipcode", TxtZipcode.Text)
                     );
 
+                    UpdateGuardianInfo(conn);
 
-                    // Guardian update/insert
-                    if (currentGuardianId > 0)
-                    {
-                        // Update existing guardian
-                        string guardianQuery = @"
-                            UPDATE parents_guardians 
-                            SET first_name = @GuardianFirstName, 
-                                last_name = @GuardianLastName, 
-                                middle_name = @GuardianMiddleName, 
-                                contact_number = @GuardianContact
-                            WHERE guardian_id = @GuardianID";
-
-                        ExecuteQuery(conn, guardianQuery,
-                            new MySqlParameter("@GuardianFirstName", TxtGuardianFirstName.Text),
-                            new MySqlParameter("@GuardianLastName", TxtGuardianLastName.Text),
-                            new MySqlParameter("@GuardianMiddleName", TxtGuardianMiddleName.Text),
-                            new MySqlParameter("@GuardianContact", TxtGuardianContact.Text),
-                            new MySqlParameter("@GuardianID", currentGuardianId)
-                        );
-                    }
-                    else
-                    {
-                        // Insert new guardian
-                        string guardianQuery = @"
-                            INSERT INTO parents_guardians 
-                                (first_name, last_name, middle_name, contact_number) 
-                            VALUES 
-                                (@GuardianFirstName, @GuardianLastName, @GuardianMiddleName, @GuardianContact)";
-
-                        ExecuteQuery(conn, guardianQuery,
-                            new MySqlParameter("@GuardianFirstName", TxtGuardianFirstName.Text),
-                            new MySqlParameter("@GuardianLastName", TxtGuardianLastName.Text),
-                            new MySqlParameter("@GuardianMiddleName", TxtGuardianMiddleName.Text),
-                            new MySqlParameter("@GuardianContact", TxtGuardianContact.Text)
-                        );
-
-                        // Get the new guardian ID
-                        currentGuardianId = Convert.ToInt64(new MySqlCommand("SELECT LAST_INSERT_ID()", conn).ExecuteScalar());
-                    }
-
-                    // Update student-guardian relationship
-                    string studentGuardianQuery = @"
-                        INSERT INTO student_guardians 
-                            (student_id, guardian_id, relationship) 
-                        VALUES 
-                            (@StudentID, @GuardianID, @Relationship)
-                        ON DUPLICATE KEY UPDATE 
-                            relationship = VALUES(relationship)";
-
-                    ExecuteQuery(conn, studentGuardianQuery,
-                        new MySqlParameter("@StudentID", studentId),
-                        new MySqlParameter("@GuardianID", currentGuardianId),
-                        new MySqlParameter("@Relationship", TxtGuardianRelation.Text)
-                    );
-
-                    MessageBox.Show("Information updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Information updated successfully!", "Success",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     LoadUserData();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: " + ex.Message, "Database Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            SessionManager.FirstName = TxtFirstName.Text;
-            SessionManager.LastName = TxtLastName.Text;
-            LblWelcome.Text = $"{SessionManager.LastName}, {(string.IsNullOrWhiteSpace(SessionManager.FirstName) ? "" : SessionManager.FirstName[0] + ".")}";
+
+            if (!IsViewMode)
+            {
+                SessionManager.FirstName = TxtFirstName.Text;
+                SessionManager.LastName = TxtLastName.Text;
+                WelcomeGreetings();
+            }
+
             SetEnabledRecursive(groupBox1, false);
             SetEnabledRecursive(groupBox2, false);
             SetEnabledRecursive(groupBox3, false);
             SetEnabledRecursive(groupBox4, false);
-            MessageBox.Show("Fields have been saved and locked. They are now unclickable.", "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Fields have been saved and locked.", "Saved",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void UpdateGuardianInfo(MySqlConnection conn)
+        {
+            if (currentGuardianId > 0)
+            {
+                string guardianQuery = @"
+                    UPDATE parents_guardians 
+                    SET first_name = @GuardianFirstName, 
+                        last_name = @GuardianLastName, 
+                        middle_name = @GuardianMiddleName, 
+                        contact_number = @GuardianContact
+                    WHERE guardian_id = @GuardianID";
+
+                ExecuteQuery(conn, guardianQuery,
+                    new MySqlParameter("@GuardianFirstName", TxtGuardianFirstName.Text),
+                    new MySqlParameter("@GuardianLastName", TxtGuardianLastName.Text),
+                    new MySqlParameter("@GuardianMiddleName", TxtGuardianMiddleName.Text),
+                    new MySqlParameter("@GuardianContact", TxtGuardianContact.Text),
+                    new MySqlParameter("@GuardianID", currentGuardianId)
+                );
+            }
+            else
+            {
+                string guardianQuery = @"
+                    INSERT INTO parents_guardians 
+                        (first_name, last_name, middle_name, contact_number) 
+                    VALUES 
+                        (@GuardianFirstName, @GuardianLastName, @GuardianMiddleName, @GuardianContact)";
+
+                ExecuteQuery(conn, guardianQuery,
+                    new MySqlParameter("@GuardianFirstName", TxtGuardianFirstName.Text),
+                    new MySqlParameter("@GuardianLastName", TxtGuardianLastName.Text),
+                    new MySqlParameter("@GuardianMiddleName", TxtGuardianMiddleName.Text),
+                    new MySqlParameter("@GuardianContact", TxtGuardianContact.Text)
+                );
+
+                currentGuardianId = Convert.ToInt64(new MySqlCommand("SELECT LAST_INSERT_ID()", conn).ExecuteScalar());
+            }
+
+            string studentGuardianQuery = @"
+                INSERT INTO student_guardians 
+                    (student_id, guardian_id, relationship) 
+                VALUES 
+                    (@StudentID, @GuardianID, @Relationship)
+                ON DUPLICATE KEY UPDATE 
+                    relationship = VALUES(relationship)";
+
+            ExecuteQuery(conn, studentGuardianQuery,
+                new MySqlParameter("@StudentID", _currentStudentId),
+                new MySqlParameter("@GuardianID", currentGuardianId),
+                new MySqlParameter("@Relationship", TxtGuardianRelation.Text)
+            );
         }
 
         private void BtnUpload_Click(object sender, EventArgs e)
@@ -426,7 +477,6 @@ namespace Enrollment_System
                     pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
 
                     byte[] imageBytes = File.ReadAllBytes(openFileDialog.FileName);
-
                     SaveProfilePicture(imageBytes);
                 }
             }
@@ -460,14 +510,13 @@ namespace Enrollment_System
         private void BtnEdit_Click(object sender, EventArgs e)
         {
             ToggleFields(true);
-          
+
             SetEnabledRecursive(groupBox1, true);
             SetEnabledRecursive(groupBox2, true);
             SetEnabledRecursive(groupBox3, true);
             SetEnabledRecursive(groupBox4, true);
 
             MessageBox.Show("Fields are now unlocked for editing.", "Edit Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
         }
 
         private void BtnLogout_Click(object sender, EventArgs e)
@@ -568,20 +617,9 @@ namespace Enrollment_System
             TxtAge.Text = age.ToString();
         }
 
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TxtStudentNo_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TxtStudentLRN_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        private void pictureBox2_Click(object sender, EventArgs e) { }
+        private void TxtStudentNo_Click(object sender, EventArgs e) { }
+        private void TxtStudentLRN_TextChanged(object sender, EventArgs e) { }
 
         private void TxtStudentLRN_Leave(object sender, EventArgs e)
         {
@@ -628,159 +666,34 @@ namespace Enrollment_System
             return ++studentIdCounter;
         }
 
-        public bool LoadStudentDataByStudentNo(string studentNo)
-        {
-            try
-            {
-                using (var conn = new MySqlConnection(connectionString))
-                {
-                    conn.Open();
-                    string query = @"
-                        SELECT 
-                            s.student_id, 
-                            s.student_no, 
-                            s.student_lrn, 
-                            s.first_name, 
-                            s.middle_name, 
-                            s.last_name, 
-                            s.birth_date, 
-                            s.age, 
-                            s.sex, 
-                            s.civil_status, 
-                            s.nationality, 
-                            c.phone_no, 
-                            u.email, 
-                            a.block_street, 
-                            a.subdivision, 
-                            a.barangay, 
-                            a.city, 
-                            a.province, 
-                            a.zipcode, 
-                            s.profile_picture,
-                            g.first_name AS guardian_first_name,
-                            g.last_name AS guardian_last_name, 
-                            g.middle_name AS guardian_middle_name,
-                            g.contact_number AS guardian_contact, 
-                            sg.relationship,
-                            g.guardian_id
-                        FROM students s
-                        LEFT JOIN users u ON s.user_id = u.user_id
-                        LEFT JOIN contact_info c ON s.student_id = c.student_id
-                        LEFT JOIN addresses a ON s.student_id = a.student_id
-                        LEFT JOIN student_guardians sg ON s.student_id = sg.student_id
-                        LEFT JOIN parents_guardians g ON sg.guardian_id = g.guardian_id
-                        WHERE s.student_no = @StudentNo
-                        ORDER BY s.student_id DESC LIMIT 1";
-
-                    using (var cmd = new MySqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@StudentNo", studentNo);
-
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                // Populate all fields
-                                TxtStudentNo.Text = reader["student_no"].ToString();
-                                TxtStudentLRN.Text = reader["student_lrn"].ToString();
-                                TxtFirstName.Text = reader["first_name"].ToString();
-                                TxtMiddleName.Text = reader["middle_name"].ToString();
-                                TxtLastName.Text = reader["last_name"].ToString();
-                                DateBirthPicker.Value = Convert.ToDateTime(reader["birth_date"]);
-                                TxtAge.Text = reader["age"].ToString();
-                                TxtCivilStatus.Text = reader["civil_status"].ToString();
-                                TxtNational.Text = reader["nationality"].ToString();
-                                ChkMale.Checked = reader["sex"].ToString() == "Male";
-                                ChkFemale.Checked = reader["sex"].ToString() == "Female";
-                                TxtPhoneNo.Text = reader["phone_no"].ToString();
-                                TxtEmail.Text = reader["email"].ToString();
-                                TxtBStreet.Text = reader["block_street"].ToString();
-                                TxtSubCom.Text = reader["subdivision"].ToString();
-                                TxtBrgy.Text = reader["barangay"].ToString();
-                                TxtCity.Text = reader["city"].ToString();
-                                TxtProvince.Text = reader["province"].ToString();
-                                TxtZipcode.Text = reader["zipcode"].ToString();
-                                TxtGuardianFirstName.Text = reader["guardian_first_name"].ToString();
-                                TxtGuardianLastName.Text = reader["guardian_last_name"].ToString();
-                                TxtGuardianMiddleName.Text = reader["guardian_middle_name"].ToString();
-                                TxtGuardianContact.Text = reader["guardian_contact"].ToString();
-                                TxtGuardianRelation.Text = reader["relationship"].ToString();
-                                currentGuardianId = reader["guardian_id"] != DBNull.Value ? Convert.ToInt64(reader["guardian_id"]) : (long?)null;
-
-                                // Load profile picture
-                                if (reader["profile_picture"] != DBNull.Value)
-                                {
-                                    byte[] imageBytes = (byte[])reader["profile_picture"];
-                                    using (MemoryStream ms = new MemoryStream(imageBytes))
-                                    {
-                                        pictureBox2.Image = Image.FromStream(ms);
-                                    }
-                                }
-                                else
-                                {
-                                    pictureBox2.Image = Properties.Resources.PROFILE;
-                                }
-
-                                pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-
-                                // Lock fields if in view mode
-                                if (IsViewMode)
-                                {
-                                    SetEnabledRecursive(groupBox1, false);
-                                    SetEnabledRecursive(groupBox2, false);
-                                    SetEnabledRecursive(groupBox3, false);
-                                    SetEnabledRecursive(groupBox4, false);
-                                    //BtnSave.Visible = false;
-                                    //BtnEdit.Visible = false;
-                                   // BtnUpload.Visible = false;
-                                    BtnExit.Visible = false;
-                                    BtnClose.Visible = true;
-                                    BtnCourses.Visible = false;
-                                    BtnEnrollment.Visible = false;
-                                    BtnHome.Visible = false;
-                                    BtnDataBase.Visible = false;
-                                    BtnPI.Visible = false;
-                                    BtnLogout.Visible = false;
-                                    LblGreetings.Visible = false;
-                                    LblWelcome.Visible = false;
-                                    
-                                }
-
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error loading student data: " + ex.Message, "Database Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            return false;
-        }
-
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
             if (IsViewMode)
             {
-                // BtnSave.Visible = false;
-                // BtnEdit.Visible = false;
-                // BtnUpload.Visible = false;
-                
                 this.Text = "View Student Information";
+
+                BtnSave.Visible = SessionManager.IsAdminOrSuperAdmin;
+                BtnEdit.Visible = SessionManager.IsAdminOrSuperAdmin;
+                BtnUpload.Visible = SessionManager.IsAdminOrSuperAdmin;
+
+                BtnExit.Visible = false;
+                BtnClose.Visible = true;
+                BtnCourses.Visible = false;
+                BtnEnrollment.Visible = false;
+                BtnHome.Visible = false;
+                BtnDataBase.Visible = false;
+                BtnPI.Visible = false;
+                BtnLogout.Visible = false;
+                LblGreetings.Visible = false;
+                LblWelcome.Visible = false;
             }
         }
-
-      
 
         private void BtnClose_Click_1(object sender, EventArgs e)
         {
             this.Close();
-
         }
     }
 }
