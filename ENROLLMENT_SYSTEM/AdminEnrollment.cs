@@ -66,6 +66,7 @@ namespace Enrollment_System
             DataGridPayment.CellClick += DataGridPayment_CellClick;
             DataGridNewEnrollment.CellClick += DataGridNewEnrollment_CellClick;
             StyleTwoTabControl();
+
             InitializeDataGridView();
             InitializeFilterControls();
             DataGridNewEnrollment.AutoGenerateColumns = false;

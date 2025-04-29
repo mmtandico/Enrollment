@@ -642,6 +642,11 @@ namespace Enrollment_System
                 {
                     MessageBox.Show("Error generating PDF: " + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }else if (e.ColumnIndex == DataGridEnrolled.Columns["ColOpen"].Index && e.RowIndex >= 0)
+            {
+                // Open the StudentHistory form when "ColOpen" is clicked
+                StudentHistory historyForm = new StudentHistory();
+                historyForm.ShowDialog(); // This will open the StudentHistory form in dialog mode (you can change it to Show() if you want it non-modal)
             }
 
         }
