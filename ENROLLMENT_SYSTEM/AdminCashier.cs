@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.IO;
@@ -15,9 +10,7 @@ namespace Enrollment_System
     public partial class AdminCashier : Form
     {
         private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
-        private int paymentId;
-       
-
+        private readonly int paymentId;
 
         public AdminCashier(int id)
         {
@@ -27,72 +20,58 @@ namespace Enrollment_System
             LoadStudentInfo();
         }
 
-        private void ExitButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+        private void ExitButton_Click(object sender, EventArgs e) => this.Close();
 
         private void LoadProofPaymentImage()
         {
             try
             {
                 using (var conn = new MySqlConnection(connectionString))
+                using (var cmd = new MySqlCommand(
+                    "SELECT proof_image_path FROM payments WHERE payment_id = @paymentId", conn))
                 {
                     conn.Open();
+                    cmd.Parameters.AddWithValue("@paymentId", paymentId);
 
-                    string query = @"
-                        SELECT proof_image_path
-                        FROM payments
-                        WHERE payment_id = @paymentId";
-
-                    using (var cmd = new MySqlCommand(query, conn))
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        cmd.Parameters.AddWithValue("@paymentId", paymentId);
-
-                        using (var reader = cmd.ExecuteReader())
+                        if (reader.Read() && !reader.IsDBNull(0))
                         {
-                            if (reader.Read() && !reader.IsDBNull(0))
-                            {
-                                string imagePath = reader["proof_image_path"].ToString();
+                            string imagePath = reader["proof_image_path"].ToString();
 
-                                if (File.Exists(imagePath))
-                                {
-                                    PBProofOfPayment.Image = Image.FromFile(imagePath);
-                                    PBProofOfPayment.SizeMode = PictureBoxSizeMode.Zoom;
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Image file does not exist at the specified path.", "Image Missing",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                }
+                            if (File.Exists(imagePath))
+                            {
+                                PBProofOfPayment.Image = Image.FromFile(imagePath);
+                                PBProofOfPayment.SizeMode = PictureBoxSizeMode.Zoom;
                             }
                             else
                             {
-                                MessageBox.Show("No proof of payment found for this payment.", "Data Missing",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                MessageBox.Show("Image file does not exist at the specified path.",
+                                    "Image Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
+                        }
+                        else
+                        {
+                            MessageBox.Show("No proof of payment found for this payment.",
+                                "Data Missing", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading proof image: " + ex.Message, "Database Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error loading proof image: " + ex.Message,
+                    "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         private void LoadStudentInfo()
         {
             try
             {
                 using (var conn = new MySqlConnection(connectionString))
-                {
-                    conn.Open();
-
-                    string query = @"
-                    SELECT 
+                using (var cmd = new MySqlCommand(
+                    @"SELECT 
                         s.student_no,
                         s.last_name,
                         s.first_name,
@@ -115,41 +94,38 @@ namespace Enrollment_System
                     INNER JOIN student_enrollments se ON p.enrollment_id = se.enrollment_id
                     INNER JOIN students s ON se.student_id = s.student_id
                     INNER JOIN courses c ON se.course_id = c.course_id
-                    WHERE p.payment_id = @paymentId";
+                    WHERE p.payment_id = @paymentId", conn))
+                {
+                    conn.Open();
+                    cmd.Parameters.AddWithValue("@paymentId", paymentId);
 
-                    using (var cmd = new MySqlCommand(query, conn))
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        cmd.Parameters.AddWithValue("@paymentId", paymentId);
-
-                        using (var reader = cmd.ExecuteReader())
+                        if (reader.Read())
                         {
-                            if (reader.Read())
+                            TxtStudentNo.Text = reader["student_no"].ToString();
+                            TxtLastName.Text = reader["last_name"].ToString();
+                            TxtFirstName.Text = reader["first_name"].ToString();
+                            TxtMiddleName.Text = reader["middle_name"].ToString();
+                            TxtCourseCode.Text = reader["course_code"].ToString();
+                            TxtTotalUnits.Text = reader["total_units"] != DBNull.Value ? reader["total_units"].ToString() : "0";
+                            TxtReferenceNo.Text = reader["receipt_no"]?.ToString();
+
+                            string method = reader["payment_method"]?.ToString();
+                            if (!string.IsNullOrEmpty(method) && CmbPaymentMethod.Items.Contains(method))
                             {
-                                TxtStudentNo.Text = reader["student_no"].ToString();
-                                TxtLastName.Text = reader["last_name"].ToString();
-                                TxtFirstName.Text = reader["first_name"].ToString();
-                                TxtMiddleName.Text = reader["middle_name"].ToString();
-                                TxtCourseCode.Text = reader["course_code"].ToString();
-                                TxtTotalUnits.Text = reader["total_units"] != DBNull.Value ? reader["total_units"].ToString() : "0";
-                                TxtReferenceNo.Text = reader["receipt_no"]?.ToString();
-
-                                string method = reader["payment_method"]?.ToString();
-                                if (!string.IsNullOrEmpty(method) && CmbPaymentMethod.Items.Contains(method))
-                                {
-                                    CmbPaymentMethod.SelectedItem = method;
-                                }
-
-                                TxtTotalAmount.Text = reader["amount_paid"] != DBNull.Value ? reader["amount_paid"].ToString() : "";
-                                TxtRemarks.Text = reader["remarks"]?.ToString();
-
-                      
-                                bool isUniFast = reader["is_unifast"] != DBNull.Value && Convert.ToBoolean(reader["is_unifast"]);
-                                ChkUniFast.Checked = isUniFast;
+                                CmbPaymentMethod.SelectedItem = method;
                             }
-                            else
-                            {
-                                MessageBox.Show("No student info found for this payment.");
-                            }
+
+                            TxtTotalAmount.Text = reader["amount_paid"] != DBNull.Value ? reader["amount_paid"].ToString() : "";
+                            TxtRemarks.Text = reader["remarks"]?.ToString();
+
+                            bool isUniFast = reader["is_unifast"] != DBNull.Value && Convert.ToBoolean(reader["is_unifast"]);
+                            ChkUniFast.Checked = isUniFast;
+                        }
+                        else
+                        {
+                            MessageBox.Show("No student info found for this payment.");
                         }
                     }
                 }
@@ -160,19 +136,15 @@ namespace Enrollment_System
             }
         }
 
-
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!ChkUniFast.Checked)
+            if (!ChkUniFast.Checked &&
+                (string.IsNullOrWhiteSpace(TxtReferenceNo.Text) ||
+                string.IsNullOrWhiteSpace(TxtTotalAmount.Text) ||
+                CmbPaymentMethod.SelectedItem == null))
             {
-                // Ensure all fields are filled when UniFAST is not selected
-                if (string.IsNullOrWhiteSpace(TxtReferenceNo.Text) ||
-                    string.IsNullOrWhiteSpace(TxtTotalAmount.Text) ||
-                    CmbPaymentMethod.SelectedItem == null)
-                {
-                    MessageBox.Show("Please fill in all payment details.");
-                    return;
-                }
+                MessageBox.Show("Please fill in all payment details.");
+                return;
             }
 
             try
@@ -181,31 +153,26 @@ namespace Enrollment_System
                 {
                     conn.Open();
 
-                    string query = @"
-                    UPDATE payments 
-                    SET 
-                        payment_date = NOW(),
-                        remarks = @remarks,
-                        is_unifast = @isUniFast";
+                    string query = @"UPDATE payments 
+                                   SET payment_date = NOW(),
+                                       remarks = @remarks,
+                                       is_unifast = @isUniFast";
 
-                    
                     if (!ChkUniFast.Checked)
                     {
-                        query += @",
-                        receipt_no = @receiptNo,
-                        amount_paid = @amountPaid,
-                        payment_method = @paymentMethod";
+                        query += @", receipt_no = @receiptNo,
+                                  amount_paid = @amountPaid,
+                                  payment_method = @paymentMethod";
                     }
 
-                    query += " WHERE payment_id = @paymentId";  
+                    query += " WHERE payment_id = @paymentId";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@remarks", TxtRemarks.Text.Trim());
-                        cmd.Parameters.AddWithValue("@isUniFast", ChkUniFast.Checked);  
+                        cmd.Parameters.AddWithValue("@isUniFast", ChkUniFast.Checked);
                         cmd.Parameters.AddWithValue("@paymentId", paymentId);
 
-                        // Add parameters for the fields only if UniFAST is not checked
                         if (!ChkUniFast.Checked)
                         {
                             cmd.Parameters.AddWithValue("@receiptNo", TxtReferenceNo.Text.Trim());
@@ -214,15 +181,9 @@ namespace Enrollment_System
                         }
 
                         int rowsAffected = cmd.ExecuteNonQuery();
-
-                        if (rowsAffected > 0)
-                        {
-                            MessageBox.Show("Payment updated successfully.");
-                        }
-                        else
-                        {
-                            MessageBox.Show("No changes were made or payment not found.");
-                        }
+                        MessageBox.Show(rowsAffected > 0
+                            ? "Payment updated successfully."
+                            : "No changes were made or payment not found.");
                     }
                 }
             }
@@ -231,6 +192,5 @@ namespace Enrollment_System
                 MessageBox.Show("Error updating payment: " + ex.Message);
             }
         }
-
     }
 }
