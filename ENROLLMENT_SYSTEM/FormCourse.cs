@@ -52,14 +52,43 @@ namespace Enrollment_System
 
         public void SetBannerImage(Image image)
         {
-            if (PboxBanner != null)
+            if (PboxBanner == null || PboxBanner.IsDisposed)
+                return;
+
+            if (InvokeRequired)
             {
-                if (PboxBanner.Image != null)
+                Invoke(new Action<Image>(SetBannerImage), image);
+                return;
+            }
+
+            try
+            {
+                // Store reference to old image
+                Image oldImage = PboxBanner.Image;
+
+                // Set new image (clone it to ensure ownership)
+                PboxBanner.Image = image != null ? new Bitmap(image) : null;
+
+                // Dispose old image if it's different
+                if (oldImage != null && oldImage != image)
                 {
-                    PboxBanner.Image.Dispose();
+                    oldImage.Dispose();
                 }
-                PboxBanner.Image = image;
+
                 BringBannerToFront();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error setting banner: {ex.Message}");
+                // Fallback to default banner
+                try
+                {
+                    PboxBanner.Image = Properties.Resources.BANNERPDM;
+                }
+                catch
+                {
+                    PboxBanner.Image = null;
+                }
             }
         }
 
@@ -159,16 +188,15 @@ namespace Enrollment_System
                 {
                     if (stream != null)
                     {
-                        if (PboxBanner.Image != null)
-                        {
-                            PboxBanner.Image.Dispose();
-                        }
+                        // Create a new image and store it
+                        var newImage = Image.FromStream(stream);
 
-                        var image = Image.FromStream(stream);
-                        PboxBanner.Image = image;
-                        SessionManager.CurrentBannerImage = (Image)image.Clone();
+                        // Set the image (this will handle disposal of old image)
+                        SetBannerImage(newImage);
+
+                        // Store in session (clone it)
+                        SessionManager.CurrentBannerImage = new Bitmap(newImage);
                         SessionManager.CurrentBannerCourse = courseCode;
-                        BringBannerToFront();
                     }
                     else
                     {

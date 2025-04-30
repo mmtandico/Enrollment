@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.Drawing;
+using System.Diagnostics;
 
 namespace Enrollment_System
 {
@@ -27,46 +22,88 @@ namespace Enrollment_System
             this.FormClosing += CourseViewBSHM_FormClosing;
         }
 
+        private void BtnBack_Click(object sender, EventArgs e) => this.Close();
+        private void BtnBack1_Click(object sender, EventArgs e) => this.Close();
+
         private void CourseViewBSHM_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!parentForm.IsDisposed)
+            // Safely restore banner image to parent form
+            if (!parentForm.IsDisposed && bannerImage != null)
             {
-                parentForm.SetBannerImage(bannerImage);
+                try
+                {
+                    using (var clonedImage = new Bitmap(bannerImage))
+                    {
+                        parentForm.SetBannerImage(clonedImage);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error restoring banner: {ex.Message}");
+                }
+                finally
+                {
+                    bannerImage?.Dispose();
+                }
             }
-            bannerImage?.Dispose();
+
+            // Clean up resources
             dbConnection?.Dispose();
+            enrollmentForm?.Dispose();
+
+            // Clear references
+            bannerImage = null;
+            parentForm = null;
         }
 
         private void SwitchToPersonalInfoForm()
         {
-            var personalInfoForm = new FormPersonalInfo();
-            personalInfoForm.StartPosition = FormStartPosition.CenterParent;
-            personalInfoForm.Show();
-            this.Hide();
+            try
+            {
+                var personalInfoForm = new FormPersonalInfo
+                {
+                    StartPosition = FormStartPosition.CenterParent
+                };
+                personalInfoForm.Show();
+                this.Hide();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to open personal information form: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnEnroll1_Click(object sender, EventArgs e)
         {
-            if (!ValidationHelper.IsPersonalInfoComplete(SessionManager.UserId))
+            try
             {
-                ValidationHelper.ShowValidationError(this);
-                SwitchToPersonalInfoForm();
-                return;
-            }
+                if (!ValidationHelper.IsPersonalInfoComplete(SessionManager.UserId))
+                {
+                    ValidationHelper.ShowValidationError(this);
+                    SwitchToPersonalInfoForm();
+                    return;
+                }
 
-            if (HasPendingEnrollment())
+                if (HasPendingEnrollment())
+                {
+                    MessageBox.Show("You already have a pending enrollment request. Please wait for it to be processed before creating a new one.",
+                        "Pending Enrollment Exists",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!ConfirmCourseSelection("BSHM", "Bachelor of Science in Hospitality Management"))
+                    return;
+
+                ShowBothEnrollmentForms();
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show("You already have a pending enrollment request. Please wait for it to be processed before creating a new one.",
-                               "Pending Enrollment Exists",
-                               MessageBoxButtons.OK,
-                               MessageBoxIcon.Warning);
-                return;
+                MessageBox.Show($"An error occurred: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            if (!ConfirmCourseSelection("BSHM", "Bachelor of Science in Hospitality Management"))
-                return;
-
-            ShowBothEnrollmentForms();
         }
 
         private bool HasPendingEnrollment()
@@ -76,22 +113,21 @@ namespace Enrollment_System
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = @"SELECT COUNT(*) 
-                          FROM student_enrollments 
-                          WHERE student_id = @StudentId 
-                          AND status IN ('Pending', 'Payment Pending')";
+                    const string query = @"SELECT COUNT(*) 
+                                          FROM student_enrollments 
+                                          WHERE student_id = @StudentId 
+                                          AND status IN ('Pending', 'Payment Pending')";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@StudentId", SessionManager.StudentId);
-                        int count = Convert.ToInt32(cmd.ExecuteScalar());
-                        return count > 0;
+                        return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error checking pending enrollments: " + ex.Message);
+                Debug.WriteLine($"Error checking pending enrollments: {ex.Message}");
                 return false;
             }
         }
@@ -100,12 +136,40 @@ namespace Enrollment_System
         {
             SessionManager.SelectedCourse = "Bachelor of Science in Hospitality Management";
             parentForm.Panel8.Tag = "BSHM";
-            this.Hide();
-            parentForm.Hide();
 
-            enrollmentForm = new FormEnrollment()
+            var mainParent = parentForm;
+            this.Hide();
+            mainParent.Hide();
+
+            enrollmentForm = new FormEnrollment
             {
                 StartPosition = FormStartPosition.CenterParent
+            };
+
+            enrollmentForm.FormClosed += (s, args) =>
+            {
+                if (!this.IsDisposed)
+                {
+                    if (!mainParent.IsDisposed)
+                    {
+                        try
+                        {
+                            mainParent.Invoke((MethodInvoker)delegate
+                            {
+                                if (!mainParent.IsDisposed && !mainParent.Panel8.IsDisposed)
+                                {
+                                    mainParent.Show();
+                                    HandleEnrollmentCompletion(mainParent);
+                                }
+                            });
+                        }
+                        catch (ObjectDisposedException)
+                        {
+                           
+                        }
+                    }
+                    this.Close();
+                }
             };
 
             using (var academicForm = new FormNewAcademiccs())
@@ -114,21 +178,37 @@ namespace Enrollment_System
                 enrollmentForm.Show();
                 academicForm.ShowDialog();
             }
+        }
 
-            HandleEnrollmentCompletion();
+        private void HandleEnrollmentCompletion(FormCourse mainParent)
+        {
+            if (mainParent.IsDisposed || mainParent.Panel8.IsDisposed)
+                return;
+
+            try
+            {
+                mainParent.Panel8.Controls.Clear();
+                var courseForm = new CourseBSHM
+                {
+                    TopLevel = false,
+                    Dock = DockStyle.Fill
+                };
+                mainParent.Panel8.Controls.Add(courseForm);
+                courseForm.Show();
+
+                if (mainParent.Panel8.Tag?.ToString() == "BSHM")
+                    mainParent.UpdateCourseBannerImage("BSHM");
+            }
+            catch (ObjectDisposedException)
+            {
+                // Handle disposed objects
+            }
         }
 
         private bool ConfirmCourseSelection(string courseCode, string courseName)
         {
-            if (parentForm.Panel8.Tag?.ToString() == courseCode)
-            {
+            if (parentForm.Panel8.Tag?.ToString() == courseCode || IsStudentEnrolledInCourse(courseCode))
                 return true;
-            }
-
-            if (IsStudentEnrolledInCourse(courseCode))
-            {
-                return true;
-            }
 
             return MessageBox.Show(
                 $"You've been already enrolled.\nDo you want Change to your course to\n {courseName}?",
@@ -145,20 +225,18 @@ namespace Enrollment_System
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = @"SELECT COUNT(*) 
-                            FROM student_enrollments se
-                            JOIN courses c ON se.course_id = c.course_id
-                            WHERE se.student_id = @StudentId
-                            AND c.course_code = @CourseCode
-                            AND se.status != 'Dropped'";
+                    const string query = @"SELECT COUNT(*) 
+                                        FROM student_enrollments se
+                                        JOIN courses c ON se.course_id = c.course_id
+                                        WHERE se.student_id = @StudentId
+                                        AND c.course_code = @CourseCode
+                                        AND se.status != 'Dropped'";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@StudentId", SessionManager.StudentId);
                         cmd.Parameters.AddWithValue("@CourseCode", courseCode);
-
-                        int count = Convert.ToInt32(cmd.ExecuteScalar());
-                        return count > 0;
+                        return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
                     }
                 }
             }
@@ -170,8 +248,15 @@ namespace Enrollment_System
 
         private void HandleEnrollmentCompletion()
         {
+            // Check if parent form and its panel still exist
+            if (parentForm.IsDisposed || parentForm.Panel8.IsDisposed)
+            {
+                this.Close();
+                return;
+            }
+
             parentForm.Panel8.Controls.Clear();
-            var courseForm = new CourseBSHM()
+            var courseForm = new CourseBSHM
             {
                 TopLevel = false,
                 Dock = DockStyle.Fill
@@ -179,15 +264,10 @@ namespace Enrollment_System
             parentForm.Panel8.Controls.Add(courseForm);
             courseForm.Show();
 
-            if (parentForm.Panel8.Tag?.ToString() == "BSHM") { parentForm.UpdateCourseBannerImage("BSHM"); }
-                
-
-            parentForm.Show();
+            if (parentForm.Panel8.Tag?.ToString() == "BSHM")
+                parentForm.UpdateCourseBannerImage("BSHM");
 
             this.Close();
         }
-
-        private void BtnBack_Click(object sender, EventArgs e) => this.Close();
-        private void BtnBack1_Click(object sender, EventArgs e) => this.Close();
     }
 }

@@ -337,7 +337,7 @@
             this.panel7.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel7.Location = new System.Drawing.Point(0, 2676);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(1331, 49);
+            this.panel7.Size = new System.Drawing.Size(1348, 49);
             this.panel7.TabIndex = 54;
             // 
             // BtnEnroll1
@@ -659,7 +659,7 @@
             this.panel3.Controls.Add(this.BtnEnroll);
             this.panel3.Location = new System.Drawing.Point(0, 10099);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1195, 6302);
+            this.panel3.Size = new System.Drawing.Size(1161, 12458);
             this.panel3.TabIndex = 9;
             this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
@@ -725,7 +725,7 @@
             this.panel1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.panel1.Location = new System.Drawing.Point(0, 351);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1331, 190);
+            this.panel1.Size = new System.Drawing.Size(1348, 190);
             this.panel1.TabIndex = 8;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
@@ -749,7 +749,7 @@
             this.panel10.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel10.Location = new System.Drawing.Point(0, 0);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(1331, 10);
+            this.panel10.Size = new System.Drawing.Size(1348, 10);
             this.panel10.TabIndex = 39;
             this.panel10.Paint += new System.Windows.Forms.PaintEventHandler(this.panel10_Paint);
             // 
@@ -793,7 +793,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1331, 351);
+            this.panel2.Size = new System.Drawing.Size(1348, 351);
             this.panel2.TabIndex = 7;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
@@ -803,7 +803,7 @@
             this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel9.Location = new System.Drawing.Point(0, 0);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(1331, 59);
+            this.panel9.Size = new System.Drawing.Size(1348, 59);
             this.panel9.TabIndex = 5;
             this.panel9.Paint += new System.Windows.Forms.PaintEventHandler(this.panel9_Paint);
             // 
@@ -885,7 +885,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1348, 673);
+            this.ClientSize = new System.Drawing.Size(1365, 673);
             this.Controls.Add(this.panel7);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);

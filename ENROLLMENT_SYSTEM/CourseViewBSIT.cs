@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace Enrollment_System
 {
@@ -23,281 +24,43 @@ namespace Enrollment_System
 
         private void CourseViewBSIT_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!parentForm.IsDisposed)
+            try
             {
-                parentForm.SetBannerImage(bannerImage);
+                if (!parentForm.IsDisposed && bannerImage != null)
+                {
+                    // Clone the image to avoid disposal issues
+                    using (var tempImage = new Bitmap(bannerImage))
+                    {
+                        parentForm.SetBannerImage(tempImage);
+                    }
+                }
             }
-            bannerImage?.Dispose();
-            dbConnection?.Dispose();
+            catch (Exception ex)
+            {
+                // Log error if debugger is attached
+                if (Debugger.IsAttached)
+                {
+                    Debug.WriteLine($"Error restoring banner: {ex.Message}");
+                }
+            }
+            finally
+            {
+                // Clean up resources
+                dbConnection?.Dispose();
+                bannerImage?.Dispose();
+                bannerImage = null;
+            }
         }
 
         private void BtnBack_Click(object sender, EventArgs e) => this.Close();
         private void BtnBack1_Click(object sender, EventArgs e) => this.Close();
 
-        private void panel5_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label28_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label29_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label30_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label27_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label24_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label25_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label26_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label17_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label22_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label23_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox8_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel6_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label16_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel4_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label44_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label38_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label39_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label40_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label41_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label33_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label35_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label36_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label37_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label34_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label21_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label31_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label32_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel10_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel9_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label43_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnEnroll_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void SwitchToPersonalInfoForm()
         {
-            var personalInfoForm = new FormPersonalInfo();
-            personalInfoForm.StartPosition = FormStartPosition.CenterParent;
+            var personalInfoForm = new FormPersonalInfo
+            {
+                StartPosition = FormStartPosition.CenterParent
+            };
             personalInfoForm.Show();
             this.Hide();
         }
@@ -314,9 +77,9 @@ namespace Enrollment_System
             if (HasPendingEnrollment())
             {
                 MessageBox.Show("You already have a pending enrollment request. Please wait for it to be processed before creating a new one.",
-                               "Pending Enrollment Exists",
-                               MessageBoxButtons.OK,
-                               MessageBoxIcon.Warning);
+                              "Pending Enrollment Exists",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
                 return;
             }
 
@@ -333,22 +96,21 @@ namespace Enrollment_System
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = @"SELECT COUNT(*) 
-                          FROM student_enrollments 
-                          WHERE student_id = @StudentId 
-                          AND status IN ('Pending', 'Payment Pending')";
+                    const string query = @"SELECT COUNT(*) 
+                                        FROM student_enrollments 
+                                        WHERE student_id = @StudentId 
+                                        AND status IN ('Pending', 'Payment Pending')";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@StudentId", SessionManager.StudentId);
-                        int count = Convert.ToInt32(cmd.ExecuteScalar());
-                        return count > 0;
+                        return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error checking pending enrollments: " + ex.Message);
+                Console.WriteLine($"Error checking pending enrollments: {ex.Message}");
                 return false;
             }
         }
@@ -357,12 +119,40 @@ namespace Enrollment_System
         {
             SessionManager.SelectedCourse = "Bachelor of Science in Information Technology";
             parentForm.Panel8.Tag = "BSIT";
-            this.Hide();
-            parentForm.Hide();
 
-            enrollmentForm = new FormEnrollment()
+            var mainParent = parentForm;
+            this.Hide();
+            mainParent.Hide();
+
+            enrollmentForm = new FormEnrollment
             {
                 StartPosition = FormStartPosition.CenterParent
+            };
+
+            enrollmentForm.FormClosed += (s, args) =>
+            {
+                if (!this.IsDisposed)
+                {
+                    if (!mainParent.IsDisposed)
+                    {
+                        try
+                        {
+                            mainParent.Invoke((MethodInvoker)delegate
+                            {
+                                if (!mainParent.IsDisposed && !mainParent.Panel8.IsDisposed)
+                                {
+                                    mainParent.Show();
+                                    HandleEnrollmentCompletion(mainParent);
+                                }
+                            });
+                        }
+                        catch (ObjectDisposedException)
+                        {
+                           
+                        }
+                    }
+                    this.Close();
+                }
             };
 
             using (var academicForm = new FormNewAcademiccs())
@@ -371,21 +161,12 @@ namespace Enrollment_System
                 enrollmentForm.Show();
                 academicForm.ShowDialog();
             }
-
-            HandleEnrollmentCompletion();
         }
 
         private bool ConfirmCourseSelection(string courseCode, string courseName)
         {
-            if (parentForm.Panel8.Tag?.ToString() == courseCode)
-            {
+            if (parentForm.Panel8.Tag?.ToString() == courseCode || IsStudentEnrolledInCourse(courseCode))
                 return true;
-            }
-
-            if (IsStudentEnrolledInCourse(courseCode))
-            {
-                return true;
-            }
 
             return MessageBox.Show(
                 $"You've been already enrolled.\nDo you want Change to your course to\n {courseName}?",
@@ -402,20 +183,18 @@ namespace Enrollment_System
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = @"SELECT COUNT(*) 
-                            FROM student_enrollments se
-                            JOIN courses c ON se.course_id = c.course_id
-                            WHERE se.student_id = @StudentId
-                            AND c.course_code = @CourseCode
-                            AND se.status != 'Dropped'";
+                    const string query = @"SELECT COUNT(*) 
+                                        FROM student_enrollments se
+                                        JOIN courses c ON se.course_id = c.course_id
+                                        WHERE se.student_id = @StudentId
+                                        AND c.course_code = @CourseCode
+                                        AND se.status != 'Dropped'";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@StudentId", SessionManager.StudentId);
                         cmd.Parameters.AddWithValue("@CourseCode", courseCode);
-
-                        int count = Convert.ToInt32(cmd.ExecuteScalar());
-                        return count > 0;
+                        return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
                     }
                 }
             }
@@ -425,25 +204,82 @@ namespace Enrollment_System
             }
         }
 
-        private void HandleEnrollmentCompletion()
+        private void HandleEnrollmentCompletion(FormCourse mainParent)
         {
-            parentForm.Panel8.Controls.Clear();
-            var courseForm = new CourseBSIT()
-            {
-                TopLevel = false,
-                Dock = DockStyle.Fill
-            };
-            parentForm.Panel8.Controls.Add(courseForm);
-            courseForm.Show();
+            if (mainParent.IsDisposed || mainParent.Panel8.IsDisposed)
+                return;
 
-            if (parentForm.Panel8.Tag?.ToString() == "BSIT")
+            try
             {
-                parentForm.UpdateCourseBannerImage("BSIT");
+                mainParent.Panel8.Controls.Clear();
+                var courseForm = new CourseBSIT
+                {
+                    TopLevel = false,
+                    Dock = DockStyle.Fill
+                };
+                mainParent.Panel8.Controls.Add(courseForm);
+                courseForm.Show();
+
+                if (mainParent.Panel8.Tag?.ToString() == "BSIT")
+                    mainParent.UpdateCourseBannerImage("BSIT");
             }
-
-            parentForm.Show();
-
-            this.Close();
+            catch (ObjectDisposedException)
+            {
+                // Handle disposal gracefully
+            }
         }
+
+        private void panel5_Paint(object sender, PaintEventArgs e) { }
+        private void label28_Click(object sender, EventArgs e) { }
+        private void label29_Click(object sender, EventArgs e) { }
+        private void label30_Click(object sender, EventArgs e) { }
+        private void label27_Click(object sender, EventArgs e) { }
+        private void label24_Click(object sender, EventArgs e) { }
+        private void label25_Click(object sender, EventArgs e) { }
+        private void label26_Click(object sender, EventArgs e) { }
+        private void label17_Click(object sender, EventArgs e) { }
+        private void label22_Click(object sender, EventArgs e) { }
+        private void label23_Click(object sender, EventArgs e) { }
+        private void pictureBox8_Click(object sender, EventArgs e) { }
+        private void pictureBox7_Click(object sender, EventArgs e) { }
+        private void pictureBox4_Click(object sender, EventArgs e) { }
+        private void panel6_Paint(object sender, PaintEventArgs e) { }
+        private void label16_Click(object sender, EventArgs e) { }
+        private void panel4_Paint(object sender, PaintEventArgs e) { }
+        private void label44_Click(object sender, EventArgs e) { }
+        private void label38_Click(object sender, EventArgs e) { }
+        private void label39_Click(object sender, EventArgs e) { }
+        private void label40_Click(object sender, EventArgs e) { }
+        private void label41_Click(object sender, EventArgs e) { }
+        private void label33_Click(object sender, EventArgs e) { }
+        private void label35_Click(object sender, EventArgs e) { }
+        private void label36_Click(object sender, EventArgs e) { }
+        private void label37_Click(object sender, EventArgs e) { }
+        private void label34_Click(object sender, EventArgs e) { }
+        private void label21_Click(object sender, EventArgs e) { }
+        private void label31_Click(object sender, EventArgs e) { }
+        private void label32_Click(object sender, EventArgs e) { }
+        private void pictureBox9_Click(object sender, EventArgs e) { }
+        private void pictureBox6_Click(object sender, EventArgs e) { }
+        private void pictureBox5_Click(object sender, EventArgs e) { }
+        private void pictureBox3_Click(object sender, EventArgs e) { }
+        private void pictureBox2_Click(object sender, EventArgs e) { }
+        private void panel3_Paint(object sender, PaintEventArgs e) { }
+        private void panel1_Paint(object sender, PaintEventArgs e) { }
+        private void label7_Click(object sender, EventArgs e) { }
+        private void panel10_Paint(object sender, PaintEventArgs e) { }
+        private void label8_Click(object sender, EventArgs e) { }
+        private void pictureBox1_Click(object sender, EventArgs e) { }
+        private void panel2_Paint(object sender, PaintEventArgs e) { }
+        private void panel9_Paint(object sender, PaintEventArgs e) { }
+        private void label6_Click(object sender, EventArgs e) { }
+        private void label1_Click(object sender, EventArgs e) { }
+        private void label2_Click(object sender, EventArgs e) { }
+        private void label5_Click(object sender, EventArgs e) { }
+        private void label43_Click(object sender, EventArgs e) { }
+        private void BtnEnroll_Click(object sender, EventArgs e) { }
+        private void label11_Click(object sender, EventArgs e) { }
+        private void button1_Click(object sender, EventArgs e) => this.Close();
+        private void button2_Click(object sender, EventArgs e) { }
     }
 }

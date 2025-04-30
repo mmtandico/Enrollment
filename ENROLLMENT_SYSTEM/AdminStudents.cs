@@ -1245,5 +1245,85 @@ namespace Enrollment_System
                 }
             }
         }
+
+        private void BtnCompleted_Click(object sender, EventArgs e)
+        {
+            if (DataGridEnrolled.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a student first.", "No Selection",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataGridViewRow selectedRow = DataGridEnrolled.SelectedRows[0];
+            int enrollmentId = Convert.ToInt32(selectedRow.Cells["student_id"].Value);
+            string studentName = $"{selectedRow.Cells["first_name"].Value} {selectedRow.Cells["last_name"].Value}";
+            string currentStatus = selectedRow.Cells["status"].Value?.ToString() ?? "";
+            string schoolYear = selectedRow.Cells["academic_year"].Value?.ToString() ?? "2023-2024";
+            string semester = selectedRow.Cells["semester"].Value?.ToString() ?? "1st";
+            string yearLevel = selectedRow.Cells["year_level"].Value?.ToString() ?? "1st Year";
+
+            // Format the confirmation message
+            string confirmationMessage = $"Mark {studentName} as completed for {yearLevel}, {semester} Semester {schoolYear}?";
+
+            if (currentStatus == "Completed")
+            {
+                MessageBox.Show($"{studentName} has already completed {yearLevel}, {semester} Semester {schoolYear}.",
+                              "Already Completed",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Information);
+                return;
+            }
+
+            DialogResult result = MessageBox.Show(confirmationMessage,
+                                                "Confirm Completion",
+                                                MessageBoxButtons.YesNo,
+                                                MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    using (MySqlConnection connection = new MySqlConnection(connectionString))
+                    {
+                        connection.Open();
+
+                        string updateQuery = @"UPDATE student_enrollments 
+                                    SET status = 'Completed' 
+                                    WHERE enrollment_id = @enrollmentId";
+
+                        using (MySqlCommand cmd = new MySqlCommand(updateQuery, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@enrollmentId", enrollmentId);
+                            int rowsAffected = cmd.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                MessageBox.Show($"Successfully marked {studentName} as completed for:\n{yearLevel}, {semester} Semester {schoolYear}",
+                                              "Completion Recorded",
+                                              MessageBoxButtons.OK,
+                                              MessageBoxIcon.Information);
+
+                                LoadStudentData();
+                            }
+                            else
+                            {
+                                MessageBox.Show("No records were updated.",
+                                              "Error",
+                                              MessageBoxButtons.OK,
+                                              MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error updating enrollment status:\n{ex.Message}",
+                                  "Database Error",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }

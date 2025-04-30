@@ -29,6 +29,11 @@ namespace Enrollment_System
             PicBoxID.Image = Properties.Resources.PROFILE;
             PicBoxID.SizeMode = PictureBoxSizeMode.StretchImage;
             loggedInUserId = SessionManager.UserId;
+
+            CmbCourse.EnabledChanged += (s, e) =>
+            {
+                CmbCourse.BackColor = CmbCourse.Enabled ? SystemColors.Window : SystemColors.Control;
+            };
         }
 
         private bool IsValidAcademicYear(string year)
@@ -376,26 +381,49 @@ namespace Enrollment_System
             RefreshPdfDisplay(conn);
         }
 
+        private bool IsCurrentlyEnrolled(MySqlConnection conn, long studentId)
+        {
+            using (var cmd = new MySqlCommand(
+                @"SELECT COUNT(*) FROM student_enrollments 
+                    WHERE student_id = @StudentID 
+                    AND status NOT IN ('Payment Pending', 'Rejected', 'Completed', 'Dropped')", conn))
+            {
+                cmd.Parameters.AddWithValue("@StudentID", studentId);
+                return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+            }
+        }
+
         private void CreateNewEnrollment(MySqlConnection conn, long studentId, int courseId, string semester, string yearLevel)
         {
-            // Check for duplicate enrollment
+            // Check if student has any active enrollment (excluding Completed/Dropped statuses)
+            if (IsCurrentlyEnrolled(conn, studentId))
+            {
+                MessageBox.Show("You have an active enrollment. Please contact administration for course changes.",
+                              "Enrollment Error",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Check for duplicate enrollment in the same term
             string checkDuplicateQuery = @"
                 SELECT COUNT(*) FROM student_enrollments 
-                WHERE student_id = @StudentID AND course_id = @CourseID 
-                AND academic_year = @AcademicYear AND semester = @Semester
-                AND year_level = @YearLevel";
+                WHERE student_id = @StudentID
+                AND academic_year = @AcademicYear 
+                AND semester = @Semester
+                AND year_level = @YearLevel
+                AND status NOT IN ('Dropped')";  // Allow new enrollment if previous was Dropped
 
             using (var cmd = new MySqlCommand(checkDuplicateQuery, conn))
             {
                 cmd.Parameters.AddWithValue("@StudentID", studentId);
-                cmd.Parameters.AddWithValue("@CourseID", courseId);
                 cmd.Parameters.AddWithValue("@AcademicYear", TxtSchoolYear.Text);
                 cmd.Parameters.AddWithValue("@Semester", semester);
                 cmd.Parameters.AddWithValue("@YearLevel", yearLevel);
 
                 if (Convert.ToInt32(cmd.ExecuteScalar()) > 0)
                 {
-                    MessageBox.Show("You are already enrolled in this course for the selected term.",
+                    MessageBox.Show("You are already enrolled for the selected term.",
                                   "Duplicate Enrollment",
                                   MessageBoxButtons.OK,
                                   MessageBoxIcon.Warning);
@@ -421,7 +449,7 @@ namespace Enrollment_System
             // Save academic history
             ExecuteQuery(conn,
                 @"INSERT INTO academic_history (enrollment_id, previous_section)
-                VALUES (@EnrollmentID, @PreviousSection)",
+                 VALUES (@EnrollmentID, @PreviousSection)",
                 new MySqlParameter("@EnrollmentID", newEnrollmentId),
                 new MySqlParameter("@PreviousSection", TxtPreviousSection.Text)
             );
@@ -628,7 +656,7 @@ namespace Enrollment_System
                 using (var conn = new MySqlConnection(connectionString))
                 using (var cmd = new MySqlCommand(
                     @"SELECT s.student_no, s.first_name, s.middle_name, s.last_name, 
-                      s.profile_picture, c.course_name
+                      s.profile_picture, c.course_name, se.status
                       FROM students s
                       LEFT JOIN student_enrollments se ON s.student_id = se.student_id
                       LEFT JOIN courses c ON se.course_id = c.course_id
@@ -652,6 +680,16 @@ namespace Enrollment_System
                             {
                                 PicBoxID.Image = Image.FromStream(
                                     new MemoryStream((byte[])reader["profile_picture"]));
+                            }
+
+                            if (reader["status"] != DBNull.Value)
+                            {
+                                string status = reader["status"].ToString();
+                                if (status != "Payment Pending" && status != "Rejected")
+                                {
+                                    CmbCourse.Enabled = false;
+                                    CmbCourse.BackColor = SystemColors.Control;
+                                }
                             }
                         }
                     }
@@ -722,7 +760,7 @@ namespace Enrollment_System
                 using (var cmd = new MySqlCommand(
                     @"SELECT se.academic_year, se.semester, se.year_level, c.course_name,
                       s.first_name, s.middle_name, s.last_name, s.student_no, s.profile_picture,
-                      ah.previous_section, se.grade_pdf_path
+                      ah.previous_section, se.grade_pdf_path, se.status
                       FROM student_enrollments se
                       JOIN courses c ON se.course_id = c.course_id
                       JOIN students s ON se.student_id = s.student_id
@@ -741,6 +779,13 @@ namespace Enrollment_System
                             SetComboBoxSelection(CmbSem, reader["semester"].ToString());
                             SetComboBoxSelection(CmbYrLvl, reader["year_level"].ToString());
                             SetComboBoxSelection(CmbCourse, reader["course_name"].ToString());
+
+                            string status = reader["status"].ToString();
+                            if (status != "Payment Pending" && status != "Rejected")
+                            {
+                                CmbCourse.Enabled = false;
+                                CmbCourse.BackColor = SystemColors.Control;
+                            }
 
                             // Set student info
                             TxtStudentNo.Text = reader["student_no"].ToString();
