@@ -422,7 +422,7 @@ namespace Enrollment_System
                         int totalUnits = CalculateTotalUnits(courseId, yearLevel, semester);
 
                         decimal tuitionFee = totalUnits * 150m;
-                        decimal miscFee = 800m; 
+                        decimal miscFee = 800m;
                         decimal totalAmountDue = tuitionFee + miscFee;
 
                         string insertPaymentQuery = @"

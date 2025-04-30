@@ -689,9 +689,9 @@ namespace Enrollment_System
                         FROM student_enrollments se
                         INNER JOIN students s ON se.student_id = s.student_id
                         INNER JOIN courses c ON se.course_id = c.course_id
-                        WHERE se.status = 'Enrolled'";
+                        WHERE se.status IN ('Enrolled', 'Dropped')";
 
-                  
+
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
@@ -1184,6 +1184,66 @@ namespace Enrollment_System
             }
         }
 
+        private void BtnDrop_Click(object sender, EventArgs e)
+        {
+            if (DataGridEnrolled.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a student first.", "No Selection",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            DataGridViewRow selectedRow = DataGridEnrolled.SelectedRows[0];
+            int enrollmentId = Convert.ToInt32(selectedRow.Cells["student_id"].Value);
+            string studentName = $"{selectedRow.Cells["first_name"].Value} {selectedRow.Cells["last_name"].Value}";
+
+            DialogResult result = MessageBox.Show($"Are you sure you want to drop {studentName}?",
+                                                 "Confirm Drop",
+                                                 MessageBoxButtons.YesNo,
+                                                 MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    using (MySqlConnection connection = new MySqlConnection(connectionString))
+                    {
+                        connection.Open();
+
+                        string updateQuery = "UPDATE student_enrollments SET status = 'Dropped' WHERE enrollment_id = @enrollmentId";
+
+                        using (MySqlCommand cmd = new MySqlCommand(updateQuery, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@enrollmentId", enrollmentId);
+                            int rowsAffected = cmd.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                MessageBox.Show($"{studentName} has been successfully dropped.",
+                                              "Success",
+                                              MessageBoxButtons.OK,
+                                              MessageBoxIcon.Information);
+
+                                LoadStudentData();
+                            }
+                            else
+                            {
+                                MessageBox.Show("No records were updated.",
+                                              "Error",
+                                              MessageBoxButtons.OK,
+                                              MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error updating enrollment status: {ex.Message}",
+                                   "Database Error",
+                                   MessageBoxButtons.OK,
+                                   MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }
