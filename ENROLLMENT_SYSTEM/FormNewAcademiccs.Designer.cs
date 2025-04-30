@@ -55,7 +55,6 @@
             this.CmbYrLvl = new System.Windows.Forms.ComboBox();
             this.CmbSem = new System.Windows.Forms.ComboBox();
             this.CmbCourse = new System.Windows.Forms.ComboBox();
-            this.TxtGradePdfLabel = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).BeginInit();
             this.panel10.SuspendLayout();
@@ -412,19 +411,6 @@
             this.CmbCourse.Size = new System.Drawing.Size(621, 33);
             this.CmbCourse.TabIndex = 49;
             // 
-            // TxtGradePdfLabel
-            // 
-            this.TxtGradePdfLabel.BackColor = System.Drawing.SystemColors.Window;
-            this.TxtGradePdfLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TxtGradePdfLabel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.TxtGradePdfLabel.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtGradePdfLabel.ForeColor = System.Drawing.Color.Black;
-            this.TxtGradePdfLabel.Location = new System.Drawing.Point(676, 341);
-            this.TxtGradePdfLabel.Name = "TxtGradePdfLabel";
-            this.TxtGradePdfLabel.ReadOnly = true;
-            this.TxtGradePdfLabel.Size = new System.Drawing.Size(160, 26);
-            this.TxtGradePdfLabel.TabIndex = 50;
-            // 
             // FormNewAcademiccs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -432,7 +418,6 @@
             this.BackgroundImage = global::Enrollment_System.Properties.Resources.COLORPDMBACKGROUND;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(937, 418);
-            this.Controls.Add(this.TxtGradePdfLabel);
             this.Controls.Add(this.CmbCourse);
             this.Controls.Add(this.CmbSem);
             this.Controls.Add(this.CmbYrLvl);
@@ -499,6 +484,5 @@
         private System.Windows.Forms.ComboBox CmbYrLvl;
         private System.Windows.Forms.ComboBox CmbSem;
         private System.Windows.Forms.ComboBox CmbCourse;
-        private System.Windows.Forms.TextBox TxtGradePdfLabel;
     }
 }

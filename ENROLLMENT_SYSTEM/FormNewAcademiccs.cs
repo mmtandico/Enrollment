@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using MySql.Data.MySqlClient;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using MySql.Data.MySqlClient;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Enrollment_System
 {
     public partial class FormNewAcademiccs : Form
     {
         private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
-        private long loggedInUserId;
-
+        private readonly long loggedInUserId;
 
         public string EnrollmentId { get; set; }
         public Dictionary<string, string> StudentData { get; set; }
@@ -33,79 +29,40 @@ namespace Enrollment_System
             PicBoxID.Image = Properties.Resources.PROFILE;
             PicBoxID.SizeMode = PictureBoxSizeMode.StretchImage;
             loggedInUserId = SessionManager.UserId;
-
         }
 
         private bool IsValidAcademicYear(string year)
         {
-            if (string.IsNullOrWhiteSpace(year))
-                return false;
+            if (string.IsNullOrWhiteSpace(year)) return false;
+            if (!Regex.IsMatch(year, @"^\d{4}[-\s]\d{4}$")) return false;
 
-            // More forgiving pattern that allows various separators and optional spaces
-            if (!Regex.IsMatch(year, @"^\d{4}[-\s]\d{4}$"))
-                return false;
-
-            // Clean the input by removing any whitespace
             string cleanYear = year.Replace(" ", "").Replace("-", "");
+            if (cleanYear.Length != 8 || !cleanYear.All(char.IsDigit)) return false;
 
-            // Should have exactly 8 digits now (4 + 4)
-            if (cleanYear.Length != 8 || !cleanYear.All(char.IsDigit))
-                return false;
-
-            // Extract the years
             int startYear, endYear;
             if (!int.TryParse(cleanYear.Substring(0, 4), out startYear) ||
-                !int.TryParse(cleanYear.Substring(4, 4), out endYear))
-                return false;
+                !int.TryParse(cleanYear.Substring(4, 4), out endYear)) return false;
 
-            // Validate year ranges (adjust as needed)
-            const int minYear = 2000;
-            const int maxYear = 2100;
-
-            if (startYear < minYear || startYear > maxYear ||
-                endYear < minYear || endYear > maxYear)
-                return false;
-
-            // End year should be exactly +1 from start year
-            return endYear == startYear + 1;
+            const int minYear = 2000, maxYear = 2100;
+            return startYear >= minYear && startYear <= maxYear &&
+                   endYear >= minYear && endYear <= maxYear &&
+                   endYear == startYear + 1;
         }
 
-        private void ExitButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+        private void ExitButton_Click(object sender, EventArgs e) => this.Close();
 
         private void BtnBrowse_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                Filter = "PDF Files|*.pdf",
-                Title = "Select Grade PDF"
-            })
+            using (var openFileDialog = new OpenFileDialog { Filter = "PDF Files|*.pdf", Title = "Select Grade PDF" })
             {
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     byte[] fileData = File.ReadAllBytes(openFileDialog.FileName);
                     string fileName = Path.GetFileName(openFileDialog.FileName);
 
-                    string savedFileName = SavePdfToDatabase(fileName, fileData);
-                    if (savedFileName != null)
+                    if (SavePdfToDatabase(fileName, fileData) != null)
                     {
-                        // Create a clickable link label
-                        LinkLabel linkLabel = new LinkLabel();
-                        linkLabel.Text = savedFileName;
-                        linkLabel.LinkClicked += (s, args) => ViewPdfFromDatabase();
-
-                        // Position the link label where you want it (replace with your actual UI element)
-                        linkLabel.Location = new Point(TxtGradePdfPath.Location.X, TxtGradePdfPath.Location.Y);
-                        linkLabel.Size = TxtGradePdfPath.Size;
-
-                        // Remove the existing textbox if needed
-                        this.Controls.Remove(TxtGradePdfPath);
-
-                        // Add the link label to your form
-                        this.Controls.Add(linkLabel);
-
+                        UpdatePdfDisplay(fileName);
                         MessageBox.Show("PDF uploaded and saved successfully.");
                     }
                 }
@@ -114,66 +71,78 @@ namespace Enrollment_System
 
         private void ViewPdfFromDatabase()
         {
-            int studentId = SessionManager.StudentId;
-
-            using (var conn = new MySqlConnection(connectionString))
+            if (SessionManager.TempGradePdf != null && string.IsNullOrEmpty(EnrollmentId))
             {
-                conn.Open();
+                ShowTempPdf();
+                return;
+            }
 
-                string query = @"SELECT grade_pdf 
-                     FROM student_enrollments 
-                     WHERE student_id = @studentId 
-                     ORDER BY enrollment_id DESC 
-                     LIMIT 1";
-
-                using (var cmd = new MySqlCommand(query, conn))
+            if (!string.IsNullOrEmpty(EnrollmentId))
+            {
+                using (var conn = new MySqlConnection(connectionString))
                 {
-                    cmd.Parameters.AddWithValue("@studentId", studentId);
-                    object result = cmd.ExecuteScalar();
-
-                    if (result != null && result != DBNull.Value)
+                    conn.Open();
+                    using (var cmd = new MySqlCommand(
+                        "SELECT grade_pdf FROM student_enrollments WHERE enrollment_id = @enrollmentId", conn))
                     {
-                        byte[] fileData = (byte[])result;
-                        string tempPath = Path.Combine(Path.GetTempPath(), "grade_preview.pdf");
+                        cmd.Parameters.AddWithValue("@enrollmentId", EnrollmentId);
+                        object result = cmd.ExecuteScalar();
 
-                        // Clean up any existing temp file
-                        if (File.Exists(tempPath))
+                        if (result != null && result != DBNull.Value)
                         {
-                            File.Delete(tempPath);
+                            ShowPdf((byte[])result);
                         }
-
-                        File.WriteAllBytes(tempPath, fileData);
-
-                        try
+                        else
                         {
-                            System.Diagnostics.Process.Start(tempPath);
+                            MessageBox.Show("No grade PDF found for this enrollment.",
+                                          "Information",
+                                          MessageBoxButtons.OK,
+                                          MessageBoxIcon.Information);
                         }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"Error opening PDF: {ex.Message}");
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("No grade PDF found for this student.");
                     }
                 }
             }
         }
 
+        private void ShowTempPdf()
+        {
+            try
+            {
+                string tempPath = Path.Combine(Path.GetTempPath(), "temp_grade_preview.pdf");
+                if (File.Exists(tempPath)) File.Delete(tempPath);
+                File.WriteAllBytes(tempPath, SessionManager.TempGradePdf);
+                System.Diagnostics.Process.Start(tempPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error opening temporary PDF: {ex.Message}");
+            }
+        }
+
+        private void ShowPdf(byte[] pdfData)
+        {
+            try
+            {
+                string tempPath = Path.Combine(Path.GetTempPath(), "grade_preview.pdf");
+                if (File.Exists(tempPath)) File.Delete(tempPath);
+                File.WriteAllBytes(tempPath, pdfData);
+                System.Diagnostics.Process.Start(tempPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error opening PDF: {ex.Message}");
+            }
+        }
 
         private void BtnUpload_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog { Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif" })
+            using (var openFileDialog = new OpenFileDialog { Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif" })
             {
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     PicBoxID.Image = Image.FromFile(openFileDialog.FileName);
                     PicBoxID.SizeMode = PictureBoxSizeMode.StretchImage;
-
-                    byte[] imageBytes = File.ReadAllBytes(openFileDialog.FileName);
-
-                    SaveProfilePicture(imageBytes);
+                    SaveProfilePicture(File.ReadAllBytes(openFileDialog.FileName));
                 }
             }
         }
@@ -183,18 +152,14 @@ namespace Enrollment_System
             try
             {
                 using (var conn = new MySqlConnection(connectionString))
+                using (var cmd = new MySqlCommand(
+                    "UPDATE students SET profile_picture = @ProfilePicture WHERE user_id = @UserID", conn))
                 {
                     conn.Open();
-                    string query = "UPDATE students SET profile_picture = @ProfilePicture WHERE user_id = @UserID";
-
-                    using (var cmd = new MySqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@UserID", loggedInUserId);
-                        cmd.Parameters.AddWithValue("@ProfilePicture", imageBytes);
-                        cmd.ExecuteNonQuery();
-                    }
+                    cmd.Parameters.AddWithValue("@UserID", loggedInUserId);
+                    cmd.Parameters.AddWithValue("@ProfilePicture", imageBytes);
+                    cmd.ExecuteNonQuery();
                 }
-
                 MessageBox.Show("Profile picture updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -205,11 +170,9 @@ namespace Enrollment_System
 
         private string SavePdfToDatabase(string fileName, byte[] fileData)
         {
-            int studentId = SessionManager.StudentId;
-
-            if (studentId <= 0)
+            if (SessionManager.StudentId <= 0)
             {
-                MessageBox.Show("No logged-in student.");
+                MessageBox.Show("No logged-in student.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
 
@@ -217,262 +180,370 @@ namespace Enrollment_System
             {
                 conn.Open();
 
-                // Get the latest enrollment_id for this student
-                string getEnrollmentQuery = @"SELECT enrollment_id 
-                                  FROM student_enrollments 
-                                  WHERE student_id = @studentId 
-                                  ORDER BY enrollment_id DESC 
-                                  LIMIT 1";
-
-                using (var getCmd = new MySqlCommand(getEnrollmentQuery, conn))
+                if (string.IsNullOrEmpty(EnrollmentId))
                 {
-                    getCmd.Parameters.AddWithValue("@studentId", studentId);
-                    object result = getCmd.ExecuteScalar();
-
-                    if (result != null)
-                    {
-                        int enrollmentId = Convert.ToInt32(result);
-
-                        // Update both grade_pdf and grade_pdf_path fields
-                        string updateQuery = @"UPDATE student_enrollments 
-                                   SET grade_pdf = @pdfData,
-                                       grade_pdf_path = @fileName
-                                   WHERE enrollment_id = @enrollmentId";
-
-                        using (var updateCmd = new MySqlCommand(updateQuery, conn))
-                        {
-                            updateCmd.Parameters.Add("@pdfData", MySqlDbType.LongBlob).Value = fileData;
-                            updateCmd.Parameters.AddWithValue("@fileName", fileName);
-                            updateCmd.Parameters.AddWithValue("@enrollmentId", enrollmentId);
-                            updateCmd.ExecuteNonQuery();
-                        }
-                        return fileName;
-                    }
-                    else
-                    {
-                        MessageBox.Show("No enrollment found for this student.");
-                        return null;
-                    }
+                    SessionManager.TempGradePdf = fileData;
+                    SessionManager.TempGradePdfName = fileName;
+                    MessageBox.Show("Grades will be saved when you complete the enrollment form.",
+                                  "Temporary Storage",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Information);
+                    return fileName;
                 }
+
+                using (var cmd = new MySqlCommand(
+                    @"UPDATE student_enrollments 
+                      SET grade_pdf = @pdfData, grade_pdf_path = @fileName
+                      WHERE enrollment_id = @enrollmentId", conn))
+                {
+                    cmd.Parameters.Add("@pdfData", MySqlDbType.LongBlob).Value = fileData;
+                    cmd.Parameters.AddWithValue("@fileName", fileName);
+                    cmd.Parameters.AddWithValue("@enrollmentId", EnrollmentId);
+                    cmd.ExecuteNonQuery();
+                }
+                return fileName;
             }
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
+            if (!ValidateInputs()) return;
+
             try
             {
-                if (string.IsNullOrWhiteSpace(CmbCourse.Text))
-                {
-                    MessageBox.Show("Please select a course.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    CmbCourse.Focus();
-                    return;
-                }
-
-                if (!IsValidAcademicYear(TxtSchoolYear.Text))
-                {
-                    MessageBox.Show("Please enter a valid School year in format YYYY-YYYY (e.g., 2023-2024).\n" +
-                                  "The second year must be exactly one year after the first.",
-                                  "Invalid Academic Year",
-                                  MessageBoxButtons.OK,
-                                  MessageBoxIcon.Warning);
-                    TxtSchoolYear.Focus();
-                    return;
-                }
-
-                if (CmbSem.SelectedIndex == -1)
-                {
-                    MessageBox.Show("Please select a semester.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    CmbSem.Focus();
-                    return;
-                }
-
-                if (CmbYrLvl.SelectedIndex == -1)
-                {
-                    MessageBox.Show("Please select a year level.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    CmbYrLvl.Focus();
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(TxtPreviousSection.Text))
-                {
-                    MessageBox.Show("Please provide the previous section.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    TxtPreviousSection.Focus();
-                    return;
-                }
-
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    long studentId = -1;
-
-                    string getStudentQuery = "SELECT student_id FROM students WHERE user_id = @UserID";
-                    using (var cmd = new MySqlCommand(getStudentQuery, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@UserID", loggedInUserId);
-                        object result = cmd.ExecuteScalar();
-                        if (result == null)
-                        {
-                            MessageBox.Show("Student record not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                        studentId = Convert.ToInt64(result);
-                    }
+                    long studentId = GetStudentId(conn);
+                    if (studentId == -1) return;
 
                     int courseId = GetCourseIdFromText(CmbCourse.Text);
-                    if (courseId == -1)
-                    {
-                        MessageBox.Show("Invalid course selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
+                    if (courseId == -1) return;
 
                     string semester = CmbSem.SelectedItem.ToString();
                     string yearLevel = CmbYrLvl.SelectedItem.ToString();
 
-                    if (string.IsNullOrEmpty(EnrollmentId))
-                    {
-                        string checkDuplicateQuery = @"
-                    SELECT COUNT(*) 
-                    FROM student_enrollments 
-                    WHERE student_id = @StudentID 
-                    AND course_id = @CourseID 
-                    AND academic_year = @AcademicYear 
-                    AND semester = @Semester
-                    AND year_level = @YearLevel";
-
-                        using (var cmd = new MySqlCommand(checkDuplicateQuery, conn))
-                        {
-                            cmd.Parameters.AddWithValue("@StudentID", studentId);
-                            cmd.Parameters.AddWithValue("@CourseID", courseId);
-                            cmd.Parameters.AddWithValue("@AcademicYear", TxtSchoolYear.Text);
-                            cmd.Parameters.AddWithValue("@Semester", semester);
-                            cmd.Parameters.AddWithValue("@YearLevel", yearLevel);
-
-                            int duplicateCount = Convert.ToInt32(cmd.ExecuteScalar());
-                            if (duplicateCount > 0)
-                            {
-                                MessageBox.Show("You are already enrolled in this course for the selected term.", "Duplicate Enrollment", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                return;
-                            }
-                        }
-                    }
-
                     if (!string.IsNullOrEmpty(EnrollmentId))
                     {
-                        string updateQuery = @"
-                UPDATE student_enrollments
-                SET course_id = @CourseID,
-                    academic_year = @AcademicYear,
-                    semester = @Semester,
-                    year_level = @YearLevel,
-                    status = 'Payment Pending'
-                WHERE enrollment_id = @EnrollmentID";
-
-                        ExecuteQuery(conn, updateQuery,
-                            new MySqlParameter("@CourseID", courseId),
-                            new MySqlParameter("@AcademicYear", TxtSchoolYear.Text),
-                            new MySqlParameter("@Semester", semester),
-                            new MySqlParameter("@YearLevel", yearLevel),
-                            new MySqlParameter("@EnrollmentID", EnrollmentId)
-                        );
-
-                        string insertHistoryQuery = @"
-                INSERT INTO academic_history (
-                    enrollment_id, previous_section
-                ) VALUES (
-                    @EnrollmentID, @PreviousSection
-                )";
-
-                        ExecuteQuery(conn, insertHistoryQuery,
-                            new MySqlParameter("@EnrollmentID", EnrollmentId),
-                            new MySqlParameter("@PreviousSection", TxtPreviousSection.Text)
-                        );
-
-                        MessageBox.Show("Enrollment updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        UpdateExistingEnrollment(conn, studentId, courseId, semester, yearLevel);
                     }
                     else
                     {
-                        string insertQuery = @"
-                INSERT INTO student_enrollments 
-                    (student_id, course_id, academic_year, semester, year_level, status)
-                VALUES 
-                    (@StudentID, @CourseID, @AcademicYear, @Semester, @YearLevel, 'Payment Pending')";
-
-                        ExecuteQuery(conn, insertQuery,
-                            new MySqlParameter("@StudentID", studentId),
-                            new MySqlParameter("@CourseID", courseId),
-                            new MySqlParameter("@AcademicYear", TxtSchoolYear.Text),
-                            new MySqlParameter("@Semester", semester),
-                            new MySqlParameter("@YearLevel", yearLevel)
-                        );
-
-                        long newEnrollmentId = GetLastInsertId(conn);
-
-                        string insertHistoryQuery = @"
-                INSERT INTO academic_history (
-                    enrollment_id, previous_section
-                ) VALUES (
-                    @EnrollmentID, @PreviousSection
-                )";
-
-                        ExecuteQuery(conn, insertHistoryQuery,
-                            new MySqlParameter("@EnrollmentID", newEnrollmentId),
-                            new MySqlParameter("@PreviousSection", TxtPreviousSection.Text)
-                        );
-
-                        int totalUnits = CalculateTotalUnits(courseId, yearLevel, semester);
-
-                        decimal tuitionFee = totalUnits * 150m;
-                        decimal miscFee = 800m;
-                        decimal totalAmountDue = tuitionFee + miscFee;
-
-                        string insertPaymentQuery = @"
-                INSERT INTO payments 
-                    (enrollment_id, total_units, total_amount_due, amount_paid, is_unifast, payment_method, payment_date)
-                VALUES 
-                    (@EnrollmentID, @TotalUnits, @TotalAmountDue, 0, 0, 'Payment Pending', NULL)";
-
-                        ExecuteQuery(conn, insertPaymentQuery,
-                            new MySqlParameter("@EnrollmentID", newEnrollmentId),
-                            new MySqlParameter("@TotalUnits", totalUnits),
-                            new MySqlParameter("@TotalAmountDue", totalAmountDue)
-                        );
-
-                        long paymentId = GetLastInsertId(conn);
-
-                        string insertBreakdownQuery = @"
-                            INSERT INTO payment_breakdowns 
-                                (payment_id, fee_type, amount)
-                            VALUES 
-                                (@PaymentID, @FeeType, @Amount)";
-
-                        ExecuteQuery(conn, insertBreakdownQuery,
-                            new MySqlParameter("@PaymentID", paymentId),
-                            new MySqlParameter("@FeeType", "Tuition"),
-                            new MySqlParameter("@Amount", tuitionFee)
-                        );
-
-                        ExecuteQuery(conn, insertBreakdownQuery,
-                            new MySqlParameter("@PaymentID", paymentId),
-                            new MySqlParameter("@FeeType", "Miscellaneous"),
-                            new MySqlParameter("@Amount", miscFee)
-                        );
-
-                        MessageBox.Show("New enrollment created successfully! Payment pending.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CreateNewEnrollment(conn, studentId, courseId, semester, yearLevel);
                     }
 
-                    SessionManager.FirstName = TxtFirstName.Text;
-                    SessionManager.LastName = TxtLastName.Text;
-
+                    MessageBox.Show("Enrollment saved successfully!", "Success",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error saving enrollment: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error saving enrollment: " + ex.Message, "Database Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        private bool ValidateInputs()
+        {
+            if (string.IsNullOrWhiteSpace(CmbCourse.Text))
+            {
+                ShowValidationError("Please select a course.", CmbCourse);
+                return false;
+            }
+
+            if (!IsValidAcademicYear(TxtSchoolYear.Text))
+            {
+                MessageBox.Show("Please enter a valid School year in format YYYY-YYYY (e.g., 2023-2024).\n" +
+                              "The second year must be exactly one year after the first.",
+                              "Invalid Academic Year",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+                TxtSchoolYear.Focus();
+                return false;
+            }
+
+            if (CmbSem.SelectedIndex == -1)
+            {
+                ShowValidationError("Please select a semester.", CmbSem);
+                return false;
+            }
+
+            if (CmbYrLvl.SelectedIndex == -1)
+            {
+                ShowValidationError("Please select a year level.", CmbYrLvl);
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(TxtPreviousSection.Text) ||
+                TxtPreviousSection.Text == "e.g. BSIT-22-A")
+            {
+                ShowValidationError("Please provide the previous section.", TxtPreviousSection);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void ShowValidationError(string message, Control control)
+        {
+            MessageBox.Show(message, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            control.Focus();
+        }
+
+        private long GetStudentId(MySqlConnection conn)
+        {
+            using (var cmd = new MySqlCommand("SELECT student_id FROM students WHERE user_id = @UserID", conn))
+            {
+                cmd.Parameters.AddWithValue("@UserID", loggedInUserId);
+                object result = cmd.ExecuteScalar();
+                if (result == null)
+                {
+                    MessageBox.Show("Student record not found.", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return -1;
+                }
+                return Convert.ToInt64(result);
+            }
+        }
+
+        private void UpdateExistingEnrollment(MySqlConnection conn, long studentId, int courseId, string semester, string yearLevel)
+        {
+            // Check for duplicate enrollment
+            string checkDuplicateQuery = @"
+                SELECT COUNT(*) FROM student_enrollments 
+                WHERE student_id = @StudentID AND course_id = @CourseID 
+                AND academic_year = @AcademicYear AND semester = @Semester
+                AND year_level = @YearLevel AND enrollment_id != @EnrollmentID";
+
+            using (var cmd = new MySqlCommand(checkDuplicateQuery, conn))
+            {
+                cmd.Parameters.AddWithValue("@StudentID", studentId);
+                cmd.Parameters.AddWithValue("@CourseID", courseId);
+                cmd.Parameters.AddWithValue("@AcademicYear", TxtSchoolYear.Text);
+                cmd.Parameters.AddWithValue("@Semester", semester);
+                cmd.Parameters.AddWithValue("@YearLevel", yearLevel);
+                cmd.Parameters.AddWithValue("@EnrollmentID", EnrollmentId);
+
+                if (Convert.ToInt32(cmd.ExecuteScalar()) > 0)
+                {
+                    MessageBox.Show("You are already enrolled in this course for the selected term.",
+                                  "Duplicate Enrollment",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
+            // Update existing enrollment
+            ExecuteQuery(conn,
+                @"UPDATE student_enrollments
+                SET course_id = @CourseID, academic_year = @AcademicYear,
+                    semester = @Semester, year_level = @YearLevel, status = 'Payment Pending'
+                WHERE enrollment_id = @EnrollmentID",
+                new MySqlParameter("@CourseID", courseId),
+                new MySqlParameter("@AcademicYear", TxtSchoolYear.Text),
+                new MySqlParameter("@Semester", semester),
+                new MySqlParameter("@YearLevel", yearLevel),
+                new MySqlParameter("@EnrollmentID", EnrollmentId)
+            );
+
+            // Save academic history
+            ExecuteQuery(conn,
+                @"INSERT INTO academic_history (enrollment_id, previous_section)
+                VALUES (@EnrollmentID, @PreviousSection)",
+                new MySqlParameter("@EnrollmentID", EnrollmentId),
+                new MySqlParameter("@PreviousSection", TxtPreviousSection.Text)
+            );
+
+            // Handle PDF if exists in temporary storage
+            if (SessionManager.TempGradePdf != null)
+            {
+                ExecuteQuery(conn,
+                    @"UPDATE student_enrollments 
+                    SET grade_pdf = @pdfData, grade_pdf_path = @fileName
+                    WHERE enrollment_id = @enrollmentId",
+                    new MySqlParameter("@pdfData", SessionManager.TempGradePdf),
+                    new MySqlParameter("@fileName", SessionManager.TempGradePdfName),
+                    new MySqlParameter("@enrollmentId", EnrollmentId)
+                );
+
+                SessionManager.TempGradePdf = null;
+                SessionManager.TempGradePdfName = null;
+            }
+
+            RefreshPdfDisplay(conn);
+        }
+
+        private void CreateNewEnrollment(MySqlConnection conn, long studentId, int courseId, string semester, string yearLevel)
+        {
+            // Check for duplicate enrollment
+            string checkDuplicateQuery = @"
+                SELECT COUNT(*) FROM student_enrollments 
+                WHERE student_id = @StudentID AND course_id = @CourseID 
+                AND academic_year = @AcademicYear AND semester = @Semester
+                AND year_level = @YearLevel";
+
+            using (var cmd = new MySqlCommand(checkDuplicateQuery, conn))
+            {
+                cmd.Parameters.AddWithValue("@StudentID", studentId);
+                cmd.Parameters.AddWithValue("@CourseID", courseId);
+                cmd.Parameters.AddWithValue("@AcademicYear", TxtSchoolYear.Text);
+                cmd.Parameters.AddWithValue("@Semester", semester);
+                cmd.Parameters.AddWithValue("@YearLevel", yearLevel);
+
+                if (Convert.ToInt32(cmd.ExecuteScalar()) > 0)
+                {
+                    MessageBox.Show("You are already enrolled in this course for the selected term.",
+                                  "Duplicate Enrollment",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
+            // Create new enrollment
+            ExecuteQuery(conn,
+                @"INSERT INTO student_enrollments 
+                (student_id, course_id, academic_year, semester, year_level, status)
+                VALUES (@StudentID, @CourseID, @AcademicYear, @Semester, @YearLevel, 'Payment Pending')",
+                new MySqlParameter("@StudentID", studentId),
+                new MySqlParameter("@CourseID", courseId),
+                new MySqlParameter("@AcademicYear", TxtSchoolYear.Text),
+                new MySqlParameter("@Semester", semester),
+                new MySqlParameter("@YearLevel", yearLevel)
+            );
+
+            long newEnrollmentId = GetLastInsertId(conn);
+            EnrollmentId = newEnrollmentId.ToString();
+
+            // Save academic history
+            ExecuteQuery(conn,
+                @"INSERT INTO academic_history (enrollment_id, previous_section)
+                VALUES (@EnrollmentID, @PreviousSection)",
+                new MySqlParameter("@EnrollmentID", newEnrollmentId),
+                new MySqlParameter("@PreviousSection", TxtPreviousSection.Text)
+            );
+
+            // Calculate and save payment information
+            SavePaymentInfo(conn, newEnrollmentId, courseId, yearLevel, semester);
+
+            // Handle PDF if exists in temporary storage
+            if (SessionManager.TempGradePdf != null)
+            {
+                ExecuteQuery(conn,
+                    @"UPDATE student_enrollments 
+                    SET grade_pdf = @pdfData, grade_pdf_path = @fileName
+                    WHERE enrollment_id = @enrollmentId",
+                    new MySqlParameter("@pdfData", SessionManager.TempGradePdf),
+                    new MySqlParameter("@fileName", SessionManager.TempGradePdfName),
+                    new MySqlParameter("@enrollmentId", newEnrollmentId)
+                );
+
+                SessionManager.TempGradePdf = null;
+                SessionManager.TempGradePdfName = null;
+            }
+
+            RefreshPdfDisplay(conn);
+        }
+
+        private void SavePaymentInfo(MySqlConnection conn, long enrollmentId, int courseId, string yearLevel, string semester)
+        {
+            int totalUnits = CalculateTotalUnits(courseId, yearLevel, semester);
+            decimal tuitionFee = totalUnits * 150m;
+            decimal miscFee = 800m;
+            decimal totalAmountDue = tuitionFee + miscFee;
+
+            // Create payment record
+            ExecuteQuery(conn,
+                @"INSERT INTO payments 
+                (enrollment_id, total_units, total_amount_due, amount_paid, is_unifast, payment_method, payment_date)
+                VALUES (@EnrollmentID, @TotalUnits, @TotalAmountDue, 0, 0, 'Payment Pending', NULL)",
+                new MySqlParameter("@EnrollmentID", enrollmentId),
+                new MySqlParameter("@TotalUnits", totalUnits),
+                new MySqlParameter("@TotalAmountDue", totalAmountDue)
+            );
+
+            long paymentId = GetLastInsertId(conn);
+
+            // Create payment breakdowns
+            ExecuteQuery(conn,
+                @"INSERT INTO payment_breakdowns (payment_id, fee_type, amount)
+                VALUES (@PaymentID, @FeeType, @Amount)",
+                new MySqlParameter("@PaymentID", paymentId),
+                new MySqlParameter("@FeeType", "Tuition"),
+                new MySqlParameter("@Amount", tuitionFee)
+            );
+
+            ExecuteQuery(conn,
+                @"INSERT INTO payment_breakdowns (payment_id, fee_type, amount)
+                VALUES (@PaymentID, @FeeType, @Amount)",
+                new MySqlParameter("@PaymentID", paymentId),
+                new MySqlParameter("@FeeType", "Miscellaneous"),
+                new MySqlParameter("@Amount", miscFee)
+            );
+        }
+
+        private void RefreshPdfDisplay(MySqlConnection conn)
+        {
+            using (var cmd = new MySqlCommand(
+                "SELECT grade_pdf_path FROM student_enrollments WHERE enrollment_id = @enrollmentId", conn))
+            {
+                cmd.Parameters.AddWithValue("@enrollmentId", EnrollmentId);
+                object result = cmd.ExecuteScalar();
+                string pdfName = (result != null && result != DBNull.Value)
+                    ? result.ToString()
+                    : "No grade PDF uploaded";
+
+                TxtGradePdfPath.Text = pdfName;
+                UpdatePdfDisplay(pdfName);
+            }
+        }
+
+        private void UpdatePdfDisplay(string fileName)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<string>(UpdatePdfDisplay), fileName);
+                return;
+            }
+
+            TxtGradePdfPath.Text = fileName;
+
+            // Remove existing link label
+            var existingLink = this.Controls.OfType<LinkLabel>().FirstOrDefault(l => l.Tag?.ToString() == "pdfLink");
+            if (existingLink != null)
+            {
+                this.Controls.Remove(existingLink);
+                existingLink.Dispose();
+            }
+
+            if (!string.IsNullOrWhiteSpace(fileName) &&
+                !fileName.Equals("No grade PDF uploaded", StringComparison.OrdinalIgnoreCase))
+            {
+                var linkLabel = new LinkLabel
+                {
+                    Text = "View PDF",
+                    Location = new Point(
+                        TxtGradePdfPath.Left,
+                        TxtGradePdfPath.Bottom + 5),
+                    Width = TxtGradePdfPath.Width,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    AutoSize = false,
+                    Tag = "pdfLink",
+                    LinkColor = Color.Blue,
+                    VisitedLinkColor = Color.Purple,
+                    ActiveLinkColor = Color.Red,
+                    LinkBehavior = LinkBehavior.HoverUnderline
+                };
+                linkLabel.LinkClicked += (s, args) => ViewPdfFromDatabase();
+
+                this.Controls.Add(linkLabel);
+                linkLabel.BringToFront();
+                this.PerformLayout();
+            }
+        }
 
         private long GetLastInsertId(MySqlConnection conn)
         {
@@ -484,34 +555,24 @@ namespace Enrollment_System
 
         private int CalculateTotalUnits(int courseId, string yearLevel, string semester)
         {
-            int totalUnits = 0;
-
-            string query = @"
-                SELECT SUM(s.units) 
-                FROM course_subjects cs
-                JOIN subjects s ON cs.subject_id = s.subject_id
-                WHERE cs.course_id = @CourseId 
-                AND cs.year_level = @YearLevel
-                AND cs.semester = @Semester";
-
             using (var conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
-                using (var cmd = new MySqlCommand(query, conn))
+                using (var cmd = new MySqlCommand(
+                    @"SELECT SUM(s.units) FROM course_subjects cs
+                      JOIN subjects s ON cs.subject_id = s.subject_id
+                      WHERE cs.course_id = @CourseId 
+                      AND cs.year_level = @YearLevel
+                      AND cs.semester = @Semester", conn))
                 {
                     cmd.Parameters.AddWithValue("@CourseId", courseId);
                     cmd.Parameters.AddWithValue("@YearLevel", yearLevel);
                     cmd.Parameters.AddWithValue("@Semester", semester);
 
                     object result = cmd.ExecuteScalar();
-                    if (result != DBNull.Value)
-                    {
-                        totalUnits = Convert.ToInt32(result);
-                    }
+                    return result != DBNull.Value ? Convert.ToInt32(result) : 0;
                 }
             }
-
-            return totalUnits;
         }
 
         private void FormNewAcademiccs_Load(object sender, EventArgs e)
@@ -522,23 +583,24 @@ namespace Enrollment_System
 
             if (!string.IsNullOrEmpty(EnrollmentId))
             {
-                // Existing enrollment - load the data
                 LoadExistingEnrollmentData();
             }
             else
             {
-                // New enrollment - clear fields and load basic user data
                 ClearNewEnrollmentFields();
-                LoadUserBasicInfo(); // Modified to only load basic info, not enrollment data
+                LoadUserBasicInfo();
+
+                if (SessionManager.TempGradePdf != null)
+                {
+                    TxtGradePdfPath.Text = SessionManager.TempGradePdfName;
+                    UpdatePdfDisplay(SessionManager.TempGradePdfName);
+                }
             }
 
             if (!string.IsNullOrEmpty(SessionManager.SelectedCourse))
             {
                 int index = CmbCourse.FindStringExact(SessionManager.SelectedCourse);
-                if (index >= 0)
-                {
-                    CmbCourse.SelectedIndex = index;
-                }
+                if (index >= 0) CmbCourse.SelectedIndex = index;
                 SessionManager.SelectedCourse = null;
             }
         }
@@ -547,12 +609,13 @@ namespace Enrollment_System
         {
             TxtPreviousSection.Clear();
             TxtPreviousSection.ForeColor = Color.Black;
-
             CmbSem.SelectedIndex = -1;
             CmbYrLvl.SelectedIndex = -1;
-
             CmbCourse.SelectedIndex = -1;
             CmbCourse.Text = "";
+
+            var existingLink = this.Controls.OfType<LinkLabel>().FirstOrDefault(l => l.Tag?.ToString() == "pdfLink");
+            if (existingLink != null) this.Controls.Remove(existingLink);
         }
 
         private void LoadUserBasicInfo()
@@ -563,49 +626,32 @@ namespace Enrollment_System
                 TxtPreviousSection.ForeColor = Color.Gray;
 
                 using (var conn = new MySqlConnection(connectionString))
+                using (var cmd = new MySqlCommand(
+                    @"SELECT s.student_no, s.first_name, s.middle_name, s.last_name, 
+                      s.profile_picture, c.course_name
+                      FROM students s
+                      LEFT JOIN student_enrollments se ON s.student_id = se.student_id
+                      LEFT JOIN courses c ON se.course_id = c.course_id
+                      WHERE s.user_id = @UserID
+                      ORDER BY se.enrollment_id DESC LIMIT 1", conn))
                 {
                     conn.Open();
+                    cmd.Parameters.AddWithValue("@UserID", loggedInUserId);
 
-
-                    string query = @"SELECT
-                            s.student_id, 
-                            IFNULL(s.student_no, '') AS student_no,
-                            IFNULL(s.first_name, '') AS first_name,
-                            IFNULL(s.middle_name, '') AS middle_name,
-                            IFNULL(s.last_name, '') AS last_name,
-                            s.profile_picture,
-                            IFNULL(c.course_name, '') AS course_name
-                        FROM students s
-                        LEFT JOIN student_enrollments se ON s.student_id = se.student_id
-                        LEFT JOIN courses c ON se.course_id = c.course_id
-                        WHERE s.user_id = @UserID
-                        ORDER BY se.enrollment_id DESC
-                        LIMIT 1";
-
-                    using (var cmd = new MySqlCommand(query, conn))
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        cmd.Parameters.AddWithValue("@UserID", loggedInUserId);
-
-                        using (var reader = cmd.ExecuteReader())
+                        if (reader.Read())
                         {
-                            if (reader.Read())
+                            TxtStudentNo.Text = reader["student_no"].ToString();
+                            TxtFirstName.Text = reader["first_name"].ToString();
+                            TxtMiddleName.Text = reader["middle_name"].ToString();
+                            TxtLastName.Text = reader["last_name"].ToString();
+                            SetComboBoxSelection(CmbCourse, reader["course_name"].ToString());
+
+                            if (reader["profile_picture"] != DBNull.Value)
                             {
-                                // Only load basic student info
-                                TxtStudentNo.Text = reader["student_no"].ToString();
-                                TxtFirstName.Text = reader["first_name"].ToString();
-                                TxtMiddleName.Text = reader["middle_name"].ToString();
-                                TxtLastName.Text = reader["last_name"].ToString();
-                                SetComboBoxSelection(CmbCourse, reader["course_name"].ToString());
-                                //CmbCourse.Enabled = false;
-                                // Handle profile picture
-                                if (reader["profile_picture"] != DBNull.Value)
-                                {
-                                    byte[] imageBytes = (byte[])reader["profile_picture"];
-                                    using (MemoryStream ms = new MemoryStream(imageBytes))
-                                    {
-                                        PicBoxID.Image = Image.FromStream(ms);
-                                    }
-                                }
+                                PicBoxID.Image = Image.FromStream(
+                                    new MemoryStream((byte[])reader["profile_picture"]));
                             }
                         }
                     }
@@ -613,7 +659,10 @@ namespace Enrollment_System
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading user data: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error loading user data: " + ex.Message,
+                              "Database Error",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
             }
         }
 
@@ -622,57 +671,47 @@ namespace Enrollment_System
             try
             {
                 using (var conn = new MySqlConnection(connectionString))
+                using (var cmd = new MySqlCommand("SELECT course_name FROM courses ORDER BY course_name", conn))
                 {
                     conn.Open();
-                    string query = "SELECT course_name FROM courses ORDER BY course_name";
-
-                    using (var cmd = new MySqlCommand(query, conn))
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        using (var reader = cmd.ExecuteReader())
+                        CmbCourse.Items.Clear();
+                        while (reader.Read())
                         {
-                            CmbCourse.Items.Clear();
-
-                            while (reader.Read())
+                            string courseName = reader["course_name"].ToString();
+                            if (!string.IsNullOrEmpty(courseName))
                             {
-                                string courseName = reader["course_name"].ToString();
-                                if (!string.IsNullOrEmpty(courseName))
-                                {
-                                    CmbCourse.Items.Add(courseName);
-                                }
+                                CmbCourse.Items.Add(courseName);
                             }
+                        }
 
-                            if (CmbCourse.Items.Count == 0)
-                            {
-                                MessageBox.Show("No courses found in the database.", "Data Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            }
+                        if (CmbCourse.Items.Count == 0)
+                        {
+                            MessageBox.Show("No courses found in the database.",
+                                          "Data Error",
+                                          MessageBoxButtons.OK,
+                                          MessageBoxIcon.Warning);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading course list: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error loading course list: " + ex.Message,
+                              "Database Error",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
             }
-        }
-
-        public class ComboboxItem
-        {
-            public string Text { get; set; }
-            public string Value { get; set; }
-            public override string ToString() => Text;
         }
 
         private void InitializeComboBoxes()
         {
             CmbSem.Items.Clear();
-            CmbSem.Items.Add("1st Sem");
-            CmbSem.Items.Add("2nd Sem");
+            CmbSem.Items.AddRange(new object[] { "1st Sem", "2nd Sem" });
 
             CmbYrLvl.Items.Clear();
-            CmbYrLvl.Items.Add("1st Year");
-            CmbYrLvl.Items.Add("2nd Year");
-            CmbYrLvl.Items.Add("3rd Year");
-            CmbYrLvl.Items.Add("4th Year");
+            CmbYrLvl.Items.AddRange(new object[] { "1st Year", "2nd Year", "3rd Year", "4th Year" });
         }
 
         private void LoadExistingEnrollmentData()
@@ -680,97 +719,54 @@ namespace Enrollment_System
             try
             {
                 using (var conn = new MySqlConnection(connectionString))
+                using (var cmd = new MySqlCommand(
+                    @"SELECT se.academic_year, se.semester, se.year_level, c.course_name,
+                      s.first_name, s.middle_name, s.last_name, s.student_no, s.profile_picture,
+                      ah.previous_section, se.grade_pdf_path
+                      FROM student_enrollments se
+                      JOIN courses c ON se.course_id = c.course_id
+                      JOIN students s ON se.student_id = s.student_id
+                      LEFT JOIN academic_history ah ON se.enrollment_id = ah.enrollment_id
+                      WHERE se.enrollment_id = @EnrollmentId", conn))
                 {
                     conn.Open();
+                    cmd.Parameters.AddWithValue("@EnrollmentId", EnrollmentId);
 
-                    string query = @"
-                        SELECT 
-                            se.academic_year,
-                            se.semester,
-                            se.year_level,
-                            c.course_name,
-                            s.first_name,
-                            s.middle_name,
-                            s.last_name,
-                            s.student_no,
-                            s.profile_picture,
-                            ah.previous_section -- Fetch previous_section from academic_history
-                        FROM student_enrollments se
-                        JOIN courses c ON se.course_id = c.course_id
-                        JOIN students s ON se.student_id = s.student_id
-                        LEFT JOIN academic_history ah ON se.enrollment_id = ah.enrollment_id -- Join academic_history table
-                        WHERE se.enrollment_id = @EnrollmentId";
-
-                    Console.WriteLine("SQL Query: " + query);
-                    Console.WriteLine("Enrollment ID: " + EnrollmentId);
-                    using (var cmd = new MySqlCommand(query, conn))
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        cmd.Parameters.AddWithValue("@EnrollmentId", EnrollmentId);
-
-                        using (var reader = cmd.ExecuteReader())
+                        if (reader.Read())
                         {
-                            if (reader.Read())
+                            // Set basic fields
+                            TxtSchoolYear.Text = reader["academic_year"].ToString();
+                            SetComboBoxSelection(CmbSem, reader["semester"].ToString());
+                            SetComboBoxSelection(CmbYrLvl, reader["year_level"].ToString());
+                            SetComboBoxSelection(CmbCourse, reader["course_name"].ToString());
+
+                            // Set student info
+                            TxtStudentNo.Text = reader["student_no"].ToString();
+                            TxtFirstName.Text = reader["first_name"].ToString();
+                            TxtMiddleName.Text = reader["middle_name"].ToString();
+                            TxtLastName.Text = reader["last_name"].ToString();
+
+                            // Set profile picture
+                            if (reader["profile_picture"] != DBNull.Value)
                             {
-                                // Set academic year
-                                if (!reader.IsDBNull(reader.GetOrdinal("academic_year")))
-                                {
-                                    TxtSchoolYear.Text = reader["academic_year"].ToString();
-                                }
-
-                                // Set semester
-                                if (!reader.IsDBNull(reader.GetOrdinal("semester")))
-                                {
-                                    string semester = reader["semester"].ToString();
-                                    SetComboBoxSelection(CmbSem, semester);
-                                }
-
-                                // Set year level
-                                if (!reader.IsDBNull(reader.GetOrdinal("year_level")))
-                                {
-                                    string yearLevel = reader["year_level"].ToString();
-                                    SetComboBoxSelection(CmbYrLvl, yearLevel);
-                                }
-
-                                // Set course
-                                if (!reader.IsDBNull(reader.GetOrdinal("course_name")))
-                                {
-                                    string courseName = reader["course_name"].ToString();
-                                    SetComboBoxSelection(CmbCourse, courseName);
-                                }
-
-                                // Set student info
-                                TxtStudentNo.Text = reader["student_no"].ToString();
-                                TxtFirstName.Text = reader["first_name"].ToString();
-                                TxtMiddleName.Text = reader["middle_name"].ToString();
-                                TxtLastName.Text = reader["last_name"].ToString();
-
-                                // Handle profile picture
-                                if (reader["profile_picture"] != DBNull.Value)
-                                {
-                                    byte[] imageBytes = (byte[])reader["profile_picture"];
-                                    using (MemoryStream ms = new MemoryStream(imageBytes))
-                                    {
-                                        PicBoxID.Image = Image.FromStream(ms);
-                                    }
-                                }
-
-                                // Debugging: Log the previous section value
-                                Console.WriteLine("Previous Section: " + reader["previous_section"]); // Debugging previous_section
-
-                                // Set previous section (from academic_history)
-                                if (!reader.IsDBNull(reader.GetOrdinal("previous_section")))
-                                {
-                                    TxtPreviousSection.Text = reader["previous_section"].ToString();
-                                }
-                                else
-                                {
-                                    TxtPreviousSection.Text = "No previous section available"; // Handle null or empty
-                                }
+                                PicBoxID.Image = Image.FromStream(
+                                    new MemoryStream((byte[])reader["profile_picture"]));
                             }
-                            else
-                            {
-                                Console.WriteLine("No data found for Enrollment ID: " + EnrollmentId); // Log if no data is found
-                            }
+
+                            // Set previous section
+                            TxtPreviousSection.Text = reader.IsDBNull(reader.GetOrdinal("previous_section"))
+                                ? "No previous section available"
+                                : reader["previous_section"].ToString();
+
+                            // Set PDF path
+                            string pdfPath = reader.IsDBNull(reader.GetOrdinal("grade_pdf_path"))
+                                ? "No grade PDF uploaded"
+                                : reader["grade_pdf_path"].ToString();
+
+                            TxtGradePdfPath.Text = pdfPath;
+                            UpdatePdfDisplay(pdfPath);
                         }
                     }
                 }
@@ -778,16 +774,15 @@ namespace Enrollment_System
             catch (Exception ex)
             {
                 MessageBox.Show("Error loading enrollment data: " + ex.Message,
-                                  "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                              "Error",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
             }
         }
 
-
         private void SetComboBoxSelection(ComboBox comboBox, string value)
         {
-            if (string.IsNullOrEmpty(value))
-                return;
-
+            if (string.IsNullOrEmpty(value)) return;
 
             int index = comboBox.FindStringExact(value);
             if (index >= 0)
@@ -807,34 +802,28 @@ namespace Enrollment_System
 
             comboBox.Text = value;
         }
-        public void SetText(string message)
-        {
-            TxtCourse.Text = message;
-        }
 
-        private void TxtCourse_TextChanged(object sender, EventArgs e)
+        private void SetDefaultAcademicYear()
         {
-
+            int currentYear = DateTime.Now.Year;
+            int startYear = DateTime.Now.Month >= 1 ? currentYear : currentYear - 1;
+            TxtSchoolYear.Text = $"{startYear}-{startYear + 1}";
+            TxtSchoolYear.ForeColor = Color.Black;
         }
 
         private int GetCourseIdFromText(string courseText)
         {
-            if (string.IsNullOrWhiteSpace(courseText))
-                return -1;
+            if (string.IsNullOrWhiteSpace(courseText)) return -1;
 
             using (var conn = new MySqlConnection(connectionString))
+            using (var cmd = new MySqlCommand("SELECT course_id FROM courses WHERE course_name = @CourseName", conn))
             {
                 conn.Open();
-                string query = "SELECT course_id FROM courses WHERE course_name = @CourseName";
-                using (var cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@CourseName", courseText);
-                    object result = cmd.ExecuteScalar();
-                    return result != null ? Convert.ToInt32(result) : -1;
-                }
+                cmd.Parameters.AddWithValue("@CourseName", courseText);
+                object result = cmd.ExecuteScalar();
+                return result != null ? Convert.ToInt32(result) : -1;
             }
         }
-
 
         private void ExecuteQuery(MySqlConnection conn, string query, params MySqlParameter[] parameters)
         {
@@ -845,11 +834,9 @@ namespace Enrollment_System
             }
         }
 
-        private void TxtPreviewSection_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        // Empty methods preserved to prevent Visual Studio 2015 errors
+        private void TxtCourse_TextChanged(object sender, EventArgs e) { }
+        private void TxtPreviewSection_TextChanged(object sender, EventArgs e) { }
         private void TxtPreviewSection_Enter_1(object sender, EventArgs e)
         {
             if (TxtPreviousSection.Text == "e.g. BSIT-22-A")
@@ -858,7 +845,6 @@ namespace Enrollment_System
                 TxtPreviousSection.ForeColor = Color.Black;
             }
         }
-
         private void TxtPreviewSection_Leave_1(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(TxtPreviousSection.Text))
@@ -867,26 +853,15 @@ namespace Enrollment_System
                 TxtPreviousSection.ForeColor = Color.Gray;
             }
         }
+        private void TxtSchoolYear_Enter(object sender, EventArgs e) { }
+        private void TxtSchoolYear_Leave(object sender, EventArgs e) { }
+        public void SetText(string message) { }
+    }
 
-        private void TxtSchoolYear_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TxtSchoolYear_Leave(object sender, EventArgs e)
-        {
-
-        }
-
-        private void SetDefaultAcademicYear()
-        {
-            int currentYear = DateTime.Now.Year;
-
-            int startYear = DateTime.Now.Month >= 1 ? currentYear : currentYear - 1;
-            int endYear = startYear + 1;
-
-            TxtSchoolYear.Text = $"{startYear}-{endYear}";
-            TxtSchoolYear.ForeColor = Color.Black;
-        }
+    public class ComboboxItem
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
+        public override string ToString() => Text;
     }
 }

@@ -23,6 +23,8 @@ namespace Enrollment_System
         public static DateTime LoginTime { get; private set; }
         public static TimeSpan SessionDuration => DateTime.Now - LoginTime;
         public static int StudentId { get; set; }
+        public static byte[] TempGradePdf { get; set; }
+        public static string TempGradePdfName { get; set; }
 
         // Role-based access properties
         public static bool IsAdmin => UserRole?.Equals("admin", StringComparison.OrdinalIgnoreCase) ?? false;
