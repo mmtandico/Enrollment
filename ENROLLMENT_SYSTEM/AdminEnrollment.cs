@@ -15,20 +15,18 @@ namespace Enrollment_System
     public partial class AdminEnrollment : Form
     {
         private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
-
         private readonly string _sendGridApiKey = ConfigurationManager.AppSettings["SendGridApiKey"];
-
         private string currentProgramFilter = "All";
         private Button[] programButtons;
-       
 
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
-            LoadPaymentData(); 
-            LoadStudentData(); 
+            LoadPaymentData();
+            LoadStudentData();
+            RefreshDataGridView(DataGridNewEnrollment);
         }
-        
+
         public AdminEnrollment()
         {
             InitializeComponent();
@@ -37,14 +35,15 @@ namespace Enrollment_System
             LoadStudentData();
             InitializeFilterControls();
 
+            DataGridNewEnrollment.DataBindingComplete += (s, e) => UpdateRowNumbersNewEnrollment();
             DataGridPaidEnrollment.DataBindingComplete += (s, e) => UpdateRowNumbesPaidEnrollment();
 
             DataGridNewEnrollment.Sorted += DataGridNewEnrollment_Sorted;
             DataGridPayment.Sorted += DataGridPayment_Sorted;
             DataGridPaidEnrollment.Sorted += DataGridPaidEnrollment_Sorted;
+
             ProgramButton_Click(BtnAll, EventArgs.Empty);
             tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
-
         }
 
         public static class EnrollmentStatus
@@ -52,12 +51,10 @@ namespace Enrollment_System
             public const string Pending = "Pending";
             public const string PaymentPending = "Payment Pending";
             public const string Enrolled = "Enrolled";
-            
         }
 
         private void AdminEnrollment_Load(object sender, EventArgs e)
         {
-            
             foreach (DataGridViewColumn col in DataGridNewEnrollment.Columns)
             {
                 Console.WriteLine("Column Name: " + col.Name);
@@ -65,10 +62,26 @@ namespace Enrollment_System
 
             DataGridPayment.CellClick += DataGridPayment_CellClick;
             DataGridNewEnrollment.CellClick += DataGridNewEnrollment_CellClick;
-            StyleTwoTabControl();
 
+            StyleTwoTabControl();
             InitializeDataGridView();
             InitializeFilterControls();
+            SetupDataGridColumns();
+            ConfigureDataGridLayouts();
+
+            CustomizeDataGridNewEnrollment();
+            CustomizeDataGridPaidEnrollment();
+            CustomizeDataGridPayment();
+            StyleTwoTabControl();
+
+            if (SessionManager.HasRole("cashier"))
+            {
+                tabControl1.TabPages.Remove(tabStudentEnrollment);
+            }
+        }
+
+        private void SetupDataGridColumns()
+        {
             DataGridNewEnrollment.AutoGenerateColumns = false;
             enrollment_id.DataPropertyName = "enrollment_id";
             student_no.DataPropertyName = "student_no";
@@ -105,222 +118,117 @@ namespace Enrollment_System
             semester_pe.DataPropertyName = "semester";
             year_level_pe.DataPropertyName = "year_level";
             status_pe.DataPropertyName = "payment_status";
+        }
 
+        private void ConfigureDataGridLayouts()
+        {
+            ConfigureDataGridLayout(DataGridNewEnrollment);
+            ConfigureDataGridLayout(DataGridPaidEnrollment);
+            ConfigureDataGridLayout(DataGridPayment);
+        }
 
-            LoadStudentData();
-            LoadPaymentData();
-            LoadPaidEnrollments();
+        private void ConfigureDataGridLayout(DataGridView dataGrid)
+        {
+            dataGrid.AllowUserToResizeColumns = false;
+            dataGrid.AllowUserToResizeRows = false;
+            dataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 
-            DataGridNewEnrollment.AllowUserToResizeColumns = false;
-            DataGridNewEnrollment.AllowUserToResizeRows = false;
-            DataGridNewEnrollment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            foreach (DataGridViewColumn column in DataGridNewEnrollment.Columns)
+            foreach (DataGridViewColumn column in dataGrid.Columns)
             {
                 column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
-            int totalCols1 = DataGridNewEnrollment.Columns.Count;
-            DataGridNewEnrollment.Columns[totalCols1 - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridNewEnrollment.Columns[totalCols1 - 1].Width = 40;
-            DataGridNewEnrollment.Columns[totalCols1 - 2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridNewEnrollment.Columns[totalCols1 - 2].Width = 40;
-            DataGridNewEnrollment.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridNewEnrollment.Columns[0].Width = 50;
-            DataGridNewEnrollment.RowTemplate.Height = 35;
-            DataGridNewEnrollment.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            DataGridNewEnrollment.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            DataGridNewEnrollment.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            DataGridNewEnrollment.Columns[7].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            DataGridNewEnrollment.Columns[8].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            DataGridNewEnrollment.Columns[9].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            foreach (DataGridViewColumn col in DataGridNewEnrollment.Columns)
+            int totalCols = dataGrid.Columns.Count;
+            dataGrid.Columns[totalCols - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGrid.Columns[totalCols - 1].Width = 40;
+            dataGrid.Columns[totalCols - 2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGrid.Columns[totalCols - 2].Width = 40;
+            dataGrid.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGrid.Columns[0].Width = 50;
+            dataGrid.RowTemplate.Height = 35;
+
+            string[] centerAlignedColumns = { "student_no", "Program", "academic_year", "semester", "year_level", "status" };
+            foreach (string colName in centerAlignedColumns)
+            {
+                if (dataGrid.Columns.Contains(colName))
+                {
+                    dataGrid.Columns[colName].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+            }
+
+            foreach (DataGridViewColumn col in dataGrid.Columns)
             {
                 col.Frozen = false;
                 col.Resizable = DataGridViewTriState.True;
-            }
-            ////////////////////////////
-            DataGridPaidEnrollment.AllowUserToResizeColumns = false;
-            DataGridPaidEnrollment.AllowUserToResizeRows = false;
-            DataGridPaidEnrollment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            foreach (DataGridViewColumn column in DataGridPaidEnrollment.Columns)
-            {
-                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            }
-            int totalCols2 = DataGridPaidEnrollment.Columns.Count;
-            DataGridPaidEnrollment.Columns[totalCols2 - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridPaidEnrollment.Columns[totalCols2 - 1].Width = 40;
-            DataGridPaidEnrollment.Columns[totalCols2 - 2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridPaidEnrollment.Columns[totalCols2 - 2].Width = 40;
-            DataGridPaidEnrollment.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridPaidEnrollment.Columns[0].Width = 50;
-            DataGridPaidEnrollment.RowTemplate.Height = 35;
-            DataGridPaidEnrollment.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            DataGridPaidEnrollment.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            DataGridPaidEnrollment.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            DataGridPaidEnrollment.Columns[7].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            DataGridPaidEnrollment.Columns[8].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            DataGridPaidEnrollment.Columns[9].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            foreach (DataGridViewColumn col in DataGridPaidEnrollment.Columns)
-            {
-                col.Frozen = false;
-                col.Resizable = DataGridViewTriState.True;
-            }
-            ///////////////////////////////
-            DataGridPayment.AllowUserToResizeColumns = false;
-            DataGridPayment.AllowUserToResizeRows = false;
-            DataGridPayment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            foreach (DataGridViewColumn column in DataGridPayment.Columns)
-            {
-                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            }
-            int totalCols3 = DataGridPayment.Columns.Count;
-            DataGridPayment.Columns[totalCols3 - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridPayment.Columns[totalCols3 - 1].Width = 40;
-            DataGridPayment.Columns[totalCols3 - 2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridPayment.Columns[totalCols3 - 2].Width = 40;
-            DataGridPayment.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridPayment.Columns[0].Width = 50;
-            DataGridPayment.RowTemplate.Height = 35;
-            DataGridPayment.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            DataGridPayment.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            DataGridPayment.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            DataGridPayment.Columns[7].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            DataGridPayment.Columns[8].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            DataGridPayment.Columns[9].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            foreach (DataGridViewColumn col in DataGridPayment.Columns)
-            {
-                col.Frozen = false;
-                col.Resizable = DataGridViewTriState.True;
-            }
-
-            CustomizeDataGridNewEnrollment();
-            CustomizeDataGridPaidEnrollment();
-            CustomizeDataGridPayment();
-            StyleTwoTabControl();
-
-            if (SessionManager.HasRole("cashier"))
-            {
-                
-                tabControl1.TabPages.Remove(tabStudentEnrollment);
             }
         }
 
         private void InitializeDataGridView()
         {
-            foreach (DataGridViewColumn col in DataGridNewEnrollment.Columns)
+            InitializeGridSettings(DataGridNewEnrollment, "ColOpen1", "ColClose1");
+            InitializeGridSettings(DataGridPaidEnrollment, "ColOpen2", "ColClose2");
+            InitializeGridSettings(DataGridPayment, "ColOpen3", "ColClose3");
+        }
+
+        private void InitializeGridSettings(DataGridView dataGrid, string openColName, string closeColName)
+        {
+            foreach (DataGridViewColumn col in dataGrid.Columns)
             {
                 col.Frozen = false;
             }
 
-            DataGridNewEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            DataGridNewEnrollment.Columns["ColOpen1"].Width = 50;
-            DataGridNewEnrollment.Columns["ColClose1"].Width = 50;
-            DataGridNewEnrollment.Columns["ColOpen1"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridNewEnrollment.Columns["ColClose1"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridNewEnrollment.RowTemplate.Height = 40;
-            DataGridNewEnrollment.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            dataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGrid.Columns[openColName].Width = 50;
+            dataGrid.Columns[closeColName].Width = 50;
+            dataGrid.Columns[openColName].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGrid.Columns[closeColName].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGrid.RowTemplate.Height = 40;
+            dataGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 
+            dataGrid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            DataGridNewEnrollment.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            DataGridNewEnrollment.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            DataGridViewImageColumn colOpen1 = (DataGridViewImageColumn)DataGridNewEnrollment.Columns["ColOpen1"];
-            colOpen1.ImageLayout = DataGridViewImageCellLayout.Zoom;
-
-            DataGridViewImageColumn colClose1 = (DataGridViewImageColumn)DataGridNewEnrollment.Columns["ColClose1"];
-            colClose1.ImageLayout = DataGridViewImageCellLayout.Zoom;
-
-            foreach (DataGridViewColumn col in DataGridNewEnrollment.Columns)
+            DataGridViewImageColumn openCol = dataGrid.Columns[openColName] as DataGridViewImageColumn;
+            if (openCol != null)
             {
-                col.Resizable = DataGridViewTriState.True;
+                openCol.ImageLayout = DataGridViewImageCellLayout.Zoom;
             }
-            ///////////////////////////////
-            foreach (DataGridViewColumn col in DataGridPaidEnrollment.Columns)
+
+            DataGridViewImageColumn closeCol = dataGrid.Columns[closeColName] as DataGridViewImageColumn;
+            if (closeCol != null)
             {
-                col.Frozen = false;
+                closeCol.ImageLayout = DataGridViewImageCellLayout.Zoom;
             }
-            DataGridPaidEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            DataGridPaidEnrollment.Columns["ColOpen2"].Width = 50;
-            DataGridPaidEnrollment.Columns["ColClose2"].Width = 50;
-            DataGridPaidEnrollment.Columns["ColOpen2"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridPaidEnrollment.Columns["ColClose2"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridPaidEnrollment.RowTemplate.Height = 40;
-            DataGridPaidEnrollment.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 
-
-            DataGridPaidEnrollment.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            DataGridPaidEnrollment.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            DataGridViewImageColumn colOpen2 = (DataGridViewImageColumn)DataGridPaidEnrollment.Columns["ColOpen2"];
-            colOpen2.ImageLayout = DataGridViewImageCellLayout.Zoom;
-
-            DataGridViewImageColumn colClose2 = (DataGridViewImageColumn)DataGridPaidEnrollment.Columns["ColClose2"];
-            colClose2.ImageLayout = DataGridViewImageCellLayout.Zoom;
-
-            foreach (DataGridViewColumn col in DataGridPaidEnrollment.Columns)
+            foreach (DataGridViewColumn col in dataGrid.Columns)
             {
-                //col.Frozen = false;
-                col.Resizable = DataGridViewTriState.True;
-            }
-            /////////////////////////////////
-            foreach (DataGridViewColumn col in DataGridPayment.Columns)
-            {
-                col.Frozen = false;
-            }
-            DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            DataGridPayment.Columns["ColOpen3"].Width = 50;
-            DataGridPayment.Columns["ColClose3"].Width = 50;
-            DataGridPayment.Columns["ColOpen3"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridPayment.Columns["ColClose3"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            DataGridPayment.RowTemplate.Height = 40;
-            DataGridPayment.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-
-
-            DataGridPayment.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            DataGridPayment.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            DataGridViewImageColumn colOpen3 = (DataGridViewImageColumn)DataGridPayment.Columns["ColOpen3"];
-            colOpen3.ImageLayout = DataGridViewImageCellLayout.Zoom;
-
-            DataGridViewImageColumn colClose3 = (DataGridViewImageColumn)DataGridPayment.Columns["ColClose3"];
-            colClose3.ImageLayout = DataGridViewImageCellLayout.Zoom;
-
-            foreach (DataGridViewColumn col in DataGridPayment.Columns)
-            {     
                 col.Resizable = DataGridViewTriState.True;
             }
         }
 
         private void InitializeProgramButtons()
         {
-
             programButtons = new Button[]
             {
                 BtnBSCS, BtnBSIT, BtnBSTM, BtnBSHM, BtnBSOAD, BtnBECED, BtnBTLED, BtnAll
             };
 
-
             foreach (var btn in programButtons)
             {
                 btn.Click += ProgramButton_Click;
             }
-
         }
 
         private void InitializeFilterControls()
         {
-            CmbYrLvl.SelectedIndex = 0; 
-
+            CmbYrLvl.SelectedIndex = 0;
             CmbSem.SelectedIndex = 0;
             CmbSchoolYear.SelectedIndex = 0;
 
             CmbYrLvl.SelectedIndexChanged += ApplyFilters;
             CmbSem.SelectedIndexChanged += ApplyFilters;
-             CmbSchoolYear.SelectedIndexChanged += ApplyFilters;
+            CmbSchoolYear.SelectedIndexChanged += ApplyFilters;
         }
-    
 
         private void LoadStudentData()
         {
@@ -330,23 +238,23 @@ namespace Enrollment_System
                 {
                     connection.Open();
                     string query = @"
-                        SELECT 
-                            se.enrollment_id,
-                            s.student_no,
-                            s.last_name,
-                            s.first_name,
-                            s.middle_name,
-                            c.course_code AS Program,
-                            se.academic_year,
-                            se.semester,
-                            se.year_level,
-                            se.status,
-                            se.grade_pdf_path,
-                            se.grade_pdf
-                        FROM student_enrollments se
-                        INNER JOIN students s ON se.student_id = s.student_id
-                        INNER JOIN courses c ON se.course_id = c.course_id
-                        WHERE se.status = 'Pending'";
+                    SELECT 
+                        se.enrollment_id,
+                        s.student_no,
+                        s.last_name,
+                        s.first_name,
+                        s.middle_name,
+                        c.course_code AS Program,
+                        se.academic_year,
+                        se.semester,
+                        se.year_level,
+                        se.status,
+                        se.grade_pdf_path,
+                        se.grade_pdf
+                    FROM student_enrollments se
+                    INNER JOIN students s ON se.student_id = s.student_id
+                    INNER JOIN courses c ON se.course_id = c.course_id
+                    WHERE se.status = 'Pending'";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
@@ -355,10 +263,17 @@ namespace Enrollment_System
                             DataGridNewEnrollment.AutoGenerateColumns = false;
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
-                            DataGridNewEnrollment.DataSource = dt;
-                            UpdateRowNumbersNewEnrollment();
 
-                            // Ensure column stays hidden if it exists
+                            DataGridViewBindingCompleteEventHandler bindingCompleteHandler = null;
+                            bindingCompleteHandler = (sender, e) =>
+                            {
+                                UpdateRowNumbersNewEnrollment();
+                                DataGridNewEnrollment.DataBindingComplete -= bindingCompleteHandler;
+                            };
+
+                            DataGridNewEnrollment.DataBindingComplete += bindingCompleteHandler;
+                            DataGridNewEnrollment.DataSource = dt;
+
                             if (DataGridNewEnrollment.Columns.Contains("grade_pdf_path"))
                             {
                                 DataGridNewEnrollment.Columns["grade_pdf_path"].Visible = false;
@@ -376,41 +291,27 @@ namespace Enrollment_System
 
         private void UpdateRowNumbersNewEnrollment()
         {
-            if (DataGridNewEnrollment.Rows.Count == 0) return;
-
-            int noColumnIndex = DataGridNewEnrollment.Columns[1].Index;
-
-            for (int i = 0; i < DataGridNewEnrollment.Rows.Count; i++)
-            {
-                if (DataGridNewEnrollment.Rows[i].IsNewRow) continue;
-                DataGridNewEnrollment.Rows[i].Cells[noColumnIndex].Value = (i + 1).ToString();
-            }
+            UpdateRowNumbers(DataGridNewEnrollment, 1);
         }
 
         private void UpdateRowNumbersPyment()
         {
-            if (DataGridPayment.Rows.Count == 0) return;
-
-            int noColumnIndex = DataGridPayment.Columns[1].Index;
-
-            for (int i = 0; i < DataGridPayment.Rows.Count; i++)
-            {
-                if (DataGridPayment.Rows[i].IsNewRow) continue;
-                DataGridPayment.Rows[i].Cells[noColumnIndex].Value = (i + 1).ToString();
-            }
+            UpdateRowNumbers(DataGridPayment, 1);
         }
 
         private void UpdateRowNumbesPaidEnrollment()
         {
-            if (DataGridPaidEnrollment.Rows.Count == 0) return;
+            UpdateRowNumbers(DataGridPaidEnrollment, 0);
+        }
 
-            // Assuming the first column (index 0) is where you want the numbers to appear
-            int noColumnIndex = DataGridPaidEnrollment.Columns[0].Index;
+        private void UpdateRowNumbers(DataGridView dataGrid, int columnIndex)
+        {
+            if (dataGrid.Rows.Count == 0) return;
 
-            for (int i = 0; i < DataGridPaidEnrollment.Rows.Count; i++)
+            for (int i = 0; i < dataGrid.Rows.Count; i++)
             {
-                if (DataGridPaidEnrollment.Rows[i].IsNewRow) continue;
-                DataGridPaidEnrollment.Rows[i].Cells[noColumnIndex].Value = (i + 1).ToString();
+                if (dataGrid.Rows[i].IsNewRow) continue;
+                dataGrid.Rows[i].Cells[columnIndex].Value = (i + 1).ToString();
             }
         }
 
@@ -435,6 +336,15 @@ namespace Enrollment_System
             string semesterFilter = CmbSem.SelectedItem.ToString();
             string schoolyearFilter = CmbSchoolYear.SelectedItem.ToString();
 
+            string filterExpression = BuildFilterExpression(yearLevelFilter, semesterFilter, schoolyearFilter);
+
+            ApplyFilterToDataGrid(DataGridNewEnrollment, filterExpression);
+            ApplyFilterToDataGrid(DataGridPayment, filterExpression);
+            ApplyFilterToDataGrid(DataGridPaidEnrollment, filterExpression);
+        }
+
+        private string BuildFilterExpression(string yearLevelFilter, string semesterFilter, string schoolyearFilter)
+        {
             string filterExpression = "";
 
             if (currentProgramFilter != "All")
@@ -461,25 +371,18 @@ namespace Enrollment_System
                 filterExpression += $"[academic_year] = '{schoolyearFilter}'";
             }
 
-            if (DataGridNewEnrollment.DataSource is DataTable)
-            {
-                DataTable dt = (DataTable)DataGridNewEnrollment.DataSource;
-                dt.DefaultView.RowFilter = filterExpression;
-                UpdateRowNumbersNewEnrollment();
-            }
+            return filterExpression;
+        }
 
-            if (DataGridPayment.DataSource is DataTable)
+        private void ApplyFilterToDataGrid(DataGridView dataGrid, string filterExpression)
+        {
+            if (dataGrid.DataSource is DataTable)
             {
-                DataTable dt = (DataTable)DataGridPayment.DataSource;
+                DataTable dt = (DataTable)dataGrid.DataSource;
                 dt.DefaultView.RowFilter = filterExpression;
-                UpdateRowNumbersPyment();
-            }
-
-            if (DataGridPaidEnrollment.DataSource is DataTable)
-            {
-                DataTable dt = (DataTable)DataGridPaidEnrollment.DataSource;
-                dt.DefaultView.RowFilter = filterExpression;
-                UpdateRowNumbesPaidEnrollment();
+                if (dataGrid == DataGridNewEnrollment) UpdateRowNumbersNewEnrollment();
+                else if (dataGrid == DataGridPayment) UpdateRowNumbersPyment();
+                else if (dataGrid == DataGridPaidEnrollment) UpdateRowNumbesPaidEnrollment();
             }
         }
 
@@ -492,7 +395,7 @@ namespace Enrollment_System
 
             if (clickedButton == BtnAll)
             {
-                CmbYrLvl.SelectedIndex = 0; 
+                CmbYrLvl.SelectedIndex = 0;
                 CmbSem.SelectedIndex = 0;
                 CmbSchoolYear.SelectedIndex = 0;
             }
@@ -500,196 +403,42 @@ namespace Enrollment_System
             ApplyFilters(null, null);
         }
 
-        private void StyleDataGridEnrolled()
+        private void StyleDataGrid(DataGridView dataGrid)
         {
-            DataGridNewEnrollment.BorderStyle = BorderStyle.None;
+            dataGrid.BorderStyle = BorderStyle.None;
+            dataGrid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
+            dataGrid.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
+            dataGrid.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
+            dataGrid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
+            dataGrid.DefaultCellStyle.SelectionForeColor = Color.White;
+            dataGrid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33);
+            dataGrid.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dataGrid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            dataGrid.EnableHeadersVisualStyles = false;
+            dataGrid.GridColor = Color.BurlyWood;
+            dataGrid.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+            dataGrid.RowTemplate.Height = 35;
+            dataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            DataGridNewEnrollment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
-
-            DataGridNewEnrollment.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
-            DataGridNewEnrollment.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
-
-            DataGridNewEnrollment.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
-            DataGridNewEnrollment.DefaultCellStyle.SelectionForeColor = Color.White;
-
-            DataGridNewEnrollment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33);
-            DataGridNewEnrollment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            DataGridNewEnrollment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            DataGridNewEnrollment.EnableHeadersVisualStyles = false;
-
-            DataGridNewEnrollment.GridColor = Color.BurlyWood;
-
-            DataGridNewEnrollment.DefaultCellStyle.Font = new Font("Segoe UI", 10);
-
-            DataGridNewEnrollment.RowTemplate.Height = 35;
-
-            DataGridNewEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            foreach (DataGridViewColumn column in DataGridNewEnrollment.Columns)
+            foreach (DataGridViewColumn column in dataGrid.Columns)
             {
                 column.Resizable = DataGridViewTriState.False;
             }
-
-        }
-
-        private void StyleDataGridPaidEnrollment()
-        {
-            DataGridPaidEnrollment.BorderStyle = BorderStyle.None;
-
-            DataGridPaidEnrollment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
-
-            DataGridPaidEnrollment.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
-            DataGridPaidEnrollment.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
-
-            DataGridPaidEnrollment.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
-            DataGridPaidEnrollment.DefaultCellStyle.SelectionForeColor = Color.White;
-
-            DataGridPaidEnrollment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33);
-            DataGridPaidEnrollment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            DataGridPaidEnrollment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            DataGridPaidEnrollment.EnableHeadersVisualStyles = false;
-
-            DataGridPaidEnrollment.GridColor = Color.BurlyWood;
-
-            DataGridPaidEnrollment.DefaultCellStyle.Font = new Font("Segoe UI", 10);
-
-            DataGridPaidEnrollment.RowTemplate.Height = 35;
-
-            DataGridPaidEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            foreach (DataGridViewColumn column in DataGridPaidEnrollment.Columns)
-            {
-                column.Resizable = DataGridViewTriState.False;
-            }
-
-        }
-
-        private void StyleDataGridPayment()
-        {
-            DataGridPayment.BorderStyle = BorderStyle.None;
-
-            DataGridPayment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
-
-            DataGridPayment.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
-            DataGridPayment.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
-
-            DataGridPayment.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
-            DataGridPayment.DefaultCellStyle.SelectionForeColor = Color.White;
-
-            DataGridPayment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33);
-            DataGridPayment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            DataGridPayment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            DataGridPayment.EnableHeadersVisualStyles = false;
-
-            DataGridPayment.GridColor = Color.BurlyWood;
-
-            DataGridPayment.DefaultCellStyle.Font = new Font("Segoe UI", 10);
-
-            DataGridPayment.RowTemplate.Height = 35;
-
-            DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            foreach (DataGridViewColumn column in DataGridPayment.Columns)
-            {
-                column.Resizable = DataGridViewTriState.False;
-            }
-
         }
 
         private void CustomizeDataGridNewEnrollment()
         {
-            DataGridNewEnrollment.BorderStyle = BorderStyle.None;
-
-            DataGridNewEnrollment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
-
-            DataGridNewEnrollment.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
-            DataGridNewEnrollment.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
-
-            DataGridNewEnrollment.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
-            DataGridNewEnrollment.DefaultCellStyle.SelectionForeColor = Color.White;
-
-            DataGridNewEnrollment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33);
-            DataGridNewEnrollment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            DataGridNewEnrollment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            DataGridNewEnrollment.EnableHeadersVisualStyles = false;
-
-            DataGridNewEnrollment.GridColor = Color.BurlyWood;
-
-            DataGridNewEnrollment.DefaultCellStyle.Font = new Font("Segoe UI", 10);
-
-            DataGridNewEnrollment.RowTemplate.Height = 35;
-
-            DataGridNewEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-
-            foreach (DataGridViewColumn column in DataGridNewEnrollment.Columns)
-            {
-                column.Resizable = DataGridViewTriState.False;
-            }
+            StyleDataGrid(DataGridNewEnrollment);
         }
 
         private void CustomizeDataGridPaidEnrollment()
         {
-            DataGridPaidEnrollment.BorderStyle = BorderStyle.None;
-
-            DataGridPaidEnrollment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
-
-            DataGridPaidEnrollment.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
-            DataGridPaidEnrollment.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
-
-            DataGridPaidEnrollment.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
-            DataGridPaidEnrollment.DefaultCellStyle.SelectionForeColor = Color.White;
-
-            DataGridPaidEnrollment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33);
-            DataGridPaidEnrollment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            DataGridPaidEnrollment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            DataGridPaidEnrollment.EnableHeadersVisualStyles = false;
-
-            DataGridPaidEnrollment.GridColor = Color.BurlyWood;
-
-            DataGridPaidEnrollment.DefaultCellStyle.Font = new Font("Segoe UI", 10);
-
-            DataGridPaidEnrollment.RowTemplate.Height = 35;
-
-            DataGridPaidEnrollment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-
-            foreach (DataGridViewColumn column in DataGridPaidEnrollment.Columns)
-            {
-                column.Resizable = DataGridViewTriState.False;
-            }
+            StyleDataGrid(DataGridPaidEnrollment);
         }
 
         private void CustomizeDataGridPayment()
         {
-            DataGridPayment.BorderStyle = BorderStyle.None;
-
-            DataGridPayment.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
-
-            DataGridPayment.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
-            DataGridPayment.RowsDefaultCellStyle.ForeColor = Color.FromArgb(60, 34, 20);
-
-            DataGridPayment.DefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 165, 32);
-            DataGridPayment.DefaultCellStyle.SelectionForeColor = Color.White;
-
-            DataGridPayment.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 67, 33);
-            DataGridPayment.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            DataGridPayment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            DataGridPayment.EnableHeadersVisualStyles = false;
-
-            DataGridPayment.GridColor = Color.BurlyWood;
-
-            DataGridPayment.DefaultCellStyle.Font = new Font("Segoe UI", 10);
-
-            DataGridPayment.RowTemplate.Height = 35;
-
-            DataGridPayment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-
-            foreach (DataGridViewColumn column in DataGridPayment.Columns)
-            {
-                column.Resizable = DataGridViewTriState.False;
-            }
+            StyleDataGrid(DataGridPayment);
         }
 
         private void StyleTwoTabControl()
@@ -698,12 +447,6 @@ namespace Enrollment_System
             tabControl1.SizeMode = TabSizeMode.Fixed;
             tabControl1.ItemSize = new Size(160, 36);
 
-            Color darkBrown = Color.FromArgb(94, 55, 30);
-            Color mediumBrown = Color.FromArgb(139, 69, 19);
-            Color lightBrown = Color.FromArgb(210, 180, 140);
-            Color goldYellow = Color.FromArgb(218, 165, 32);
-            Color cream = Color.FromArgb(253, 245, 230);
-
             tabControl1.DrawItem += (sender, e) =>
             {
                 Graphics g = e.Graphics;
@@ -711,20 +454,18 @@ namespace Enrollment_System
                 Rectangle tabRect = tabControl1.GetTabRect(e.Index);
                 bool isSelected = tabControl1.SelectedIndex == e.Index;
 
-
                 if (isSelected)
                 {
                     tabRect.Inflate(0, 2);
                     tabRect.Y -= 2;
                 }
 
-
                 if (isSelected)
                 {
                     using (var brush = new LinearGradientBrush(
                         tabRect,
                         Color.FromArgb(255, 230, 170),
-                        goldYellow,
+                        Color.FromArgb(218, 165, 32),
                         LinearGradientMode.Vertical))
                     {
                         g.FillRectangle(brush, tabRect);
@@ -732,18 +473,17 @@ namespace Enrollment_System
                 }
                 else
                 {
-                    using (var brush = new SolidBrush(mediumBrown))
+                    using (var brush = new SolidBrush(Color.FromArgb(139, 69, 19)))
                     {
                         g.FillRectangle(brush, tabRect);
                     }
                 }
 
-
-                using (var pen = new Pen(isSelected ? goldYellow : darkBrown, isSelected ? 2f : 1f))
+                using (var pen = new Pen(isSelected ? Color.FromArgb(218, 165, 32) : Color.FromArgb(94, 55, 30),
+                    isSelected ? 2f : 1f))
                 {
                     g.DrawRectangle(pen, tabRect);
                 }
-
 
                 TextRenderer.DrawText(
                     g,
@@ -751,13 +491,12 @@ namespace Enrollment_System
                     new Font(tabControl1.Font.FontFamily, 9f,
                             isSelected ? FontStyle.Bold : FontStyle.Regular),
                     tabRect,
-                    isSelected ? darkBrown : Color.White,
+                    isSelected ? Color.FromArgb(94, 55, 30) : Color.White,
                     TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-
 
                 if (isSelected)
                 {
-                    using (var pen = new Pen(goldYellow, 2))
+                    using (var pen = new Pen(Color.FromArgb(218, 165, 32), 2))
                     {
                         int underlineY = tabRect.Bottom - 3;
                         g.DrawLine(pen, tabRect.Left + 10, underlineY,
@@ -777,6 +516,7 @@ namespace Enrollment_System
                 "Confirm Deletion",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
+
             if (result == DialogResult.Yes)
             {
                 try
@@ -793,6 +533,8 @@ namespace Enrollment_System
 
                             if (rowsAffected > 0)
                             {
+                                LoadStudentData();
+                                RefreshDataGridView(DataGridNewEnrollment);
                                 MessageBox.Show("Enrollment deleted successfully!", "Success",
                                               MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 LoadStudentData();
@@ -805,39 +547,6 @@ namespace Enrollment_System
                     MessageBox.Show($"Error deleting enrollment: {ex.Message}",
                                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-        }
-
-        private void ViewPdfFromBinary(byte[] pdfData, int enrollmentId)
-        {
-            try
-            {
-                string tempPath = Path.Combine(Path.GetTempPath(), $"grade_{enrollmentId}.pdf");
-                File.WriteAllBytes(tempPath, pdfData);
-                System.Diagnostics.Process.Start(tempPath);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error opening PDF: {ex.Message}");
-            }
-        }
-
-        private void ViewPdfFromPath(string filePath)
-        {
-            try
-            {
-                if (File.Exists(filePath))
-                {
-                    System.Diagnostics.Process.Start(filePath);
-                }
-                else
-                {
-                    MessageBox.Show("PDF file not found at the specified path.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error opening PDF: {ex.Message}");
             }
         }
 
@@ -859,7 +568,6 @@ namespace Enrollment_System
                         {
                             if (reader.Read())
                             {
-                                // Try binary data first
                                 if (reader["grade_pdf"] != DBNull.Value)
                                 {
                                     byte[] fileData = (byte[])reader["grade_pdf"];
@@ -867,7 +575,6 @@ namespace Enrollment_System
                                     File.WriteAllBytes(tempPath, fileData);
                                     System.Diagnostics.Process.Start(tempPath);
                                 }
-                                // Fall back to file path
                                 else if (reader["grade_pdf_path"] != DBNull.Value)
                                 {
                                     string filePath = reader["grade_pdf_path"].ToString();
@@ -1049,115 +756,9 @@ namespace Enrollment_System
 
                 if (dialogResult == DialogResult.Yes)
                 {
-                    string email = "";
-                    string fullName = "";
-
-                    using (MySqlConnection conn = new MySqlConnection(connectionString))
-                    {
-                        conn.Open();
-
-                        using (MySqlTransaction transaction = conn.BeginTransaction())
-                        {
-                            try
-                            {
-                                int recordId;
-                                string updateQuery;
-
-                                if (isPaymentConfirmation)
-                                {
-                                    int paymentId = Convert.ToInt32(selectedRow.Cells[enrollmentIdColumn].Value);
-
-                                    // First get the enrollment_id associated with this payment
-                                    string getEnrollmentIdQuery = "SELECT enrollment_id FROM payments WHERE payment_id = @paymentId";
-                                    using (MySqlCommand getCmd = new MySqlCommand(getEnrollmentIdQuery, conn, transaction))
-                                    {
-                                        getCmd.Parameters.AddWithValue("@paymentId", paymentId);
-                                        recordId = Convert.ToInt32(getCmd.ExecuteScalar());
-                                    }
-
-                                    // Update enrollment status to "Enrolled"
-                                    updateQuery = "UPDATE student_enrollments SET status = @newStatus WHERE enrollment_id = @recordId";
-                                    using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn, transaction))
-                                    {
-                                        cmd.Parameters.AddWithValue("@newStatus", newStatus);
-                                        cmd.Parameters.AddWithValue("@recordId", recordId);
-                                        cmd.ExecuteNonQuery();
-                                    }
-
-                                    // Update payment status to "Completed"
-                                    string updatePaymentQuery = "UPDATE payments SET payment_status = 'Completed' WHERE payment_id = @paymentId";
-                                    using (MySqlCommand paymentCmd = new MySqlCommand(updatePaymentQuery, conn, transaction))
-                                    {
-                                        paymentCmd.Parameters.AddWithValue("@paymentId", paymentId);
-                                        paymentCmd.ExecuteNonQuery();
-                                    }
-
-                                    sendEmail = true;
-                                }
-                                else
-                                {
-                                    recordId = Convert.ToInt32(selectedRow.Cells[enrollmentIdColumn].Value);
-                                    updateQuery = "UPDATE student_enrollments SET status = @newStatus WHERE enrollment_id = @recordId";
-                                    using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn, transaction))
-                                    {
-                                        cmd.Parameters.AddWithValue("@newStatus", newStatus);
-                                        cmd.Parameters.AddWithValue("@recordId", recordId);
-                                        cmd.ExecuteNonQuery();
-                                    }
-                                }
-
-                                // Get email and name in a separate command
-                                if (sendEmail)
-                                {
-                                    string getEmailQuery = @"
-                                SELECT u.email, CONCAT(s.first_name, ' ', s.last_name) AS full_name
-                                FROM student_enrollments se
-                                JOIN students s ON se.student_id = s.student_id
-                                JOIN users u ON s.user_id = u.user_id
-                                WHERE se.enrollment_id = @enrollmentId";
-
-                                    using (MySqlCommand emailCmd = new MySqlCommand(getEmailQuery, conn, transaction))
-                                    {
-                                        emailCmd.Parameters.AddWithValue("@enrollmentId", recordId);
-                                        using (MySqlDataReader reader = emailCmd.ExecuteReader())
-                                        {
-                                            if (reader.Read())
-                                            {
-                                                email = reader.GetString("email");
-                                                fullName = reader.GetString("full_name");
-                                            }
-                                        }
-                                    }
-                                }
-
-                                transaction.Commit();
-
-                                if (sendEmail && !string.IsNullOrEmpty(email))
-                                {
-                                    await SendEnrollmentConfirmationEmail(email, fullName, courseCode, yearLevel, semester, academicYear);
-                                }
-
-                                MessageBox.Show($"{successMessage}\nStudent: {studentName}",
-                                              "Success",
-                                              MessageBoxButtons.OK,
-                                              MessageBoxIcon.Information);
-
-
-                                LoadPaidEnrollments();
-                                LoadPaidEnrollments();
-                                LoadPaymentData();
-                                ClearDetails();
-                            }
-                            catch (Exception ex)
-                            {
-                                transaction.Rollback();
-                                MessageBox.Show($"An error occurred: {ex.Message}\n\nPlease try again or contact support.",
-                                              "Error",
-                                              MessageBoxButtons.OK,
-                                              MessageBoxIcon.Error);
-                            }
-                        }
-                    }
+                    await ProcessConfirmation(isPaymentConfirmation, currentGrid, selectedRow,
+                        enrollmentIdColumn, newStatus, sendEmail, studentName,
+                        courseCode, yearLevel, semester, academicYear, successMessage);
                 }
             }
             catch (Exception ex)
@@ -1166,6 +767,119 @@ namespace Enrollment_System
                               "Error",
                               MessageBoxButtons.OK,
                               MessageBoxIcon.Error);
+            }
+        }
+
+        private async Task ProcessConfirmation(bool isPaymentConfirmation, DataGridView currentGrid,
+            DataGridViewRow selectedRow, string enrollmentIdColumn, string newStatus,
+            bool sendEmail, string studentName, string courseCode, string yearLevel,
+            string semester, string academicYear, string successMessage)
+        {
+            string email = "";
+            string fullName = "";
+
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+
+                using (MySqlTransaction transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        int recordId;
+                        string updateQuery;
+
+                        if (isPaymentConfirmation)
+                        {
+                            int paymentId = Convert.ToInt32(selectedRow.Cells[enrollmentIdColumn].Value);
+
+                            string getEnrollmentIdQuery = "SELECT enrollment_id FROM payments WHERE payment_id = @paymentId";
+                            using (MySqlCommand getCmd = new MySqlCommand(getEnrollmentIdQuery, conn, transaction))
+                            {
+                                getCmd.Parameters.AddWithValue("@paymentId", paymentId);
+                                recordId = Convert.ToInt32(getCmd.ExecuteScalar());
+                            }
+
+                            updateQuery = "UPDATE student_enrollments SET status = @newStatus WHERE enrollment_id = @recordId";
+                            using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn, transaction))
+                            {
+                                cmd.Parameters.AddWithValue("@newStatus", newStatus);
+                                cmd.Parameters.AddWithValue("@recordId", recordId);
+                                cmd.ExecuteNonQuery();
+                            }
+
+                            string updatePaymentQuery = "UPDATE payments SET payment_status = 'Completed' WHERE payment_id = @paymentId";
+                            using (MySqlCommand paymentCmd = new MySqlCommand(updatePaymentQuery, conn, transaction))
+                            {
+                                paymentCmd.Parameters.AddWithValue("@paymentId", paymentId);
+                                paymentCmd.ExecuteNonQuery();
+                            }
+
+                            sendEmail = true;
+                        }
+                        else
+                        {
+                            recordId = Convert.ToInt32(selectedRow.Cells[enrollmentIdColumn].Value);
+                            updateQuery = "UPDATE student_enrollments SET status = @newStatus WHERE enrollment_id = @recordId";
+                            using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn, transaction))
+                            {
+                                cmd.Parameters.AddWithValue("@newStatus", newStatus);
+                                cmd.Parameters.AddWithValue("@recordId", recordId);
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+
+                        if (sendEmail)
+                        {
+                            string getEmailQuery = @"
+                                SELECT u.email, CONCAT(s.first_name, ' ', s.last_name) AS full_name
+                                FROM student_enrollments se
+                                JOIN students s ON se.student_id = s.student_id
+                                JOIN users u ON s.user_id = u.user_id
+                                WHERE se.enrollment_id = @enrollmentId";
+
+                            using (MySqlCommand emailCmd = new MySqlCommand(getEmailQuery, conn, transaction))
+                            {
+                                emailCmd.Parameters.AddWithValue("@enrollmentId", recordId);
+                                using (MySqlDataReader reader = emailCmd.ExecuteReader())
+                                {
+                                    if (reader.Read())
+                                    {
+                                        email = reader.GetString("email");
+                                        fullName = reader.GetString("full_name");
+                                    }
+                                }
+                            }
+                        }
+
+                        transaction.Commit();
+
+                        if (sendEmail && !string.IsNullOrEmpty(email))
+                        {
+                            await SendEnrollmentConfirmationEmail(email, fullName, courseCode, yearLevel, semester, academicYear);
+                        }
+
+                        LoadStudentData();
+                        RefreshDataGridView(DataGridNewEnrollment);
+                        MessageBox.Show($"{successMessage}\nStudent: {studentName}",
+                                      "Success",
+                                      MessageBoxButtons.OK,
+                                      MessageBoxIcon.Information);
+
+                        LoadPaidEnrollments();
+                        LoadPaidEnrollments();
+                        LoadPaymentData();
+                        ClearDetails();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        MessageBox.Show($"An error occurred: {ex.Message}\n\nPlease try again or contact support.",
+                                      "Error",
+                                      MessageBoxButtons.OK,
+                                      MessageBoxIcon.Error);
+                    }
+                }
             }
         }
 
@@ -1211,12 +925,12 @@ namespace Enrollment_System
 
                                 if (rowsAffected > 0)
                                 {
-                                    MessageBox.Show("Student moved to payment processing!", "Success",
-                                                   MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                                     LoadStudentData();
                                     LoadPaymentData();
                                     LoadPaidEnrollments();
+                                    RefreshDataGridView(DataGridNewEnrollment);
+                                    MessageBox.Show("Student moved to payment processing!", "Success",
+                                                   MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 }
                             }
                         }
@@ -1261,16 +975,13 @@ namespace Enrollment_System
                         INNER JOIN courses c ON se.course_id = c.course_id
                         WHERE se.status = 'Payment Pending'";
 
-
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
                         using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
                         {
                             DataGridPayment.AutoGenerateColumns = false;
-
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
-
                             DataGridPayment.DataSource = dt;
                             UpdateRowNumbersPyment();
                         }
@@ -1349,13 +1060,10 @@ namespace Enrollment_System
 
         private void DataGridPayment_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = DataGridPayment.Rows[e.RowIndex];
-
                 string studentNo = row.Cells["student_no_payment"].Value.ToString();
-
                 FetchStudentDetails(studentNo);
             }
         }
@@ -1368,8 +1076,6 @@ namespace Enrollment_System
             var from = new EmailAddress("enrollment.test101@gmail.com", "Enrollment System");
             var to = new EmailAddress(email, studentName);
             var subject = "Enrollment Confirmation";
-
-            
 
             var plainTextContent = $"Dear {studentName},\n\n" +
                                    $"Congratulations! You are now officially enrolled in:\n" +
@@ -1406,17 +1112,14 @@ namespace Enrollment_System
 
         private void DataGridPayment_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-           
             if (e.ColumnIndex == DataGridPayment.Columns["ColOpen3"].Index && e.RowIndex >= 0)
             {
-
                 int enrollmentId = Convert.ToInt32(DataGridPayment.Rows[e.RowIndex].Cells["payment_id_payment"].Value);
                 AdminCashier Cashier = new AdminCashier(enrollmentId);
                 Cashier.ShowDialog();
             }
             else if (e.ColumnIndex == DataGridPayment.Columns["ColClose3"].Index && e.RowIndex >= 0)
             {
-                // Confirm deletion with the user
                 DialogResult result = MessageBox.Show(
                     "Are you sure you want to delete this row?",
                     "Delete Confirmation",
@@ -1426,7 +1129,6 @@ namespace Enrollment_System
 
                 if (result == DialogResult.Yes)
                 {
-                    
                     DataGridPayment.Rows.RemoveAt(e.RowIndex);
                 }
             }
@@ -1439,7 +1141,7 @@ namespace Enrollment_System
             DataGridViewRow row = DataGridNewEnrollment.Rows[e.RowIndex];
             string columnName = DataGridNewEnrollment.Columns[e.ColumnIndex].Name;
 
-            if (columnName == "colOpen1") // PDF View button
+            if (columnName == "colOpen1")
             {
                 Cursor.Current = Cursors.WaitCursor;
                 try
@@ -1452,11 +1154,11 @@ namespace Enrollment_System
                     Cursor.Current = Cursors.Default;
                 }
             }
-            else if (columnName == "colClose1") // Delete button
+            else if (columnName == "colClose1")
             {
                 DeleteNewEnrollment(row);
             }
-            else // Any other cell click
+            else
             {
                 string studentNo = row.Cells["student_no"].Value.ToString();
                 FetchStudentDetails(studentNo);
@@ -1480,40 +1182,67 @@ namespace Enrollment_System
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            string searchTerm = textBox1.Text.ToLower(); 
+            string searchTerm = textBox1.Text.ToLower();
 
-           
-            if (DataGridNewEnrollment.DataSource is DataTable)
+            ApplySearchFilter(DataGridNewEnrollment, searchTerm);
+            ApplySearchFilter(DataGridPaidEnrollment, searchTerm);
+            ApplySearchFilter(DataGridPayment, searchTerm);
+        }
+
+        private void ApplySearchFilter(DataGridView dataGrid, string searchTerm)
+        {
+            DataTable dt = dataGrid.DataSource as DataTable;
+            if (dt != null)
             {
-                DataTable dt = (DataTable)DataGridNewEnrollment.DataSource;
-                dt.DefaultView.RowFilter = string.Format("last_name LIKE '%{0}%' OR first_name LIKE '%{0}%' OR student_no LIKE '%{0}%'", searchTerm);
-            }
-            if (DataGridPaidEnrollment.DataSource is DataTable)
-            {
-                DataTable dt = (DataTable)DataGridPaidEnrollment.DataSource;
-                dt.DefaultView.RowFilter = string.Format("last_name LIKE '%{0}%' OR first_name LIKE '%{0}%' OR student_no LIKE '%{0}%'", searchTerm);
-            }
-            if (DataGridPayment.DataSource is DataTable)
-            {
-                DataTable dt = (DataTable)DataGridPayment.DataSource;
                 dt.DefaultView.RowFilter = string.Format("last_name LIKE '%{0}%' OR first_name LIKE '%{0}%' OR student_no LIKE '%{0}%'", searchTerm);
             }
         }
 
         private void DataGridNewEnrollment_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            // Empty method preserved as requested
         }
 
         private void DataGridPaidEnrollment_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                DataGridViewRow row = DataGridPaidEnrollment.Rows[e.RowIndex];
+                DataGridView grid = (DataGridView)sender;
 
-                string studentNo = row.Cells["student_no_pe"].Value.ToString();
+                if (grid.Columns[e.ColumnIndex].Name == "ColOpen2")
+                {
+                    int paymentId = Convert.ToInt32(grid.Rows[e.RowIndex].Cells["payment_id_pe"].Value);
 
-                FetchStudentDetails(studentNo);
+                    AdminCashier cashier = new AdminCashier(paymentId);
+                    cashier.ShowDialog();
+
+                    LoadPaidEnrollments();
+                }
+            }
+        }
+
+        private void DataGridPaidEnrollment_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                if (DataGridPaidEnrollment.Columns[e.ColumnIndex].Name != "ColOpen2" &&
+                    DataGridPaidEnrollment.Columns[e.ColumnIndex].Name != "ColClose2")
+                {
+                    DataGridViewRow row = DataGridPaidEnrollment.Rows[e.RowIndex];
+                    string studentNo = row.Cells["student_no_pe"].Value.ToString();
+                    FetchStudentDetails(studentNo);
+                }
+            }
+        }
+
+        private void RefreshDataGridView(DataGridView dgv)
+        {
+            dgv.EndEdit();
+            dgv.Refresh();
+            dgv.Update();
+            if (dgv.Parent != null)
+            {
+                dgv.Parent.Refresh();
             }
         }
     }

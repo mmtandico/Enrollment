@@ -51,20 +51,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabStudentEnrollment = new System.Windows.Forms.TabPage();
             this.DataGridNewEnrollment = new System.Windows.Forms.DataGridView();
-            this.enrollment_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.no_newEnrollment = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.student_no = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.middle_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.courseCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.academic_year = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.semester = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.year_level = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.grade_pdf_path = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colOpen1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colClose1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.tabPaidEnrollment = new System.Windows.Forms.TabPage();
             this.DataGridPaidEnrollment = new System.Windows.Forms.DataGridView();
             this.tabPayment = new System.Windows.Forms.TabPage();
@@ -117,6 +103,20 @@
             this.BtnBSTM = new System.Windows.Forms.Button();
             this.BtnBSIT = new System.Windows.Forms.Button();
             this.BtnBSCS = new System.Windows.Forms.Button();
+            this.enrollment_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.no_newEnrollment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.student_no = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.middle_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.courseCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.academic_year = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.semester = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.year_level = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.grade_pdf_path = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colOpen1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colClose1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.no_paid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.payment_id_pe = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.student_no_pe = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -296,128 +296,6 @@
             this.DataGridNewEnrollment.Size = new System.Drawing.Size(1222, 510);
             this.DataGridNewEnrollment.TabIndex = 3;
             this.DataGridNewEnrollment.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridNewEnrollment_CellContentClick);
-            // 
-            // enrollment_id
-            // 
-            this.enrollment_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.enrollment_id.FillWeight = 10F;
-            this.enrollment_id.Frozen = true;
-            this.enrollment_id.HeaderText = "ID";
-            this.enrollment_id.Name = "enrollment_id";
-            this.enrollment_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.enrollment_id.Visible = false;
-            this.enrollment_id.Width = 53;
-            // 
-            // no_newEnrollment
-            // 
-            this.no_newEnrollment.Frozen = true;
-            this.no_newEnrollment.HeaderText = "No.";
-            this.no_newEnrollment.Name = "no_newEnrollment";
-            this.no_newEnrollment.ReadOnly = true;
-            this.no_newEnrollment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.no_newEnrollment.Width = 50;
-            // 
-            // student_no
-            // 
-            this.student_no.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.student_no.FillWeight = 200F;
-            this.student_no.Frozen = true;
-            this.student_no.HeaderText = "Student No.";
-            this.student_no.Name = "student_no";
-            this.student_no.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.student_no.Width = 131;
-            // 
-            // last_name
-            // 
-            this.last_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.last_name.FillWeight = 120F;
-            this.last_name.HeaderText = "Last Name";
-            this.last_name.Name = "last_name";
-            this.last_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.last_name.Width = 125;
-            // 
-            // first_name
-            // 
-            this.first_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.first_name.FillWeight = 120F;
-            this.first_name.HeaderText = "First Name";
-            this.first_name.Name = "first_name";
-            this.first_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.first_name.Width = 128;
-            // 
-            // middle_name
-            // 
-            this.middle_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.middle_name.FillWeight = 120F;
-            this.middle_name.HeaderText = "Middle Name";
-            this.middle_name.Name = "middle_name";
-            this.middle_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.middle_name.Width = 144;
-            // 
-            // courseCode
-            // 
-            this.courseCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.courseCode.HeaderText = "Course";
-            this.courseCode.Name = "courseCode";
-            this.courseCode.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.courseCode.Width = 95;
-            // 
-            // academic_year
-            // 
-            this.academic_year.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.academic_year.HeaderText = "School Year";
-            this.academic_year.Name = "academic_year";
-            this.academic_year.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.academic_year.Width = 133;
-            // 
-            // semester
-            // 
-            this.semester.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.semester.HeaderText = "Semester";
-            this.semester.Name = "semester";
-            this.semester.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.semester.Width = 117;
-            // 
-            // year_level
-            // 
-            this.year_level.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.year_level.HeaderText = "Year Level";
-            this.year_level.Name = "year_level";
-            this.year_level.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.year_level.Width = 122;
-            // 
-            // status
-            // 
-            this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.status.HeaderText = "Status";
-            this.status.Name = "status";
-            this.status.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.status.Width = 89;
-            // 
-            // grade_pdf_path
-            // 
-            this.grade_pdf_path.HeaderText = "Grade PDF Path";
-            this.grade_pdf_path.Name = "grade_pdf_path";
-            // 
-            // colOpen1
-            // 
-            this.colOpen1.HeaderText = "";
-            this.colOpen1.Image = global::Enrollment_System.Properties.Resources.docuICON;
-            this.colOpen1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.colOpen1.MinimumWidth = 2;
-            this.colOpen1.Name = "colOpen1";
-            this.colOpen1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colOpen1.Width = 40;
-            // 
-            // colClose1
-            // 
-            this.colClose1.HeaderText = "";
-            this.colClose1.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
-            this.colClose1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.colClose1.MinimumWidth = 2;
-            this.colClose1.Name = "colClose1";
-            this.colClose1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colClose1.Width = 40;
             // 
             // tabPaidEnrollment
             // 
@@ -1215,6 +1093,128 @@
             this.BtnBSCS.Text = "BSCS";
             this.BtnBSCS.UseVisualStyleBackColor = true;
             // 
+            // enrollment_id
+            // 
+            this.enrollment_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.enrollment_id.FillWeight = 10F;
+            this.enrollment_id.Frozen = true;
+            this.enrollment_id.HeaderText = "ID";
+            this.enrollment_id.Name = "enrollment_id";
+            this.enrollment_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.enrollment_id.Visible = false;
+            this.enrollment_id.Width = 53;
+            // 
+            // no_newEnrollment
+            // 
+            this.no_newEnrollment.Frozen = true;
+            this.no_newEnrollment.HeaderText = "No.";
+            this.no_newEnrollment.Name = "no_newEnrollment";
+            this.no_newEnrollment.ReadOnly = true;
+            this.no_newEnrollment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.no_newEnrollment.Width = 50;
+            // 
+            // student_no
+            // 
+            this.student_no.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.student_no.FillWeight = 200F;
+            this.student_no.Frozen = true;
+            this.student_no.HeaderText = "Student No.";
+            this.student_no.Name = "student_no";
+            this.student_no.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.student_no.Width = 131;
+            // 
+            // last_name
+            // 
+            this.last_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.last_name.FillWeight = 120F;
+            this.last_name.HeaderText = "Last Name";
+            this.last_name.Name = "last_name";
+            this.last_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.last_name.Width = 125;
+            // 
+            // first_name
+            // 
+            this.first_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.first_name.FillWeight = 120F;
+            this.first_name.HeaderText = "First Name";
+            this.first_name.Name = "first_name";
+            this.first_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.first_name.Width = 128;
+            // 
+            // middle_name
+            // 
+            this.middle_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.middle_name.FillWeight = 120F;
+            this.middle_name.HeaderText = "Middle Name";
+            this.middle_name.Name = "middle_name";
+            this.middle_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.middle_name.Width = 144;
+            // 
+            // courseCode
+            // 
+            this.courseCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.courseCode.HeaderText = "Course";
+            this.courseCode.Name = "courseCode";
+            this.courseCode.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.courseCode.Width = 95;
+            // 
+            // academic_year
+            // 
+            this.academic_year.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.academic_year.HeaderText = "School Year";
+            this.academic_year.Name = "academic_year";
+            this.academic_year.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.academic_year.Width = 133;
+            // 
+            // semester
+            // 
+            this.semester.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.semester.HeaderText = "Semester";
+            this.semester.Name = "semester";
+            this.semester.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.semester.Width = 117;
+            // 
+            // year_level
+            // 
+            this.year_level.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.year_level.HeaderText = "Year Level";
+            this.year_level.Name = "year_level";
+            this.year_level.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.year_level.Width = 122;
+            // 
+            // status
+            // 
+            this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.status.HeaderText = "Status";
+            this.status.Name = "status";
+            this.status.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.status.Width = 89;
+            // 
+            // grade_pdf_path
+            // 
+            this.grade_pdf_path.HeaderText = "Grade PDF Path";
+            this.grade_pdf_path.Name = "grade_pdf_path";
+            // 
+            // colOpen1
+            // 
+            this.colOpen1.HeaderText = "";
+            this.colOpen1.Image = global::Enrollment_System.Properties.Resources.docuICON;
+            this.colOpen1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.colOpen1.MinimumWidth = 2;
+            this.colOpen1.Name = "colOpen1";
+            this.colOpen1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colOpen1.Width = 40;
+            // 
+            // colClose1
+            // 
+            this.colClose1.HeaderText = "";
+            this.colClose1.Image = global::Enrollment_System.Properties.Resources.RemoveButton;
+            this.colClose1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.colClose1.MinimumWidth = 2;
+            this.colClose1.Name = "colClose1";
+            this.colClose1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colClose1.Width = 40;
+            // 
             // no_paid
             // 
             this.no_paid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
@@ -1331,6 +1331,7 @@
             this.ColClose2.MinimumWidth = 2;
             this.ColClose2.Name = "ColClose2";
             this.ColClose2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColClose2.Visible = false;
             this.ColClose2.Width = 40;
             // 
             // AdminEnrollment
@@ -1421,6 +1422,19 @@
         private System.Windows.Forms.ComboBox CmbYrLvl;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox CmbSchoolYear;
+        private System.Windows.Forms.DataGridViewTextBoxColumn payment_id_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn no_payments;
+        private System.Windows.Forms.DataGridViewTextBoxColumn student_no_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn last_name_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn first_name_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn middle_name_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn courseCode_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn academic_year_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn semester_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn year_level_payment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn status_payment;
+        private System.Windows.Forms.DataGridViewImageColumn ColOpen3;
+        private System.Windows.Forms.DataGridViewImageColumn ColClose3;
         private System.Windows.Forms.DataGridViewTextBoxColumn enrollment_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn no_newEnrollment;
         private System.Windows.Forms.DataGridViewTextBoxColumn student_no;
@@ -1435,19 +1449,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn grade_pdf_path;
         private System.Windows.Forms.DataGridViewImageColumn colOpen1;
         private System.Windows.Forms.DataGridViewImageColumn colClose1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn payment_id_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn no_payments;
-        private System.Windows.Forms.DataGridViewTextBoxColumn student_no_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn last_name_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn first_name_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn middle_name_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn courseCode_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn academic_year_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn semester_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn year_level_payment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn status_payment;
-        private System.Windows.Forms.DataGridViewImageColumn ColOpen3;
-        private System.Windows.Forms.DataGridViewImageColumn ColClose3;
         private System.Windows.Forms.DataGridViewTextBoxColumn no_paid;
         private System.Windows.Forms.DataGridViewTextBoxColumn payment_id_pe;
         private System.Windows.Forms.DataGridViewTextBoxColumn student_no_pe;
