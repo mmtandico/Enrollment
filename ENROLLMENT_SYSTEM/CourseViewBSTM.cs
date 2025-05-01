@@ -186,14 +186,14 @@ namespace Enrollment_System
 
         private bool ConfirmCourseSelection(string courseCode, string courseName)
         {
-            if (parentForm.Panel8.Tag?.ToString() == courseCode || IsStudentEnrolledInCourse(courseCode))
+            if (IsStudentEnrolledInCourse(courseCode))
                 return true;
 
             return MessageBox.Show(
-                $"You've been already enrolled.\nDo you want Change to your course to\n {courseName}?",
-                "Confirm Course Change",
+                $"You are not currently enrolled in this course.\nDo you want to proceed with enrollment in\n{courseName}?",
+                "Confirm Course Enrollment",
                 MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning
+                MessageBoxIcon.Question
             ) == DialogResult.Yes;
         }
 
@@ -205,11 +205,11 @@ namespace Enrollment_System
                 {
                     conn.Open();
                     const string query = @"SELECT COUNT(*) 
-                                        FROM student_enrollments se
-                                        JOIN courses c ON se.course_id = c.course_id
-                                        WHERE se.student_id = @StudentId
-                                        AND c.course_code = @CourseCode
-                                        AND se.status != 'Dropped'";
+                                           FROM student_enrollments se
+                                           JOIN courses c ON se.course_id = c.course_id
+                                           WHERE se.student_id = @StudentId
+                                           AND c.course_code = @CourseCode
+                                           AND se.status IN ('Enrolled', 'Completed')";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {

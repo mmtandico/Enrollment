@@ -58,20 +58,12 @@ namespace Enrollment_System
 
         private void SwitchToPersonalInfoForm()
         {
-            try
+            var personalInfoForm = new FormPersonalInfo
             {
-                var personalInfoForm = new FormPersonalInfo
-                {
-                    StartPosition = FormStartPosition.CenterParent
-                };
-                personalInfoForm.Show();
-                this.Hide();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Failed to open personal information form: {ex.Message}",
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                StartPosition = FormStartPosition.CenterParent
+            };
+            personalInfoForm.Show();
+            this.Hide();
         }
 
         private void BtnEnroll1_Click(object sender, EventArgs e)
@@ -207,14 +199,14 @@ namespace Enrollment_System
 
         private bool ConfirmCourseSelection(string courseCode, string courseName)
         {
-            if (parentForm.Panel8.Tag?.ToString() == courseCode || IsStudentEnrolledInCourse(courseCode))
+            if (IsStudentEnrolledInCourse(courseCode))
                 return true;
 
             return MessageBox.Show(
-                $"You've been already enrolled.\nDo you want Change to your course to\n {courseName}?",
-                "Confirm Course Change",
+                $"You are not currently enrolled in this course.\nDo you want to proceed with enrollment in\n{courseName}?",
+                "Confirm Course Enrollment",
                 MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning
+                MessageBoxIcon.Question
             ) == DialogResult.Yes;
         }
 
@@ -226,11 +218,11 @@ namespace Enrollment_System
                 {
                     conn.Open();
                     const string query = @"SELECT COUNT(*) 
-                                        FROM student_enrollments se
-                                        JOIN courses c ON se.course_id = c.course_id
-                                        WHERE se.student_id = @StudentId
-                                        AND c.course_code = @CourseCode
-                                        AND se.status != 'Dropped'";
+                                           FROM student_enrollments se
+                                           JOIN courses c ON se.course_id = c.course_id
+                                           WHERE se.student_id = @StudentId
+                                           AND c.course_code = @CourseCode
+                                           AND se.status IN ('Enrolled', 'Completed')";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
