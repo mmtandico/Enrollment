@@ -192,7 +192,7 @@ namespace Enrollment_System
             }
             catch (ObjectDisposedException)
             {
-                // Handle disposed objects
+                parentForm.Dispose();
             }
         }
 

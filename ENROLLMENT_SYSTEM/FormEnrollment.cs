@@ -460,7 +460,7 @@ namespace Enrollment_System
             {
                 string status = row.Cells[10].Value?.ToString()?.ToLower() ?? "";
 
-                if (status == "enrolled")
+                if (status == "enrolled" || status == "completed")
                 {
 
                     var editCell = row.Cells["ColOpen"];
@@ -612,8 +612,6 @@ namespace Enrollment_System
                 }
             }
         }
-
-
 
         private int GetCourseId(string courseCode)
         {
@@ -1165,7 +1163,7 @@ namespace Enrollment_System
                         p.receipt_no,
                         se.academic_year,
                         se.semester,
-                        se.status,
+                        p.payment_status,
                         (SELECT amount FROM payment_breakdowns WHERE payment_id = p.payment_id AND fee_type = 'Tuition') AS tuition,
                         (SELECT amount FROM payment_breakdowns WHERE payment_id = p.payment_id AND fee_type = 'Miscellaneous') AS miscellaneous
                     FROM payments p
@@ -1201,7 +1199,7 @@ namespace Enrollment_System
                                     reader["semester"]?.ToString() ?? "N/A",
                                     reader["tuition"] != DBNull.Value ? Convert.ToDecimal(reader["tuition"]).ToString("0.00") : "0.00",
                                     reader["miscellaneous"] != DBNull.Value ? Convert.ToDecimal(reader["miscellaneous"]).ToString("0.00") : "0.00",
-                                    reader["status"]?.ToString() ?? "N/A"
+                                    reader["payment_status"]?.ToString() ?? "N/A"
                                 );
                                 rowNumber++; 
                             }

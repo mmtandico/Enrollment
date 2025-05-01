@@ -18,7 +18,6 @@ namespace Enrollment_System
         private int paymentId;
         private string selectedImagePath;
 
-
         public FormPayment(int id)
         {
             InitializeComponent();
@@ -61,6 +60,7 @@ namespace Enrollment_System
         private void FormPayment_Load(object sender, EventArgs e)
         {
             LoadProofPaymentImage();
+            CheckPaymentStatus(); // Check payment status when form loads
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
@@ -172,7 +172,39 @@ namespace Enrollment_System
             }
         }
 
-       
+        private void CheckPaymentStatus()
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT payment_status FROM payments WHERE payment_id = @PaymentId";
 
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@PaymentId", paymentId);
+
+                        var paymentStatus = cmd.ExecuteScalar()?.ToString();
+
+                        if (!string.IsNullOrEmpty(paymentStatus) && paymentStatus == "Completed")
+                        {
+                            // Disable the buttons when payment is completed
+                            BtnUpload.Enabled = false;
+                            BtnConfirm.Enabled = false;
+                        }
+                        else
+                        {
+                            BtnUpload.Enabled = true;
+                            BtnConfirm.Enabled = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error checking payment status: " + ex.Message);
+            }
+        }
     }
 }
