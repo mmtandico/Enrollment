@@ -247,7 +247,7 @@ namespace Enrollment_System
 
         private void HandleEnrollmentCompletion()
         {
-            // Check if parent form and its panel still exist
+            
             if (parentForm.IsDisposed || parentForm.Panel8.IsDisposed)
             {
                 this.Close();

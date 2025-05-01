@@ -261,10 +261,10 @@ namespace Enrollment_System
             if (!IsValidAcademicYear(TxtSchoolYear.Text))
             {
                 MessageBox.Show("Please enter a valid School year in format YYYY-YYYY (e.g., 2023-2024).\n" +
-                              "The second year must be exactly one year after the first.",
-                              "Invalid Academic Year",
-                              MessageBoxButtons.OK,
-                              MessageBoxIcon.Warning);
+                                "The second year must be exactly one year after the first.",
+                                "Invalid Academic Year",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
                 TxtSchoolYear.Focus();
                 return false;
             }
@@ -281,15 +281,21 @@ namespace Enrollment_System
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(TxtPreviousSection.Text) ||
-                TxtPreviousSection.Text == "e.g. BSIT-22-A")
+            bool isFirstYearFirstSem = CmbSem.SelectedIndex == 0 && CmbYrLvl.SelectedIndex == 0;
+
+            if (!isFirstYearFirstSem)
             {
-                ShowValidationError("Please provide the previous section.", TxtPreviousSection);
-                return false;
+                if (string.IsNullOrWhiteSpace(TxtPreviousSection.Text) ||
+                    TxtPreviousSection.Text == "e.g. BSIT-22-A")
+                {
+                    ShowValidationError("Please provide the previous section.", TxtPreviousSection);
+                    return false;
+                }
             }
 
             return true;
         }
+
 
         private void ShowValidationError(string message, Control control)
         {

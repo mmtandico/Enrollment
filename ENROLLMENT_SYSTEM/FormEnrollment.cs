@@ -263,13 +263,16 @@ namespace Enrollment_System
                 return;
             }
 
+            string status = GetActiveEnrollmentStatus();
+
             // Check for existing pending enrollments
-            if (HasPendingEnrollment())
+            if (!string.IsNullOrEmpty(status))
             {
-                MessageBox.Show("You already have a pending enrollment request. Please wait for it to be processed before creating a new one.",
-                               "Pending Enrollment Exists",
-                               MessageBoxButtons.OK,
-                               MessageBoxIcon.Warning);
+                MessageBox.Show($"You already have an active enrollment with status: {status}.\n" +
+                                "Please wait for it to be processed before creating a new one.",
+                                "Pending Enrollment Exists",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
                 return;
             }
 
@@ -286,32 +289,36 @@ namespace Enrollment_System
             }
         }
 
-        private bool HasPendingEnrollment()
+        private string GetActiveEnrollmentStatus()
         {
             try
             {
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = @"SELECT COUNT(*) 
-                          FROM student_enrollments 
-                          WHERE student_id = @StudentId 
-                          AND status IN ('Pending', 'Payment Pending')";
+                    string query = @"SELECT status 
+                             FROM student_enrollments 
+                             WHERE student_id = @StudentId 
+                             AND status IN ('Pending', 'Payment Pending', 'Enrolled') 
+                             LIMIT 1";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@StudentId", SessionManager.StudentId);
-                        int count = Convert.ToInt32(cmd.ExecuteScalar());
-                        return count > 0;
+                        var result = cmd.ExecuteScalar();
+
+                        return result?.ToString(); 
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error checking pending enrollments: " + ex.Message);
-                return false;
+                MessageBox.Show("Error checking enrollment status: " + ex.Message,
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
             }
         }
+
 
         private bool IsPersonalInfoComplete()
         {

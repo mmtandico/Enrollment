@@ -35,6 +35,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label3 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.BtnCompleted = new System.Windows.Forms.Button();
             this.BtnReport = new System.Windows.Forms.Button();
             this.BtnDrop = new System.Windows.Forms.Button();
             this.BtnInfos = new System.Windows.Forms.Button();
@@ -89,7 +90,7 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.BtnCompleted = new System.Windows.Forms.Button();
+            this.BtnAcademicHistory = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.panel10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxID)).BeginInit();
@@ -119,6 +120,7 @@
             this.panel3.BackColor = System.Drawing.Color.Transparent;
             this.panel3.BackgroundImage = global::Enrollment_System.Properties.Resources.STUDENTINFO_removebg_preview;
             this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel3.Controls.Add(this.BtnAcademicHistory);
             this.panel3.Controls.Add(this.BtnCompleted);
             this.panel3.Controls.Add(this.BtnReport);
             this.panel3.Controls.Add(this.BtnDrop);
@@ -143,6 +145,24 @@
             this.panel3.Size = new System.Drawing.Size(1550, 234);
             this.panel3.TabIndex = 35;
             // 
+            // BtnCompleted
+            // 
+            this.BtnCompleted.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnCompleted.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnCompleted.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnCompleted.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnCompleted.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnCompleted.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnCompleted.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnCompleted.ForeColor = System.Drawing.Color.White;
+            this.BtnCompleted.Location = new System.Drawing.Point(1296, 151);
+            this.BtnCompleted.Name = "BtnCompleted";
+            this.BtnCompleted.Size = new System.Drawing.Size(111, 37);
+            this.BtnCompleted.TabIndex = 47;
+            this.BtnCompleted.Text = "COMPLETED";
+            this.BtnCompleted.UseVisualStyleBackColor = true;
+            this.BtnCompleted.Click += new System.EventHandler(this.BtnCompleted_Click);
+            // 
             // BtnReport
             // 
             this.BtnReport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -153,7 +173,7 @@
             this.BtnReport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnReport.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnReport.ForeColor = System.Drawing.Color.White;
-            this.BtnReport.Location = new System.Drawing.Point(1370, 30);
+            this.BtnReport.Location = new System.Drawing.Point(1413, 66);
             this.BtnReport.Name = "BtnReport";
             this.BtnReport.Size = new System.Drawing.Size(111, 37);
             this.BtnReport.TabIndex = 46;
@@ -171,7 +191,7 @@
             this.BtnDrop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnDrop.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnDrop.ForeColor = System.Drawing.Color.White;
-            this.BtnDrop.Location = new System.Drawing.Point(1370, 126);
+            this.BtnDrop.Location = new System.Drawing.Point(1413, 151);
             this.BtnDrop.Name = "BtnDrop";
             this.BtnDrop.Size = new System.Drawing.Size(111, 37);
             this.BtnDrop.TabIndex = 45;
@@ -189,7 +209,7 @@
             this.BtnInfos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnInfos.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnInfos.ForeColor = System.Drawing.Color.White;
-            this.BtnInfos.Location = new System.Drawing.Point(1370, 78);
+            this.BtnInfos.Location = new System.Drawing.Point(1296, 66);
             this.BtnInfos.Name = "BtnInfos";
             this.BtnInfos.Size = new System.Drawing.Size(111, 37);
             this.BtnInfos.TabIndex = 9;
@@ -203,7 +223,7 @@
             this.TxtSemester.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TxtSemester.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TxtSemester.ForeColor = System.Drawing.Color.Black;
-            this.TxtSemester.Location = new System.Drawing.Point(1076, 155);
+            this.TxtSemester.Location = new System.Drawing.Point(1055, 155);
             this.TxtSemester.Name = "TxtSemester";
             this.TxtSemester.Size = new System.Drawing.Size(226, 33);
             this.TxtSemester.TabIndex = 44;
@@ -213,7 +233,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(1072, 133);
+            this.label6.Location = new System.Drawing.Point(1051, 133);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(68, 19);
             this.label6.TabIndex = 43;
@@ -225,7 +245,7 @@
             this.TxtYrLevel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TxtYrLevel.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TxtYrLevel.ForeColor = System.Drawing.Color.Black;
-            this.TxtYrLevel.Location = new System.Drawing.Point(1076, 70);
+            this.TxtYrLevel.Location = new System.Drawing.Point(1055, 70);
             this.TxtYrLevel.Name = "TxtYrLevel";
             this.TxtYrLevel.Size = new System.Drawing.Size(226, 33);
             this.TxtYrLevel.TabIndex = 42;
@@ -235,7 +255,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(1072, 48);
+            this.label5.Location = new System.Drawing.Point(1051, 48);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(73, 19);
             this.label5.TabIndex = 41;
@@ -246,7 +266,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(552, 133);
+            this.label2.Location = new System.Drawing.Point(529, 133);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 19);
             this.label2.TabIndex = 40;
@@ -258,7 +278,7 @@
             this.TxtCourseName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TxtCourseName.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TxtCourseName.ForeColor = System.Drawing.Color.Black;
-            this.TxtCourseName.Location = new System.Drawing.Point(556, 155);
+            this.TxtCourseName.Location = new System.Drawing.Point(533, 155);
             this.TxtCourseName.Name = "TxtCourseName";
             this.TxtCourseName.Size = new System.Drawing.Size(494, 33);
             this.TxtCourseName.TabIndex = 39;
@@ -291,7 +311,7 @@
             this.TxtMiddleName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TxtMiddleName.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TxtMiddleName.ForeColor = System.Drawing.Color.Black;
-            this.TxtMiddleName.Location = new System.Drawing.Point(824, 70);
+            this.TxtMiddleName.Location = new System.Drawing.Point(801, 70);
             this.TxtMiddleName.Name = "TxtMiddleName";
             this.TxtMiddleName.Size = new System.Drawing.Size(226, 33);
             this.TxtMiddleName.TabIndex = 38;
@@ -301,7 +321,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(552, 48);
+            this.label1.Location = new System.Drawing.Point(529, 48);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(78, 19);
             this.label1.TabIndex = 34;
@@ -312,7 +332,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(820, 48);
+            this.label4.Location = new System.Drawing.Point(797, 48);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(91, 19);
             this.label4.TabIndex = 36;
@@ -324,7 +344,7 @@
             this.TxtFirstName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TxtFirstName.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TxtFirstName.ForeColor = System.Drawing.Color.Black;
-            this.TxtFirstName.Location = new System.Drawing.Point(556, 70);
+            this.TxtFirstName.Location = new System.Drawing.Point(533, 70);
             this.TxtFirstName.Name = "TxtFirstName";
             this.TxtFirstName.Size = new System.Drawing.Size(226, 33);
             this.TxtFirstName.TabIndex = 37;
@@ -881,23 +901,23 @@
             this.textBox1.TabIndex = 0;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
-            // BtnCompleted
+            // BtnAcademicHistory
             // 
-            this.BtnCompleted.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnCompleted.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BtnCompleted.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnCompleted.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnCompleted.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnCompleted.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnCompleted.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnCompleted.ForeColor = System.Drawing.Color.White;
-            this.BtnCompleted.Location = new System.Drawing.Point(1370, 175);
-            this.BtnCompleted.Name = "BtnCompleted";
-            this.BtnCompleted.Size = new System.Drawing.Size(111, 37);
-            this.BtnCompleted.TabIndex = 47;
-            this.BtnCompleted.Text = "COMPLETED";
-            this.BtnCompleted.UseVisualStyleBackColor = true;
-            this.BtnCompleted.Click += new System.EventHandler(this.BtnCompleted_Click);
+            this.BtnAcademicHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnAcademicHistory.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BtnAcademicHistory.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnAcademicHistory.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnAcademicHistory.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnAcademicHistory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnAcademicHistory.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnAcademicHistory.ForeColor = System.Drawing.Color.White;
+            this.BtnAcademicHistory.Location = new System.Drawing.Point(1296, 109);
+            this.BtnAcademicHistory.Name = "BtnAcademicHistory";
+            this.BtnAcademicHistory.Size = new System.Drawing.Size(228, 37);
+            this.BtnAcademicHistory.TabIndex = 48;
+            this.BtnAcademicHistory.Text = "ACADEMIC HISTORY";
+            this.BtnAcademicHistory.UseVisualStyleBackColor = true;
+            this.BtnAcademicHistory.Click += new System.EventHandler(this.BtnAcademicHistory_Click);
             // 
             // AdminStudents
             // 
@@ -993,5 +1013,6 @@
         private System.Windows.Forms.DataGridViewImageColumn ColOpen;
         private System.Windows.Forms.DataGridViewImageColumn ColClose;
         private System.Windows.Forms.Button BtnCompleted;
+        private System.Windows.Forms.Button BtnAcademicHistory;
     }
 }

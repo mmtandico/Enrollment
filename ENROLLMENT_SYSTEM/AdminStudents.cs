@@ -22,6 +22,7 @@ namespace Enrollment_System
         private Button[] programButtons;
         private XStringFormat yPos;
         public bool IsViewMode { get; set; } = false;
+     
 
         public AdminStudents()
         {
@@ -1323,6 +1324,41 @@ namespace Enrollment_System
                                   MessageBoxButtons.OK,
                                   MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        private void BtnAcademicHistory_Click(object sender, EventArgs e)
+        {
+            if (DataGridEnrolled.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a student first.", "No Selection",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataGridViewRow selectedRow = DataGridEnrolled.SelectedRows[0];
+            int enrollmentId = Convert.ToInt32(selectedRow.Cells["student_id"].Value);
+            string studentName = $"{selectedRow.Cells["first_name"].Value} {selectedRow.Cells["last_name"].Value}";
+
+            try
+            {
+                // Create and show the StudentHistory form
+                StudentHistory historyForm = new StudentHistory();
+
+                // Pass the enrollment ID to the form (you'll need to modify StudentHistory to accept this)
+                historyForm.EnrollmentId = enrollmentId;
+                historyForm.StudentName = studentName;
+
+                // Load the academic history
+                historyForm.LoadAcademicHistory();
+
+                // Show the form
+                historyForm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading academic history: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

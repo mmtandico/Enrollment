@@ -27,12 +27,10 @@ namespace Enrollment_System
 
         private void CourseViewBSCS_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Don't dispose the bannerImage here - let the parent form handle it
             if (!parentForm.IsDisposed && bannerImage != null)
             {
                 try
                 {
-                    // Clone the image before passing it back
                     using (var clonedImage = new Bitmap(bannerImage))
                     {
                         parentForm.SetBannerImage(clonedImage);
@@ -44,10 +42,8 @@ namespace Enrollment_System
                 }
             }
 
-            // Clean up other resources
             dbConnection?.Dispose();
 
-            // Ensure we don't keep references
             bannerImage = null;
             parentForm = null;
         }
@@ -73,10 +69,12 @@ namespace Enrollment_System
 
             if (HasPendingEnrollment())
             {
-                MessageBox.Show("You already have a pending enrollment request. Please wait for it to be processed before creating a new one.",
+                MessageBox.Show(
+                    "You already have a pending enrollment request. Please wait for it to be processed before creating a new one.",
                     "Pending Enrollment Exists",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                    MessageBoxIcon.Warning
+                );
                 return;
             }
 
@@ -94,9 +92,9 @@ namespace Enrollment_System
                 {
                     conn.Open();
                     const string query = @"SELECT COUNT(*) 
-                                        FROM student_enrollments 
-                                        WHERE student_id = @StudentId 
-                                        AND status IN ('Pending', 'Payment Pending')";
+                                           FROM student_enrollments 
+                                           WHERE student_id = @StudentId 
+                                           AND status IN ('Pending', 'Payment Pending')";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
@@ -117,7 +115,6 @@ namespace Enrollment_System
             SessionManager.SelectedCourse = "Bachelor of Science in Computer Science";
             parentForm.Panel8.Tag = "BSCS";
 
-          
             var mainParent = parentForm;
             this.Hide();
             mainParent.Hide();
@@ -146,7 +143,7 @@ namespace Enrollment_System
                         }
                         catch (ObjectDisposedException)
                         {
-                            // Parent form was disposed, just close this form
+                            // Parent form was disposed
                         }
                     }
                     this.Close();
@@ -182,20 +179,20 @@ namespace Enrollment_System
             }
             catch (ObjectDisposedException)
             {
-              
+                // Handle or log if necessary
             }
         }
 
         private bool ConfirmCourseSelection(string courseCode, string courseName)
         {
-            if (parentForm.Panel8.Tag?.ToString() == courseCode || IsStudentEnrolledInCourse(courseCode))
+            if (IsStudentEnrolledInCourse(courseCode))
                 return true;
 
             return MessageBox.Show(
-                $"You've been already enrolled.\nDo you want Change to your course to\n {courseName}?",
-                "Confirm Course Change",
+                $"You are not currently enrolled in this course.\nDo you want to proceed with enrollment in\n{courseName}?",
+                "Confirm Course Enrollment",
                 MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning
+                MessageBoxIcon.Question
             ) == DialogResult.Yes;
         }
 
@@ -207,11 +204,11 @@ namespace Enrollment_System
                 {
                     conn.Open();
                     const string query = @"SELECT COUNT(*) 
-                                        FROM student_enrollments se
-                                        JOIN courses c ON se.course_id = c.course_id
-                                        WHERE se.student_id = @StudentId
-                                        AND c.course_code = @CourseCode
-                                        AND se.status != 'Dropped'";
+                                           FROM student_enrollments se
+                                           JOIN courses c ON se.course_id = c.course_id
+                                           WHERE se.student_id = @StudentId
+                                           AND c.course_code = @CourseCode
+                                           AND se.status IN ('Enrolled', 'Completed')";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
@@ -229,7 +226,6 @@ namespace Enrollment_System
 
         private void HandleEnrollmentCompletion()
         {
-            // Check if parent form and its panel still exist
             if (parentForm.IsDisposed || parentForm.Panel8.IsDisposed)
             {
                 this.Close();

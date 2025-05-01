@@ -28,33 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ExitButton = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel10 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.PicBoxID = new System.Windows.Forms.PictureBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.DataGridHistory = new System.Windows.Forms.DataGridView();
-            this.enrollment_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label3 = new System.Windows.Forms.Label();
             this.no_enrollment = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.student_no = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.courseCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.history_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.academic_year = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.semester = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.year_level = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.previous_section = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.current_section = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.effective_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.changed_by = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColOpen1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel10.SuspendLayout();
-            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxID)).BeginInit();
+            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridHistory)).BeginInit();
             this.SuspendLayout();
             // 
@@ -83,6 +84,18 @@
             this.panel1.Size = new System.Drawing.Size(1111, 40);
             this.panel1.TabIndex = 2;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(180, 19);
+            this.label1.TabIndex = 65;
+            this.label1.Text = "Student Enrollment History";
+            // 
             // panel10
             // 
             this.panel10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(44)))), ((int)(((byte)(26)))));
@@ -94,6 +107,16 @@
             this.panel10.Size = new System.Drawing.Size(228, 357);
             this.panel10.TabIndex = 32;
             // 
+            // PicBoxID
+            // 
+            this.PicBoxID.BackColor = System.Drawing.Color.White;
+            this.PicBoxID.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PicBoxID.Location = new System.Drawing.Point(15, 15);
+            this.PicBoxID.Name = "PicBoxID";
+            this.PicBoxID.Size = new System.Drawing.Size(199, 326);
+            this.PicBoxID.TabIndex = 31;
+            this.PicBoxID.TabStop = false;
+            // 
             // panel2
             // 
             this.panel2.Controls.Add(this.DataGridHistory);
@@ -102,15 +125,74 @@
             this.panel2.Size = new System.Drawing.Size(791, 292);
             this.panel2.TabIndex = 33;
             // 
-            // PicBoxID
+            // DataGridHistory
             // 
-            this.PicBoxID.BackColor = System.Drawing.Color.White;
-            this.PicBoxID.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PicBoxID.Location = new System.Drawing.Point(15, 15);
-            this.PicBoxID.Name = "PicBoxID";
-            this.PicBoxID.Size = new System.Drawing.Size(199, 193);
-            this.PicBoxID.TabIndex = 31;
-            this.PicBoxID.TabStop = false;
+            this.DataGridHistory.AllowUserToAddRows = false;
+            this.DataGridHistory.AllowUserToResizeColumns = false;
+            this.DataGridHistory.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
+            this.DataGridHistory.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.DataGridHistory.BackgroundColor = System.Drawing.Color.White;
+            this.DataGridHistory.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.DataGridHistory.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            this.DataGridHistory.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DataGridHistory.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.DataGridHistory.ColumnHeadersHeight = 40;
+            this.DataGridHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.DataGridHistory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.no_enrollment,
+            this.history_id,
+            this.academic_year,
+            this.semester,
+            this.year_level,
+            this.previous_section,
+            this.current_section,
+            this.effective_date,
+            this.changed_by,
+            this.ColOpen1});
+            this.DataGridHistory.Cursor = System.Windows.Forms.Cursors.Default;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridHistory.DefaultCellStyle = dataGridViewCellStyle3;
+            this.DataGridHistory.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DataGridHistory.GridColor = System.Drawing.SystemColors.Control;
+            this.DataGridHistory.Location = new System.Drawing.Point(0, 0);
+            this.DataGridHistory.Name = "DataGridHistory";
+            this.DataGridHistory.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridHistory.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.DataGridHistory.RowHeadersVisible = false;
+            this.DataGridHistory.RowHeadersWidth = 50;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Gray;
+            this.DataGridHistory.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            this.DataGridHistory.RowTemplate.Height = 30;
+            this.DataGridHistory.RowTemplate.ReadOnly = true;
+            this.DataGridHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DataGridHistory.Size = new System.Drawing.Size(791, 292);
+            this.DataGridHistory.TabIndex = 2;
+            this.DataGridHistory.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridHistory_CellContentClick);
             // 
             // label3
             // 
@@ -120,113 +202,29 @@
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(274, 63);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(157, 58);
+            this.label3.Size = new System.Drawing.Size(158, 58);
             this.label3.TabIndex = 64;
             this.label3.Text = "History";
-            // 
-            // DataGridHistory
-            // 
-            this.DataGridHistory.AllowUserToAddRows = false;
-            this.DataGridHistory.AllowUserToResizeColumns = false;
-            this.DataGridHistory.AllowUserToResizeRows = false;
-            dataGridViewCellStyle31.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle31.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle31.SelectionBackColor = System.Drawing.Color.White;
-            this.DataGridHistory.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle31;
-            this.DataGridHistory.BackgroundColor = System.Drawing.Color.White;
-            this.DataGridHistory.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.DataGridHistory.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.DataGridHistory.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle32.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle32.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle32.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle32.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle32.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle32.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DataGridHistory.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle32;
-            this.DataGridHistory.ColumnHeadersHeight = 40;
-            this.DataGridHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.DataGridHistory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.enrollment_id,
-            this.no_enrollment,
-            this.student_no,
-            this.courseCode,
-            this.academic_year,
-            this.semester,
-            this.year_level,
-            this.status,
-            this.ColOpen1});
-            this.DataGridHistory.Cursor = System.Windows.Forms.Cursors.Default;
-            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle33.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle33.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle33.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle33.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle33.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            dataGridViewCellStyle33.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridHistory.DefaultCellStyle = dataGridViewCellStyle33;
-            this.DataGridHistory.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DataGridHistory.GridColor = System.Drawing.SystemColors.Control;
-            this.DataGridHistory.Location = new System.Drawing.Point(0, 0);
-            this.DataGridHistory.Name = "DataGridHistory";
-            this.DataGridHistory.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle34.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle34.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle34.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle34.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle34.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle34.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DataGridHistory.RowHeadersDefaultCellStyle = dataGridViewCellStyle34;
-            this.DataGridHistory.RowHeadersVisible = false;
-            this.DataGridHistory.RowHeadersWidth = 50;
-            dataGridViewCellStyle35.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle35.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle35.SelectionForeColor = System.Drawing.Color.Gray;
-            this.DataGridHistory.RowsDefaultCellStyle = dataGridViewCellStyle35;
-            this.DataGridHistory.RowTemplate.Height = 30;
-            this.DataGridHistory.RowTemplate.ReadOnly = true;
-            this.DataGridHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DataGridHistory.Size = new System.Drawing.Size(791, 292);
-            this.DataGridHistory.TabIndex = 2;
-            this.DataGridHistory.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridHistory_CellContentClick);
-            // 
-            // enrollment_id
-            // 
-            this.enrollment_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.enrollment_id.FillWeight = 10F;
-            this.enrollment_id.Frozen = true;
-            this.enrollment_id.HeaderText = "ID";
-            this.enrollment_id.Name = "enrollment_id";
-            this.enrollment_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.enrollment_id.Visible = false;
-            this.enrollment_id.Width = 53;
             // 
             // no_enrollment
             // 
             this.no_enrollment.Frozen = true;
             this.no_enrollment.HeaderText = "No.";
             this.no_enrollment.Name = "no_enrollment";
+            this.no_enrollment.ReadOnly = true;
+            this.no_enrollment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.no_enrollment.Width = 50;
             // 
-            // student_no
+            // history_id
             // 
-            this.student_no.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.student_no.FillWeight = 200F;
-            this.student_no.Frozen = true;
-            this.student_no.HeaderText = "Student No.";
-            this.student_no.Name = "student_no";
-            this.student_no.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.student_no.Width = 131;
-            // 
-            // courseCode
-            // 
-            this.courseCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.courseCode.HeaderText = "Course";
-            this.courseCode.Name = "courseCode";
-            this.courseCode.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.courseCode.Width = 95;
+            this.history_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.history_id.FillWeight = 10F;
+            this.history_id.Frozen = true;
+            this.history_id.HeaderText = "ID";
+            this.history_id.Name = "history_id";
+            this.history_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.history_id.Visible = false;
+            this.history_id.Width = 53;
             // 
             // academic_year
             // 
@@ -252,13 +250,35 @@
             this.year_level.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.year_level.Width = 122;
             // 
-            // status
+            // previous_section
             // 
-            this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.status.HeaderText = "Status";
-            this.status.Name = "status";
-            this.status.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.status.Width = 89;
+            this.previous_section.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.previous_section.FillWeight = 200F;
+            this.previous_section.HeaderText = "Previous Section";
+            this.previous_section.Name = "previous_section";
+            this.previous_section.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.previous_section.Width = 174;
+            // 
+            // current_section
+            // 
+            this.current_section.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.current_section.HeaderText = "Current Section";
+            this.current_section.Name = "current_section";
+            this.current_section.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.current_section.Width = 166;
+            // 
+            // effective_date
+            // 
+            this.effective_date.HeaderText = "Effective Date";
+            this.effective_date.Name = "effective_date";
+            // 
+            // changed_by
+            // 
+            this.changed_by.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.changed_by.HeaderText = "Changed By";
+            this.changed_by.Name = "changed_by";
+            this.changed_by.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.changed_by.Width = 133;
             // 
             // ColOpen1
             // 
@@ -269,18 +289,6 @@
             this.ColOpen1.Name = "ColOpen1";
             this.ColOpen1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.ColOpen1.Width = 40;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(180, 19);
-            this.label1.TabIndex = 65;
-            this.label1.Text = "Student Enrollment History";
             // 
             // StudentHistory
             // 
@@ -302,8 +310,8 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel10.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxID)).EndInit();
+            this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DataGridHistory)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -319,15 +327,16 @@
         private System.Windows.Forms.PictureBox PicBoxID;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView DataGridHistory;
-        private System.Windows.Forms.DataGridViewTextBoxColumn enrollment_id;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridViewTextBoxColumn no_enrollment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn student_no;
-        private System.Windows.Forms.DataGridViewTextBoxColumn courseCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn history_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn academic_year;
         private System.Windows.Forms.DataGridViewTextBoxColumn semester;
         private System.Windows.Forms.DataGridViewTextBoxColumn year_level;
-        private System.Windows.Forms.DataGridViewTextBoxColumn status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn previous_section;
+        private System.Windows.Forms.DataGridViewTextBoxColumn current_section;
+        private System.Windows.Forms.DataGridViewTextBoxColumn effective_date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn changed_by;
         private System.Windows.Forms.DataGridViewImageColumn ColOpen1;
-        private System.Windows.Forms.Label label1;
     }
 }
