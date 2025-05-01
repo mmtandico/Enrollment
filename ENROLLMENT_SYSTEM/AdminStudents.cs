@@ -689,7 +689,7 @@ namespace Enrollment_System
                         FROM student_enrollments se
                         INNER JOIN students s ON se.student_id = s.student_id
                         INNER JOIN courses c ON se.course_id = c.course_id
-                        WHERE se.status IN ('Enrolled', 'Dropped')";
+                        WHERE se.status IN ('Enrolled', 'Dropped', 'Completed')";
 
 
 

@@ -9,6 +9,7 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Threading.Tasks;
 using System.Configuration;
+using System.Diagnostics;
 
 namespace Enrollment_System
 {
@@ -771,12 +772,13 @@ namespace Enrollment_System
         }
 
         private async Task ProcessConfirmation(bool isPaymentConfirmation, DataGridView currentGrid,
-            DataGridViewRow selectedRow, string enrollmentIdColumn, string newStatus,
-            bool sendEmail, string studentName, string courseCode, string yearLevel,
-            string semester, string academicYear, string successMessage)
+     DataGridViewRow selectedRow, string enrollmentIdColumn, string newStatus,
+     bool sendEmail, string studentName, string courseCode, string yearLevel,
+     string semester, string academicYear, string successMessage)
         {
             string email = "";
             string fullName = "";
+            int changedByUserId = (int)SessionManager.UserId;
 
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
@@ -791,6 +793,7 @@ namespace Enrollment_System
 
                         if (isPaymentConfirmation)
                         {
+                            // Payment confirmation logic
                             int paymentId = Convert.ToInt32(selectedRow.Cells[enrollmentIdColumn].Value);
 
                             string getEnrollmentIdQuery = "SELECT enrollment_id FROM payments WHERE payment_id = @paymentId";
@@ -819,7 +822,10 @@ namespace Enrollment_System
                         }
                         else
                         {
+                            // Enrollment confirmation logic
                             recordId = Convert.ToInt32(selectedRow.Cells[enrollmentIdColumn].Value);
+
+                            // Update enrollment status
                             updateQuery = "UPDATE student_enrollments SET status = @newStatus WHERE enrollment_id = @recordId";
                             using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn, transaction))
                             {
@@ -827,21 +833,87 @@ namespace Enrollment_System
                                 cmd.Parameters.AddWithValue("@recordId", recordId);
                                 cmd.ExecuteNonQuery();
                             }
-                        }
 
+                            // Get current academic history if exists
+                            int? historyId = null;
+                            string currentSection = null;
+                            string previousSection = null;
+                            string getHistoryQuery = @"
+                                SELECT history_id, current_section, previous_section 
+                                FROM academic_history 
+                                WHERE enrollment_id = @enrollmentId
+                                ORDER BY effective_date DESC 
+                                LIMIT 1";
+
+                            using (MySqlCommand historyCmd = new MySqlCommand(getHistoryQuery, conn, transaction))
+                            {
+                                historyCmd.Parameters.AddWithValue("@enrollmentId", recordId);
+                                using (var reader = historyCmd.ExecuteReader())
+                                {
+                                    if (reader.Read())
+                                    {
+                                        historyId = reader.IsDBNull(0) ? (int?)null : reader.GetInt32(0);
+                                        currentSection = reader.IsDBNull(1) ? null : reader.GetString(1);
+                                        previousSection = reader.IsDBNull(2) ? null : reader.GetString(2);
+                                    }
+                                }
+                            }
+
+
+                            // Determine new section with 20-student limit
+                            string newSection = DetermineSection(courseCode, yearLevel, semester, recordId);
+
+                            // Only update if section changed or no history exists
+                            if (currentSection != newSection || !historyId.HasValue)
+                            {
+                                // If we have a current section, it becomes the previous section
+                                string updatedPreviousSection = currentSection ?? previousSection;
+
+                                string upsertHistoryQuery = @"
+                            INSERT INTO academic_history 
+                            (history_id, enrollment_id, previous_section, current_section, changed_by, effective_date)
+                            VALUES (
+                                @historyId,
+                                @enrollmentId, 
+                                @previousSection, 
+                                @currentSection, 
+                                @changedBy, 
+                                NOW()
+                            )
+                            ON DUPLICATE KEY UPDATE
+                                previous_section = COALESCE(VALUES(previous_section), previous_section),
+                                current_section = VALUES(current_section),
+                                changed_by = VALUES(changed_by),
+                                effective_date = VALUES(effective_date)";
+
+                                using (MySqlCommand upsertCmd = new MySqlCommand(upsertHistoryQuery, conn, transaction))
+                                {
+                                    upsertCmd.Parameters.AddWithValue("@historyId", historyId.HasValue ? (object)historyId.Value : DBNull.Value);
+                                    upsertCmd.Parameters.AddWithValue("@enrollmentId", recordId);
+                                    upsertCmd.Parameters.AddWithValue("@previousSection",
+                                        string.IsNullOrEmpty(updatedPreviousSection) ? DBNull.Value : (object)updatedPreviousSection);
+                                    upsertCmd.Parameters.AddWithValue("@currentSection", newSection);
+                                    upsertCmd.Parameters.AddWithValue("@changedBy", changedByUserId);
+                                    upsertCmd.ExecuteNonQuery();
+                                }
+                            }
+                        }
+                    
+
+                        // Send confirmation email if needed
                         if (sendEmail)
                         {
                             string getEmailQuery = @"
-                                SELECT u.email, CONCAT(s.first_name, ' ', s.last_name) AS full_name
-                                FROM student_enrollments se
-                                JOIN students s ON se.student_id = s.student_id
-                                JOIN users u ON s.user_id = u.user_id
-                                WHERE se.enrollment_id = @enrollmentId";
+                        SELECT u.email, CONCAT(s.first_name, ' ', s.last_name) AS full_name
+                        FROM student_enrollments se
+                        JOIN students s ON se.student_id = s.student_id
+                        JOIN users u ON s.user_id = u.user_id
+                        WHERE se.enrollment_id = @enrollmentId";
 
                             using (MySqlCommand emailCmd = new MySqlCommand(getEmailQuery, conn, transaction))
                             {
                                 emailCmd.Parameters.AddWithValue("@enrollmentId", recordId);
-                                using (MySqlDataReader reader = emailCmd.ExecuteReader())
+                                using (var reader = emailCmd.ExecuteReader())
                                 {
                                     if (reader.Read())
                                     {
@@ -859,14 +931,12 @@ namespace Enrollment_System
                             await SendEnrollmentConfirmationEmail(email, fullName, courseCode, yearLevel, semester, academicYear);
                         }
 
+                        // Update UI
                         LoadStudentData();
                         RefreshDataGridView(DataGridNewEnrollment);
                         MessageBox.Show($"{successMessage}\nStudent: {studentName}",
-                                      "Success",
-                                      MessageBoxButtons.OK,
-                                      MessageBoxIcon.Information);
+                            "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        LoadPaidEnrollments();
                         LoadPaidEnrollments();
                         LoadPaymentData();
                         ClearDetails();
@@ -874,12 +944,139 @@ namespace Enrollment_System
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        MessageBox.Show($"An error occurred: {ex.Message}\n\nPlease try again or contact support.",
-                                      "Error",
-                                      MessageBoxButtons.OK,
-                                      MessageBoxIcon.Error);
+                        MessageBox.Show($"An error occurred: {ex.Message}\n\nPlease try again.",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Debug.WriteLine($"ProcessConfirmation Error: {ex}");
                     }
                 }
+            }
+        }
+
+        private string GetPreviousSection(int enrollmentId)
+        {
+            return null; 
+        }
+
+        private string DetermineSection(string courseCode, string yearLevel, string semester, int enrollmentId)
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    
+                    string availableSectionQuery = @"
+                    SELECT ah.current_section, COUNT(*) as student_count
+                    FROM academic_history ah
+                    JOIN student_enrollments se ON ah.enrollment_id = se.enrollment_id
+                    WHERE se.course_id = (SELECT course_id FROM courses WHERE course_code = @courseCode)
+                    AND se.year_level = @yearLevel
+                    AND se.semester = @semester
+                    AND se.status = 'Enrolled'
+                    GROUP BY ah.current_section
+                    HAVING student_count < 20
+                    ORDER BY ah.current_section
+                    LIMIT 1";
+
+                    string availableSection = null;
+                    using (MySqlCommand sectionCmd = new MySqlCommand(availableSectionQuery, conn))
+                    {
+                        sectionCmd.Parameters.AddWithValue("@courseCode", courseCode);
+                        sectionCmd.Parameters.AddWithValue("@yearLevel", yearLevel);
+                        sectionCmd.Parameters.AddWithValue("@semester", semester);
+
+                        using (var reader = sectionCmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                availableSection = reader.GetString("current_section");
+                            }
+                        }
+                    }
+
+                    // 2. If no available section, create new one with correct format
+                    if (string.IsNullOrEmpty(availableSection))
+                    {
+                        string countQuery = @"
+                        SELECT COUNT(DISTINCT current_section)
+                        FROM academic_history ah
+                        JOIN student_enrollments se ON ah.enrollment_id = se.enrollment_id
+                        WHERE se.course_id = (SELECT course_id FROM courses WHERE course_code = @courseCode)
+                        AND se.year_level = @yearLevel
+                        AND se.semester = @semester";
+
+                        int sectionCount;
+                        using (MySqlCommand countCmd = new MySqlCommand(countQuery, conn))
+                        {
+                            countCmd.Parameters.AddWithValue("@courseCode", courseCode);
+                            countCmd.Parameters.AddWithValue("@yearLevel", yearLevel);
+                            countCmd.Parameters.AddWithValue("@semester", semester);
+                            sectionCount = Convert.ToInt32(countCmd.ExecuteScalar());
+                        }
+
+                        char sectionLetter = (char)('A' + sectionCount);
+
+                        // Format year level (remove "Year" and ordinal indicators)
+                        string cleanYearLevel = yearLevel
+                            .Replace("Year", "")
+                            .Replace(" ", "")
+                            .Replace("1st", "1")
+                            .Replace("2nd", "2")
+                            .Replace("3rd", "3")
+                            .Replace("4th", "4");
+
+                        // Format semester (just first character)
+                        string cleanSemester = semester[0].ToString();
+
+                        availableSection = $"{courseCode}-{cleanYearLevel}{cleanSemester}-{sectionLetter}";
+                    }
+
+                    return availableSection;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error determining section: {ex.Message}");
+                // Fallback format
+                string cleanYearLevel = yearLevel
+                    .Replace("Year", "")
+                    .Replace(" ", "")
+                    .Replace("1st", "1")
+                    .Replace("2nd", "2")
+                    .Replace("3rd", "3")
+                    .Replace("4th", "4");
+                string cleanSemester = semester[0].ToString();
+                return $"{courseCode}-{cleanYearLevel}{cleanSemester}-A";
+            }
+        }
+
+        private void UpdateAcademicHistory(int enrollmentId, string currentSection, string previousSection)
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = @"
+                    INSERT INTO academic_history 
+                    (enrollment_id, current_section, previous_section, changed_by, effective_date)
+                    VALUES (@enrollmentId, @currentSection, @previousSection, @changedBy, NOW())";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@enrollmentId", enrollmentId);
+                        cmd.Parameters.AddWithValue("@currentSection", currentSection);
+                        cmd.Parameters.AddWithValue("@previousSection", string.IsNullOrEmpty(previousSection) ? DBNull.Value : (object)previousSection);
+                        cmd.Parameters.AddWithValue("@changedBy", (int)SessionManager.UserId);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error updating academic history: {ex.Message}");
             }
         }
 
@@ -1245,5 +1442,7 @@ namespace Enrollment_System
                 dgv.Parent.Refresh();
             }
         }
+
+        
     }
 }
