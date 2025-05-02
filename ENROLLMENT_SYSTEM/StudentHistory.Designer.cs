@@ -36,11 +36,8 @@
             this.ExitButton = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.panel10 = new System.Windows.Forms.Panel();
-            this.PicBoxID = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.DataGridHistory = new System.Windows.Forms.DataGridView();
-            this.label3 = new System.Windows.Forms.Label();
             this.no_enrollment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.history_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.academic_year = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,10 +48,9 @@
             this.effective_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.changed_by = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColOpen1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).BeginInit();
             this.panel1.SuspendLayout();
-            this.panel10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBoxID)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridHistory)).BeginInit();
             this.SuspendLayout();
@@ -96,33 +92,12 @@
             this.label1.TabIndex = 65;
             this.label1.Text = "Student Enrollment History";
             // 
-            // panel10
-            // 
-            this.panel10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(44)))), ((int)(((byte)(26)))));
-            this.panel10.BackgroundImage = global::Enrollment_System.Properties.Resources.BACKGROUNDCOLOR;
-            this.panel10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel10.Controls.Add(this.PicBoxID);
-            this.panel10.Location = new System.Drawing.Point(23, 63);
-            this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(228, 357);
-            this.panel10.TabIndex = 32;
-            // 
-            // PicBoxID
-            // 
-            this.PicBoxID.BackColor = System.Drawing.Color.White;
-            this.PicBoxID.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PicBoxID.Location = new System.Drawing.Point(15, 15);
-            this.PicBoxID.Name = "PicBoxID";
-            this.PicBoxID.Size = new System.Drawing.Size(199, 326);
-            this.PicBoxID.TabIndex = 31;
-            this.PicBoxID.TabStop = false;
-            // 
             // panel2
             // 
             this.panel2.Controls.Add(this.DataGridHistory);
-            this.panel2.Location = new System.Drawing.Point(284, 128);
+            this.panel2.Location = new System.Drawing.Point(28, 128);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(791, 292);
+            this.panel2.Size = new System.Drawing.Size(1047, 292);
             this.panel2.TabIndex = 33;
             // 
             // DataGridHistory
@@ -190,21 +165,9 @@
             this.DataGridHistory.RowTemplate.Height = 30;
             this.DataGridHistory.RowTemplate.ReadOnly = true;
             this.DataGridHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DataGridHistory.Size = new System.Drawing.Size(791, 292);
+            this.DataGridHistory.Size = new System.Drawing.Size(1047, 292);
             this.DataGridHistory.TabIndex = 2;
             this.DataGridHistory.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridHistory_CellContentClick);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(274, 63);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(158, 58);
-            this.label3.TabIndex = 64;
-            this.label3.Text = "History";
             // 
             // no_enrollment
             // 
@@ -290,6 +253,18 @@
             this.ColOpen1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.ColOpen1.Width = 40;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(18, 54);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(157, 58);
+            this.label3.TabIndex = 64;
+            this.label3.Text = "History";
+            // 
             // StudentHistory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -299,7 +274,6 @@
             this.ClientSize = new System.Drawing.Size(1111, 456);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel10);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "StudentHistory";
@@ -309,8 +283,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel10.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PicBoxID)).EndInit();
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DataGridHistory)).EndInit();
             this.ResumeLayout(false);
@@ -322,9 +294,7 @@
 
         private System.Windows.Forms.PictureBox ExitButton;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel10;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.PictureBox PicBoxID;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView DataGridHistory;
         private System.Windows.Forms.Label label1;
