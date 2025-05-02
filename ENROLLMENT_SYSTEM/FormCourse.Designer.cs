@@ -435,7 +435,7 @@
             this.PboxBanner.Size = new System.Drawing.Size(1230, 229);
             this.PboxBanner.TabIndex = 9;
             this.PboxBanner.TabStop = false;
-            this.PboxBanner.Visible = false;    
+            this.PboxBanner.Visible = false;
             // 
             // pictureBox4
             // 
