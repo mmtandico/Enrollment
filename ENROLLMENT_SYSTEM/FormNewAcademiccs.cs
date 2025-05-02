@@ -29,6 +29,8 @@ namespace Enrollment_System
             PicBoxID.Image = Properties.Resources.PROFILE;
             PicBoxID.SizeMode = PictureBoxSizeMode.StretchImage;
             loggedInUserId = SessionManager.UserId;
+            TxtPreviousSection.Enter += TxtPreviousSection_Enter;
+            TxtPreviousSection.Leave += TxtPreviousSection_Leave;
 
             CmbCourse.EnabledChanged += (s, e) =>
             {
@@ -222,6 +224,8 @@ namespace Enrollment_System
                     long studentId = GetStudentId(conn);
                     if (studentId == -1) return;
 
+                    SessionManager.StudentId = (int)studentId;
+
                     int courseId = GetCourseIdFromText(CmbCourse.Text);
                     if (courseId == -1) return;
 
@@ -286,7 +290,8 @@ namespace Enrollment_System
             if (!isFirstYearFirstSem)
             {
                 if (string.IsNullOrWhiteSpace(TxtPreviousSection.Text) ||
-                    TxtPreviousSection.Text == "e.g. BSIT-22-A")
+                    TxtPreviousSection.Text == "e.g. BSIT-22-A" ||
+                    TxtPreviousSection.Text == "Not required for 1st Year 1st Semester")
                 {
                     ShowValidationError("Please provide the previous section.", TxtPreviousSection);
                     return false;
@@ -361,15 +366,17 @@ namespace Enrollment_System
             );
 
             bool isFirstYearFirstSem = CmbSem.SelectedIndex == 0 && CmbYrLvl.SelectedIndex == 0;
-            string previousSection = isFirstYearFirstSem ? null : TxtPreviousSection.Text;
+            string previousSection = isFirstYearFirstSem ? null :
+                (TxtPreviousSection.Text == "e.g. BSIT-22-A" ? null : TxtPreviousSection.Text);
 
             // Save academic history
             ExecuteQuery(conn,
                 @"INSERT INTO academic_history (enrollment_id, previous_section)
-                VALUES (@EnrollmentID, @PreviousSection)",
+                 VALUES (@EnrollmentID, @PreviousSection)",
                 new MySqlParameter("@EnrollmentID", EnrollmentId),
-                new MySqlParameter("@PreviousSection", TxtPreviousSection.Text)
+                new MySqlParameter("@PreviousSection", previousSection)
             );
+
 
             // Handle PDF if exists in temporary storage
             if (SessionManager.TempGradePdf != null)
@@ -404,6 +411,8 @@ namespace Enrollment_System
 
         private void CreateNewEnrollment(MySqlConnection conn, long studentId, int courseId, string semester, string yearLevel)
         {
+            SessionManager.StudentId = (int)studentId;
+
             // Check if student has any active enrollment (excluding Completed/Dropped statuses)
             if (IsCurrentlyEnrolled(conn, studentId))
             {
@@ -456,14 +465,15 @@ namespace Enrollment_System
             EnrollmentId = newEnrollmentId.ToString();
 
             bool isFirstYearFirstSem = CmbSem.SelectedIndex == 0 && CmbYrLvl.SelectedIndex == 0;
-            string previousSection = isFirstYearFirstSem ? null : TxtPreviousSection.Text;
+            string previousSection = isFirstYearFirstSem ? null :
+                (TxtPreviousSection.Text == "e.g. BSIT-22-A" ? null : TxtPreviousSection.Text);
 
             // Save academic history
             ExecuteQuery(conn,
                 @"INSERT INTO academic_history (enrollment_id, previous_section)
-                 VALUES (@EnrollmentID, @PreviousSection)",
+                VALUES (@EnrollmentID, @PreviousSection)",
                 new MySqlParameter("@EnrollmentID", newEnrollmentId),
-                new MySqlParameter("@PreviousSection", TxtPreviousSection.Text)
+                new MySqlParameter("@PreviousSection", previousSection)
             );
 
             // Calculate and save payment information
@@ -659,8 +669,6 @@ namespace Enrollment_System
                 TxtPreviousSection.ForeColor = Color.Gray;
             }
 
-            TxtPreviousSection.Clear();
-            TxtPreviousSection.ForeColor = Color.Black;
             CmbSem.SelectedIndex = -1;
             CmbYrLvl.SelectedIndex = -1;
             CmbCourse.SelectedIndex = -1;
@@ -674,9 +682,6 @@ namespace Enrollment_System
         {
             try
             {
-                TxtPreviousSection.Text = "e.g. BSIT-22-A";
-                TxtPreviousSection.ForeColor = Color.Gray;
-
                 using (var conn = new MySqlConnection(connectionString))
                 using (var cmd = new MySqlCommand(
                     @"SELECT s.student_no, s.first_name, s.middle_name, s.last_name, 
@@ -826,11 +831,18 @@ namespace Enrollment_System
 
                             // Set previous section
                             bool isFirstYearFirstSem = CmbSem.SelectedIndex == 0 && CmbYrLvl.SelectedIndex == 0;
-                            TxtPreviousSection.Text = isFirstYearFirstSem
-                            ? "Not required for 1st Year 1st Semester"
-                            : (reader.IsDBNull(reader.GetOrdinal("previous_section"))
-                                ? "No previous section available"
-                                : reader["previous_section"].ToString());
+                            if (isFirstYearFirstSem)
+                            {
+                                TxtPreviousSection.Text = "Not required for 1st Year 1st Semester";
+                                TxtPreviousSection.ForeColor = Color.Gray;
+                            }
+                            else
+                            {
+                                TxtPreviousSection.Text = reader.IsDBNull(reader.GetOrdinal("previous_section"))
+                                    ? "e.g. BSIT-22-A"
+                                    : reader["previous_section"].ToString();
+                                TxtPreviousSection.ForeColor = Color.Black;
+                            }
 
                             // Set PDF path
                             string pdfPath = reader.IsDBNull(reader.GetOrdinal("grade_pdf_path"))
@@ -909,7 +921,8 @@ namespace Enrollment_System
         // Empty methods preserved to prevent Visual Studio 2015 errors
         private void TxtCourse_TextChanged(object sender, EventArgs e) { }
         private void TxtPreviewSection_TextChanged(object sender, EventArgs e) { }
-        private void TxtPreviewSection_Enter_1(object sender, EventArgs e)
+
+        private void TxtPreviousSection_Enter(object sender, EventArgs e)
         {
             if (TxtPreviousSection.Text == "e.g. BSIT-22-A")
             {
@@ -917,7 +930,8 @@ namespace Enrollment_System
                 TxtPreviousSection.ForeColor = Color.Black;
             }
         }
-        private void TxtPreviewSection_Leave_1(object sender, EventArgs e)
+
+        private void TxtPreviousSection_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(TxtPreviousSection.Text))
             {
@@ -925,6 +939,7 @@ namespace Enrollment_System
                 TxtPreviousSection.ForeColor = Color.Gray;
             }
         }
+
         private void TxtSchoolYear_Enter(object sender, EventArgs e) { }
         private void TxtSchoolYear_Leave(object sender, EventArgs e) { }
         public void SetText(string message) { }

@@ -63,13 +63,25 @@ namespace Enrollment_System
 
             try
             {
-                // Store reference to old image
                 Image oldImage = PboxBanner.Image;
 
-                // Set new image (clone it to ensure ownership)
-                PboxBanner.Image = image != null ? new Bitmap(image) : null;
+                if (image == null)
+                {
+                    PboxBanner.Visible = false;
+                    if (oldImage != null)
+                    {
+                        oldImage.Dispose();
+                    }
+                    return;
+                }
 
-                // Dispose old image if it's different
+              
+                Image newImage = new Bitmap(image); 
+
+                PboxBanner.SizeMode = PictureBoxSizeMode.StretchImage;
+                PboxBanner.Image = newImage;
+                PboxBanner.Visible = true; 
+
                 if (oldImage != null && oldImage != image)
                 {
                     oldImage.Dispose();
@@ -80,14 +92,17 @@ namespace Enrollment_System
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error setting banner: {ex.Message}");
-                // Fallback to default banner
+
                 try
                 {
+                    PboxBanner.SizeMode = PictureBoxSizeMode.StretchImage;
                     PboxBanner.Image = Properties.Resources.BANNERPDM;
+                    PboxBanner.Visible = true;
                 }
                 catch
                 {
                     PboxBanner.Image = null;
+                    PboxBanner.Visible = false;
                 }
             }
         }

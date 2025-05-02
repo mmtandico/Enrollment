@@ -772,9 +772,9 @@ namespace Enrollment_System
         }
 
         private async Task ProcessConfirmation(bool isPaymentConfirmation, DataGridView currentGrid,
-     DataGridViewRow selectedRow, string enrollmentIdColumn, string newStatus,
-     bool sendEmail, string studentName, string courseCode, string yearLevel,
-     string semester, string academicYear, string successMessage)
+         DataGridViewRow selectedRow, string enrollmentIdColumn, string newStatus,
+         bool sendEmail, string studentName, string courseCode, string yearLevel,
+         string semester, string academicYear, string successMessage)
         {
             string email = "";
             string fullName = "";
@@ -964,8 +964,7 @@ namespace Enrollment_System
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-
-                    
+                    //5 temporary
                     string availableSectionQuery = @"
                     SELECT ah.current_section, COUNT(*) as student_count
                     FROM academic_history ah
@@ -975,7 +974,7 @@ namespace Enrollment_System
                     AND se.semester = @semester
                     AND se.status = 'Enrolled'
                     GROUP BY ah.current_section
-                    HAVING student_count < 20
+                    HAVING student_count < 5
                     ORDER BY ah.current_section
                     LIMIT 1";
 
@@ -998,26 +997,38 @@ namespace Enrollment_System
                     // 2. If no available section, create new one with correct format
                     if (string.IsNullOrEmpty(availableSection))
                     {
-                        string countQuery = @"
-                        SELECT COUNT(DISTINCT current_section)
+                        // Get the highest existing section letter
+                        string maxSectionQuery = @"
+                        SELECT current_section
                         FROM academic_history ah
                         JOIN student_enrollments se ON ah.enrollment_id = se.enrollment_id
                         WHERE se.course_id = (SELECT course_id FROM courses WHERE course_code = @courseCode)
                         AND se.year_level = @yearLevel
-                        AND se.semester = @semester";
+                        AND se.semester = @semester
+                        ORDER BY current_section DESC
+                        LIMIT 1";
 
-                        int sectionCount;
-                        using (MySqlCommand countCmd = new MySqlCommand(countQuery, conn))
+                        string maxSection = null;
+                        using (MySqlCommand maxCmd = new MySqlCommand(maxSectionQuery, conn))
                         {
-                            countCmd.Parameters.AddWithValue("@courseCode", courseCode);
-                            countCmd.Parameters.AddWithValue("@yearLevel", yearLevel);
-                            countCmd.Parameters.AddWithValue("@semester", semester);
-                            sectionCount = Convert.ToInt32(countCmd.ExecuteScalar());
+                            maxCmd.Parameters.AddWithValue("@courseCode", courseCode);
+                            maxCmd.Parameters.AddWithValue("@yearLevel", yearLevel);
+                            maxCmd.Parameters.AddWithValue("@semester", semester);
+
+                            var result = maxCmd.ExecuteScalar();
+                            maxSection = result != null ? result.ToString() : null;
                         }
 
-                        char sectionLetter = (char)('A' + sectionCount);
+                        char sectionLetter = 'A';
 
-                        // Format year level (remove "Year" and ordinal indicators)
+                        if (!string.IsNullOrEmpty(maxSection))
+                        {
+                           
+                            char lastLetter = maxSection[maxSection.Length - 1];
+                            sectionLetter = (char)(lastLetter + 1);
+                        }
+
+         
                         string cleanYearLevel = yearLevel
                             .Replace("Year", "")
                             .Replace(" ", "")
@@ -1026,7 +1037,6 @@ namespace Enrollment_System
                             .Replace("3rd", "3")
                             .Replace("4th", "4");
 
-                        // Format semester (just first character)
                         string cleanSemester = semester[0].ToString();
 
                         availableSection = $"{courseCode}-{cleanYearLevel}{cleanSemester}-{sectionLetter}";

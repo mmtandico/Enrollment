@@ -315,8 +315,8 @@
             this.TxtPreviousSection.Size = new System.Drawing.Size(232, 33);
             this.TxtPreviousSection.TabIndex = 7;
             this.TxtPreviousSection.TextChanged += new System.EventHandler(this.TxtPreviewSection_TextChanged);
-            this.TxtPreviousSection.Enter += new System.EventHandler(this.TxtPreviewSection_Enter_1);
-            this.TxtPreviousSection.Leave += new System.EventHandler(this.TxtPreviewSection_Leave_1);
+            this.TxtPreviousSection.Enter += new System.EventHandler(this.TxtPreviousSection_Enter);
+            this.TxtPreviousSection.Leave += new System.EventHandler(this.TxtPreviousSection_Leave);
             // 
             // label7
             // 

@@ -20,6 +20,7 @@ namespace Enrollment_System
         public FormEnrollment()
         {
             InitializeComponent();
+            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             SetupForm();
         }
 
@@ -46,7 +47,6 @@ namespace Enrollment_System
             DataGridPayment.Sorted += DataGridPayment_Sorted;
             DataGridSubjects.Sorted += DataGridSubjects_Sorted;
 
-            //tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             DataGridPayment.DataError += DataGridPayment_DataError;
         }
 
@@ -75,6 +75,18 @@ namespace Enrollment_System
             ConfigureDataGridEnrollment();
             ConfigureDataGridPayment();
             ConfigureDataGridSubjects();
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedTab == tabEnrollment)
+            {
+                LoadEnrollmentData();
+            }
+            else if (tabControl1.SelectedTab == tabPayment)
+            {
+                LoadStudentPayments();  
+            }
         }
 
         private void ConfigureDataGridEnrollment()
@@ -390,27 +402,41 @@ namespace Enrollment_System
         {
             try
             {
+                // First try to get StudentId from SessionManager
+                int studentId = SessionManager.StudentId;
+
+                // If not set, try to get it from database
+                if (studentId <= 0)
+                {
+                    studentId = GetCurrentStudentId();
+                    if (studentId <= 0)
+                    {
+                        DataGridPayment.Rows.Clear();
+                        return;
+                    }
+                    SessionManager.StudentId = studentId;
+                }
+
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
                     string query = @"SELECT p.payment_id, p.payment_date, p.total_units, 
-                                    p.total_amount_due, p.amount_paid, p.is_unifast, 
-                                    p.payment_method, p.receipt_no, se.academic_year, 
-                                    se.semester, p.payment_status,
-                                    (SELECT amount FROM payment_breakdowns WHERE payment_id = p.payment_id AND fee_type = 'Tuition') AS tuition,
-                                    (SELECT amount FROM payment_breakdowns WHERE payment_id = p.payment_id AND fee_type = 'Miscellaneous') AS miscellaneous
-                                    FROM payments p
-                                    INNER JOIN student_enrollments se ON p.enrollment_id = se.enrollment_id
-                                    WHERE se.student_id = @StudentId
-                                    ORDER BY p.payment_date DESC";
+                          p.total_amount_due, p.amount_paid, p.is_unifast, 
+                          p.payment_method, p.receipt_no, se.academic_year, 
+                          se.semester, p.payment_status,
+                          (SELECT amount FROM payment_breakdowns WHERE payment_id = p.payment_id AND fee_type = 'Tuition') AS tuition,
+                          (SELECT amount FROM payment_breakdowns WHERE payment_id = p.payment_id AND fee_type = 'Miscellaneous') AS miscellaneous
+                          FROM payments p
+                          INNER JOIN student_enrollments se ON p.enrollment_id = se.enrollment_id
+                          WHERE se.student_id = @StudentId
+                          ORDER BY p.payment_date DESC";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@StudentId", SessionManager.StudentId);
+                        cmd.Parameters.AddWithValue("@StudentId", studentId);
 
                         DataGridPayment.Rows.Clear();
                         int rowNumber = 1;
-                        DataGridPayment.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -442,6 +468,29 @@ namespace Enrollment_System
             {
                 MessageBox.Show($"Error loading payment data: {ex.Message}", "Database Error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private int GetCurrentStudentId()
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT student_id FROM students WHERE user_id = @UserID";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@UserID", SessionManager.UserId);
+                        object result = cmd.ExecuteScalar();
+                        return result != null ? Convert.ToInt32(result) : -1;
+                    }
+                }
+            }
+            catch
+            {
+                return -1;
             }
         }
 
@@ -856,8 +905,24 @@ namespace Enrollment_System
                 formNewAcademiccs.StartPosition = FormStartPosition.CenterParent;
                 if (formNewAcademiccs.ShowDialog() == DialogResult.OK)
                 {
+                    // Force refresh all data
                     LoadEnrollmentData();
+
+                    // Explicitly load payments and switch to payment tab
+                    tabControl1.SelectedTab = tabPayment;
                     LoadStudentPayments();
+
+                    // Additional check to ensure data loaded
+                    if (DataGridPayment.Rows.Count == 0)
+                    {
+                        // If still empty, try reloading after a small delay
+                        Task.Delay(100).ContinueWith(t =>
+                        {
+                            this.Invoke((MethodInvoker)delegate {
+                                LoadStudentPayments();
+                            });
+                        });
+                    }
                 }
             }
         }

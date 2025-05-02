@@ -23,7 +23,6 @@ namespace Enrollment_System
             InitializeDataGridView();
             tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
 
-           
             DataGridAdmins.DataBindingComplete += (s, e) => UpdateRowNumbersAdmins();
             DataGridUsers.DataBindingComplete += (s, e) => UpdateRowNumbersUsers();
 
@@ -536,10 +535,10 @@ namespace Enrollment_System
         private void ClearFields()
         {
             TxtUserID.Clear();
-            TxtPass.Clear();
-            TxtEmail.Clear();
-            CmbRole.SelectedIndex = -1;
-            CmbVerified.SelectedIndex = -1;
+            //TxtPass.Clear();
+            //TxtEmail.Clear();
+            //CmbRole.SelectedIndex = -1;
+           // CmbVerified.SelectedIndex = -1;
         }
         
         private void BtnEdit_Click(object sender, EventArgs e)

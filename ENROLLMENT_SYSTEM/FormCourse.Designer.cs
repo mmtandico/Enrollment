@@ -402,6 +402,7 @@
             this.pictureBox1.Size = new System.Drawing.Size(211, 164);
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
             // 
             // label2
             // 
@@ -414,6 +415,7 @@
             this.label2.Size = new System.Drawing.Size(508, 40);
             this.label2.TabIndex = 14;
             this.label2.Text = "\"Where quality education is a right, not privilage.\"";
+            this.label2.Visible = false;
             // 
             // label13
             // 
@@ -426,6 +428,7 @@
             this.label13.Size = new System.Drawing.Size(763, 58);
             this.label13.TabIndex = 13;
             this.label13.Text = "PAMBAYANG DALUHASAAN NG MARILAO";
+            this.label13.Visible = false;
             // 
             // PboxBanner
             // 
