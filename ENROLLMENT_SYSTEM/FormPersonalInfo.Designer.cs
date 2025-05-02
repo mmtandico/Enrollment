@@ -108,11 +108,11 @@
             this.LblGreetings = new System.Windows.Forms.Label();
             this.LblWelcome = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.BtnClose = new System.Windows.Forms.Button();
             this.BtnLogout = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.BtnExit = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.BtnClose = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -153,7 +153,7 @@
             this.panel2.Location = new System.Drawing.Point(12, 146);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1279, 638);
-            this.panel2.TabIndex = 14;
+            this.panel2.TabIndex = 55;
             // 
             // panel10
             // 
@@ -166,7 +166,7 @@
             this.panel10.Location = new System.Drawing.Point(49, 135);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(249, 386);
-            this.panel10.TabIndex = 29;
+            this.panel10.TabIndex = 30;
             // 
             // pictureBox2
             // 
@@ -190,7 +190,7 @@
             this.BtnUpload.Location = new System.Drawing.Point(21, 209);
             this.BtnUpload.Name = "BtnUpload";
             this.BtnUpload.Size = new System.Drawing.Size(207, 37);
-            this.BtnUpload.TabIndex = 23;
+            this.BtnUpload.TabIndex = 24;
             this.BtnUpload.Text = "UPLOAD";
             this.BtnUpload.UseVisualStyleBackColor = true;
             this.BtnUpload.Click += new System.EventHandler(this.BtnUpload_Click);
@@ -206,7 +206,7 @@
             this.BtnEdit.Location = new System.Drawing.Point(21, 330);
             this.BtnEdit.Name = "BtnEdit";
             this.BtnEdit.Size = new System.Drawing.Size(207, 37);
-            this.BtnEdit.TabIndex = 25;
+            this.BtnEdit.TabIndex = 26;
             this.BtnEdit.Text = "EDIT";
             this.BtnEdit.UseVisualStyleBackColor = true;
             this.BtnEdit.Click += new System.EventHandler(this.BtnEdit_Click);
@@ -222,7 +222,7 @@
             this.BtnSave.Location = new System.Drawing.Point(21, 287);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(207, 37);
-            this.BtnSave.TabIndex = 24;
+            this.BtnSave.TabIndex = 25;
             this.BtnSave.Text = "SAVE";
             this.BtnSave.UseVisualStyleBackColor = true;
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
@@ -256,7 +256,7 @@
             this.groupBox4.Location = new System.Drawing.Point(370, 1044);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(806, 215);
-            this.groupBox4.TabIndex = 31;
+            this.groupBox4.TabIndex = 29;
             this.groupBox4.TabStop = false;
             // 
             // label25
@@ -279,7 +279,7 @@
             this.TxtGuardianContact.Location = new System.Drawing.Point(344, 152);
             this.TxtGuardianContact.Name = "TxtGuardianContact";
             this.TxtGuardianContact.Size = new System.Drawing.Size(303, 33);
-            this.TxtGuardianContact.TabIndex = 21;
+            this.TxtGuardianContact.TabIndex = 23;
             // 
             // label26
             // 
@@ -301,7 +301,7 @@
             this.TxtGuardianRelation.Location = new System.Drawing.Point(16, 152);
             this.TxtGuardianRelation.Name = "TxtGuardianRelation";
             this.TxtGuardianRelation.Size = new System.Drawing.Size(303, 33);
-            this.TxtGuardianRelation.TabIndex = 20;
+            this.TxtGuardianRelation.TabIndex = 22;
             // 
             // label27
             // 
@@ -323,7 +323,7 @@
             this.TxtGuardianLastName.Location = new System.Drawing.Point(16, 77);
             this.TxtGuardianLastName.Name = "TxtGuardianLastName";
             this.TxtGuardianLastName.Size = new System.Drawing.Size(226, 33);
-            this.TxtGuardianLastName.TabIndex = 17;
+            this.TxtGuardianLastName.TabIndex = 19;
             // 
             // TxtGuardianMiddleName
             // 
@@ -334,7 +334,7 @@
             this.TxtGuardianMiddleName.Location = new System.Drawing.Point(558, 77);
             this.TxtGuardianMiddleName.Name = "TxtGuardianMiddleName";
             this.TxtGuardianMiddleName.Size = new System.Drawing.Size(226, 33);
-            this.TxtGuardianMiddleName.TabIndex = 19;
+            this.TxtGuardianMiddleName.TabIndex = 21;
             // 
             // label28
             // 
@@ -367,7 +367,7 @@
             this.TxtGuardianFirstName.Location = new System.Drawing.Point(290, 77);
             this.TxtGuardianFirstName.Name = "TxtGuardianFirstName";
             this.TxtGuardianFirstName.Size = new System.Drawing.Size(235, 33);
-            this.TxtGuardianFirstName.TabIndex = 18;
+            this.TxtGuardianFirstName.TabIndex = 20;
             // 
             // panel12
             // 
@@ -427,7 +427,7 @@
             this.TxtStudentNo.Name = "TxtStudentNo";
             this.TxtStudentNo.ReadOnly = true;
             this.TxtStudentNo.Size = new System.Drawing.Size(367, 33);
-            this.TxtStudentNo.TabIndex = 5;
+            this.TxtStudentNo.TabIndex = 0;
             this.TxtStudentNo.Click += new System.EventHandler(this.TxtStudentNo_Click);
             // 
             // TxtStudentLRN
@@ -439,7 +439,7 @@
             this.TxtStudentLRN.Location = new System.Drawing.Point(435, 55);
             this.TxtStudentLRN.Name = "TxtStudentLRN";
             this.TxtStudentLRN.Size = new System.Drawing.Size(343, 33);
-            this.TxtStudentLRN.TabIndex = 6;
+            this.TxtStudentLRN.TabIndex = 1;
             this.TxtStudentLRN.TextChanged += new System.EventHandler(this.TxtStudentLRN_TextChanged);
             this.TxtStudentLRN.Leave += new System.EventHandler(this.TxtStudentLRN_Leave);
             // 
@@ -498,7 +498,7 @@
             this.TxtZipcode.Location = new System.Drawing.Point(678, 152);
             this.TxtZipcode.Name = "TxtZipcode";
             this.TxtZipcode.Size = new System.Drawing.Size(106, 33);
-            this.TxtZipcode.TabIndex = 22;
+            this.TxtZipcode.TabIndex = 18;
             // 
             // label18
             // 
@@ -520,7 +520,7 @@
             this.TxtProvince.Location = new System.Drawing.Point(344, 152);
             this.TxtProvince.Name = "TxtProvince";
             this.TxtProvince.Size = new System.Drawing.Size(303, 33);
-            this.TxtProvince.TabIndex = 21;
+            this.TxtProvince.TabIndex = 17;
             // 
             // label10
             // 
@@ -554,7 +554,7 @@
             this.TxtCity.Location = new System.Drawing.Point(16, 152);
             this.TxtCity.Name = "TxtCity";
             this.TxtCity.Size = new System.Drawing.Size(303, 33);
-            this.TxtCity.TabIndex = 20;
+            this.TxtCity.TabIndex = 16;
             // 
             // label11
             // 
@@ -576,7 +576,7 @@
             this.TxtBStreet.Location = new System.Drawing.Point(16, 77);
             this.TxtBStreet.Name = "TxtBStreet";
             this.TxtBStreet.Size = new System.Drawing.Size(226, 33);
-            this.TxtBStreet.TabIndex = 17;
+            this.TxtBStreet.TabIndex = 13;
             // 
             // TxtBrgy
             // 
@@ -587,7 +587,7 @@
             this.TxtBrgy.Location = new System.Drawing.Point(558, 77);
             this.TxtBrgy.Name = "TxtBrgy";
             this.TxtBrgy.Size = new System.Drawing.Size(226, 33);
-            this.TxtBrgy.TabIndex = 19;
+            this.TxtBrgy.TabIndex = 15;
             // 
             // label12
             // 
@@ -620,7 +620,7 @@
             this.TxtSubCom.Location = new System.Drawing.Point(290, 77);
             this.TxtSubCom.Name = "TxtSubCom";
             this.TxtSubCom.Size = new System.Drawing.Size(235, 33);
-            this.TxtSubCom.TabIndex = 18;
+            this.TxtSubCom.TabIndex = 14;
             // 
             // label5
             // 
@@ -674,7 +674,7 @@
             this.TxtAge.Name = "TxtAge";
             this.TxtAge.ReadOnly = true;
             this.TxtAge.Size = new System.Drawing.Size(85, 33);
-            this.TxtAge.TabIndex = 16;
+            this.TxtAge.TabIndex = 12;
             // 
             // label22
             // 
@@ -715,7 +715,7 @@
             this.ChkFemale.Location = new System.Drawing.Point(10, 10);
             this.ChkFemale.Name = "ChkFemale";
             this.ChkFemale.Size = new System.Drawing.Size(81, 24);
-            this.ChkFemale.TabIndex = 21;
+            this.ChkFemale.TabIndex = 10;
             this.ChkFemale.Text = "Female";
             this.ChkFemale.UseVisualStyleBackColor = true;
             this.ChkFemale.CheckedChanged += new System.EventHandler(this.ChkFemale_CheckedChanged_1);
@@ -727,7 +727,7 @@
             this.ChkMale.Location = new System.Drawing.Point(117, 10);
             this.ChkMale.Name = "ChkMale";
             this.ChkMale.Size = new System.Drawing.Size(62, 24);
-            this.ChkMale.TabIndex = 22;
+            this.ChkMale.TabIndex = 11;
             this.ChkMale.Text = "Male";
             this.ChkMale.UseVisualStyleBackColor = true;
             this.ChkMale.CheckedChanged += new System.EventHandler(this.ChkMale_CheckedChanged_1);
@@ -752,7 +752,7 @@
             this.TxtPhoneNo.Location = new System.Drawing.Point(17, 225);
             this.TxtPhoneNo.Name = "TxtPhoneNo";
             this.TxtPhoneNo.Size = new System.Drawing.Size(398, 33);
-            this.TxtPhoneNo.TabIndex = 12;
+            this.TxtPhoneNo.TabIndex = 7;
             // 
             // TxtCivilStatus
             // 
@@ -763,7 +763,7 @@
             this.TxtCivilStatus.Location = new System.Drawing.Point(469, 225);
             this.TxtCivilStatus.Name = "TxtCivilStatus";
             this.TxtCivilStatus.Size = new System.Drawing.Size(315, 33);
-            this.TxtCivilStatus.TabIndex = 13;
+            this.TxtCivilStatus.TabIndex = 8;
             // 
             // label15
             // 
@@ -796,7 +796,7 @@
             this.TxtNational.Location = new System.Drawing.Point(17, 298);
             this.TxtNational.Name = "TxtNational";
             this.TxtNational.Size = new System.Drawing.Size(398, 33);
-            this.TxtNational.TabIndex = 14;
+            this.TxtNational.TabIndex = 9;
             // 
             // label7
             // 
@@ -815,7 +815,7 @@
             this.DateBirthPicker.Location = new System.Drawing.Point(469, 152);
             this.DateBirthPicker.Name = "DateBirthPicker";
             this.DateBirthPicker.Size = new System.Drawing.Size(315, 24);
-            this.DateBirthPicker.TabIndex = 11;
+            this.DateBirthPicker.TabIndex = 6;
             this.DateBirthPicker.ValueChanged += new System.EventHandler(this.DateBirthPicker_ValueChanged);
             // 
             // label6
@@ -838,7 +838,7 @@
             this.TxtEmail.Location = new System.Drawing.Point(16, 152);
             this.TxtEmail.Name = "TxtEmail";
             this.TxtEmail.Size = new System.Drawing.Size(398, 33);
-            this.TxtEmail.TabIndex = 10;
+            this.TxtEmail.TabIndex = 5;
             // 
             // LblEmail
             // 
@@ -860,7 +860,7 @@
             this.TxtLastName.Location = new System.Drawing.Point(16, 77);
             this.TxtLastName.Name = "TxtLastName";
             this.TxtLastName.Size = new System.Drawing.Size(226, 33);
-            this.TxtLastName.TabIndex = 7;
+            this.TxtLastName.TabIndex = 2;
             // 
             // TxtMiddleName
             // 
@@ -871,7 +871,7 @@
             this.TxtMiddleName.Location = new System.Drawing.Point(558, 77);
             this.TxtMiddleName.Name = "TxtMiddleName";
             this.TxtMiddleName.Size = new System.Drawing.Size(226, 33);
-            this.TxtMiddleName.TabIndex = 9;
+            this.TxtMiddleName.TabIndex = 4;
             // 
             // label3
             // 
@@ -904,7 +904,7 @@
             this.TxtFirstName.Location = new System.Drawing.Point(290, 77);
             this.TxtFirstName.Name = "TxtFirstName";
             this.TxtFirstName.Size = new System.Drawing.Size(226, 33);
-            this.TxtFirstName.TabIndex = 8;
+            this.TxtFirstName.TabIndex = 3;
             // 
             // panel8
             // 
@@ -975,7 +975,7 @@
             this.BtnDataBase.Location = new System.Drawing.Point(789, 18);
             this.BtnDataBase.Name = "BtnDataBase";
             this.BtnDataBase.Size = new System.Drawing.Size(141, 37);
-            this.BtnDataBase.TabIndex = 4;
+            this.BtnDataBase.TabIndex = 31;
             this.BtnDataBase.Text = "DATABASE INFORMATION";
             this.BtnDataBase.UseVisualStyleBackColor = true;
             this.BtnDataBase.Click += new System.EventHandler(this.BtnDataBase_Click);
@@ -993,7 +993,7 @@
             this.BtnCourses.Location = new System.Drawing.Point(365, 18);
             this.BtnCourses.Name = "BtnCourses";
             this.BtnCourses.Size = new System.Drawing.Size(84, 37);
-            this.BtnCourses.TabIndex = 1;
+            this.BtnCourses.TabIndex = 28;
             this.BtnCourses.Text = "PROGRAMS";
             this.BtnCourses.UseVisualStyleBackColor = true;
             this.BtnCourses.Click += new System.EventHandler(this.BtnCourses_Click);
@@ -1011,7 +1011,7 @@
             this.BtnEnrollment.Location = new System.Drawing.Point(480, 18);
             this.BtnEnrollment.Name = "BtnEnrollment";
             this.BtnEnrollment.Size = new System.Drawing.Size(92, 37);
-            this.BtnEnrollment.TabIndex = 2;
+            this.BtnEnrollment.TabIndex = 29;
             this.BtnEnrollment.Text = "ENROLLMENT";
             this.BtnEnrollment.UseVisualStyleBackColor = true;
             this.BtnEnrollment.Click += new System.EventHandler(this.BtnEnrollment_Click);
@@ -1030,7 +1030,7 @@
             this.BtnHome.Location = new System.Drawing.Point(256, 18);
             this.BtnHome.Name = "BtnHome";
             this.BtnHome.Size = new System.Drawing.Size(85, 37);
-            this.BtnHome.TabIndex = 0;
+            this.BtnHome.TabIndex = 27;
             this.BtnHome.Text = "HOME";
             this.BtnHome.UseVisualStyleBackColor = true;
             this.BtnHome.Click += new System.EventHandler(this.BtnHome_Click);
@@ -1048,7 +1048,7 @@
             this.BtnPI.Location = new System.Drawing.Point(611, 18);
             this.BtnPI.Name = "BtnPI";
             this.BtnPI.Size = new System.Drawing.Size(141, 37);
-            this.BtnPI.TabIndex = 3;
+            this.BtnPI.TabIndex = 30;
             this.BtnPI.Text = "PERSONAL INFORMATION";
             this.BtnPI.UseVisualStyleBackColor = true;
             // 
@@ -1094,6 +1094,26 @@
             this.panel4.Size = new System.Drawing.Size(160, 72);
             this.panel4.TabIndex = 28;
             // 
+            // BtnClose
+            // 
+            this.BtnClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(44)))), ((int)(((byte)(21)))));
+            this.BtnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnClose.FlatAppearance.BorderSize = 0;
+            this.BtnClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(44)))), ((int)(((byte)(21)))));
+            this.BtnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(44)))), ((int)(((byte)(21)))));
+            this.BtnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnClose.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnClose.ForeColor = System.Drawing.Color.White;
+            this.BtnClose.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.BtnClose.Location = new System.Drawing.Point(89, 23);
+            this.BtnClose.Name = "BtnClose";
+            this.BtnClose.Size = new System.Drawing.Size(32, 27);
+            this.BtnClose.TabIndex = 33;
+            this.BtnClose.Text = "x";
+            this.BtnClose.UseVisualStyleBackColor = false;
+            this.BtnClose.Visible = false;
+            this.BtnClose.Click += new System.EventHandler(this.BtnClose_Click_1);
+            // 
             // BtnLogout
             // 
             this.BtnLogout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1104,7 +1124,7 @@
             this.BtnLogout.Location = new System.Drawing.Point(70, 25);
             this.BtnLogout.Name = "BtnLogout";
             this.BtnLogout.Size = new System.Drawing.Size(79, 22);
-            this.BtnLogout.TabIndex = 5;
+            this.BtnLogout.TabIndex = 32;
             this.BtnLogout.Text = "LOGOUT";
             this.BtnLogout.UseVisualStyleBackColor = true;
             this.BtnLogout.Click += new System.EventHandler(this.BtnLogout_Click);
@@ -1131,7 +1151,7 @@
             this.BtnExit.Location = new System.Drawing.Point(11, 5);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(32, 27);
-            this.BtnExit.TabIndex = 28;
+            this.BtnExit.TabIndex = 34;
             this.BtnExit.Text = "x";
             this.BtnExit.UseVisualStyleBackColor = false;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
@@ -1145,26 +1165,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1300, 36);
             this.panel1.TabIndex = 11;
-            // 
-            // BtnClose
-            // 
-            this.BtnClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(44)))), ((int)(((byte)(21)))));
-            this.BtnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnClose.FlatAppearance.BorderSize = 0;
-            this.BtnClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(44)))), ((int)(((byte)(21)))));
-            this.BtnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(44)))), ((int)(((byte)(21)))));
-            this.BtnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnClose.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnClose.ForeColor = System.Drawing.Color.White;
-            this.BtnClose.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.BtnClose.Location = new System.Drawing.Point(89, 23);
-            this.BtnClose.Name = "BtnClose";
-            this.BtnClose.Size = new System.Drawing.Size(32, 27);
-            this.BtnClose.TabIndex = 30;
-            this.BtnClose.Text = "x";
-            this.BtnClose.UseVisualStyleBackColor = false;
-            this.BtnClose.Visible = false;
-            this.BtnClose.Click += new System.EventHandler(this.BtnClose_Click_1);
             // 
             // FormPersonalInfo
             // 

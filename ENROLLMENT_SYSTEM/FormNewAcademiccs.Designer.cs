@@ -107,7 +107,7 @@
             this.TxtStudentNo.Name = "TxtStudentNo";
             this.TxtStudentNo.ReadOnly = true;
             this.TxtStudentNo.Size = new System.Drawing.Size(367, 33);
-            this.TxtStudentNo.TabIndex = 26;
+            this.TxtStudentNo.TabIndex = 0;
             // 
             // label1
             // 
@@ -131,7 +131,7 @@
             this.TxtLastName.Name = "TxtLastName";
             this.TxtLastName.ReadOnly = true;
             this.TxtLastName.Size = new System.Drawing.Size(364, 33);
-            this.TxtLastName.TabIndex = 28;
+            this.TxtLastName.TabIndex = 1;
             // 
             // panel10
             // 
@@ -156,7 +156,7 @@
             this.BtnUpload.Location = new System.Drawing.Point(16, 209);
             this.BtnUpload.Name = "BtnUpload";
             this.BtnUpload.Size = new System.Drawing.Size(197, 37);
-            this.BtnUpload.TabIndex = 23;
+            this.BtnUpload.TabIndex = 10;
             this.BtnUpload.Text = "UPLOAD";
             this.BtnUpload.UseVisualStyleBackColor = true;
             this.BtnUpload.Click += new System.EventHandler(this.BtnUpload_Click);
@@ -172,7 +172,7 @@
             this.BtnSave.Location = new System.Drawing.Point(16, 256);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(197, 37);
-            this.BtnSave.TabIndex = 24;
+            this.BtnSave.TabIndex = 11;
             this.BtnSave.Text = "SAVE";
             this.BtnSave.UseVisualStyleBackColor = true;
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
@@ -197,8 +197,9 @@
             this.TxtSchoolYear.ForeColor = System.Drawing.Color.Black;
             this.TxtSchoolYear.Location = new System.Drawing.Point(676, 81);
             this.TxtSchoolYear.Name = "TxtSchoolYear";
+            this.TxtSchoolYear.ReadOnly = true;
             this.TxtSchoolYear.Size = new System.Drawing.Size(118, 33);
-            this.TxtSchoolYear.TabIndex = 32;
+            this.TxtSchoolYear.TabIndex = 4;
             this.TxtSchoolYear.Enter += new System.EventHandler(this.TxtSchoolYear_Enter);
             this.TxtSchoolYear.Leave += new System.EventHandler(this.TxtSchoolYear_Leave);
             // 
@@ -224,7 +225,7 @@
             this.TxtFirstName.Name = "TxtFirstName";
             this.TxtFirstName.ReadOnly = true;
             this.TxtFirstName.Size = new System.Drawing.Size(367, 33);
-            this.TxtFirstName.TabIndex = 34;
+            this.TxtFirstName.TabIndex = 2;
             // 
             // label4
             // 
@@ -248,7 +249,7 @@
             this.TxtMiddleName.Name = "TxtMiddleName";
             this.TxtMiddleName.ReadOnly = true;
             this.TxtMiddleName.Size = new System.Drawing.Size(367, 33);
-            this.TxtMiddleName.TabIndex = 36;
+            this.TxtMiddleName.TabIndex = 3;
             // 
             // label5
             // 
@@ -286,7 +287,7 @@
             this.BtnBrowse.Location = new System.Drawing.Point(842, 309);
             this.BtnBrowse.Name = "BtnBrowse";
             this.BtnBrowse.Size = new System.Drawing.Size(66, 26);
-            this.BtnBrowse.TabIndex = 40;
+            this.BtnBrowse.TabIndex = 8;
             this.BtnBrowse.Text = "Browse";
             this.BtnBrowse.UseVisualStyleBackColor = true;
             this.BtnBrowse.Click += new System.EventHandler(this.BtnBrowse_Click);
@@ -312,7 +313,7 @@
             this.TxtPreviousSection.Location = new System.Drawing.Point(676, 227);
             this.TxtPreviousSection.Name = "TxtPreviousSection";
             this.TxtPreviousSection.Size = new System.Drawing.Size(232, 33);
-            this.TxtPreviousSection.TabIndex = 41;
+            this.TxtPreviousSection.TabIndex = 7;
             this.TxtPreviousSection.TextChanged += new System.EventHandler(this.TxtPreviewSection_TextChanged);
             this.TxtPreviousSection.Enter += new System.EventHandler(this.TxtPreviewSection_Enter_1);
             this.TxtPreviousSection.Leave += new System.EventHandler(this.TxtPreviewSection_Leave_1);
@@ -377,7 +378,7 @@
             this.CmbYrLvl.Location = new System.Drawing.Point(676, 152);
             this.CmbYrLvl.Name = "CmbYrLvl";
             this.CmbYrLvl.Size = new System.Drawing.Size(232, 31);
-            this.CmbYrLvl.TabIndex = 47;
+            this.CmbYrLvl.TabIndex = 6;
             // 
             // CmbSem
             // 
@@ -391,7 +392,7 @@
             this.CmbSem.Location = new System.Drawing.Point(800, 81);
             this.CmbSem.Name = "CmbSem";
             this.CmbSem.Size = new System.Drawing.Size(108, 31);
-            this.CmbSem.TabIndex = 48;
+            this.CmbSem.TabIndex = 5;
             // 
             // CmbCourse
             // 
@@ -409,7 +410,7 @@
             this.CmbCourse.Location = new System.Drawing.Point(287, 373);
             this.CmbCourse.Name = "CmbCourse";
             this.CmbCourse.Size = new System.Drawing.Size(621, 33);
-            this.CmbCourse.TabIndex = 49;
+            this.CmbCourse.TabIndex = 9;
             // 
             // FormNewAcademiccs
             // 

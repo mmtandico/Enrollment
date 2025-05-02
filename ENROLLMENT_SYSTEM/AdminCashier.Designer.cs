@@ -119,7 +119,7 @@
             this.BtnSave.Location = new System.Drawing.Point(857, 588);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(197, 37);
-            this.BtnSave.TabIndex = 24;
+            this.BtnSave.TabIndex = 11;
             this.BtnSave.Text = "CONFIRM";
             this.BtnSave.UseVisualStyleBackColor = false;
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
@@ -158,7 +158,7 @@
             this.TxtMiddleName.Name = "TxtMiddleName";
             this.TxtMiddleName.ReadOnly = true;
             this.TxtMiddleName.Size = new System.Drawing.Size(367, 33);
-            this.TxtMiddleName.TabIndex = 56;
+            this.TxtMiddleName.TabIndex = 6;
             // 
             // label3
             // 
@@ -182,7 +182,7 @@
             this.TxtFirstName.Name = "TxtFirstName";
             this.TxtFirstName.ReadOnly = true;
             this.TxtFirstName.Size = new System.Drawing.Size(367, 33);
-            this.TxtFirstName.TabIndex = 54;
+            this.TxtFirstName.TabIndex = 4;
             // 
             // label1
             // 
@@ -206,7 +206,7 @@
             this.TxtLastName.Name = "TxtLastName";
             this.TxtLastName.ReadOnly = true;
             this.TxtLastName.Size = new System.Drawing.Size(364, 33);
-            this.TxtLastName.TabIndex = 52;
+            this.TxtLastName.TabIndex = 2;
             // 
             // label20
             // 
@@ -230,7 +230,7 @@
             this.TxtStudentNo.Name = "TxtStudentNo";
             this.TxtStudentNo.ReadOnly = true;
             this.TxtStudentNo.Size = new System.Drawing.Size(367, 33);
-            this.TxtStudentNo.TabIndex = 50;
+            this.TxtStudentNo.TabIndex = 0;
             // 
             // TxtReferenceNo
             // 
@@ -241,7 +241,7 @@
             this.TxtReferenceNo.Location = new System.Drawing.Point(439, 406);
             this.TxtReferenceNo.Name = "TxtReferenceNo";
             this.TxtReferenceNo.Size = new System.Drawing.Size(621, 33);
-            this.TxtReferenceNo.TabIndex = 60;
+            this.TxtReferenceNo.TabIndex = 8;
             // 
             // CmbPaymentMethod
             // 
@@ -255,7 +255,7 @@
             this.CmbPaymentMethod.Location = new System.Drawing.Point(827, 255);
             this.CmbPaymentMethod.Name = "CmbPaymentMethod";
             this.CmbPaymentMethod.Size = new System.Drawing.Size(232, 31);
-            this.CmbPaymentMethod.TabIndex = 66;
+            this.CmbPaymentMethod.TabIndex = 5;
             // 
             // label7
             // 
@@ -290,7 +290,7 @@
             this.TxtTotalAmount.Location = new System.Drawing.Point(827, 330);
             this.TxtTotalAmount.Name = "TxtTotalAmount";
             this.TxtTotalAmount.Size = new System.Drawing.Size(232, 33);
-            this.TxtTotalAmount.TabIndex = 63;
+            this.TxtTotalAmount.TabIndex = 7;
             // 
             // label2
             // 
@@ -312,7 +312,7 @@
             this.TxtTotalUnits.Location = new System.Drawing.Point(827, 184);
             this.TxtTotalUnits.Name = "TxtTotalUnits";
             this.TxtTotalUnits.Size = new System.Drawing.Size(233, 33);
-            this.TxtTotalUnits.TabIndex = 68;
+            this.TxtTotalUnits.TabIndex = 3;
             // 
             // label5
             // 
@@ -348,7 +348,7 @@
             this.TxtCourseCode.Name = "TxtCourseCode";
             this.TxtCourseCode.ReadOnly = true;
             this.TxtCourseCode.Size = new System.Drawing.Size(233, 33);
-            this.TxtCourseCode.TabIndex = 70;
+            this.TxtCourseCode.TabIndex = 1;
             // 
             // TxtRemarks
             // 
@@ -360,7 +360,7 @@
             this.TxtRemarks.Multiline = true;
             this.TxtRemarks.Name = "TxtRemarks";
             this.TxtRemarks.Size = new System.Drawing.Size(621, 86);
-            this.TxtRemarks.TabIndex = 73;
+            this.TxtRemarks.TabIndex = 9;
             // 
             // LblRemarks
             // 
@@ -383,7 +383,7 @@
             this.ChkUniFast.Location = new System.Drawing.Point(442, 595);
             this.ChkUniFast.Name = "ChkUniFast";
             this.ChkUniFast.Size = new System.Drawing.Size(137, 23);
-            this.ChkUniFast.TabIndex = 74;
+            this.ChkUniFast.TabIndex = 10;
             this.ChkUniFast.Text = "uniFAST Covered?";
             this.ChkUniFast.UseVisualStyleBackColor = false;
             // 

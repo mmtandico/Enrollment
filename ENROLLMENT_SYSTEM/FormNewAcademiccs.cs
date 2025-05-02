@@ -360,6 +360,9 @@ namespace Enrollment_System
                 new MySqlParameter("@EnrollmentID", EnrollmentId)
             );
 
+            bool isFirstYearFirstSem = CmbSem.SelectedIndex == 0 && CmbYrLvl.SelectedIndex == 0;
+            string previousSection = isFirstYearFirstSem ? null : TxtPreviousSection.Text;
+
             // Save academic history
             ExecuteQuery(conn,
                 @"INSERT INTO academic_history (enrollment_id, previous_section)
@@ -451,6 +454,9 @@ namespace Enrollment_System
 
             long newEnrollmentId = GetLastInsertId(conn);
             EnrollmentId = newEnrollmentId.ToString();
+
+            bool isFirstYearFirstSem = CmbSem.SelectedIndex == 0 && CmbYrLvl.SelectedIndex == 0;
+            string previousSection = isFirstYearFirstSem ? null : TxtPreviousSection.Text;
 
             // Save academic history
             ExecuteQuery(conn,
@@ -641,6 +647,18 @@ namespace Enrollment_System
 
         private void ClearNewEnrollmentFields()
         {
+            bool isFirstYearFirstSem = CmbSem.SelectedIndex == 0 && CmbYrLvl.SelectedIndex == 0;
+            if (isFirstYearFirstSem)
+            {
+                TxtPreviousSection.Text = "Not required for 1st Year 1st Semester";
+                TxtPreviousSection.ForeColor = Color.Gray;
+            }
+            else
+            {
+                TxtPreviousSection.Text = "e.g. BSIT-22-A";
+                TxtPreviousSection.ForeColor = Color.Gray;
+            }
+
             TxtPreviousSection.Clear();
             TxtPreviousSection.ForeColor = Color.Black;
             CmbSem.SelectedIndex = -1;
@@ -807,9 +825,12 @@ namespace Enrollment_System
                             }
 
                             // Set previous section
-                            TxtPreviousSection.Text = reader.IsDBNull(reader.GetOrdinal("previous_section"))
+                            bool isFirstYearFirstSem = CmbSem.SelectedIndex == 0 && CmbYrLvl.SelectedIndex == 0;
+                            TxtPreviousSection.Text = isFirstYearFirstSem
+                            ? "Not required for 1st Year 1st Semester"
+                            : (reader.IsDBNull(reader.GetOrdinal("previous_section"))
                                 ? "No previous section available"
-                                : reader["previous_section"].ToString();
+                                : reader["previous_section"].ToString());
 
                             // Set PDF path
                             string pdfPath = reader.IsDBNull(reader.GetOrdinal("grade_pdf_path"))
