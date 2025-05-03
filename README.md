@@ -1,5 +1,5 @@
 # School Enrollment Management System
-This project is a School Enrollment Management System built using the C# .NET Framework (Windows Forms Application) and integrated with a MySQL database. The system aims to streamline the student enrollment process, provide secure login and sign-up functionalities, and enable administrators to manage student data efficiently. The project mimics a web-based school management system but is implemented as a Windows Forms desktop application.
+This project is a School Enrollment Management System built using the C# .NET Framework (Windows Forms Application) and integrated with a MySQL database. The system aims to streamline the student enrollment process, provide secure login and sign-up functionalities, and enable administrators to manage student data efficiently. The project mimics a web-based school management system but is implemented as a Windows Forms desktop application. 
 
 Features
 User Authentication:
