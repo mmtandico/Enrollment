@@ -12,12 +12,37 @@ namespace Enrollment_System
         private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
         private readonly int paymentId;
 
+        public bool IsPaymentValid
+        {
+            get
+            {
+                // If UniFast is checked, no need for payment details
+                if (ChkUniFast.Checked) return true;
+
+                // Otherwise, all payment fields must be filled
+                return !string.IsNullOrWhiteSpace(TxtReferenceNo.Text) &&
+                       !string.IsNullOrWhiteSpace(TxtTotalAmount.Text) &&
+                       CmbPaymentMethod.SelectedItem != null;
+            }
+        }
+
         public AdminCashier(int id)
         {
             InitializeComponent();
             paymentId = id;
             LoadProofPaymentImage();
             LoadStudentInfo();
+            ChkUniFast_CheckedChanged(null, null);
+            InitializeComponentCustom();
+            TxtReferenceNo.TextChanged += ValidatePaymentFields;
+            TxtTotalAmount.TextChanged += ValidatePaymentFields;
+            CmbPaymentMethod.SelectedIndexChanged += ValidatePaymentFields;
+            ChkUniFast.CheckedChanged += ValidatePaymentFields;
+        }
+
+        private void InitializeComponentCustom()
+        {
+            TxtTotalAmount.KeyPress += TxtTotalAmount_KeyPress;
         }
 
         private void ExitButton_Click(object sender, EventArgs e) => this.Close();
@@ -89,7 +114,8 @@ namespace Enrollment_System
                         p.payment_method,
                         p.amount_paid,
                         p.remarks,
-                        p.is_unifast
+                        p.is_unifast,
+                        p.payment_status
                     FROM payments p
                     INNER JOIN student_enrollments se ON p.enrollment_id = se.enrollment_id
                     INNER JOIN students s ON se.student_id = s.student_id
@@ -122,6 +148,7 @@ namespace Enrollment_System
 
                             bool isUniFast = reader["is_unifast"] != DBNull.Value && Convert.ToBoolean(reader["is_unifast"]);
                             ChkUniFast.Checked = isUniFast;
+                            
                         }
                         else
                         {
@@ -135,6 +162,7 @@ namespace Enrollment_System
                 MessageBox.Show("Error loading student info: " + ex.Message);
             }
         }
+        
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
@@ -147,23 +175,31 @@ namespace Enrollment_System
                 return;
             }
 
+            if (ChkUniFast.Checked)
+            {
+                var confirm = MessageBox.Show("Are you sure you want to mark this as a UniFast payment?",
+                    "Confirm UniFast Payment",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+                if (confirm != DialogResult.Yes) return;
+            }
+
             try
             {
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
 
-                    string query = @"UPDATE payments 
-                                   SET payment_date = NOW(),
-                                       remarks = @remarks,
-                                       is_unifast = @isUniFast";
+                    string status = ChkUniFast.Checked ? "UNIFAST COMPLETED" : "COMPLETED";
+                    string query = $@"UPDATE payments 
+                       SET payment_date = NOW(),
+                           remarks = @remarks,
+                           is_unifast = @isUniFast,
+                           payment_status = '{status}'";
 
-                    if (!ChkUniFast.Checked)
-                    {
-                        query += @", receipt_no = @receiptNo,
-                                  amount_paid = @amountPaid,
-                                  payment_method = @paymentMethod";
-                    }
+                    query += ChkUniFast.Checked
+                        ? ", receipt_no = NULL, amount_paid = NULL, payment_method = NULL"
+                        : ", receipt_no = @receiptNo, amount_paid = @amountPaid, payment_method = @paymentMethod";
 
                     query += " WHERE payment_id = @paymentId";
 
@@ -181,15 +217,143 @@ namespace Enrollment_System
                         }
 
                         int rowsAffected = cmd.ExecuteNonQuery();
-                        MessageBox.Show(rowsAffected > 0
-                            ? "Payment updated successfully."
-                            : "No changes were made or payment not found.");
+
+                        if (rowsAffected > 0)
+                        {
+                            AddPaymentHistory(ChkUniFast.Checked ?
+                                "Marked as UniFast payment (COMPLETED)" :
+                                "Updated payment details (COMPLETED)");
+                            MessageBox.Show("Payment marked as COMPLETED successfully.",
+                                "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.DialogResult = DialogResult.OK;
+                        }
+                        else
+                        {
+                            MessageBox.Show("No changes were made or payment not found.",
+                                "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                    }
+                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Please enter a valid amount.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error updating payment: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void AddPaymentHistory(string action)
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                using (var cmd = new MySqlCommand(
+                    "INSERT INTO payment_history (payment_id, action, admin_id, action_date) " +
+                    "VALUES (@paymentId, @action, @adminId, NOW())", conn))
+                {
+                    conn.Open();
+                    cmd.Parameters.AddWithValue("@paymentId", paymentId);
+                    cmd.Parameters.AddWithValue("@action", action);
+                    cmd.Parameters.AddWithValue("@adminId", SessionManager.UserId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch { /* Silently fail - not critical */ }
+        }
+
+        private void ChkUniFast_CheckedChanged(object sender, EventArgs e)
+        {
+            bool isUniFast = ChkUniFast.Checked;
+
+            TxtReferenceNo.Enabled = !isUniFast;
+            TxtTotalAmount.Enabled = !isUniFast;
+            CmbPaymentMethod.Enabled = !isUniFast;
+
+            Color disabledColor = Color.LightGray;
+            Color enabledColor = SystemColors.Window;
+
+            TxtReferenceNo.BackColor = isUniFast ? disabledColor : enabledColor;
+            TxtTotalAmount.BackColor = isUniFast ? disabledColor : enabledColor;
+            CmbPaymentMethod.BackColor = isUniFast ? disabledColor : enabledColor;
+
+            if (isUniFast)
+            {
+                TxtReferenceNo.Text = "";
+                TxtTotalAmount.Text = "";
+                CmbPaymentMethod.SelectedIndex = -1;
+                TxtRemarks.Text = "UniFast Grant Payment";
+            }
+        }
+
+        private void TxtTotalAmount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;  
+            }
+          
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;  
+            }
+        }
+
+        private void BtnViewHistory_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                using (var cmd = new MySqlCommand(
+                    @"SELECT 
+                        DATE_FORMAT(action_date, '%Y-%m-%d %H:%i') as date,
+                        action,
+                        (SELECT username FROM users WHERE user_id = admin_id) as admin
+                    FROM payment_history
+                    WHERE payment_id = @paymentId
+                    ORDER BY action_date DESC", conn))
+                {
+                    conn.Open();
+                    cmd.Parameters.AddWithValue("@paymentId", paymentId);
+
+                    DataTable dt = new DataTable();
+                    dt.Load(cmd.ExecuteReader());
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        string history = "Payment History:\n\n";
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            history += $"{row["date"]} - {row["admin"]} - {row["action"]}\n";
+                        }
+                        MessageBox.Show(history, "Payment History", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No history found for this payment.", "History", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error updating payment: " + ex.Message);
+                MessageBox.Show("Error loading history: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ValidatePaymentFields(object sender, EventArgs e)
+        {
+            if (!ChkUniFast.Checked)
+            {
+                bool isValid = !string.IsNullOrWhiteSpace(TxtReferenceNo.Text) &&
+                              !string.IsNullOrWhiteSpace(TxtTotalAmount.Text) &&
+                              CmbPaymentMethod.SelectedItem != null;
+
+                TxtReferenceNo.BackColor = string.IsNullOrWhiteSpace(TxtReferenceNo.Text) ? Color.LightPink : SystemColors.Window;
+                TxtTotalAmount.BackColor = string.IsNullOrWhiteSpace(TxtTotalAmount.Text) ? Color.LightPink : SystemColors.Window;
+                CmbPaymentMethod.BackColor = CmbPaymentMethod.SelectedItem == null ? Color.LightPink : SystemColors.Window;
             }
         }
     }

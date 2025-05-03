@@ -686,6 +686,24 @@ namespace Enrollment_System
                     currentGrid = DataGridPayment;
                     isPaymentConfirmation = true;
 
+                    // Get the payment ID from selected row
+                    int paymentId = Convert.ToInt32(currentGrid.SelectedRows[0].Cells["payment_id_payment"].Value);
+
+                    // Check if payment details are complete in AdminCashier
+                    using (var cashierForm = new AdminCashier(paymentId))
+                    {
+                        if (!cashierForm.IsPaymentValid)
+                        {
+                            MessageBox.Show("Cannot confirm payment. Please complete all payment details first.",
+                                          "Incomplete Payment",
+                                          MessageBoxButtons.OK,
+                                          MessageBoxIcon.Warning);
+                            return;
+                        }
+                    }
+                    currentGrid = DataGridPayment;
+                    isPaymentConfirmation = true;
+
                     enrollmentIdColumn = "payment_id_payment";
                     studentNoColumn = "student_no_payment";
                     lastNameColumn = "last_name_payment";
@@ -860,13 +878,10 @@ namespace Enrollment_System
                             }
 
 
-                            // Determine new section with 20-student limit
                             string newSection = DetermineSection(courseCode, yearLevel, semester, recordId);
 
-                            // Only update if section changed or no history exists
                             if (currentSection != newSection || !historyId.HasValue)
                             {
-                                // If we have a current section, it becomes the previous section
                                 string updatedPreviousSection = currentSection ?? previousSection;
 
                                 string upsertHistoryQuery = @"
@@ -964,7 +979,7 @@ namespace Enrollment_System
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    //5 temporary
+                    //10 temporary
                     string availableSectionQuery = @"
                     SELECT ah.current_section, COUNT(*) as student_count
                     FROM academic_history ah
@@ -974,7 +989,7 @@ namespace Enrollment_System
                     AND se.semester = @semester
                     AND se.status = 'Enrolled'
                     GROUP BY ah.current_section
-                    HAVING student_count < 5
+                    HAVING student_count < 10
                     ORDER BY ah.current_section
                     LIMIT 1";
 
@@ -1453,6 +1468,47 @@ namespace Enrollment_System
             }
         }
 
-        
+        private bool IsPaymentComplete(int paymentId)
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = @"SELECT 
+                          is_unifast, 
+                          receipt_no, 
+                          amount_paid, 
+                          payment_method 
+                        FROM payments 
+                        WHERE payment_id = @paymentId";
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@paymentId", paymentId);
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                bool isUniFast = reader.GetBoolean("is_unifast");
+
+                                // If UniFast, payment is considered complete
+                                if (isUniFast) return true;
+
+                                // Otherwise check all payment fields
+                                return !reader.IsDBNull(reader.GetOrdinal("receipt_no")) &&
+                                       !reader.IsDBNull(reader.GetOrdinal("amount_paid")) &&
+                                       !reader.IsDBNull(reader.GetOrdinal("payment_method"));
+                            }
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

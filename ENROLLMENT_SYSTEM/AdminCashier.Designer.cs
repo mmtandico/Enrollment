@@ -386,6 +386,7 @@
             this.ChkUniFast.TabIndex = 10;
             this.ChkUniFast.Text = "uniFAST Covered?";
             this.ChkUniFast.UseVisualStyleBackColor = false;
+            this.ChkUniFast.CheckedChanged += new System.EventHandler(this.ChkUniFast_CheckedChanged);
             // 
             // AdminCashier
             // 
@@ -394,6 +395,7 @@
             this.BackgroundImage = global::Enrollment_System.Properties.Resources.COLORPDMBACKGROUND;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1112, 655);
+            this.ControlBox = false;
             this.Controls.Add(this.ChkUniFast);
             this.Controls.Add(this.TxtRemarks);
             this.Controls.Add(this.LblRemarks);
