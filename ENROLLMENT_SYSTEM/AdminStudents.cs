@@ -1057,7 +1057,7 @@ namespace Enrollment_System
 
                     // Remaining columns
                     for (int i = 2; i < headers.Length; i++)
-                    {
+                    { 
                         // Adjust column index mapping
                         int dataGridColIndex = i + 1; // Skip student_no column
                         string cellValue = row.Cells[dataGridColIndex]?.Value?.ToString() ?? "N/A";
