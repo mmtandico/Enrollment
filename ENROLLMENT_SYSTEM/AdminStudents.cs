@@ -951,7 +951,7 @@ namespace Enrollment_System
                 gfx.DrawLine(XPens.Black, 40, titleYPosition + 10, pageWidth - 40, titleYPosition + 10);
 
                 // Column Names for the table
-                string[] headers = { "ID", "Student No.", "Last Name", "First Name", "Middle Name", "Course", "School Year", "Semester", "Year Level", "Status" };
+                string[] headers = { "NO.", "Student No.", "Last Name", "First Name", "Middle Name", "Course", "School Year", "Semester", "Year Level", "Status" };
 
                 // Calculate column widths
                 double[] columnWidths = new double[headers.Length];
@@ -968,7 +968,24 @@ namespace Enrollment_System
                     foreach (DataGridViewRow row in DataGridEnrolled.Rows)
                     {
                         if (row.IsNewRow) continue;
-                        string cellValue = row.Cells[i].Value?.ToString() ?? "";
+
+                        string cellValue = "";
+                        if (i == 0) // NO. column - sequential numbers
+                        {
+                            cellValue = (row.Index + 1).ToString();
+                        }
+                        else if (i == 1) // Student No. column - PDM ID
+                        {
+                            cellValue = row.Cells["student_no"].Value?.ToString() ?? "";
+                        }
+                        else // Other columns
+                        {
+                            // Adjust column index mapping
+                            int dataGridColIndex = i; // Default mapping
+                            if (i >= 2) dataGridColIndex = i + 1; // Skip the original student_no column
+                            cellValue = row.Cells[dataGridColIndex]?.Value?.ToString() ?? "";
+                        }
+
                         double cellWidth = gfx.MeasureString(cellValue, contentFont).Width;
                         maxContentWidth = Math.Max(maxContentWidth, cellWidth);
                     }
@@ -1000,8 +1017,8 @@ namespace Enrollment_System
                 for (int i = 0; i <= headers.Length; i++)
                 {
                     // Draw vertical lines from header to the end of the table
-                    double lineStartY = headerYPosition - 5; // Start slightly above the header text
-                    double lineEndY = headerYPosition + 25 + (DataGridEnrolled.Rows.Count - 1) * 20; // Extend to the last row + padding
+                    double lineStartY = headerYPosition - 5;
+                    double lineEndY = headerYPosition + 25 + (DataGridEnrolled.Rows.Count - 1) * 20;
 
                     gfx.DrawLine(XPens.Gray, currentX, lineStartY, currentX, lineEndY);
 
@@ -1009,37 +1026,45 @@ namespace Enrollment_System
                         currentX += columnWidths[i];
                 }
 
-                // Draw a line under the header row - THIS IS THE LINE YOU WANTED TO ADJUST
+                // Draw a line under the header row
                 double headerLineY = headerYPosition + 15;
                 gfx.DrawLine(new XPen(XColors.Black, 1), marginLeft, headerLineY, pageWidth - marginLeft, headerLineY);
 
                 // Adjusted starting Y position for row content
-                int yPosition = (int)(headerYPosition + 25); // Increased space after header line
+                int yPosition = (int)(headerYPosition + 25);
 
                 // Loop through all rows in the DataGridView
-                int idCounter = 1;
                 foreach (DataGridViewRow row in DataGridEnrolled.Rows)
                 {
                     if (row.IsNewRow) continue;
 
-                    // Draw horizontal grid line above each row (except the first one which comes after header)
-                    if (idCounter > 1)
+                    // Draw horizontal grid line above each row (except the first one)
+                    if (yPosition > headerYPosition + 25)
                     {
                         gfx.DrawLine(XPens.LightGray, marginLeft, yPosition - 10, pageWidth - marginLeft, yPosition - 10);
                     }
 
                     currentX = marginLeft;
-                    gfx.DrawString(idCounter.ToString(), contentFont, XBrushes.Black, new XPoint(currentX + 5, yPosition));
+
+                    // NO. column - sequential numbers
+                    gfx.DrawString((row.Index + 1).ToString(), contentFont, XBrushes.Black, new XPoint(currentX + 5, yPosition));
                     currentX += columnWidths[0];
 
-                    for (int i = 1; i < headers.Length; i++)
+                    // Student No. column - PDM ID
+                    string studentNo = row.Cells["student_no"].Value?.ToString() ?? "";
+                    gfx.DrawString(studentNo, contentFont, XBrushes.Black, new XPoint(currentX + 5, yPosition));
+                    currentX += columnWidths[1];
+
+                    // Remaining columns
+                    for (int i = 2; i < headers.Length; i++)
                     {
-                        string cellValue = row.Cells[i]?.Value?.ToString() ?? "N/A";
+                        // Adjust column index mapping
+                        int dataGridColIndex = i + 1; // Skip student_no column
+                        string cellValue = row.Cells[dataGridColIndex]?.Value?.ToString() ?? "N/A";
                         gfx.DrawString(cellValue, contentFont, XBrushes.Black, new XPoint(currentX + 5, yPosition));
                         currentX += columnWidths[i];
                     }
 
-                    idCounter++;
                     yPosition += 20;
                 }
 
