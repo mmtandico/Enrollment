@@ -130,6 +130,7 @@
       <DependentUpon>AdminStudents.cs</DependentUpon>
     </Compile>
     <Compile Include="class\Class1.cs" />
+    <Compile Include="class\DatabaseConfig.cs" />
     <Compile Include="class\SessionManager.cs" />
     <Compile Include="class\ValidationHelper.cs" />
     <Compile Include="CourseBECED.cs">

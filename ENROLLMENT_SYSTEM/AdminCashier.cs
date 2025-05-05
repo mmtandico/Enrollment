@@ -9,8 +9,11 @@ namespace Enrollment_System
 {
     public partial class AdminCashier : Form
     {
-        private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
+        private readonly string connectionString = DatabaseConfig.ConnectionString;
+
         private readonly int paymentId;
+        //public bool IsPaymentValid { get; private set; }
+        //public bool IsUniFastPayment { get { return chkUniFast.Checked; } }
 
         public bool IsPaymentValid
         {
@@ -25,6 +28,8 @@ namespace Enrollment_System
                        CmbPaymentMethod.SelectedItem != null;
             }
         }
+
+        public bool IsUniFastPayment => ChkUniFast.Checked;
 
         public AdminCashier(int id)
         {

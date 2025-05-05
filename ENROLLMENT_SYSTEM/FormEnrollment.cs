@@ -14,7 +14,8 @@ namespace Enrollment_System
 {
     public partial class FormEnrollment : Form
     {
-        private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
+        private readonly string connectionString = DatabaseConfig.ConnectionString;
+
         private FormCourse mainForm;
 
         public FormEnrollment()
@@ -618,17 +619,56 @@ namespace Enrollment_System
 
         private void UpdatePaymentCalculation(int totalUnits)
         {
-            decimal tuitionFee = CalculateTuitionFee(totalUnits);
-            decimal miscFee = CalculateMiscellaneousFee();
-            decimal totalAmountDue = tuitionFee + miscFee;
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
 
-            LblTuitionFee1.Text = tuitionFee.ToString("0.00");
-            LblMiscFee1.Text = miscFee.ToString("0.00");
-            LblTotalAmount.Text = totalAmountDue.ToString("0.00");
+                    // Get tuition and misc fees from payment_breakdowns
+                    decimal tuitionFee = 0;
+                    decimal miscellaneousFee = 0;
+
+                    // For tuition
+                    using (var cmd = new MySqlCommand(
+                        "SELECT amount FROM payment_breakdowns WHERE fee_type = 'Tuition' LIMIT 1",
+                        conn))
+                    {
+                        object result = cmd.ExecuteScalar();
+                        if (result != null && result != DBNull.Value)
+                        {
+                            tuitionFee = Convert.ToDecimal(result);
+                        }
+                    }
+
+                    // For miscellaneous
+                    using (var cmd = new MySqlCommand(
+                        "SELECT amount FROM payment_breakdowns WHERE fee_type = 'Miscellaneous' LIMIT 1",
+                        conn))
+                    {
+                        object result = cmd.ExecuteScalar();
+                        if (result != null && result != DBNull.Value)
+                        {
+                            miscellaneousFee = Convert.ToDecimal(result);
+                        }
+                    }
+
+                    decimal totalAmountDue = tuitionFee + miscellaneousFee;
+
+                    // Update UI
+                    LblTuitionFee1.Text = tuitionFee.ToString("0.00");
+                    LblMiscFee1.Text = miscellaneousFee.ToString("0.00");
+                    LblTotalAmount.Text = totalAmountDue.ToString("0.00");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error getting fee amounts: {ex.Message}", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private decimal CalculateTuitionFee(int totalUnits) => totalUnits * 150.00m;
-        private decimal CalculateMiscellaneousFee() => 800.00m;
+
 
         private void CustomizeDataGrid()
         {

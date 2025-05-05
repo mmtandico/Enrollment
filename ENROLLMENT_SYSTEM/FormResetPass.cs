@@ -18,7 +18,8 @@ namespace Enrollment_System
 {
     public partial class FormResetPass : Form
     {
-        private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
+        private readonly string connectionString = DatabaseConfig.ConnectionString;
+
         private readonly string _sendGridApiKey = ConfigurationManager.AppSettings["SendGridApiKey"];
 
         public FormResetPass()

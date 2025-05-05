@@ -12,7 +12,8 @@ namespace Enrollment_System
 {
     public partial class FormNewAcademiccs : Form
     {
-        private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
+        private readonly string connectionString = DatabaseConfig.ConnectionString;
+
         private readonly long loggedInUserId;
 
         public string EnrollmentId { get; set; }
@@ -498,18 +499,58 @@ namespace Enrollment_System
             RefreshPdfDisplay(conn);
         }
 
+
         private void SavePaymentInfo(MySqlConnection conn, long enrollmentId, int courseId, string yearLevel, string semester)
         {
+            // Get the most current fee settings (using effective_date with DEFAULT CURRENT_TIMESTAMP)
+            decimal tuitionPerUnit = 0;
+            decimal miscFee = 0;
+
+            using (var feeCmd = new MySqlCommand(
+                "SELECT tuition_per_unit, miscellaneous_fee FROM fee_settings " +
+                "WHERE effective_date <= @CurrentDate " +
+                "ORDER BY effective_date DESC LIMIT 1", conn))
+            {
+                // Add current date parameter to ensure we don't get future-dated fee settings
+                feeCmd.Parameters.AddWithValue("@CurrentDate", DateTime.Now);
+
+                using (var feeReader = feeCmd.ExecuteReader())
+                {
+                    if (feeReader.Read())
+                    {
+                        tuitionPerUnit = feeReader.GetDecimal("tuition_per_unit");
+                        miscFee = feeReader.GetDecimal("miscellaneous_fee");
+                    }
+                    else
+                    {
+                        // Use default values if no fee settings found
+                        tuitionPerUnit = 150m;
+                        miscFee = 800m;
+
+                        // Optionally insert default fee settings if none exist
+                        ExecuteQuery(conn,
+                            @"INSERT INTO fee_settings 
+                            (tuition_per_unit, miscellaneous_fee, updated_by)
+                            VALUES (@Tuition, @Misc, @UpdatedBy)",
+                            new MySqlParameter("@Tuition", tuitionPerUnit),
+                            new MySqlParameter("@Misc", miscFee),
+                            new MySqlParameter("@UpdatedBy", SessionManager.UserId)
+                        );
+                    }
+                }
+            }
+
             int totalUnits = CalculateTotalUnits(courseId, yearLevel, semester);
-            decimal tuitionFee = totalUnits * 150m;
-            decimal miscFee = 800m;
+            decimal tuitionFee = totalUnits * tuitionPerUnit;
             decimal totalAmountDue = tuitionFee + miscFee;
 
             // Create payment record
             ExecuteQuery(conn,
                 @"INSERT INTO payments 
-                (enrollment_id, total_units, total_amount_due, amount_paid, is_unifast, payment_method, payment_date)
-                VALUES (@EnrollmentID, @TotalUnits, @TotalAmountDue, 0, 0, 'Payment Pending', NULL)",
+                (enrollment_id, total_units, total_amount_due, amount_paid, is_unifast, 
+                 payment_method, payment_date, payment_status)
+                VALUES (@EnrollmentID, @TotalUnits, @TotalAmountDue, 0, 0, 
+                'Pending', NULL, 'Pending')",
                 new MySqlParameter("@EnrollmentID", enrollmentId),
                 new MySqlParameter("@TotalUnits", totalUnits),
                 new MySqlParameter("@TotalAmountDue", totalAmountDue)
@@ -517,10 +558,9 @@ namespace Enrollment_System
 
             long paymentId = GetLastInsertId(conn);
 
-            // Create payment breakdowns
             ExecuteQuery(conn,
                 @"INSERT INTO payment_breakdowns (payment_id, fee_type, amount)
-                VALUES (@PaymentID, @FeeType, @Amount)",
+                 VALUES (@PaymentID, @FeeType, @Amount)",
                 new MySqlParameter("@PaymentID", paymentId),
                 new MySqlParameter("@FeeType", "Tuition"),
                 new MySqlParameter("@Amount", tuitionFee)

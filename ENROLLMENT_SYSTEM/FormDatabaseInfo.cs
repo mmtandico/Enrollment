@@ -16,7 +16,8 @@ namespace Enrollment_System
 
     public partial class FormDatabaseInfo : Form
     {
-        private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
+        private readonly string connectionString = DatabaseConfig.ConnectionString;
+
 
         public FormDatabaseInfo()
         {

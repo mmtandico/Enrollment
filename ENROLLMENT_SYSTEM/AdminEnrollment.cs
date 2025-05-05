@@ -15,10 +15,12 @@ namespace Enrollment_System
 {
     public partial class AdminEnrollment : Form
     {
-        private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
+        private readonly string connectionString = DatabaseConfig.ConnectionString;
+
         private readonly string _sendGridApiKey = ConfigurationManager.AppSettings["SendGridApiKey"];
         private string currentProgramFilter = "All";
         private Button[] programButtons;
+        private int _maxStudentsPerSection = 5;
 
         protected override void OnActivated(EventArgs e)
         {
@@ -507,6 +509,79 @@ namespace Enrollment_System
             };
         }
 
+        private void DeletePayment(DataGridViewRow row)
+        {
+            try
+            {
+                int paymentId = Convert.ToInt32(row.Cells["payment_id_payment"].Value);
+                string studentName = $"{row.Cells["last_name_payment"].Value}, {row.Cells["first_name_payment"].Value}";
+
+                DialogResult result = MessageBox.Show(
+                    $"Are you sure you want to delete this payment record?\n\nStudent: {studentName}",
+                    "Confirm Deletion",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    using (var conn = new MySqlConnection(connectionString))
+                    {
+                        conn.Open();
+
+                        // First delete payment breakdowns
+                        string deleteBreakdownsQuery = "DELETE FROM payment_breakdowns WHERE payment_id = @paymentId";
+                        using (var cmd = new MySqlCommand(deleteBreakdownsQuery, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@paymentId", paymentId);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // Then delete the payment
+                        string deletePaymentQuery = "DELETE FROM payments WHERE payment_id = @paymentId";
+                        using (var cmd = new MySqlCommand(deletePaymentQuery, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@paymentId", paymentId);
+                            int rowsAffected = cmd.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                // Update the enrollment status back to "Payment Pending"
+                                string updateEnrollmentQuery = @"
+                            UPDATE student_enrollments se
+                            JOIN payments p ON se.enrollment_id = p.enrollment_id
+                            SET se.status = 'Payment Pending'
+                            WHERE p.payment_id = @paymentId";
+
+                                using (var updateCmd = new MySqlCommand(updateEnrollmentQuery, conn))
+                                {
+                                    updateCmd.Parameters.AddWithValue("@paymentId", paymentId);
+                                    updateCmd.ExecuteNonQuery();
+                                }
+
+                                // Remove from grid and refresh
+                                DataGridPayment.Rows.Remove(row);
+                                MessageBox.Show("Payment record deleted successfully!",
+                                              "Success",
+                                              MessageBoxButtons.OK,
+                                              MessageBoxIcon.Information);
+
+                                // Refresh all relevant data
+                                LoadPaymentData();
+                                LoadStudentData();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting payment: {ex.Message}",
+                              "Error",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
+            }
+        }
+
         private void DeleteNewEnrollment(DataGridViewRow row)
         {
             int enrollmentId = Convert.ToInt32(row.Cells["enrollment_id"].Value);
@@ -667,127 +742,145 @@ namespace Enrollment_System
         }
 
         private async void BtnConfirm_Click(object sender, EventArgs e)
+{
+    try
+    {
+        DataGridView currentGrid;
+        string enrollmentIdColumn, studentNoColumn, lastNameColumn, firstNameColumn,
+               middleNameColumn, courseCodeColumn, academicYearColumn,
+               semesterColumn, yearLevelColumn, statusColumn;
+        string currentStatus;
+        string successMessage;
+        string confirmationMessage;
+        string newStatus;
+        bool sendEmail = false;
+        bool isPaymentConfirmation = false;
+        bool isUniFastPayment = false;
+        int paymentId = 0;
+
+        if (tabControl1.SelectedTab == tabPayment)
         {
-            try
+            currentGrid = DataGridPayment;
+            isPaymentConfirmation = true;
+
+            // Get the payment ID from selected row
+            paymentId = Convert.ToInt32(currentGrid.SelectedRows[0].Cells["payment_id_payment"].Value);
+
+            // First validate the payment by opening AdminCashier
+            bool isValid = false;
+            using (var cashierForm = new AdminCashier(paymentId))
             {
-                DataGridView currentGrid;
-                string enrollmentIdColumn, studentNoColumn, lastNameColumn, firstNameColumn,
-                       middleNameColumn, courseCodeColumn, academicYearColumn,
-                       semesterColumn, yearLevelColumn, statusColumn;
-                string currentStatus;
-                string successMessage;
-                string confirmationMessage;
-                string newStatus;
-                bool sendEmail = false;
-                bool isPaymentConfirmation = false;
-
-                if (tabControl1.SelectedTab == tabPayment)
+                if (cashierForm.ShowDialog() == DialogResult.OK)
                 {
-                    currentGrid = DataGridPayment;
-                    isPaymentConfirmation = true;
-
-                    // Get the payment ID from selected row
-                    int paymentId = Convert.ToInt32(currentGrid.SelectedRows[0].Cells["payment_id_payment"].Value);
-
-                    // Check if payment details are complete in AdminCashier
-                    using (var cashierForm = new AdminCashier(paymentId))
-                    {
-                        if (!cashierForm.IsPaymentValid)
-                        {
-                            MessageBox.Show("Cannot confirm payment. Please complete all payment details first.",
-                                          "Incomplete Payment",
-                                          MessageBoxButtons.OK,
-                                          MessageBoxIcon.Warning);
-                            return;
-                        }
-                    }
-                    currentGrid = DataGridPayment;
-                    isPaymentConfirmation = true;
-
-                    enrollmentIdColumn = "payment_id_payment";
-                    studentNoColumn = "student_no_payment";
-                    lastNameColumn = "last_name_payment";
-                    firstNameColumn = "first_name_payment";
-                    middleNameColumn = "middle_name_payment";
-                    courseCodeColumn = "courseCode_payment";
-                    academicYearColumn = "academic_year_payment";
-                    semesterColumn = "semester_payment";
-                    yearLevelColumn = "year_level_payment";
-                    statusColumn = "status_payment";
-
-                    currentStatus = "Payment Pending";
-                    newStatus = "Pending";
-                    confirmationMessage = "Are you sure you want to confirm this payment?";
-                    successMessage = "Payment confirmed completed!";
-                }
-                else if (tabControl1.SelectedTab == tabStudentEnrollment)
-                {
-                    currentGrid = DataGridNewEnrollment;
-
-                    enrollmentIdColumn = "enrollment_id";
-                    studentNoColumn = "student_no";
-                    lastNameColumn = "last_name";
-                    firstNameColumn = "first_name";
-                    middleNameColumn = "middle_name";
-                    courseCodeColumn = "courseCode";
-                    academicYearColumn = "academic_year";
-                    semesterColumn = "semester";
-                    yearLevelColumn = "year_level";
-                    statusColumn = "status";
-
-                    currentStatus = "Pending";
-                    newStatus = "Enrolled";
-                    confirmationMessage = "Are you sure you want to confirm this enrollment?";
-                    successMessage = "Enrollment confirmed successfully!";
-                    sendEmail = true;
+                    isValid = cashierForm.IsPaymentValid;
+                    isUniFastPayment = cashierForm.IsUniFastPayment;
                 }
                 else
                 {
-                    MessageBox.Show("Please select either the Enrollment or Payment tab first.",
-                                  "Invalid Tab",
-                                  MessageBoxButtons.OK,
-                                  MessageBoxIcon.Warning);
-                    return;
-                }
-
-                if (currentGrid.SelectedRows.Count == 0)
-                {
-                    MessageBox.Show($"Please select a student from the {tabControl1.SelectedTab.Text} tab.",
-                                  "No Selection",
-                                  MessageBoxButtons.OK,
-                                  MessageBoxIcon.Warning);
-                    return;
-                }
-
-                DataGridViewRow selectedRow = currentGrid.SelectedRows[0];
-                string studentName = $"{selectedRow.Cells[lastNameColumn].Value} {selectedRow.Cells[firstNameColumn].Value}";
-
-                string courseCode = selectedRow.Cells[courseCodeColumn].Value.ToString();
-                string yearLevel = selectedRow.Cells[yearLevelColumn].Value.ToString();
-                string semester = selectedRow.Cells[semesterColumn].Value.ToString();
-                string academicYear = selectedRow.Cells[academicYearColumn].Value.ToString();
-
-                DialogResult dialogResult = MessageBox.Show(
-                    $"{confirmationMessage}\n\nStudent: {studentName}",
-                    "Confirm Action",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-
-                if (dialogResult == DialogResult.Yes)
-                {
-                    await ProcessConfirmation(isPaymentConfirmation, currentGrid, selectedRow,
-                        enrollmentIdColumn, newStatus, sendEmail, studentName,
-                        courseCode, yearLevel, semester, academicYear, successMessage);
+                    return; // User cancelled the operation
                 }
             }
-            catch (Exception ex)
+
+            if (!isValid)
             {
-                MessageBox.Show($"An error occurred: {ex.Message}\n\nPlease try again or contact support.",
-                              "Error",
+                MessageBox.Show("Cannot confirm payment. Please complete all payment details first.",
+                              "Incomplete Payment",
                               MessageBoxButtons.OK,
-                              MessageBoxIcon.Error);
+                              MessageBoxIcon.Warning);
+                
+                // Reopen the form for correction
+                using (var cashierForm = new AdminCashier(paymentId))
+                {
+                    cashierForm.ShowDialog();
+                }
+                return;
             }
+
+            // Rest of the payment confirmation setup
+            enrollmentIdColumn = "payment_id_payment";
+            studentNoColumn = "student_no_payment";
+            lastNameColumn = "last_name_payment";
+            firstNameColumn = "first_name_payment";
+            middleNameColumn = "middle_name_payment";
+            courseCodeColumn = "courseCode_payment";
+            academicYearColumn = "academic_year_payment";
+            semesterColumn = "semester_payment";
+            yearLevelColumn = "year_level_payment";
+            statusColumn = "status_payment";
+
+            currentStatus = "Payment Pending";
+            newStatus = isUniFastPayment ? "Pending" : "Completed"; // Set status based on UniFAST
+            confirmationMessage = $"Are you sure you want to confirm this {(isUniFastPayment ? "UniFAST" : "")} payment?";
+            successMessage = $"Payment confirmed as {newStatus.ToLower()}!";
         }
+        else if (tabControl1.SelectedTab == tabStudentEnrollment)
+        {
+            currentGrid = DataGridNewEnrollment;
+
+            enrollmentIdColumn = "enrollment_id";
+            studentNoColumn = "student_no";
+            lastNameColumn = "last_name";
+            firstNameColumn = "first_name";
+            middleNameColumn = "middle_name";
+            courseCodeColumn = "courseCode";
+            academicYearColumn = "academic_year";
+            semesterColumn = "semester";
+            yearLevelColumn = "year_level";
+            statusColumn = "status";
+
+            currentStatus = "Pending";
+            newStatus = "Enrolled";
+            confirmationMessage = "Are you sure you want to confirm this enrollment?";
+            successMessage = "Enrollment confirmed successfully!";
+            sendEmail = true;
+        }
+        else
+        {
+            MessageBox.Show("Please select either the Enrollment or Payment tab first.",
+                          "Invalid Tab",
+                          MessageBoxButtons.OK,
+                          MessageBoxIcon.Warning);
+            return;
+        }
+
+        if (currentGrid.SelectedRows.Count == 0)
+        {
+            MessageBox.Show($"Please select a student from the {tabControl1.SelectedTab.Text} tab.",
+                          "No Selection",
+                          MessageBoxButtons.OK,
+                          MessageBoxIcon.Warning);
+            return;
+        }
+
+        DataGridViewRow selectedRow = currentGrid.SelectedRows[0];
+        string studentName = $"{selectedRow.Cells[lastNameColumn].Value} {selectedRow.Cells[firstNameColumn].Value}";
+
+        string courseCode = selectedRow.Cells[courseCodeColumn].Value.ToString();
+        string yearLevel = selectedRow.Cells[yearLevelColumn].Value.ToString();
+        string semester = selectedRow.Cells[semesterColumn].Value.ToString();
+        string academicYear = selectedRow.Cells[academicYearColumn].Value.ToString();
+
+        DialogResult dialogResult = MessageBox.Show(
+            $"{confirmationMessage}\n\nStudent: {studentName}",
+            "Confirm Action",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question);
+
+        if (dialogResult == DialogResult.Yes)
+        {
+            await ProcessConfirmation(isPaymentConfirmation, currentGrid, selectedRow,
+                enrollmentIdColumn, newStatus, sendEmail, studentName,
+                courseCode, yearLevel, semester, academicYear, successMessage);
+        }
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show($"An error occurred: {ex.Message}\n\nPlease try again or contact support.",
+                      "Error",
+                      MessageBoxButtons.OK,
+                      MessageBoxIcon.Error);
+    }
+}
 
         private async Task ProcessConfirmation(bool isPaymentConfirmation, DataGridView currentGrid,
          DataGridViewRow selectedRow, string enrollmentIdColumn, string newStatus,
@@ -979,7 +1072,8 @@ namespace Enrollment_System
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    //10 temporary
+
+                    // Use the class-level _maxStudentsPerSection variable
                     string availableSectionQuery = @"
                     SELECT ah.current_section, COUNT(*) as student_count
                     FROM academic_history ah
@@ -989,7 +1083,7 @@ namespace Enrollment_System
                     AND se.semester = @semester
                     AND se.status = 'Enrolled'
                     GROUP BY ah.current_section
-                    HAVING student_count < 10
+                    HAVING student_count < @maxStudents
                     ORDER BY ah.current_section
                     LIMIT 1";
 
@@ -999,6 +1093,7 @@ namespace Enrollment_System
                         sectionCmd.Parameters.AddWithValue("@courseCode", courseCode);
                         sectionCmd.Parameters.AddWithValue("@yearLevel", yearLevel);
                         sectionCmd.Parameters.AddWithValue("@semester", semester);
+                        sectionCmd.Parameters.AddWithValue("@maxStudents", _maxStudentsPerSection);
 
                         using (var reader = sectionCmd.ExecuteReader())
                         {
@@ -1009,19 +1104,17 @@ namespace Enrollment_System
                         }
                     }
 
-                    // 2. If no available section, create new one with correct format
                     if (string.IsNullOrEmpty(availableSection))
                     {
-                        // Get the highest existing section letter
                         string maxSectionQuery = @"
-                        SELECT current_section
-                        FROM academic_history ah
-                        JOIN student_enrollments se ON ah.enrollment_id = se.enrollment_id
-                        WHERE se.course_id = (SELECT course_id FROM courses WHERE course_code = @courseCode)
-                        AND se.year_level = @yearLevel
-                        AND se.semester = @semester
-                        ORDER BY current_section DESC
-                        LIMIT 1";
+                    SELECT current_section
+                    FROM academic_history ah
+                    JOIN student_enrollments se ON ah.enrollment_id = se.enrollment_id
+                    WHERE se.course_id = (SELECT course_id FROM courses WHERE course_code = @courseCode)
+                    AND se.year_level = @yearLevel
+                    AND se.semester = @semester
+                    ORDER BY current_section DESC
+                    LIMIT 1";
 
                         string maxSection = null;
                         using (MySqlCommand maxCmd = new MySqlCommand(maxSectionQuery, conn))
@@ -1035,15 +1128,12 @@ namespace Enrollment_System
                         }
 
                         char sectionLetter = 'A';
-
                         if (!string.IsNullOrEmpty(maxSection))
                         {
-                           
                             char lastLetter = maxSection[maxSection.Length - 1];
                             sectionLetter = (char)(lastLetter + 1);
                         }
 
-         
                         string cleanYearLevel = yearLevel
                             .Replace("Year", "")
                             .Replace(" ", "")
@@ -1053,7 +1143,6 @@ namespace Enrollment_System
                             .Replace("4th", "4");
 
                         string cleanSemester = semester[0].ToString();
-
                         availableSection = $"{courseCode}-{cleanYearLevel}{cleanSemester}-{sectionLetter}";
                     }
 
@@ -1063,7 +1152,6 @@ namespace Enrollment_System
             catch (Exception ex)
             {
                 MessageBox.Show($"Error determining section: {ex.Message}");
-                // Fallback format
                 string cleanYearLevel = yearLevel
                     .Replace("Year", "")
                     .Replace(" ", "")
@@ -1334,25 +1422,23 @@ namespace Enrollment_System
 
         private void DataGridPayment_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == DataGridPayment.Columns["ColOpen3"].Index && e.RowIndex >= 0)
-            {
-                int enrollmentId = Convert.ToInt32(DataGridPayment.Rows[e.RowIndex].Cells["payment_id_payment"].Value);
-                AdminCashier Cashier = new AdminCashier(enrollmentId);
-                Cashier.ShowDialog();
-            }
-            else if (e.ColumnIndex == DataGridPayment.Columns["ColClose3"].Index && e.RowIndex >= 0)
-            {
-                DialogResult result = MessageBox.Show(
-                    "Are you sure you want to delete this row?",
-                    "Delete Confirmation",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning
-                );
+            if (e.RowIndex < 0) return; // Ignore header clicks
 
-                if (result == DialogResult.Yes)
-                {
-                    DataGridPayment.Rows.RemoveAt(e.RowIndex);
-                }
+            if (e.ColumnIndex == DataGridPayment.Columns["ColOpen3"].Index)
+            {
+                // Open payment details
+                int paymentId = Convert.ToInt32(DataGridPayment.Rows[e.RowIndex].Cells["payment_id_payment"].Value);
+                AdminCashier cashier = new AdminCashier(paymentId);
+                cashier.ShowDialog();
+
+                // Refresh payment data after closing the cashier form
+                LoadPaymentData();
+            }
+            else if (e.ColumnIndex == DataGridPayment.Columns["ColClose3"].Index)
+            {
+                // Delete payment
+                DataGridViewRow row = DataGridPayment.Rows[e.RowIndex];
+                DeletePayment(row);
             }
         }
 
@@ -1508,6 +1594,331 @@ namespace Enrollment_System
             catch
             {
                 return false;
+            }
+        }
+
+        private void BtnConfigureFees_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Load current fees first
+                decimal currentTuition = 0;
+                decimal currentMisc = 0;
+                bool hasExistingSettings = false;
+
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT tuition_per_unit, miscellaneous_fee FROM fee_settings ORDER BY effective_date DESC LIMIT 1";
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                currentTuition = reader.GetDecimal("tuition_per_unit");
+                                currentMisc = reader.GetDecimal("miscellaneous_fee");
+                                hasExistingSettings = true;
+                            }
+                        }
+                    }
+                }
+
+                // Gold-brown theme colors
+                Color darkBrown = Color.FromArgb(101, 67, 33);    // #654321
+                Color gold = Color.FromArgb(218, 165, 32);       // #DAA520
+                Color lightGold = Color.FromArgb(255, 215, 0);    // #FFD700
+                Color cream = Color.FromArgb(255, 253, 208);     // #FFFDD0
+
+                // Show fee configuration dialog
+                using (var form = new Form())
+                {
+                    form.Text = "Update Fee Settings";
+                    form.Size = new Size(400, 280);
+                    form.StartPosition = FormStartPosition.CenterParent;
+                    form.FormBorderStyle = FormBorderStyle.FixedDialog;
+                    form.MaximizeBox = false;
+                    form.BackColor = cream;
+                    form.ForeColor = darkBrown;
+                    form.Font = new Font("Segoe UI", 9, FontStyle.Regular);
+
+                    // Title label
+                    var lblTitle = new Label
+                    {
+                        Text = "Fee Configuration",
+                        Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                        ForeColor = darkBrown,
+                        Left = 20,
+                        Top = 15,
+                        Width = 360,
+                        TextAlign = ContentAlignment.MiddleCenter
+                    };
+
+                    var lblTuition = new Label
+                    {
+                        Text = "Tuition per Unit (₱):",
+                        Left = 30,
+                        Top = 60,
+                        Width = 150,
+                        ForeColor = darkBrown,
+                        Font = new Font("Segoe UI", 9, FontStyle.Bold)
+                    };
+
+                    var txtTuition = new NumericUpDown
+                    {
+                        Left = 190,
+                        Top = 55,
+                        Width = 170,
+                        DecimalPlaces = 2,
+                        Minimum = 0,
+                        Maximum = 100000,
+                        BackColor = Color.White,
+                        ForeColor = darkBrown,
+                        BorderStyle = BorderStyle.FixedSingle
+                    };
+                    txtTuition.Value = Math.Min(currentTuition, txtTuition.Maximum);
+
+                    var lblMisc = new Label
+                    {
+                        Text = "Miscellaneous Fee (₱):",
+                        Left = 30,
+                        Top = 100,
+                        Width = 150,
+                        ForeColor = darkBrown,
+                        Font = new Font("Segoe UI", 9, FontStyle.Bold)
+                    };
+
+                    var txtMisc = new NumericUpDown
+                    {
+                        Left = 190,
+                        Top = 95,
+                        Width = 170,
+                        DecimalPlaces = 2,
+                        Minimum = 0,
+                        Maximum = 100000,
+                        BackColor = Color.White,
+                        ForeColor = darkBrown,
+                        BorderStyle = BorderStyle.FixedSingle
+                    };
+                    txtMisc.Value = Math.Min(currentMisc, txtMisc.Maximum);
+
+                    // Add a note label
+                    var lblNote = new Label
+                    {
+                        Text = "Note: Both values must be greater than 0.",
+                        Left = 30,
+                        Top = 140,
+                        Width = 340,
+                        ForeColor = Color.FromArgb(139, 69, 19), // SaddleBrown
+                        Font = new Font("Segoe UI", 8, FontStyle.Italic)
+                    };
+
+                    var btnSave = new Button
+                    {
+                        Text = "Save",
+                        Left = 190,
+                        Top = 180,
+                        Width = 80,
+                        BackColor = gold,
+                        FlatStyle = FlatStyle.Flat,
+                        ForeColor = Color.White,
+                        Font = new Font("Segoe UI", 9, FontStyle.Bold)
+                    };
+                    btnSave.FlatAppearance.BorderColor = darkBrown;
+
+                    var btnCancel = new Button
+                    {
+                        Text = "Cancel",
+                        Left = 280,
+                        Top = 180,
+                        Width = 80,
+                        BackColor = Color.White,
+                        FlatStyle = FlatStyle.Flat,
+                        ForeColor = darkBrown,
+                        Font = new Font("Segoe UI", 9)
+                    };
+                    btnCancel.FlatAppearance.BorderColor = darkBrown;
+
+                    btnSave.Click += (s, ev) =>
+                    {
+                        if (txtTuition.Value <= 0 || txtMisc.Value <= 0)
+                        {
+                            MessageBox.Show("Both tuition and miscellaneous fees must be greater than ₱0.",
+                                            "Invalid Input",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Warning);
+                            return;
+                        }
+
+                        if (txtTuition.Value == currentTuition && txtMisc.Value == currentMisc && hasExistingSettings)
+                        {
+                            MessageBox.Show("No changes were made to the fee settings.",
+                                            "No Changes",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Information);
+                            return;
+                        }
+
+                        SaveFeeSettings(txtTuition.Value, txtMisc.Value);
+                        form.DialogResult = DialogResult.OK;
+                        form.Close();
+                    };
+
+                    btnCancel.Click += (s, ev) => form.Close();
+
+                    // Add gold border effect
+                    Panel borderPanel = new Panel
+                    {
+                        BackColor = gold,
+                        Location = new Point(5, 5),
+                        Size = new Size(form.Width - 12, form.Height - 12),
+                        Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right
+                    };
+
+                    Panel contentPanel = new Panel
+                    {
+                        BackColor = cream,
+                        Location = new Point(2, 2),
+                        Size = new Size(borderPanel.Width - 4, borderPanel.Height - 4),
+                        Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right
+                    };
+
+                    borderPanel.Controls.Add(contentPanel);
+                    contentPanel.Controls.AddRange(new Control[] { lblTitle, lblTuition, txtTuition, lblMisc, txtMisc, lblNote, btnSave, btnCancel });
+                    form.Controls.Add(borderPanel);
+
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        MessageBox.Show("Fee settings updated successfully!",
+                                        "Success",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error updating fees: {ex.Message}",
+                                "Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
+        }
+
+        private void SaveFeeSettings(decimal tuitionPerUnit, decimal miscFee)
+        {
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = @"
+            INSERT INTO fee_settings (tuition_per_unit, miscellaneous_fee, updated_by, effective_date)
+            VALUES (@tuition, @misc, @userId, NOW())";
+
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@tuition", tuitionPerUnit);
+                    cmd.Parameters.AddWithValue("@misc", miscFee);
+                    cmd.Parameters.AddWithValue("@userId", SessionManager.UserId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void BtnPerSection_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Gold-brown theme colors
+                Color darkBrown = Color.FromArgb(101, 67, 33);
+                Color gold = Color.FromArgb(218, 165, 32);
+                Color cream = Color.FromArgb(255, 253, 208);
+
+                using (var form = new Form())
+                {
+                    form.Text = "Set Maximum Students Per Section";
+                    form.Size = new Size(350, 200);
+                    form.StartPosition = FormStartPosition.CenterParent;
+                    form.FormBorderStyle = FormBorderStyle.FixedDialog;
+                    form.MaximizeBox = false;
+                    form.BackColor = cream;
+                    form.ForeColor = darkBrown;
+
+                    // Title label
+                    var lblTitle = new Label
+                    {
+                        Text = "Section Capacity Configuration",
+                        Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                        ForeColor = darkBrown,
+                        Left = 20,
+                        Top = 15,
+                        Width = 310,
+                        TextAlign = ContentAlignment.MiddleCenter
+                    };
+
+                    var lblMaxStudents = new Label
+                    {
+                        Text = "Max Students Per Section:",
+                        Left = 20,
+                        Top = 60,
+                        Width = 150,
+                        ForeColor = darkBrown
+                    };
+
+                    var numMaxStudents = new NumericUpDown
+                    {
+                        Left = 180,
+                        Top = 55,
+                        Width = 100,
+                        Minimum = 2,
+                        Maximum = 50,
+                        Value = _maxStudentsPerSection
+                    };
+
+                    var btnSave = new Button
+                    {
+                        Text = "Save",
+                        Left = 150,
+                        Top = 110,
+                        Width = 80,
+                        BackColor = gold,
+                        ForeColor = Color.White,
+                        FlatStyle = FlatStyle.Flat
+                    };
+                    btnSave.FlatAppearance.BorderColor = darkBrown;
+
+                    var btnCancel = new Button
+                    {
+                        Text = "Cancel",
+                        Left = 240,
+                        Top = 110,
+                        Width = 80,
+                        BackColor = Color.White,
+                        ForeColor = darkBrown,
+                        FlatStyle = FlatStyle.Flat
+                    };
+                    btnCancel.FlatAppearance.BorderColor = darkBrown;
+
+                    btnSave.Click += (s, ev) =>
+                    {
+                        _maxStudentsPerSection = (int)numMaxStudents.Value;
+                        MessageBox.Show($"Maximum students per section set to {_maxStudentsPerSection}",
+                                        "Setting Saved",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information);
+                        form.Close();
+                    };
+
+                    btnCancel.Click += (s, ev) => form.Close();
+
+                    form.Controls.AddRange(new Control[] { lblTitle, lblMaxStudents, numMaxStudents, btnSave, btnCancel });
+                    form.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error configuring section capacity: {ex.Message}",
+                              "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

@@ -2,16 +2,15 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using Enrollment_System;
 
 public static class ValidationHelper
 {
-    private static readonly string ConnectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
-
     public static bool IsPersonalInfoComplete(long userId)
     {
         try
         {
-            using (var conn = new MySqlConnection(ConnectionString))
+            using (var conn = new MySqlConnection(DatabaseConfig.ConnectionString))
             {
                 conn.Open();
 
@@ -36,22 +35,20 @@ public static class ValidationHelper
                     {
                         if (reader.Read())
                         {
-                            // Check all required fields
-                            if (!IsFieldValid(reader["student_no"])) return false;
-                            if (!IsFieldValid(reader["student_lrn"])) return false;
-                            if (!IsFieldValid(reader["first_name"])) return false;
-                            if (!IsFieldValid(reader["last_name"])) return false;
-                            if (reader["birth_date"] == DBNull.Value) return false;
-                            if (!IsFieldValid(reader["sex"])) return false;
-                            if (!IsFieldValid(reader["phone_no"])) return false;
-                            if (!IsFieldValid(reader["barangay"])) return false;
-                            if (!IsFieldValid(reader["city"])) return false;
-                            if (!IsFieldValid(reader["province"])) return false;
-                            if (!IsFieldValid(reader["guardian_first"])) return false;
-                            if (!IsFieldValid(reader["guardian_last"])) return false;
-                            if (!IsFieldValid(reader["guardian_contact"])) return false;
-
-                            return true;
+                            return
+                                IsFieldValid(reader["student_no"]) &&
+                                IsFieldValid(reader["student_lrn"]) &&
+                                IsFieldValid(reader["first_name"]) &&
+                                IsFieldValid(reader["last_name"]) &&
+                                reader["birth_date"] != DBNull.Value &&
+                                IsFieldValid(reader["sex"]) &&
+                                IsFieldValid(reader["phone_no"]) &&
+                                IsFieldValid(reader["barangay"]) &&
+                                IsFieldValid(reader["city"]) &&
+                                IsFieldValid(reader["province"]) &&
+                                IsFieldValid(reader["guardian_first"]) &&
+                                IsFieldValid(reader["guardian_last"]) &&
+                                IsFieldValid(reader["guardian_contact"]);
                         }
                     }
                 }
@@ -59,7 +56,6 @@ public static class ValidationHelper
         }
         catch (Exception ex)
         {
-            // Log the error
             Debug.WriteLine($"Error validating personal info: {ex.Message}");
         }
 

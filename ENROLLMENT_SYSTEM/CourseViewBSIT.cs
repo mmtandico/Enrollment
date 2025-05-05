@@ -8,7 +8,8 @@ namespace Enrollment_System
 {
     public partial class CourseViewBSIT : Form
     {
-        private readonly string connectionString = "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
+        private readonly string connectionString = DatabaseConfig.ConnectionString;
+
         private FormEnrollment enrollmentForm;
         private MySqlConnection dbConnection;
         private FormCourse parentForm;
