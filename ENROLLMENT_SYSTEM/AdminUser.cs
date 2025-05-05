@@ -753,5 +753,16 @@ namespace Enrollment_System
                 return -1;
             }
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            string searchTerm = textBox1.Text;
+
+            if (DataGridUsers.DataSource is DataTable)
+            {
+                DataTable dt = (DataTable)DataGridUsers.DataSource;
+                dt.DefaultView.RowFilter = $"CONVERT(email, System.String) LIKE '%{searchTerm}%'";
+            }
+        }
     }
 }
