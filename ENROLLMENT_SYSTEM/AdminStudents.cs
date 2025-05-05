@@ -8,6 +8,7 @@ using System.IO;
 using PdfSharp.Pdf;
 using PdfSharp.Drawing;
 using PdfSharp;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -364,7 +365,6 @@ namespace Enrollment_System
         {
             try
             {
-
                 // Create PDF document
                 PdfDocument pdfDoc = new PdfDocument();
                 string savePath = Path.Combine(
@@ -424,6 +424,7 @@ namespace Enrollment_System
                 yPos += 30;
 
                 // 3. Student information section
+                int enrollmentId = Convert.ToInt32(selectedRow.Cells["student_id"].Value);
 
                 string studentNo = selectedRow.Cells["student_no"].Value?.ToString() ?? "N/A";
                 string lastName = selectedRow.Cells["last_name"].Value?.ToString() ?? "N/A";
@@ -447,8 +448,16 @@ namespace Enrollment_System
                 gfx.DrawString(studentNo, regularFont, XBrushes.Black, marginLeft + 100, yPos);
                 yPos += 20;
 
-                gfx.DrawString("Program:", boldFont, XBrushes.Black, marginLeft, yPos);
-                gfx.DrawString(program, regularFont, XBrushes.Black, marginLeft + 100, yPos);
+                string courseName = GetCourseNameByEnrollmentId(enrollmentId);
+                gfx.DrawString("Course:", boldFont, XBrushes.Black, marginLeft, yPos);
+                gfx.DrawString(courseName, regularFont, XBrushes.Black, marginLeft + 100, yPos);
+                yPos += 20;
+                string currentSection = GetCurrentSection(enrollmentId);
+
+                // Now you can use currentSection in your PDF generation
+                gfx.DrawString("Section:", boldFont, XBrushes.Black, marginLeft, yPos);
+                gfx.DrawString(currentSection, regularFont, XBrushes.Black, marginLeft + 100, yPos);
+                yPos += 10;
 
                 // Right column
                 yPos = startYPos;
@@ -480,23 +489,27 @@ namespace Enrollment_System
                 // Get subjects from database
                 List<Subject> subjects = GetSubjectsForStudent(program, semester, yearLevel);
 
-                // Subjects table
-                double[] columnWidths = { 40, 80, 350, 60, 80, 80, 80 }; // Column widths
-                string[] headers = { "No.", "Code", "Subject Name", "Units", "Program", "Sem", "Yr Level" };
+                // Subjects table - centered
+                double[] columnWidths = { 40, 80, 350, 60, 80 };
+                string[] headers = { "No.", "Code", "Subject Name", "Units", "Program" };
                 double rowHeight = 20;
                 double cellPadding = 5;
                 double tableStartY = yPos;
 
+                // Calculate total table width and center it
+                double totalTableWidth = columnWidths.Sum();
+                double tableStartX = (pageWidth - totalTableWidth) / 2;
+
                 // Draw table header
-                XRect headerRect = new XRect(marginLeft, tableStartY, contentWidth, rowHeight);
+                XRect headerRect = new XRect(tableStartX, tableStartY, totalTableWidth, rowHeight);
                 gfx.DrawRectangle(new XSolidBrush(XColor.FromArgb(230, 230, 230)), headerRect);
 
                 // Draw column headers
-                double xPos = marginLeft;
+                double xPos = tableStartX;
                 for (int i = 0; i < headers.Length; i++)
                 {
                     double textWidth = gfx.MeasureString(headers[i], boldFont).Width;
-                    double xOffset = (i >= 3) ? (columnWidths[i] - textWidth) / 2 : cellPadding; // Center align some columns
+                    double xOffset = (i >= 3) ? (columnWidths[i] - textWidth) / 2 : cellPadding;
 
                     gfx.DrawString(headers[i], boldFont, XBrushes.Black,
                                   new XPoint(xPos + xOffset, tableStartY + rowHeight - cellPadding));
@@ -513,11 +526,11 @@ namespace Enrollment_System
                     if (i % 2 == 1)
                     {
                         gfx.DrawRectangle(new XSolidBrush(XColor.FromArgb(245, 245, 245)),
-                                        new XRect(marginLeft, currentY, contentWidth, rowHeight));
+                                        new XRect(tableStartX, currentY, totalTableWidth, rowHeight));
                     }
 
                     // Draw cell content
-                    xPos = marginLeft;
+                    xPos = tableStartX;
 
                     // Row number
                     gfx.DrawString((i + 1).ToString(), regularFont, XBrushes.Black,
@@ -557,18 +570,6 @@ namespace Enrollment_System
                     double programWidth = gfx.MeasureString(program, regularFont).Width;
                     gfx.DrawString(program, regularFont, XBrushes.Black,
                                   new XPoint(xPos + (columnWidths[4] - programWidth) / 2, currentY + rowHeight - cellPadding));
-                    xPos += columnWidths[4];
-
-                    // Semester (center aligned)
-                    double semWidth = gfx.MeasureString(semester, regularFont).Width;
-                    gfx.DrawString(semester, regularFont, XBrushes.Black,
-                                  new XPoint(xPos + (columnWidths[5] - semWidth) / 2, currentY + rowHeight - cellPadding));
-                    xPos += columnWidths[5];
-
-                    // Year Level (center aligned)
-                    double yrLevelWidth = gfx.MeasureString(yearLevel, regularFont).Width;
-                    gfx.DrawString(yearLevel, regularFont, XBrushes.Black,
-                                  new XPoint(xPos + (columnWidths[6] - yrLevelWidth) / 2, currentY + rowHeight - cellPadding));
 
                     currentY += rowHeight;
                 }
@@ -578,41 +579,37 @@ namespace Enrollment_System
                 // 5. Fee Calculation from existing payment data
                 try
                 {
-                    int enrollmentId = Convert.ToInt32(selectedRow.Cells["student_id"].Value);
-
-                    // Add this line:
                     CheckDatabaseState(enrollmentId);
-
                     var payment = GetExistingPaymentBreakdown(enrollmentId);
 
-                    // Fee box
-                    double feeBoxWidth = 250;
+                    // Fee box (reduced by 12%)
+                    double feeBoxWidth = 220;  // Original: 250 (250 * 0.88 ≈ 220)
                     double feeBoxStartX = pageWidth - marginLeft - feeBoxWidth;
-                    double feeBoxStartY = yPos;
+                    double feeBoxStartY = yPos - 10;  // <-- Moved up by 10 units
 
                     gfx.DrawString("ASSESSMENT SUMMARY", headerFont, XBrushes.Black,
                                   new XPoint(feeBoxStartX + (feeBoxWidth - gfx.MeasureString("ASSESSMENT SUMMARY", headerFont).Width) / 2, feeBoxStartY));
                     feeBoxStartY += 20;
 
-                    // Box border
+                    // Box border (reduced height by 12%)
                     gfx.DrawRectangle(new XPen(XColors.Black, 1),
-                                     new XRect(feeBoxStartX, feeBoxStartY, feeBoxWidth, 110));
+                                     new XRect(feeBoxStartX, feeBoxStartY, feeBoxWidth, 97));  // Original: 110 (110 * 0.88 ≈ 97)
 
-                    // Fee details
-                    feeBoxStartY += 20;
+                    // Fee details (adjusted spacing)
+                    feeBoxStartY += 15;  // Slightly reduced from 20
                     gfx.DrawString("Tuition Fee:", boldFont, XBrushes.Black, feeBoxStartX + 10, feeBoxStartY);
-                    gfx.DrawString($"₱{payment.TuitionFee:0.00}", regularFont, XBrushes.Black, feeBoxStartX + 150, feeBoxStartY);
-                    feeBoxStartY += 20;
+                    gfx.DrawString($"₱{payment.TuitionFee:0.00}", regularFont, XBrushes.Black, feeBoxStartX + 130, feeBoxStartY);
+                    feeBoxStartY += 15;
 
                     gfx.DrawString("Miscellaneous Fee:", boldFont, XBrushes.Black, feeBoxStartX + 10, feeBoxStartY);
-                    gfx.DrawString($"₱{payment.MiscellaneousFee:0.00}", regularFont, XBrushes.Black, feeBoxStartX + 150, feeBoxStartY);
-                    feeBoxStartY += 20;
+                    gfx.DrawString($"₱{payment.MiscellaneousFee:0.00}", regularFont, XBrushes.Black, feeBoxStartX + 130, feeBoxStartY);
+                    feeBoxStartY += 15;
 
                     // Total line
                     gfx.DrawLine(new XPen(XColors.Black, 0.5), feeBoxStartX + 10, feeBoxStartY - 5, feeBoxStartX + feeBoxWidth - 10, feeBoxStartY - 5);
 
                     gfx.DrawString("TOTAL ASSESSMENT:", boldFont, XBrushes.Black, feeBoxStartX + 10, feeBoxStartY);
-                    gfx.DrawString($"₱{payment.TotalAmountDue:0.00}", boldFont, XBrushes.Black, feeBoxStartX + 150, feeBoxStartY);
+                    gfx.DrawString($"₱{payment.TotalAmountDue:0.00}", boldFont, XBrushes.Black, feeBoxStartX + 130, feeBoxStartY);
                 }
                 catch (Exception feeEx)
                 {
@@ -623,18 +620,18 @@ namespace Enrollment_System
                     yPos += 40;
                 }
 
-                // 6. Footer and signatures
+                // 6. Footer and signatures (adjusted positions)
                 yPos = pageHeight - 60;
 
-                // Student signature line
-                gfx.DrawLine(new XPen(XColors.Black, 1), marginLeft + 100, yPos, marginLeft + 300, yPos);
+                // Student signature line (moved left by 50 units)
+                gfx.DrawLine(new XPen(XColors.Black, 1), marginLeft + 50, yPos, marginLeft + 250, yPos);
                 gfx.DrawString("Student Signature", regularFont, XBrushes.Black,
-                              new XPoint(marginLeft + 200 - gfx.MeasureString("Student Signature", regularFont).Width / 2, yPos + 15));
+                              new XPoint(marginLeft + 150 - gfx.MeasureString("Student Signature", regularFont).Width / 2, yPos + 15));
 
-                // Registrar signature line
-                gfx.DrawLine(new XPen(XColors.Black, 1), pageWidth - marginLeft - 300, yPos, pageWidth - marginLeft - 100, yPos);
+                // Registrar signature line (moved left by 50 units)
+                gfx.DrawLine(new XPen(XColors.Black, 1), pageWidth - marginLeft - 400, yPos, pageWidth - marginLeft - 200, yPos);
                 gfx.DrawString("Registrar", regularFont, XBrushes.Black,
-                              new XPoint(pageWidth - marginLeft - 200 - gfx.MeasureString("Registrar", regularFont).Width / 2, yPos + 15));
+                              new XPoint(pageWidth - marginLeft - 300 - gfx.MeasureString("Registrar", regularFont).Width / 2, yPos + 15));
 
                 // Footer text
                 yPos += 40;
@@ -667,21 +664,29 @@ namespace Enrollment_System
                     connection.Open();
 
                     string query = @"
-                    SELECT 
-                         se.enrollment_id,
-                            s.student_no,
-                            s.last_name,
-                            s.first_name,
-                            s.middle_name,
-                            c.course_code AS Program,
-                            se.academic_year,
-                            se.semester,
-                            se.year_level,
-                            se.status
-                        FROM student_enrollments se
-                        INNER JOIN students s ON se.student_id = s.student_id
-                        INNER JOIN courses c ON se.course_id = c.course_id
-                        WHERE se.status IN ('Enrolled', 'Dropped', 'Completed')";
+                       SELECT 
+                        se.enrollment_id,
+                        s.student_no,
+                        s.last_name,
+                        s.first_name,
+                        s.middle_name,
+                        c.course_code AS Program,
+                        se.academic_year,
+                        se.semester,
+                        se.year_level,
+                        se.status,
+                        COALESCE(
+                            (SELECT ah.current_section 
+                             FROM academic_history ah 
+                             WHERE ah.enrollment_id = se.enrollment_id 
+                             ORDER BY ah.effective_date DESC 
+                             LIMIT 1),
+                            'N/A'
+                        ) AS current_section
+                    FROM student_enrollments se
+                    INNER JOIN students s ON se.student_id = s.student_id
+                    INNER JOIN courses c ON se.course_id = c.course_id
+                    WHERE se.status IN ('Enrolled', 'Dropped', 'Completed')";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
@@ -1532,13 +1537,13 @@ namespace Enrollment_System
                     conn.Open();
 
                     string query = @"
-                SELECT SUM(s.units) 
-                FROM student_enrollments se
-                JOIN course_subjects cs ON se.course_id = cs.course_id 
-                    AND se.year_level = cs.year_level
-                    AND se.semester = cs.semester
-                JOIN subjects s ON cs.subject_id = s.subject_id
-                WHERE se.enrollment_id = @enrollmentId";
+                    SELECT SUM(s.units) 
+                    FROM student_enrollments se
+                    JOIN course_subjects cs ON se.course_id = cs.course_id 
+                        AND se.year_level = cs.year_level
+                        AND se.semester = cs.semester
+                    JOIN subjects s ON cs.subject_id = s.subject_id
+                    WHERE se.enrollment_id = @enrollmentId";
 
                     using (var cmd = new MySqlCommand(query, conn))
                     {
@@ -1693,6 +1698,66 @@ namespace Enrollment_System
             catch (Exception ex)
             {
                 Debug.WriteLine($"Database check failed: {ex}");
+            }
+        }
+
+        private string GetCurrentSection(int enrollmentId)
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = @"
+                    SELECT current_section 
+                    FROM academic_history 
+                    WHERE enrollment_id = @enrollmentId
+                    ORDER BY effective_date DESC 
+                    LIMIT 1";
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@enrollmentId", enrollmentId);
+                        object result = cmd.ExecuteScalar();
+
+                        return result != null && result != DBNull.Value ?
+                            result.ToString() : "N/A"; // Default if no section found
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error getting current section: {ex}");
+                return "N/A";
+            }
+        }
+
+        private string GetCourseNameByEnrollmentId(int enrollmentId)
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = @"
+                    SELECT c.course_name 
+                    FROM student_enrollments se
+                    INNER JOIN courses c ON se.course_id = c.course_id
+                    WHERE se.enrollment_id = @enrollmentId";
+
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@enrollmentId", enrollmentId);
+                        object result = cmd.ExecuteScalar();
+
+                        return result != null ? result.ToString() : "N/A";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error getting course name: {ex}");
+                return "N/A";
             }
         }
     }
