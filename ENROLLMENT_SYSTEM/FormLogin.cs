@@ -16,6 +16,7 @@ namespace Enrollment_System
         {
             InitializeComponent();
             this.LblForgetPass.Click += new System.EventHandler(this.LblForgetPass_Click);
+            this.AcceptButton = Btn_Login;
         }
 
         private void ChkShowPass_CheckedChanged(object sender, EventArgs e)
@@ -131,6 +132,30 @@ namespace Enrollment_System
                 formResetPass.BringToFront();   
             }
             
+        }
+
+        private void FormLogin_Enter(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void TxtPass_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TxtPass_KeyDown(object sender, KeyEventArgs e)
+        {
+            
+        }
+
+        private void FormLogin_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Btn_Login_Click(sender, e); // Trigger the login button click event
+                e.SuppressKeyPress = true;  
+            }
         }
     }
 }

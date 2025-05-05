@@ -13,7 +13,7 @@ namespace Enrollment_System
         {
             get
             {
-                return "server=localhost;database=PDM_Enrollment_DB1;user=root;password=;";
+                return "server=localhost;database=PDM_Enrollment_DB;user=root;password=;";
             }
         }
     }

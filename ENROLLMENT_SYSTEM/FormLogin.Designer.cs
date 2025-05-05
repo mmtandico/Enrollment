@@ -31,6 +31,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.LblSay = new System.Windows.Forms.Label();
             this.LblPDM = new System.Windows.Forms.Label();
+            this.PbPDM = new System.Windows.Forms.PictureBox();
             this.LblLogin = new System.Windows.Forms.Label();
             this.LblEmail = new System.Windows.Forms.Label();
             this.LblPass = new System.Windows.Forms.Label();
@@ -40,7 +41,6 @@
             this.ChkShowPass = new System.Windows.Forms.CheckBox();
             this.Btn_Login = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();
-            this.PbPDM = new System.Windows.Forms.PictureBox();
             this.LblForgetPass = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbPDM)).BeginInit();
@@ -80,6 +80,16 @@
             this.LblPDM.Size = new System.Drawing.Size(331, 25);
             this.LblPDM.TabIndex = 2;
             this.LblPDM.Text = "PAMBAYANG DALUHASAAN NG MARILAO";
+            // 
+            // PbPDM
+            // 
+            this.PbPDM.BackgroundImage = global::Enrollment_System.Properties.Resources.image_removebg_preview;
+            this.PbPDM.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.PbPDM.Location = new System.Drawing.Point(111, 75);
+            this.PbPDM.Name = "PbPDM";
+            this.PbPDM.Size = new System.Drawing.Size(142, 137);
+            this.PbPDM.TabIndex = 0;
+            this.PbPDM.TabStop = false;
             // 
             // LblLogin
             // 
@@ -136,6 +146,8 @@
             this.TxtPass.PasswordChar = '*';
             this.TxtPass.Size = new System.Drawing.Size(172, 23);
             this.TxtPass.TabIndex = 2;
+            this.TxtPass.Enter += new System.EventHandler(this.TxtPass_Enter);
+            this.TxtPass.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtPass_KeyDown);
             // 
             // BtnReg
             // 
@@ -193,16 +205,6 @@
             this.BtnExit.UseVisualStyleBackColor = false;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
-            // PbPDM
-            // 
-            this.PbPDM.BackgroundImage = global::Enrollment_System.Properties.Resources.image_removebg_preview;
-            this.PbPDM.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.PbPDM.Location = new System.Drawing.Point(111, 75);
-            this.PbPDM.Name = "PbPDM";
-            this.PbPDM.Size = new System.Drawing.Size(142, 137);
-            this.PbPDM.TabIndex = 0;
-            this.PbPDM.TabStop = false;
-            // 
             // LblForgetPass
             // 
             this.LblForgetPass.AutoSize = true;
@@ -238,6 +240,8 @@
             this.Name = "FormLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormLogin";
+            this.Enter += new System.EventHandler(this.FormLogin_Enter);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormLogin_KeyDown);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbPDM)).EndInit();
