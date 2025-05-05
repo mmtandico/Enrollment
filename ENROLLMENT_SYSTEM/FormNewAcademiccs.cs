@@ -27,12 +27,13 @@ namespace Enrollment_System
         public FormNewAcademiccs()
         {
             InitializeComponent();
+            TxtPreviousSection.MaxLength = 10;
             PicBoxID.Image = Properties.Resources.PROFILE;
             PicBoxID.SizeMode = PictureBoxSizeMode.StretchImage;
             loggedInUserId = SessionManager.UserId;
             TxtPreviousSection.Enter += TxtPreviousSection_Enter;
             TxtPreviousSection.Leave += TxtPreviousSection_Leave;
-
+            TxtPreviousSection.KeyPress += TxtPreviousSection_KeyPress;
             CmbCourse.EnabledChanged += (s, e) =>
             {
                 CmbCourse.BackColor = CmbCourse.Enabled ? SystemColors.Window : SystemColors.Control;
@@ -1011,6 +1012,35 @@ namespace Enrollment_System
                 TxtPreviousSection.Text = "e.g. BSIT-22-A";
                 TxtPreviousSection.ForeColor = Color.Gray;
             }
+            else if (TxtPreviousSection.Text != "Not required for 1st Year 1st Semester")
+            {
+                string formattedText = TxtPreviousSection.Text.ToUpper().Trim();
+                if (formattedText.Length > 10)
+                {
+                    formattedText = formattedText.Substring(0, 10);
+                }
+                TxtPreviousSection.Text = formattedText;
+            }
+        }
+
+        private void TxtPreviousSection_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Convert the character to uppercase
+            e.KeyChar = char.ToUpper(e.KeyChar);
+
+            // Allow only letters, digits, hyphens, and control characters (like Backspace)
+            if (!char.IsLetterOrDigit(e.KeyChar) && e.KeyChar != '-' && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Block invalid characters
+                return;
+            }
+
+            // Prevent entering more than 10 characters (excluding control characters)
+            TextBox textBox = sender as TextBox;
+            if (textBox != null && textBox.Text.Length >= 10 && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
 
         private void TxtSchoolYear_Enter(object sender, EventArgs e) { }
@@ -1024,4 +1054,6 @@ namespace Enrollment_System
         public string Value { get; set; }
         public override string ToString() => Text;
     }
+
+   
 }

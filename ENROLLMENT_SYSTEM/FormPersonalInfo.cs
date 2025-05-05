@@ -30,6 +30,27 @@ namespace Enrollment_System
                      ControlStyles.UserPaint, true);
 
             InitializeForm();
+
+            TxtStudentLRN.MaxLength = 12;
+            TxtAge.MaxLength = 3;
+            TxtPhoneNo.MaxLength = 11;
+            TxtGuardianContact.MaxLength = 11;
+            TxtZipcode.MaxLength = 4;
+
+            // Only one assignment for TxtStudentLRN.Leave
+            TxtStudentLRN.Leave += TxtStudentLRN_Leave;
+
+            TxtAge.KeyPress += TxtAge_KeyPress;
+            TxtAge.Leave += TxtAge_Leave;
+
+            TxtPhoneNo.KeyPress += TxtPhoneNo_KeyPress;
+            TxtPhoneNo.Leave += TxtPhoneNo_Leave;
+
+            TxtGuardianContact.KeyPress += TxtGuardianContact_KeyPress;
+            TxtGuardianContact.Leave += TxtGuardianContact_Leave;
+
+            TxtZipcode.KeyPress += TxtZipcode_KeyPress;
+            TxtZipcode.Leave += TxtZipcode_Leave;
         }
 
         private void InitializeForm()
@@ -65,6 +86,21 @@ namespace Enrollment_System
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
 
             this.Load += FormPersonalInfo_Load;
+
+            TxtFirstName.KeyPress += TextBox_KeyPress;
+            TxtMiddleName.KeyPress += TextBox_KeyPress;
+            TxtLastName.KeyPress += TextBox_KeyPress;
+            TxtCivilStatus.KeyPress += TextBox_KeyPress;
+            TxtNational.KeyPress += TextBox_KeyPress;
+            TxtBStreet.KeyPress += TextBox_KeyPress;
+            TxtSubCom.KeyPress += TextBox_KeyPress;
+            TxtBrgy.KeyPress += TextBox_KeyPress;
+            TxtCity.KeyPress += TextBox_KeyPress;
+            TxtProvince.KeyPress += TextBox_KeyPress;
+            TxtGuardianFirstName.KeyPress += TextBox_KeyPress;
+            TxtGuardianMiddleName.KeyPress += TextBox_KeyPress;
+            TxtGuardianLastName.KeyPress += TextBox_KeyPress;
+            TxtGuardianRelation.KeyPress += TextBox_KeyPress;
         }
 
         private void WelcomeGreetings()
@@ -314,6 +350,29 @@ namespace Enrollment_System
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
+            TxtFirstName.Text = ToProperCase(TxtFirstName.Text);
+            TxtMiddleName.Text = ToProperCase(TxtMiddleName.Text);
+            TxtLastName.Text = ToProperCase(TxtLastName.Text);
+            TxtCivilStatus.Text = ToProperCase(TxtCivilStatus.Text);
+            TxtNational.Text = ToProperCase(TxtNational.Text);
+            TxtBStreet.Text = ToProperCase(TxtBStreet.Text);
+            TxtSubCom.Text = ToProperCase(TxtSubCom.Text);
+            TxtBrgy.Text = ToProperCase(TxtBrgy.Text);
+            TxtCity.Text = ToProperCase(TxtCity.Text);
+            TxtProvince.Text = ToProperCase(TxtProvince.Text);
+            TxtGuardianFirstName.Text = ToProperCase(TxtGuardianFirstName.Text);
+            TxtGuardianMiddleName.Text = ToProperCase(TxtGuardianMiddleName.Text);
+            TxtGuardianLastName.Text = ToProperCase(TxtGuardianLastName.Text);
+            TxtGuardianRelation.Text = ToProperCase(TxtGuardianRelation.Text);
+
+            if (!ValidateLRN() || !ValidateAge() ||
+                !ValidatePhoneNumber(TxtPhoneNo, "Phone number") ||
+                !ValidatePhoneNumber(TxtGuardianContact, "Guardian contact number") ||
+                !ValidateZipCode())
+            {
+                return; 
+            }
+
             if (IsViewMode && !SessionManager.IsAdminOrSuperAdmin)
             {
                 MessageBox.Show("You don't have permission to edit student information.",
@@ -624,6 +683,11 @@ namespace Enrollment_System
 
         private void TxtStudentLRN_Leave(object sender, EventArgs e)
         {
+            if (!ValidateLRN())
+            {
+                return;
+            }
+
             if (!string.IsNullOrWhiteSpace(TxtStudentLRN.Text))
             {
                 if (string.IsNullOrWhiteSpace(TxtStudentNo.Text) || !TxtStudentNo.Text.StartsWith($"PDM-{DateTime.Now.Year}-"))
@@ -636,9 +700,9 @@ namespace Enrollment_System
 
                             string currentYear = DateTime.Now.Year.ToString();
                             string query = $@"
-                                SELECT IFNULL(MAX(CAST(SUBSTRING(student_no, 10, 6) AS UNSIGNED)), 0) + 1 
-                                FROM students 
-                                WHERE student_no LIKE 'PDM-{currentYear}-%'";
+                        SELECT IFNULL(MAX(CAST(SUBSTRING(student_no, 10, 6) AS UNSIGNED)), 0) + 1 
+                        FROM students 
+                        WHERE student_no LIKE 'PDM-{currentYear}-%'";
 
                             using (var cmd = new MySqlCommand(query, conn))
                             {
@@ -695,6 +759,246 @@ namespace Enrollment_System
         private void BtnClose_Click_1(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void TxtStudentLRN_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Only allow digits and control characters
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Prevent entering more than 12 digits
+            TextBox textBox = sender as TextBox;
+            if (textBox != null && textBox.Text.Length >= 12 && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void TxtAge_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            TextBox textBox = sender as TextBox;
+            if (textBox != null && textBox.Text.Length >= 3 && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void TxtPhoneNo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            TextBox textBox = sender as TextBox;
+            if (textBox != null && textBox.Text.Length >= 11 && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void TxtGuardianContact_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            TextBox textBox = sender as TextBox;
+            if (textBox != null && textBox.Text.Length >= 11 && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void TxtZipcode_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            TextBox textBox = sender as TextBox;
+            if (textBox != null && textBox.Text.Length >= 4 && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        //validation methods
+        private bool ValidateLRN()
+        {
+            if (string.IsNullOrWhiteSpace(TxtStudentLRN.Text))
+            {
+                MessageBox.Show("LRN is required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                TxtStudentLRN.Focus();
+                return false;
+            }
+
+            // Check if all characters are digits (without LINQ)
+            bool allDigits = true;
+            foreach (char c in TxtStudentLRN.Text)
+            {
+                if (!char.IsDigit(c))
+                {
+                    allDigits = false;
+                    break;
+                }
+            }
+
+            if (TxtStudentLRN.Text.Length != 12 || !allDigits)
+            {
+                MessageBox.Show("LRN must be exactly 12 digits (no letters or symbols).",
+                               "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                TxtStudentLRN.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool ValidateAge()
+        {
+            int age;
+            if (!int.TryParse(TxtAge.Text, out age) || age < 15 || age > 100)
+            {
+                MessageBox.Show("Age must be a number between 15 and 100 (1-3 digits).",
+                               "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                TxtAge.Focus();
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidatePhoneNumber(TextBox textBox, string fieldName)
+        {
+            if (string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                MessageBox.Show(fieldName + " is required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBox.Focus();
+                return false;
+            }
+
+            // Check if all characters are digits (without LINQ)
+            bool allDigits = true;
+            foreach (char c in textBox.Text)
+            {
+                if (!char.IsDigit(c))
+                {
+                    allDigits = false;
+                    break;
+                }
+            }
+
+            if (textBox.Text.Length != 11 || !allDigits)
+            {
+                MessageBox.Show(fieldName + " must be exactly 11 digits (e.g. 09123456789).",
+                               "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBox.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool ValidateZipCode()
+        {
+            if (string.IsNullOrWhiteSpace(TxtZipcode.Text))
+            {
+                MessageBox.Show("Zip code is required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                TxtZipcode.Focus();
+                return false;
+            }
+
+            // Check if all characters are digits (without LINQ)
+            bool allDigits = true;
+            foreach (char c in TxtZipcode.Text)
+            {
+                if (!char.IsDigit(c))
+                {
+                    allDigits = false;
+                    break;
+                }
+            }
+
+            if (TxtZipcode.Text.Length != 4 || !allDigits)
+            {
+                MessageBox.Show("Zip code must be exactly 4 digits (e.g. 1234).",
+                               "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                TxtZipcode.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+       
+
+        private void TxtAge_Leave(object sender, EventArgs e)
+        {
+            ValidateAge();
+        }
+
+        private void TxtPhoneNo_Leave(object sender, EventArgs e)
+        {
+            ValidatePhoneNumber(TxtPhoneNo, "Phone number");
+        }
+
+        private void TxtGuardianContact_Leave(object sender, EventArgs e)
+        {
+            ValidatePhoneNumber(TxtGuardianContact, "Guardian contact number");
+        }
+
+        private void TxtZipcode_Leave(object sender, EventArgs e)
+        {
+            ValidateZipCode();
+        }
+
+        private string ToProperCase(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return text;
+
+            System.Globalization.TextInfo textInfo = System.Globalization.CultureInfo.CurrentCulture.TextInfo;
+            return textInfo.ToTitleCase(text.ToLower());
+        }
+
+        private void TextBox_Leave(object sender, EventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox != null)
+            {
+                textBox.Text = ToProperCase(textBox.Text);
+            }
+        }
+
+        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox != null && char.IsLetter(e.KeyChar))
+            {
+                if (textBox.Text.Length == 0 || textBox.Text.EndsWith(" "))
+                {
+                    e.KeyChar = char.ToUpper(e.KeyChar);
+                }
+                else
+                {
+                    e.KeyChar = char.ToLower(e.KeyChar);
+                }
+            }
         }
     }
 }
