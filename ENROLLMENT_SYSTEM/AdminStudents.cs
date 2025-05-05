@@ -1451,16 +1451,16 @@ namespace Enrollment_System
                     conn.Open();
 
                     string paymentQuery = @"
-                SELECT 
-                    p.total_amount_due,
-                    SUM(CASE WHEN pb.fee_type = 'Tuition' THEN pb.amount ELSE 0 END) AS tuition,
-                    SUM(CASE WHEN pb.fee_type = 'Miscellaneous' THEN pb.amount ELSE 0 END) AS misc
-                FROM payments p
-                LEFT JOIN payment_breakdowns pb ON p.payment_id = pb.payment_id
-                WHERE p.enrollment_id = @enrollmentId
-                GROUP BY p.payment_id
-                ORDER BY p.payment_date DESC
-                LIMIT 1";
+                    SELECT 
+                        p.total_amount_due,
+                        SUM(CASE WHEN pb.fee_type = 'Tuition' THEN pb.amount ELSE 0 END) AS tuition,
+                        SUM(CASE WHEN pb.fee_type = 'Miscellaneous' THEN pb.amount ELSE 0 END) AS misc
+                    FROM payments p
+                    LEFT JOIN payment_breakdowns pb ON p.payment_id = pb.payment_id
+                    WHERE p.enrollment_id = @enrollmentId
+                    GROUP BY p.payment_id
+                    ORDER BY p.payment_date DESC
+                    LIMIT 1";
 
                     using (var cmd = new MySqlCommand(paymentQuery, conn))
                     {

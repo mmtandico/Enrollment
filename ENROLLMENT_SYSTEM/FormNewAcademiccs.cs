@@ -725,7 +725,10 @@ namespace Enrollment_System
                 using (var conn = new MySqlConnection(connectionString))
                 using (var cmd = new MySqlCommand(
                     @"SELECT s.student_no, s.first_name, s.middle_name, s.last_name, 
-                      s.profile_picture, c.course_name, se.status
+                      s.profile_picture, c.course_name, se.status,
+                      (SELECT current_section FROM academic_history 
+                       WHERE enrollment_id = se.enrollment_id 
+                       ORDER BY effective_date DESC LIMIT 1) AS current_section
                       FROM students s
                       LEFT JOIN student_enrollments se ON s.student_id = se.student_id
                       LEFT JOIN courses c ON se.course_id = c.course_id
@@ -758,6 +761,16 @@ namespace Enrollment_System
                                 {
                                     CmbCourse.Enabled = false;
                                     CmbCourse.BackColor = SystemColors.Control;
+                                }
+                            }
+
+                            if (string.IsNullOrEmpty(EnrollmentId))
+                            {
+                                bool isFirstYearFirstSem = CmbSem.SelectedIndex == 0 && CmbYrLvl.SelectedIndex == 0;
+                                if (!isFirstYearFirstSem && !reader.IsDBNull(reader.GetOrdinal("current_section")))
+                                {
+                                    TxtPreviousSection.Text = reader["current_section"].ToString();
+                                    TxtPreviousSection.ForeColor = Color.Black;
                                 }
                             }
                         }
@@ -829,7 +842,11 @@ namespace Enrollment_System
                 using (var cmd = new MySqlCommand(
                     @"SELECT se.academic_year, se.semester, se.year_level, c.course_name,
                       s.first_name, s.middle_name, s.last_name, s.student_no, s.profile_picture,
-                      ah.previous_section, se.grade_pdf_path, se.status
+                      ah.previous_section, 
+                      (SELECT current_section FROM academic_history 
+                       WHERE enrollment_id = se.enrollment_id 
+                       ORDER BY effective_date DESC LIMIT 1) AS current_section,
+                      se.grade_pdf_path, se.status
                       FROM student_enrollments se
                       JOIN courses c ON se.course_id = c.course_id
                       JOIN students s ON se.student_id = s.student_id
@@ -871,6 +888,7 @@ namespace Enrollment_System
 
                             // Set previous section
                             bool isFirstYearFirstSem = CmbSem.SelectedIndex == 0 && CmbYrLvl.SelectedIndex == 0;
+
                             if (isFirstYearFirstSem)
                             {
                                 TxtPreviousSection.Text = "Not required for 1st Year 1st Semester";
@@ -878,14 +896,29 @@ namespace Enrollment_System
                             }
                             else
                             {
-                                TxtPreviousSection.Text = reader.IsDBNull(reader.GetOrdinal("previous_section"))
-                                    ? "e.g. BSIT-22-A"
-                                    : reader["previous_section"].ToString();
-                                TxtPreviousSection.ForeColor = Color.Black;
-                            }
+                                // Get current section if available, otherwise fall back to previous section
+                                string currentSection = reader.IsDBNull(reader.GetOrdinal("current_section"))
+                                    ? null
+                                    : reader["current_section"].ToString();
 
+                                string previousSection = reader.IsDBNull(reader.GetOrdinal("previous_section"))
+                                    ? null
+                                    : reader["previous_section"].ToString();
+
+                                // Prefer current section if available
+                                string sectionToShow = !string.IsNullOrEmpty(currentSection)
+                                    ? currentSection
+                                    : (!string.IsNullOrEmpty(previousSection) ? previousSection : "e.g. BSIT-22-A");
+
+                                TxtPreviousSection.Text = sectionToShow;
+                                TxtPreviousSection.ForeColor = string.IsNullOrEmpty(sectionToShow) ||
+                                                               sectionToShow == "e.g. BSIT-22-A"
+                                    ? Color.Gray
+                                    : Color.Black;
+                             }
+                        
                             // Set PDF path
-                            string pdfPath = reader.IsDBNull(reader.GetOrdinal("grade_pdf_path"))
+                                string pdfPath = reader.IsDBNull(reader.GetOrdinal("grade_pdf_path"))
                                 ? "No grade PDF uploaded"
                                 : reader["grade_pdf_path"].ToString();
 
