@@ -75,9 +75,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.DataGridEnrolled = new System.Windows.Forms.DataGridView();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.student_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.no_students = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.student_no = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -91,6 +88,9 @@
             this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColOpen = new System.Windows.Forms.DataGridViewImageColumn();
             this.ColClose = new System.Windows.Forms.DataGridViewImageColumn();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel3.SuspendLayout();
             this.panel10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxID)).BeginInit();
@@ -111,7 +111,7 @@
             this.label3.ForeColor = System.Drawing.Color.Black;
             this.label3.Location = new System.Drawing.Point(48, 9);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(189, 58);
+            this.label3.Size = new System.Drawing.Size(190, 58);
             this.label3.TabIndex = 34;
             this.label3.Text = "Students";
             // 
@@ -769,39 +769,6 @@
             this.DataGridEnrolled.TabIndex = 2;
             this.DataGridEnrolled.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridEnrolled_CellContentClick);
             // 
-            // panel4
-            // 
-            this.panel4.BackColor = System.Drawing.Color.Transparent;
-            this.panel4.BackgroundImage = global::Enrollment_System.Properties.Resources.searchcolor;
-            this.panel4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel4.Controls.Add(this.pictureBox1);
-            this.panel4.Controls.Add(this.textBox1);
-            this.panel4.Location = new System.Drawing.Point(813, 41);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(430, 34);
-            this.panel4.TabIndex = 57;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackgroundImage = global::Enrollment_System.Properties.Resources.searchbtn;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(395, 1);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(28, 30);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.Window;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Bahnschrift Condensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(19, 3);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(370, 27);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
             // student_id
             // 
             this.student_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
@@ -928,6 +895,39 @@
             this.ColClose.Name = "ColClose";
             this.ColClose.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.ColClose.Width = 40;
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.Color.Transparent;
+            this.panel4.BackgroundImage = global::Enrollment_System.Properties.Resources.searchcolor;
+            this.panel4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel4.Controls.Add(this.pictureBox1);
+            this.panel4.Controls.Add(this.textBox1);
+            this.panel4.Location = new System.Drawing.Point(813, 41);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(430, 34);
+            this.panel4.TabIndex = 57;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = global::Enrollment_System.Properties.Resources.searchbtn;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Location = new System.Drawing.Point(395, 1);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(28, 30);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.SystemColors.Window;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox1.Font = new System.Drawing.Font("Bahnschrift Condensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(19, 3);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(370, 27);
+            this.textBox1.TabIndex = 0;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // AdminStudents
             // 

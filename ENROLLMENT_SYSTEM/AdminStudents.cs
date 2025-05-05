@@ -668,26 +668,20 @@ namespace Enrollment_System
 
                     string query = @"
                     SELECT 
-                        se.enrollment_id as student_id,
-                        s.student_no,
-                        s.last_name,
-                        s.first_name,
-                        s.middle_name,
-                        c.course_code AS Program,
-                        se.academic_year,
-                        se.semester,
-                        se.year_level,
-                        se.status,
-                        COALESCE(p.total_amount_due, 0) as total_amount_due,
-                        COALESCE(SUM(CASE WHEN pb.fee_type = 'Tuition' THEN pb.amount ELSE 0 END), 0) AS tuition_fee,
-                        COALESCE(SUM(CASE WHEN pb.fee_type = 'Miscellaneous' THEN pb.amount ELSE 0 END), 0) AS misc_fee
-                    FROM student_enrollments se
-                    INNER JOIN students s ON se.student_id = s.student_id
-                    INNER JOIN courses c ON se.course_id = c.course_id
-                    LEFT JOIN payments p ON se.enrollment_id = p.enrollment_id
-                    LEFT JOIN payment_breakdowns pb ON p.payment_id = pb.payment_id
-                    WHERE se.status IN ('Enrolled', 'Dropped', 'Completed')
-                    GROUP BY se.enrollment_id";
+                         se.enrollment_id,
+                            s.student_no,
+                            s.last_name,
+                            s.first_name,
+                            s.middle_name,
+                            c.course_code AS Program,
+                            se.academic_year,
+                            se.semester,
+                            se.year_level,
+                            se.status
+                        FROM student_enrollments se
+                        INNER JOIN students s ON se.student_id = s.student_id
+                        INNER JOIN courses c ON se.course_id = c.course_id
+                        WHERE se.status IN ('Enrolled', 'Dropped', 'Completed')";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
@@ -1444,6 +1438,8 @@ namespace Enrollment_System
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+    
+
 
         private PaymentBreakdown GetExistingPaymentBreakdown(int enrollmentId)
         {
