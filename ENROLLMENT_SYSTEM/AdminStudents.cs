@@ -896,145 +896,64 @@ namespace Enrollment_System
                 PdfDocument pdfDoc = new PdfDocument();
                 string savePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", "Enrollment_Report_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf");
 
-                PdfPage page = pdfDoc.AddPage();
-                page.Orientation = PageOrientation.Landscape;
-                XGraphics gfx = XGraphics.FromPdfPage(page);
+                // Define constants
+                double marginLeft = 40;
+                double marginRight = 40;
+                double marginTop = 40;
+                double marginBottom = 40;
+                int rowsPerPage = 25; // Adjust this value based on your needs
 
                 // Define fonts
                 XFont titleFont = new XFont("Verdana", 14, XFontStyle.Bold);
                 XFont headerFont = new XFont("Verdana", 9, XFontStyle.Bold);
                 XFont contentFont = new XFont("Verdana", 8);
-
-                // Title
-                string title = "Student Enrollment Report";
-                double titleWidth = gfx.MeasureString(title, titleFont).Width;
-                double pageWidth = page.Width;
-                gfx.DrawString(title, titleFont, XBrushes.Black, new XPoint((pageWidth - titleWidth) / 2, 40));
-
-                // Draw a line under the title
-                double titleYPosition = 60;
-                gfx.DrawLine(XPens.Black, 40, titleYPosition + 10, pageWidth - 40, titleYPosition + 10);
+                XFont footerFont = new XFont("Verdana", 8, XFontStyle.Italic);
 
                 // Column Names for the table
                 string[] headers = { "NO.", "Student No.", "Last Name", "First Name", "Middle Name", "Course", "School Year", "Semester", "Year Level", "Status" };
 
                 // Calculate column widths
-                double[] columnWidths = new double[headers.Length];
-                double marginLeft = 40;
-                double availableWidth = pageWidth - 2 * marginLeft;
+                double[] columnWidths = CalculateColumnWidths(pdfDoc, headers, DataGridEnrolled, headerFont, contentFont, marginLeft, marginRight);
 
-                // Measure the width of each column's content
-                double totalContentWidth = 0;
-                for (int i = 0; i < headers.Length; i++)
+                // Calculate total number of pages needed
+                int totalRows = DataGridEnrolled.Rows.Count;
+                if (totalRows > 0 && DataGridEnrolled.Rows[totalRows - 1].IsNewRow)
+                    totalRows--; // Don't count the new row placeholder
+
+                int totalPages = (int)Math.Ceiling((double)totalRows / rowsPerPage);
+
+                // Process each page
+                for (int pageNum = 0; pageNum < totalPages; pageNum++)
                 {
-                    // Measure the header width
-                    double maxContentWidth = gfx.MeasureString(headers[i], headerFont).Width;
+                    // Create a new page
+                    PdfPage page = pdfDoc.AddPage();
+                    page.Orientation = PageOrientation.Landscape;
+                    XGraphics gfx = XGraphics.FromPdfPage(page);
 
-                    foreach (DataGridViewRow row in DataGridEnrolled.Rows)
-                    {
-                        if (row.IsNewRow) continue;
+                    // Draw the header section on each page
+                    DrawReportHeader(gfx, titleFont, page.Width, "Student Enrollment Report");
 
-                        string cellValue = "";
-                        if (i == 0) // NO. column - sequential numbers
-                        {
-                            cellValue = (row.Index + 1).ToString();
-                        }
-                        else if (i == 1) // Student No. column - PDM ID
-                        {
-                            cellValue = row.Cells["student_no"].Value?.ToString() ?? "";
-                        }
-                        else // Other columns
-                        {
-                            // Adjust column index mapping
-                            int dataGridColIndex = i; // Default mapping
-                            if (i >= 2) dataGridColIndex = i + 1; // Skip the original student_no column
-                            cellValue = row.Cells[dataGridColIndex]?.Value?.ToString() ?? "";
-                        }
+                    // Draw the table header
+                    double headerYPosition = 80;
+                    DrawTableHeader(gfx, headers, headerFont, columnWidths, headerYPosition, marginLeft);
 
-                        double cellWidth = gfx.MeasureString(cellValue, contentFont).Width;
-                        maxContentWidth = Math.Max(maxContentWidth, cellWidth);
-                    }
+                    // Calculate the row indices for this page
+                    int startRowIndex = pageNum * rowsPerPage;
+                    int endRowIndex = Math.Min(startRowIndex + rowsPerPage, totalRows);
 
-                    columnWidths[i] = maxContentWidth + 10; // Added padding
-                    totalContentWidth += columnWidths[i];
+                    // Draw the rows for this page
+                    double yPosition = DrawTableRows(gfx, DataGridEnrolled, startRowIndex, endRowIndex,
+                        contentFont, headerYPosition, columnWidths, marginLeft);
+
+                    // Draw table bottom line
+                    gfx.DrawLine(new XPen(XColors.Black, 1), marginLeft, yPosition - 10, page.Width - marginRight, yPosition - 10);
+
+                    // Draw footer with page numbers
+                    string footerText = $"Page {pageNum + 1} of {totalPages}";
+                    double footerWidth = gfx.MeasureString(footerText, footerFont).Width;
+                    gfx.DrawString(footerText, footerFont, XBrushes.Black,
+                        new XPoint((page.Width - footerWidth) / 2, page.Height - marginBottom));
                 }
-
-                // Scale the column widths to fit the page
-                double scaleFactor = availableWidth / totalContentWidth;
-                for (int i = 0; i < columnWidths.Length; i++)
-                {
-                    columnWidths[i] *= scaleFactor;
-                }
-
-                // Adjusted starting Y position for header
-                double headerYPosition = 80;
-                double currentX = marginLeft;
-
-                // Draw Header Row
-                for (int i = 0; i < headers.Length; i++)
-                {
-                    gfx.DrawString(headers[i], headerFont, XBrushes.Black, new XPoint(currentX + 5, headerYPosition + 3));
-                    currentX += columnWidths[i];
-                }
-
-                // Draw vertical grid lines for columns
-                currentX = marginLeft;
-                for (int i = 0; i <= headers.Length; i++)
-                {
-                    // Draw vertical lines from header to the end of the table
-                    double lineStartY = headerYPosition - 5;
-                    double lineEndY = headerYPosition + 25 + (DataGridEnrolled.Rows.Count - 1) * 20;
-
-                    gfx.DrawLine(XPens.Gray, currentX, lineStartY, currentX, lineEndY);
-
-                    if (i < headers.Length)
-                        currentX += columnWidths[i];
-                }
-
-                // Draw a line under the header row
-                double headerLineY = headerYPosition + 15;
-                gfx.DrawLine(new XPen(XColors.Black, 1), marginLeft, headerLineY, pageWidth - marginLeft, headerLineY);
-
-                // Adjusted starting Y position for row content
-                int yPosition = (int)(headerYPosition + 25);
-
-                // Loop through all rows in the DataGridView
-                foreach (DataGridViewRow row in DataGridEnrolled.Rows)
-                {
-                    if (row.IsNewRow) continue;
-
-                    // Draw horizontal grid line above each row (except the first one)
-                    if (yPosition > headerYPosition + 25)
-                    {
-                        gfx.DrawLine(XPens.LightGray, marginLeft, yPosition - 10, pageWidth - marginLeft, yPosition - 10);
-                    }
-
-                    currentX = marginLeft;
-
-                    // NO. column - sequential numbers
-                    gfx.DrawString((row.Index + 1).ToString(), contentFont, XBrushes.Black, new XPoint(currentX + 5, yPosition));
-                    currentX += columnWidths[0];
-
-                    // Student No. column - PDM ID
-                    string studentNo = row.Cells["student_no"].Value?.ToString() ?? "";
-                    gfx.DrawString(studentNo, contentFont, XBrushes.Black, new XPoint(currentX + 5, yPosition));
-                    currentX += columnWidths[1];
-
-                    // Remaining columns
-                    for (int i = 2; i < headers.Length; i++)
-                    {
-                        // Adjust column index mapping
-                        int dataGridColIndex = i + 1; // Skip student_no column
-                        string cellValue = row.Cells[dataGridColIndex]?.Value?.ToString() ?? "N/A";
-                        gfx.DrawString(cellValue, contentFont, XBrushes.Black, new XPoint(currentX + 5, yPosition));
-                        currentX += columnWidths[i];
-                    }
-
-                    yPosition += 20;
-                }
-
-                // Draw a line at the bottom of the table
-                gfx.DrawLine(new XPen(XColors.Black, 1), marginLeft, yPosition - 10, pageWidth - marginLeft, yPosition - 10);
 
                 // Save the PDF
                 pdfDoc.Save(savePath);
@@ -1044,6 +963,152 @@ namespace Enrollment_System
             {
                 MessageBox.Show("Error generating report: " + ex.Message);
             }
+        }
+
+        private double[] CalculateColumnWidths(PdfDocument pdfDoc, string[] headers, DataGridView dataGrid,
+    XFont headerFont, XFont contentFont, double marginLeft, double marginRight)
+        {
+            // Create a temporary page to measure text
+            PdfPage tempPage = pdfDoc.AddPage();
+            tempPage.Orientation = PageOrientation.Landscape;
+            XGraphics gfx = XGraphics.FromPdfPage(tempPage);
+
+            double[] columnWidths = new double[headers.Length];
+            double availableWidth = tempPage.Width - marginLeft - marginRight;
+
+            // Measure the width of each column's content
+            double totalContentWidth = 0;
+            for (int i = 0; i < headers.Length; i++)
+            {
+                // Measure the header width
+                double maxContentWidth = gfx.MeasureString(headers[i], headerFont).Width;
+
+                foreach (DataGridViewRow row in dataGrid.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    string cellValue = "";
+                    if (i == 0) // NO. column - sequential numbers
+                    {
+                        cellValue = (row.Index + 1).ToString();
+                    }
+                    else if (i == 1) // Student No. column
+                    {
+                        cellValue = row.Cells["student_no"].Value?.ToString() ?? "";
+                    }
+                    else // Other columns
+                    {
+                        // Adjust column index mapping
+                        int dataGridColIndex = i + 1; // Skip the original student_no column
+                        cellValue = row.Cells[dataGridColIndex]?.Value?.ToString() ?? "";
+                    }
+
+                    double cellWidth = gfx.MeasureString(cellValue, contentFont).Width;
+                    maxContentWidth = Math.Max(maxContentWidth, cellWidth);
+                }
+
+                columnWidths[i] = maxContentWidth + 10; // Added padding
+                totalContentWidth += columnWidths[i];
+            }
+
+            // Scale the column widths to fit the page
+            double scaleFactor = availableWidth / totalContentWidth;
+            for (int i = 0; i < columnWidths.Length; i++)
+            {
+                columnWidths[i] *= scaleFactor;
+            }
+
+            // Remove the temporary page
+            pdfDoc.Pages.Remove(tempPage);
+
+            return columnWidths;
+        }
+
+        private void DrawReportHeader(XGraphics gfx, XFont titleFont, double pageWidth, string title)
+        {
+            double titleWidth = gfx.MeasureString(title, titleFont).Width;
+            gfx.DrawString(title, titleFont, XBrushes.Black, new XPoint((pageWidth - titleWidth) / 2, 40));
+
+            // Draw a line under the title
+            double titleYPosition = 60;
+            gfx.DrawLine(XPens.Black, 40, titleYPosition + 10, pageWidth - 40, titleYPosition + 10);
+        }
+
+        // Draw the table headers
+        private void DrawTableHeader(XGraphics gfx, string[] headers, XFont headerFont,
+            double[] columnWidths, double headerYPosition, double marginLeft)
+        {
+            double currentX = marginLeft;
+
+            // Draw Header Row
+            for (int i = 0; i < headers.Length; i++)
+            {
+                gfx.DrawString(headers[i], headerFont, XBrushes.Black, new XPoint(currentX + 5, headerYPosition + 3));
+                currentX += columnWidths[i];
+            }
+
+            // Draw header bottom line
+            double headerLineY = headerYPosition + 15;
+            gfx.DrawLine(new XPen(XColors.Black, 1), marginLeft, headerLineY,
+                marginLeft + columnWidths.Sum(), headerLineY);
+
+            // Draw vertical grid lines for columns
+            currentX = marginLeft;
+            double lineStartY = headerYPosition - 5;
+            double lineEndY = headerYPosition + 25 + 20 * 25; // Approximate height for rows
+
+            for (int i = 0; i <= headers.Length; i++)
+            {
+                gfx.DrawLine(XPens.Gray, currentX, lineStartY, currentX, lineEndY);
+                if (i < headers.Length)
+                    currentX += columnWidths[i];
+            }
+        }
+
+        // Draw the table rows for a specific page
+        private double DrawTableRows(XGraphics gfx, DataGridView dataGrid, int startRowIndex, int endRowIndex,
+            XFont contentFont, double headerYPosition, double[] columnWidths, double marginLeft)
+        {
+            double yPosition = headerYPosition + 25;
+
+            // Loop through rows for this page
+            for (int rowIdx = startRowIndex; rowIdx < endRowIndex; rowIdx++)
+            {
+                DataGridViewRow row = dataGrid.Rows[rowIdx];
+                if (row.IsNewRow) continue;
+
+                // Draw horizontal grid line above each row (except the first one)
+                if (rowIdx > startRowIndex)
+                {
+                    gfx.DrawLine(XPens.LightGray, marginLeft, yPosition - 10,
+                        marginLeft + columnWidths.Sum(), yPosition - 10);
+                }
+
+                double currentX = marginLeft;
+
+                // NO. column - sequential numbers
+                gfx.DrawString((rowIdx + 1).ToString(), contentFont, XBrushes.Black, new XPoint(currentX + 5, yPosition));
+                currentX += columnWidths[0];
+
+                // Student No. column
+                string studentNo = row.Cells["student_no"].Value?.ToString() ?? "";
+                gfx.DrawString(studentNo, contentFont, XBrushes.Black, new XPoint(currentX + 5, yPosition));
+                currentX += columnWidths[1];
+
+                // Remaining columns
+                for (int i = 2; i < columnWidths.Length; i++)
+                {
+                    // Adjust column index mapping
+                    int dataGridColIndex = i + 1; // Skip student_no column
+                    string cellValue = row.Cells[dataGridColIndex]?.Value?.ToString() ?? "N/A";
+                    gfx.DrawString(cellValue, contentFont, XBrushes.Black, new XPoint(currentX + 5, yPosition));
+                    currentX += columnWidths[i];
+                }
+
+                yPosition += 20;
+            }
+
+            return yPosition;
         }
 
         private decimal GetCurrentTuitionPerUnit()
