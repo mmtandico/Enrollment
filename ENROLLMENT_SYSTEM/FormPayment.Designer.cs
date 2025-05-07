@@ -140,7 +140,7 @@
             // 
             // PBProfPayment
             // 
-            this.PBProfPayment.BackColor = System.Drawing.Color.White;
+            this.PBProfPayment.BackColor = System.Drawing.Color.Transparent;
             this.PBProfPayment.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PBProfPayment.Location = new System.Drawing.Point(14, 25);
             this.PBProfPayment.Name = "PBProfPayment";
