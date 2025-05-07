@@ -72,6 +72,7 @@ namespace Enrollment_System
         private void BtnConfirm_Click(object sender, EventArgs e)
         {
             SaveProofPayments();
+            this.Close();
         }
 
         private void SaveProofPayments()
