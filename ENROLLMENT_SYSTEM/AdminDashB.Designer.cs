@@ -51,6 +51,10 @@
             this.panel15 = new System.Windows.Forms.Panel();
             this.panel19 = new System.Windows.Forms.Panel();
             this.DataGridAdmin = new System.Windows.Forms.DataGridView();
+            this.user_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.role = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel14 = new System.Windows.Forms.Panel();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.panel13 = new System.Windows.Forms.Panel();
@@ -62,10 +66,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
-            this.user_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.role = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel16.SuspendLayout();
             this.panel15.SuspendLayout();
             this.panel19.SuspendLayout();
@@ -130,6 +130,7 @@
             this.LblBecedTotal.Size = new System.Drawing.Size(48, 58);
             this.LblBecedTotal.TabIndex = 48;
             this.LblBecedTotal.Text = "0";
+            this.LblBecedTotal.Click += new System.EventHandler(this.LblBecedTotal_Click);
             // 
             // label21
             // 
@@ -332,6 +333,35 @@
             this.DataGridAdmin.TabIndex = 3;
             this.DataGridAdmin.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridAdmin_CellContentClick);
             // 
+            // user_id
+            // 
+            this.user_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.user_id.FillWeight = 10F;
+            this.user_id.Frozen = true;
+            this.user_id.HeaderText = "ID";
+            this.user_id.Name = "user_id";
+            this.user_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.user_id.Width = 53;
+            // 
+            // last_name
+            // 
+            this.last_name.HeaderText = "Last Name";
+            this.last_name.Name = "last_name";
+            this.last_name.Width = 130;
+            // 
+            // first_name
+            // 
+            this.first_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.first_name.HeaderText = "First Name";
+            this.first_name.Name = "first_name";
+            this.first_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.first_name.Width = 128;
+            // 
+            // role
+            // 
+            this.role.HeaderText = "Role";
+            this.role.Name = "role";
+            // 
             // panel14
             // 
             this.panel14.BackColor = System.Drawing.Color.Transparent;
@@ -448,38 +478,9 @@
             this.label3.ForeColor = System.Drawing.Color.Black;
             this.label3.Location = new System.Drawing.Point(39, 29);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(227, 58);
+            this.label3.Size = new System.Drawing.Size(226, 58);
             this.label3.TabIndex = 33;
             this.label3.Text = "Dashboard";
-            // 
-            // user_id
-            // 
-            this.user_id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.user_id.FillWeight = 10F;
-            this.user_id.Frozen = true;
-            this.user_id.HeaderText = "ID";
-            this.user_id.Name = "user_id";
-            this.user_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.user_id.Width = 53;
-            // 
-            // last_name
-            // 
-            this.last_name.HeaderText = "Last Name";
-            this.last_name.Name = "last_name";
-            this.last_name.Width = 130;
-            // 
-            // first_name
-            // 
-            this.first_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.first_name.HeaderText = "First Name";
-            this.first_name.Name = "first_name";
-            this.first_name.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.first_name.Width = 128;
-            // 
-            // role
-            // 
-            this.role.HeaderText = "Role";
-            this.role.Name = "role";
             // 
             // AdminDashB
             // 

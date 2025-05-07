@@ -108,7 +108,7 @@ namespace Enrollment_System
                            WHERE status = 'Pending'").ToString();
 
                     LblBtledTotal.Text = GetEnrolledCountByCourse(connection, "BTLED");
-                    LblBecedTotal.Text = GetEnrolledCountByCourse(connection, "ECED");
+                    LblBecedTotal.Text = GetEnrolledCountByCourse(connection, "BECED");
                     LblBsoadTotal.Text = GetEnrolledCountByCourse(connection, "BSOAD");
                     LblBshmTotal.Text = GetEnrolledCountByCourse(connection, "BSHM");
                     LblBstmTotal.Text = GetEnrolledCountByCourse(connection, "BSTM");
@@ -243,6 +243,11 @@ namespace Enrollment_System
                 column.Resizable = DataGridViewTriState.False;
             }
 
+
+        }
+
+        private void LblBecedTotal_Click(object sender, EventArgs e)
+        {
 
         }
     }
