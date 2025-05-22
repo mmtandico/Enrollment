@@ -72,6 +72,7 @@
             this.TxtSubCom = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CmbCivilStatus = new System.Windows.Forms.ComboBox();
             this.TxtAge = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -80,7 +81,6 @@
             this.ChkMale = new System.Windows.Forms.CheckBox();
             this.label16 = new System.Windows.Forms.Label();
             this.TxtPhoneNo = new System.Windows.Forms.TextBox();
-            this.TxtCivilStatus = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.TxtNational = new System.Windows.Forms.TextBox();
@@ -636,13 +636,13 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.CmbCivilStatus);
             this.groupBox1.Controls.Add(this.TxtAge);
             this.groupBox1.Controls.Add(this.label22);
             this.groupBox1.Controls.Add(this.label17);
             this.groupBox1.Controls.Add(this.panel);
             this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.TxtPhoneNo);
-            this.groupBox1.Controls.Add(this.TxtCivilStatus);
             this.groupBox1.Controls.Add(this.label15);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.TxtNational);
@@ -663,6 +663,23 @@
             this.groupBox1.TabIndex = 27;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "PERSONAL INFORMATION";
+            // 
+            // CmbCivilStatus
+            // 
+            this.CmbCivilStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CmbCivilStatus.Enabled = false;
+            this.CmbCivilStatus.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold);
+            this.CmbCivilStatus.FormattingEnabled = true;
+            this.CmbCivilStatus.Items.AddRange(new object[] {
+            "Single",
+            "Married",
+            "Widowed",
+            "Separated",
+            "Annulled"});
+            this.CmbCivilStatus.Location = new System.Drawing.Point(469, 225);
+            this.CmbCivilStatus.Name = "CmbCivilStatus";
+            this.CmbCivilStatus.Size = new System.Drawing.Size(315, 33);
+            this.CmbCivilStatus.TabIndex = 8;
             // 
             // TxtAge
             // 
@@ -753,17 +770,6 @@
             this.TxtPhoneNo.Name = "TxtPhoneNo";
             this.TxtPhoneNo.Size = new System.Drawing.Size(398, 33);
             this.TxtPhoneNo.TabIndex = 7;
-            // 
-            // TxtCivilStatus
-            // 
-            this.TxtCivilStatus.BackColor = System.Drawing.Color.White;
-            this.TxtCivilStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TxtCivilStatus.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtCivilStatus.ForeColor = System.Drawing.Color.Black;
-            this.TxtCivilStatus.Location = new System.Drawing.Point(469, 225);
-            this.TxtCivilStatus.Name = "TxtCivilStatus";
-            this.TxtCivilStatus.Size = new System.Drawing.Size(315, 33);
-            this.TxtCivilStatus.TabIndex = 8;
             // 
             // label15
             // 
@@ -1247,7 +1253,6 @@
         private System.Windows.Forms.CheckBox ChkMale;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox TxtPhoneNo;
-        private System.Windows.Forms.TextBox TxtCivilStatus;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox TxtNational;
@@ -1292,5 +1297,6 @@
         private System.Windows.Forms.Button BtnExit;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button BtnClose;
+        private System.Windows.Forms.ComboBox CmbCivilStatus;
     }
 }

@@ -4,6 +4,9 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.Linq;
+using System.Collections.Generic;
+
 
 namespace Enrollment_System
 {
@@ -19,6 +22,7 @@ namespace Enrollment_System
         private string _viewingStudentNo = null;
         private long _currentStudentId = 0;
         public bool IsViewMode { get; set; } = false;
+        
 
         public FormPersonalInfo(string studentNo = null)
         {
@@ -38,7 +42,8 @@ namespace Enrollment_System
             TxtZipcode.MaxLength = 4;
 
             // Only one assignment for TxtStudentLRN.Leave
-            TxtStudentLRN.Leave += TxtStudentLRN_Leave;
+            
+           // TxtStudentLRN.Leave += TxtStudentLRN_Leave;
 
             TxtAge.KeyPress += TxtAge_KeyPress;
             TxtAge.Leave += TxtAge_Leave;
@@ -51,6 +56,8 @@ namespace Enrollment_System
 
             TxtZipcode.KeyPress += TxtZipcode_KeyPress;
             TxtZipcode.Leave += TxtZipcode_Leave;
+            TxtStudentLRN.KeyPress -= TxtStudentLRN_KeyPress; 
+            TxtStudentLRN.KeyPress += TxtStudentLRN_KeyPress; 
         }
 
         private void InitializeForm()
@@ -85,12 +92,13 @@ namespace Enrollment_System
             pictureBox2.Image = Properties.Resources.PROFILE;
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
 
+            this.Load -= FormPersonalInfo_Load;
             this.Load += FormPersonalInfo_Load;
 
             TxtFirstName.KeyPress += TextBox_KeyPress;
             TxtMiddleName.KeyPress += TextBox_KeyPress;
             TxtLastName.KeyPress += TextBox_KeyPress;
-            TxtCivilStatus.KeyPress += TextBox_KeyPress;
+            //CmbCivilStatus.KeyPress += TextBox_KeyPress;
             TxtNational.KeyPress += TextBox_KeyPress;
             TxtBStreet.KeyPress += TextBox_KeyPress;
             TxtSubCom.KeyPress += TextBox_KeyPress;
@@ -101,6 +109,10 @@ namespace Enrollment_System
             TxtGuardianMiddleName.KeyPress += TextBox_KeyPress;
             TxtGuardianLastName.KeyPress += TextBox_KeyPress;
             TxtGuardianRelation.KeyPress += TextBox_KeyPress;
+            if (string.IsNullOrWhiteSpace(TxtNational.Text))
+            {
+                TxtNational.Text = "Filipino";
+            }
         }
 
         private void WelcomeGreetings()
@@ -125,7 +137,7 @@ namespace Enrollment_System
 
         private void FormPersonalInfo_Activated(object sender, EventArgs e)
         {
-            LoadUserData();
+            //LoadUserData();
         }
 
         private void FormPersonalInfo_Load(object sender, EventArgs e)
@@ -310,7 +322,7 @@ namespace Enrollment_System
                     TxtLastName.Text = reader["last_name"].ToString();
                     DateBirthPicker.Value = Convert.ToDateTime(reader["birth_date"]);
                     TxtAge.Text = reader["age"].ToString();
-                    TxtCivilStatus.Text = reader["civil_status"].ToString();
+                    CmbCivilStatus.Text = reader["civil_status"].ToString();
                     TxtNational.Text = reader["nationality"].ToString();
                     ChkMale.Checked = reader["sex"].ToString() == "Male";
                     ChkFemale.Checked = reader["sex"].ToString() == "Female";
@@ -329,6 +341,9 @@ namespace Enrollment_System
                     TxtGuardianRelation.Text = reader["relationship"].ToString();
                     currentGuardianId = reader["guardian_id"] != DBNull.Value ?
                         Convert.ToInt64(reader["guardian_id"]) : (long?)null;
+
+                    string nationality = reader["nationality"].ToString();
+                    TxtNational.Text = string.IsNullOrWhiteSpace(nationality) ? "Filipino" : nationality;
 
                     if (reader["profile_picture"] != DBNull.Value)
                     {
@@ -350,10 +365,10 @@ namespace Enrollment_System
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
+            // Convert text to proper case first
             TxtFirstName.Text = ToProperCase(TxtFirstName.Text);
             TxtMiddleName.Text = ToProperCase(TxtMiddleName.Text);
             TxtLastName.Text = ToProperCase(TxtLastName.Text);
-            TxtCivilStatus.Text = ToProperCase(TxtCivilStatus.Text);
             TxtNational.Text = ToProperCase(TxtNational.Text);
             TxtBStreet.Text = ToProperCase(TxtBStreet.Text);
             TxtSubCom.Text = ToProperCase(TxtSubCom.Text);
@@ -365,12 +380,31 @@ namespace Enrollment_System
             TxtGuardianLastName.Text = ToProperCase(TxtGuardianLastName.Text);
             TxtGuardianRelation.Text = ToProperCase(TxtGuardianRelation.Text);
 
-            if (!ValidateLRN() || !ValidateAge() ||
-                !ValidatePhoneNumber(TxtPhoneNo, "Phone number") ||
-                !ValidatePhoneNumber(TxtGuardianContact, "Guardian contact number") ||
-                !ValidateZipCode())
+            if (string.IsNullOrWhiteSpace(TxtNational.Text))
+            {
+                TxtNational.Text = "Filipino";
+            }
+            else
+            {
+                TxtNational.Text = ToProperCase(TxtNational.Text);
+            }
+
+            if (!ValidateRequiredFields())
             {
                 return; 
+            }
+
+            if (!ValidateLRN(false) || !ValidateAge() ||
+             !ValidatePhoneNumber(TxtPhoneNo, "Phone number") ||
+             !ValidatePhoneNumber(TxtGuardianContact, "Guardian contact number") ||
+             !ValidateZipCode())
+            {
+                return;
+            }
+
+            if (!ValidateLRN(true))
+            {
+                return;
             }
 
             if (IsViewMode && !SessionManager.IsAdminOrSuperAdmin)
@@ -380,6 +414,7 @@ namespace Enrollment_System
                 return;
             }
 
+            // Save data to database
             try
             {
                 using (var conn = new MySqlConnection(connectionString))
@@ -387,18 +422,18 @@ namespace Enrollment_System
                     conn.Open();
 
                     string studentQuery = @"
-                        UPDATE students 
-                        SET student_no = @StudentNo,
-                            student_lrn = @StudentLRN,
-                            first_name = @FirstName,
-                            middle_name = @MiddleName,
-                            last_name = @LastName,
-                            birth_date = @BirthDate,
-                            age = @Age,
-                            sex = @Sex,
-                            civil_status = @CivilStatus,
-                            nationality = @Nationality
-                        WHERE student_id = @StudentID";
+                UPDATE students 
+                SET student_no = @StudentNo,
+                    student_lrn = @StudentLRN,
+                    first_name = @FirstName,
+                    middle_name = @MiddleName,
+                    last_name = @LastName,
+                    birth_date = @BirthDate,
+                    age = @Age,
+                    sex = @Sex,
+                    civil_status = @CivilStatus,
+                    nationality = @Nationality
+                WHERE student_id = @StudentID";
 
                     ExecuteQuery(conn, studentQuery,
                         new MySqlParameter("@StudentID", _currentStudentId),
@@ -410,30 +445,32 @@ namespace Enrollment_System
                         new MySqlParameter("@BirthDate", DateBirthPicker.Value),
                         new MySqlParameter("@Age", TxtAge.Text),
                         new MySqlParameter("@Sex", ChkMale.Checked ? "Male" : "Female"),
-                        new MySqlParameter("@CivilStatus", TxtCivilStatus.Text),
+                        new MySqlParameter("@CivilStatus", CmbCivilStatus.Text),
                         new MySqlParameter("@Nationality", TxtNational.Text)
                     );
 
+                    // Update contact info
                     string contactQuery = @"
-                        INSERT INTO contact_info (student_id, phone_no)
-                        VALUES (@StudentID, @PhoneNo)
-                        ON DUPLICATE KEY UPDATE phone_no = @PhoneNo";
+                INSERT INTO contact_info (student_id, phone_no)
+                VALUES (@StudentID, @PhoneNo)
+                ON DUPLICATE KEY UPDATE phone_no = @PhoneNo";
 
                     ExecuteQuery(conn, contactQuery,
                         new MySqlParameter("@StudentID", _currentStudentId),
                         new MySqlParameter("@PhoneNo", TxtPhoneNo.Text)
                     );
 
+                    // Update address
                     string addressQuery = @"
-                        INSERT INTO addresses (student_id, block_street, subdivision, barangay, city, province, zipcode) 
-                        VALUES (@StudentID, @BlockStreet, @Subdivision, @Barangay, @City, @Province, @Zipcode) 
-                        ON DUPLICATE KEY UPDATE 
-                            block_street = VALUES(block_street), 
-                            subdivision = VALUES(subdivision), 
-                            barangay = VALUES(barangay), 
-                            city = VALUES(city), 
-                            province = VALUES(province), 
-                            zipcode = VALUES(zipcode)";
+                INSERT INTO addresses (student_id, block_street, subdivision, barangay, city, province, zipcode) 
+                VALUES (@StudentID, @BlockStreet, @Subdivision, @Barangay, @City, @Province, @Zipcode) 
+                ON DUPLICATE KEY UPDATE 
+                    block_street = VALUES(block_street), 
+                    subdivision = VALUES(subdivision), 
+                    barangay = VALUES(barangay), 
+                    city = VALUES(city), 
+                    province = VALUES(province), 
+                    zipcode = VALUES(zipcode)";
 
                     ExecuteQuery(conn, addressQuery,
                         new MySqlParameter("@StudentID", _currentStudentId),
@@ -445,6 +482,7 @@ namespace Enrollment_System
                         new MySqlParameter("@Zipcode", TxtZipcode.Text)
                     );
 
+                    // Update guardian info
                     UpdateGuardianInfo(conn);
 
                     MessageBox.Show("Information updated successfully!", "Success",
@@ -459,6 +497,7 @@ namespace Enrollment_System
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+            // Update session if not in view mode
             if (!IsViewMode)
             {
                 SessionManager.FirstName = TxtFirstName.Text;
@@ -466,6 +505,7 @@ namespace Enrollment_System
                 WelcomeGreetings();
             }
 
+            // Lock fields after saving
             SetEnabledRecursive(groupBox1, false);
             SetEnabledRecursive(groupBox2, false);
             SetEnabledRecursive(groupBox3, false);
@@ -473,6 +513,81 @@ namespace Enrollment_System
             MessageBox.Show("Fields have been saved and locked.", "Saved",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private bool ValidateRequiredFields()
+        {
+            var requiredFields = new List<Control>
+                {
+                    TxtStudentLRN,
+                    TxtLastName,
+                    TxtFirstName,
+                    TxtAge,
+                    CmbCivilStatus,
+                    TxtNational,
+                    TxtPhoneNo,
+                    TxtBStreet,
+                    TxtBrgy,
+                    TxtCity,
+                    TxtProvince,
+                    TxtZipcode,
+                    TxtGuardianLastName,
+                    TxtGuardianFirstName,
+                    TxtGuardianRelation,
+                    TxtGuardianContact
+                };
+
+            foreach (Control field in requiredFields)
+            {
+                // Special handling: if nationality is blank, default to "Filipino"
+                if (field == TxtNational)
+                {
+                    if (string.IsNullOrWhiteSpace(TxtNational.Text))
+                    {
+                        TxtNational.Text = "Filipino";
+                    }
+                    continue; // Skip validation for this field
+                }
+
+                // TextBox validation
+                if (field is TextBox)
+                {
+                    TextBox tb = (TextBox)field;
+                    if (string.IsNullOrWhiteSpace(tb.Text.Trim()))
+                    {
+                        string label = (tb.Tag != null) ? tb.Tag.ToString() : tb.Name;
+                        MessageBox.Show(label + " is required.",
+                            "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        tb.Focus();
+                        return false;
+                    }
+                }
+
+                // ComboBox validation
+                if (field is ComboBox)
+                {
+                    ComboBox cb = (ComboBox)field;
+                    if (string.IsNullOrWhiteSpace(cb.Text.Trim()))
+                    {
+                        string label = (cb.Tag != null) ? cb.Tag.ToString() : cb.Name;
+                        MessageBox.Show(label + " is required.",
+                            "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        cb.Focus();
+                        return false;
+                    }
+                }
+            }
+
+            // Gender check
+            if (!ChkMale.Checked && !ChkFemale.Checked)
+            {
+                MessageBox.Show("Please select a gender.",
+                    "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
 
         private void UpdateGuardianInfo(MySqlConnection conn)
         {
@@ -666,24 +781,46 @@ namespace Enrollment_System
 
         private void DateBirthPicker_ValueChanged(object sender, EventArgs e)
         {
+            // Skip validation when updating from date picker
+            TxtAge.Leave -= TxtAge_Leave;  // Temporarily remove the handler
+
             DateTime birthDate = DateBirthPicker.Value;
             int age = DateTime.Now.Year - birthDate.Year;
 
-            if (DateTime.Now.Month < birthDate.Month || (DateTime.Now.Month == birthDate.Month && DateTime.Now.Day < birthDate.Day))
+            if (DateTime.Now.Month < birthDate.Month ||
+                (DateTime.Now.Month == birthDate.Month && DateTime.Now.Day < birthDate.Day))
             {
                 age--;
             }
 
             TxtAge.Text = age.ToString();
+
+            TxtAge.Leave += TxtAge_Leave;  // Reattach the handler
         }
 
         private void pictureBox2_Click(object sender, EventArgs e) { }
         private void TxtStudentNo_Click(object sender, EventArgs e) { }
-        private void TxtStudentLRN_TextChanged(object sender, EventArgs e) { }
+        private void TxtStudentLRN_TextChanged(object sender, EventArgs e)
+        {
+            string digitsOnly = new string(TxtStudentLRN.Text.Where(char.IsDigit).ToArray());
+
+            if (TxtStudentLRN.Text != digitsOnly)
+            {
+                int cursorPos = TxtStudentLRN.SelectionStart;
+                TxtStudentLRN.Text = digitsOnly;
+                TxtStudentLRN.SelectionStart = Math.Min(cursorPos, digitsOnly.Length);
+            }
+
+            if (TxtStudentLRN.Text.Length > 12)
+            {
+                TxtStudentLRN.Text = TxtStudentLRN.Text.Substring(0, 12);
+                TxtStudentLRN.SelectionStart = 12;
+            }
+        }
 
         private void TxtStudentLRN_Leave(object sender, EventArgs e)
         {
-            if (!ValidateLRN())
+            if (!ValidateLRN(true))
             {
                 return;
             }
@@ -763,16 +900,13 @@ namespace Enrollment_System
 
         private void TxtStudentLRN_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Only allow digits and control characters
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
-                e.Handled = true;
+                e.Handled = true; 
                 return;
             }
 
-            // Prevent entering more than 12 digits
-            TextBox textBox = sender as TextBox;
-            if (textBox != null && textBox.Text.Length >= 12 && !char.IsControl(e.KeyChar))
+            if (TxtStudentLRN.Text.Length >= 12 && !char.IsControl(e.KeyChar))
             {
                 e.Handled = true;
             }
@@ -838,8 +972,7 @@ namespace Enrollment_System
             }
         }
 
-        //validation methods
-        private bool ValidateLRN()
+        private bool ValidateLRN(bool checkDuplicate = true)
         {
             if (string.IsNullOrWhiteSpace(TxtStudentLRN.Text))
             {
@@ -847,8 +980,7 @@ namespace Enrollment_System
                 TxtStudentLRN.Focus();
                 return false;
             }
-
-            // Check if all characters are digits (without LINQ)
+            
             bool allDigits = true;
             foreach (char c in TxtStudentLRN.Text)
             {
@@ -867,6 +999,30 @@ namespace Enrollment_System
                 return false;
             }
 
+            if (checkDuplicate)
+            {
+                try
+                {
+                    using (var conn = new MySqlConnection(connectionString))
+                    {
+                        conn.Open();
+                        if (IsLrnDuplicate(conn, TxtStudentLRN.Text, _currentStudentId))
+                        {
+                            MessageBox.Show("This LRN already exists. Please enter a LRN.",
+                                           "Duplicate LRN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            TxtStudentLRN.Focus();
+                            return false;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error checking LRN: " + ex.Message,
+                                   "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+
             return true;
         }
 
@@ -877,7 +1033,7 @@ namespace Enrollment_System
             {
                 MessageBox.Show("Age must be a number between 15 and 100 (1-3 digits).",
                                "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                TxtAge.Focus();
+                //TxtAge.Focus();
                 return false;
             }
             return true;
@@ -885,30 +1041,40 @@ namespace Enrollment_System
 
         private bool ValidatePhoneNumber(TextBox textBox, string fieldName)
         {
-            if (string.IsNullOrWhiteSpace(textBox.Text))
+            string phoneNumber = textBox.Text;
+
+            if (string.IsNullOrWhiteSpace(phoneNumber))
             {
                 MessageBox.Show(fieldName + " is required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBox.Focus();
                 return false;
             }
 
-            // Check if all characters are digits (without LINQ)
-            bool allDigits = true;
-            foreach (char c in textBox.Text)
-            {
-                if (!char.IsDigit(c))
-                {
-                    allDigits = false;
-                    break;
-                }
-            }
-
-            if (textBox.Text.Length != 11 || !allDigits)
+            if (phoneNumber.Length != 11)
             {
                 MessageBox.Show(fieldName + " must be exactly 11 digits (e.g. 09123456789).",
                                "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBox.Focus();
                 return false;
+            }
+
+            if (!phoneNumber.StartsWith("09"))
+            {
+                MessageBox.Show(fieldName + " must start with '09' (e.g. 09123456789).",
+                               "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBox.Focus();
+                return false;
+            }
+            
+            foreach (char c in phoneNumber)
+            {
+                if (!char.IsDigit(c))
+                {
+                    MessageBox.Show(fieldName + " must contain only digits (e.g. 09123456789).",
+                                   "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBox.Focus();
+                    return false;
+                }
             }
 
             return true;
@@ -945,10 +1111,10 @@ namespace Enrollment_System
             return true;
         }
 
-       
+
 
         private void TxtAge_Leave(object sender, EventArgs e)
-        {
+        { 
             ValidateAge();
         }
 
@@ -998,6 +1164,18 @@ namespace Enrollment_System
                 {
                     e.KeyChar = char.ToLower(e.KeyChar);
                 }
+            }
+        }
+
+        private bool IsLrnDuplicate(MySqlConnection conn, string lrn, long currentStudentId)
+        {
+            string query = "SELECT COUNT(*) FROM students WHERE student_lrn = @StudentLrn AND student_id != @StudentId";
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@StudentLrn", lrn);
+                cmd.Parameters.AddWithValue("@StudentId", currentStudentId);
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                return count > 0;
             }
         }
     }
